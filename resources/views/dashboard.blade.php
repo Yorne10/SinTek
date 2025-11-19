@@ -36,7 +36,7 @@
     </div>
 <div class="row">
     <div class="col-12 mb-4">
-        <div class="card border-0 shadow" style="background-color: #fac0b9">
+        <div class="card border-0 shadow bg-danger-light">
             <div class="card-header d-sm-flex flex-row align-items-center flex-0">
                 <div class="d-block mb-3 mb-sm-0">
                     <div class="fs-5 fw-normal mb-2">Sales Value</div>
@@ -555,7 +555,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center pt-3">
-                            <div class="icon-shape icon-sm icon-shape-purple rounded me-3">
+                            <div class="icon-shape icon-sm icon-shape-tertiary rounded me-3">
                                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>                                        </div>
                             <div class="d-block">
                                 <label class="mb-0">Sessions</label>

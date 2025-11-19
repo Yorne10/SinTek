@@ -1,0 +1,192 @@
+// CETAM Custom Utility Classes
+// Created: 2025-11-19
+// Purpose: Additional utility classes following CETAM color guidelines
+
+// ============================================
+// BADGE UTILITIES - For Categories (not states)
+// ============================================
+
+// Category badges - Use secondary color for categorization (not states)
+.badge-category {
+    background-color: $secondary;
+    color: $white;
+}
+
+.badge-system {
+    background-color: $info;
+    color: $white;
+}
+
+// ============================================
+// BACKGROUND UTILITIES - Light variations
+// ============================================
+
+// Light danger background (for highlights, not errors)
+.bg-danger-light {
+    background-color: rgba($danger, 0.1) !important;
+    color: $danger;
+}
+
+// Light warning background (for highlights)
+.bg-warning-light {
+    background-color: rgba($warning, 0.15) !important;
+    color: darken($warning, 35%);
+}
+
+// Light info background (for highlights)
+.bg-info-light {
+    background-color: rgba($info, 0.1) !important;
+    color: darken($info, 20%);
+}
+
+// Light success background (for highlights)
+.bg-success-light {
+    background-color: rgba($success, 0.1) !important;
+    color: darken($success, 20%);
+}
+
+// Unread notification highlight - soft neutral
+.bg-unread {
+    background-color: #FFFBF0 !important; // Soft yellow tint
+}
+
+// ============================================
+// TEXT COLOR UTILITIES - Brand Colors
+// ============================================
+
+// Brand secondary text color
+.text-brand-secondary {
+    color: $secondary !important;
+}
+
+// ============================================
+// ICON SHAPE CORRECTIONS
+// ============================================
+
+// Only use complementary colors for icon shapes in charts/illustrations
+// For general UI, use semantic colors
+
+// Override purple icon shape to use tertiary instead
+.icon-shape-purple {
+    // Purple should only be in charts
+    // For general UI metrics, use tertiary or secondary
+    background-color: rgba($tertiary, 0.1) !important;
+    color: $tertiary !important;
+}
+
+// ============================================
+// PROGRESS BAR SEMANTIC COLORS
+// ============================================
+
+// Progress bars should always use semantic colors based on status
+// Not dark or arbitrary colors
+
+// High progress (75-100%) - Success
+.progress-high {
+    .progress-bar {
+        background-color: $success !important;
+    }
+}
+
+// Medium progress (40-74%) - Warning
+.progress-medium {
+    .progress-bar {
+        background-color: $warning !important;
+    }
+}
+
+// Low progress (1-39%) - Danger
+.progress-low {
+    .progress-bar {
+        background-color: $danger !important;
+    }
+}
+
+// In progress - Info
+.progress-active {
+    .progress-bar {
+        background-color: $info !important;
+    }
+}
+
+// ============================================
+// SIDEBAR BRAND COLOR
+// ============================================
+
+// For specific sidebar branding elements
+.sidebar-brand-highlight {
+    color: $secondary !important;
+}
+
+// ============================================
+// STATE-SPECIFIC UTILITIES
+// ============================================
+
+// For "Nuevo" / "New" status - informational, not primary
+.badge-new {
+    background-color: $info;
+    color: $white;
+}
+
+// For "Urgente" / "Urgent" status - danger
+.badge-urgent {
+    background-color: $danger;
+    color: $white;
+}
+
+// For "En Proceso" / "In Process" status - warning
+.badge-in-process {
+    background-color: $warning;
+    color: $gray-900;
+}
+
+// For "Completado" / "Completed" status - success
+.badge-completed {
+    background-color: $success;
+    color: $white;
+}
+
+// For "Rechazado" / "Rejected" status - danger
+.badge-rejected {
+    background-color: $danger;
+    color: $white;
+}
+
+// For "En Revisión" / "Under Review" status - info
+.badge-review {
+    background-color: $info;
+    color: $white;
+}
+
+// For "Aprobado" / "Approved" status - success
+.badge-approved {
+    background-color: $success;
+    color: $white;
+}
+
+// ============================================
+// DOCUMENTATION
+// ============================================
+
+/*
+CETAM Color Usage Rules:
+
+STATE COLORS (Use for status/states):
+- bg-success / badge-completed → Completed states (#10B981)
+- bg-info / badge-review → Active/In-progress states (#1E90FF)
+- bg-warning / badge-in-process → Pending/Warning states (#F3C78E)
+- bg-danger / badge-rejected → Error/Rejection states (#E11D48)
+
+CATEGORY COLORS (Use for categorization):
+- badge-category → General categories (#FB503B - secondary)
+- badge-system → System notifications (#1E90FF - info)
+- bg-primary → Primary emphasis (#1F2937)
+- bg-secondary → Highlighted interactive (#FB503B)
+- bg-tertiary → Complementary areas (#31316A)
+
+DO NOT USE:
+- Inline styles with hex colors
+- Complementary colors (blue, purple, pink, etc.) for states
+- Dark color for progress bars
+- Success color for non-completion states
+*/

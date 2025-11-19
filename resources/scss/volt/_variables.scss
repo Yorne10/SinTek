@@ -6,20 +6,26 @@
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
-// Color system
+// Color system - CETAM Official Color Usage Table
+// Each color must be used ONLY as indicated in the official table
 
-// Shades of grey
-$white   : #ffffff !default;
-$gray-50:  #F9FAFB !default;
-$gray-100: #F2F4F6 !default;
-$gray-200: #E5E7EB !default;
-$gray-300: #D1D5DB !default;
-$gray-400: #9CA3AF !default;
-$gray-500: #6B7280 !default;
-$gray-600: #4B5563 !default;
-$gray-700: #374151 !default;
-$gray-800: #1F2937 !default;
-$gray-900: #111827 !default;
+// Light Neutral Colors - General backgrounds, cards, clean areas
+$white   : #FFFFFF !default;  // General backgrounds, cards, clean areas
+$gray-50:  #F9FAFB !default;  // General backgrounds, cards, clean areas
+$gray-100: #F2F4F6 !default;  // General backgrounds, cards, clean areas, separators
+
+// Medium Neutral Colors - Borders, secondary text, low-priority labels
+$gray-200: #E5E7EB !default;  // Borders, neutral areas, table stripes
+$gray-300: #D1D5DB !default;  // Borders, neutral iconography
+$gray-400: #9CA3AF !default;  // Borders, secondary text, low-priority labels
+$gray-500: #6B7280 !default;  // Borders, neutral iconography, secondary text
+$gray-600: #4B5563 !default;  // Borders, neutral iconography, secondary text
+
+// Dark Neutral Colors - High-contrast text, icons on light backgrounds
+$gray-700: #374151 !default;  // High-contrast text, reinforces visual hierarchy
+$gray-800: #1F2937 !default;  // High-contrast text, icons on light backgrounds (same as Primary)
+$gray-900: #111827 !default;  // High-contrast text, icons on light backgrounds
+
 $dark    : $gray-800 !default;
 $black   : $gray-900 !default;
 
@@ -35,20 +41,20 @@ $grays: ("100": $gray-100,
     "900": $gray-900) !default;
 // fusv-enable
 
-// Generic colors
-$blue       : #2361ce !default;
-$indigo     : #4F46E5 !default;
-$purple     : #7C3AED !default;
-$pink       : #EF4683 !default;
-$red        : #E11D48 !default;
-$red-100    : #fbbab5 !default;
-$red-200    : #fbaea7 !default;
-$orange     : #FBA918 !default;
-$brown      : #b9a084 !default;
-$yellow     : #f3c78e !default;
-$green      : #10B981 !default;
-$teal       : #1E90FF !default;
-$cyan       : #63b1bd !default;
+// Generic colors (Complementary colors - restricted use)
+$blue       : #2361CE !default;  // Complementary Blue - for charts/illustrations only
+$indigo     : #4F46E5 !default;  // Complementary Indigo - for charts/illustrations only
+$purple     : #7C3AED !default;  // Complementary Purple - for charts/illustrations only
+$pink       : #EF4683 !default;  // Complementary Pink - for charts/illustrations only
+$red        : #E11D48 !default;  // Danger/Error color
+$red-100    : #FBBAB5 !default;
+$red-200    : #FBAEA7 !default;
+$orange     : #FBA918 !default;  // Warning/Amber color
+$brown      : #B9A084 !default;  // Complementary Brown - for charts/illustrations only
+$yellow     : #F3C78E !default;  // Warning/Yellow color
+$green      : #10B981 !default;  // Success color
+$teal       : #1E90FF !default;  // Info/Light Blue - for active/in-progress states
+$cyan       : #63B1BD !default;  // Complementary Cyan - for charts/illustrations only
 $soft-indigo: #f5e8ff !default;
 $soft-green : #2CA58D !default;
 
@@ -68,10 +74,10 @@ $colors: ("blue": $blue,
     "gray-dark": $gray-800) !default;
 // scss-docs-end colors-map
 
-// Color scheme
-$primary  : #1F2937 !default;
-$secondary: #fb503b !default;
-$tertiary : #31316A !default;
+// Color scheme - CETAM Official Colors
+$primary  : #1F2937 !default;  // Dark Slate Gray - Main backgrounds, buttons, bars, headers
+$secondary: #FB503B !default;  // Vibrant Orange-Red - Highlighted interactive elements
+$tertiary : #31316A !default;  // Indigo Dark Blue - Secondary backgrounds, complementary areas
 
 // Series names and colors. This can be extended or customized as desired. Just add more series and colors.
 $ct-series-names: (a, b, c, d, e, f, g) !default;
@@ -86,10 +92,11 @@ $ct-series-colors: ($primary,
 ) !default;
 
 
-$success: $green !default;
-$info   : $blue !default;
-$warning: $yellow !default;
-$danger : $red !default;
+// Semantic/State colors - CETAM Official Colors
+$success: $green !default;   // #10B981 - Completed states, confirmations, approval
+$info   : $teal !default;    // #1E90FF - Active/in-progress states, informational messages
+$warning: $yellow !default;  // #F3C78E - Pending states, waiting processes, moderate alerts
+$danger : $red !default;     // #E11D48 - Errors, cancellations, destructive actions
 $gray   : $gray-900 !default;
 $light  : $gray-400 !default;
 $lighten: $gray-300 !default;

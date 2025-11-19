@@ -196,7 +196,7 @@
                             <p class="mb-0 fw-bold small">Nuevo comentario en tu solicitud #SV-2025-0096</p>
                             <small class="text-gray-500">Ayer</small>
                         </div>
-                        <span class="badge bg-info">Nuevo</span>
+                        <span class="badge badge-new">Nuevo</span>
                     </div>
                 </div>
             </div>
@@ -273,8 +273,8 @@
                                 <td>Solicitud de vacaciones</td>
                                 <td>02/11/2025</td>
                                 <td>
-                                    <span class="badge bg-warning">En proceso</span>
-                                    <span class="badge bg-danger ms-1">Acción requerida</span>
+                                    <span class="badge badge-in-process">En proceso</span>
+                                    <span class="badge bg-warning ms-1">Acción requerida</span>
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -351,8 +351,8 @@
                                 <td>Cambio de adscripción</td>
                                 <td>25/10/2025</td>
                                 <td>
-                                    <span class="badge bg-warning">En proceso</span>
-                                    <span class="badge bg-info ms-1">Documentación pendiente</span>
+                                    <span class="badge badge-in-process">En proceso</span>
+                                    <span class="badge bg-warning ms-1">Documentación pendiente</span>
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center">

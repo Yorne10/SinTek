@@ -146,7 +146,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="badge bg-primary">Aprobación</span>
+                                <span class="badge badge-approved">Aprobación</span>
                             </td>
                             <td class="text-gray-900">Trámites</td>
                             <td class="text-gray-700">
@@ -278,7 +278,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="badge bg-warning text-dark">Rechazo</span>
+                                <span class="badge badge-rejected">Rechazo</span>
                             </td>
                             <td class="text-gray-900">Trámites</td>
                             <td class="text-gray-700">

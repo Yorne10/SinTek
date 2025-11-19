@@ -191,7 +191,7 @@
                 </div>
                 <div class="list-group list-group-flush">
                     {{-- Notification 1 - Unread, Urgent --}}
-                    <div class="list-group-item list-group-item-action border-bottom" style="background-color: #fffbf0;">
+                    <div class="list-group-item list-group-item-action border-bottom bg-unread">
                         <div class="row align-items-center">
                             <div class="col-auto">
                                 <div class="icon-shape icon-sm icon-shape-danger rounded">
@@ -203,9 +203,9 @@
                             <div class="col ms-n2">
                                 <div class="d-flex align-items-center mb-1">
                                     <h3 class="h6 mb-0 me-2">Acción requerida: Documentación pendiente</h3>
-                                    <span class="badge bg-danger me-2">Urgente</span>
-                                    <span class="badge bg-warning me-2">Trámite</span>
-                                    <span class="badge bg-primary">Nueva</span>
+                                    <span class="badge badge-urgent me-2">Urgente</span>
+                                    <span class="badge badge-category me-2">Trámite</span>
+                                    <span class="badge badge-new">Nueva</span>
                                 </div>
                                 <p class="text-gray-700 mb-1">Tu solicitud de vacaciones (#SV-2025-0102) requiere que subas el formato firmado. Plazo: 05/11/2025.</p>
                                 <div class="d-flex align-items-center">
@@ -251,7 +251,7 @@
                     </div>
 
                     {{-- Notification 2 - Unread --}}
-                    <div class="list-group-item list-group-item-action border-bottom" style="background-color: #fffbf0;">
+                    <div class="list-group-item list-group-item-action border-bottom bg-unread">
                         <div class="row align-items-center">
                             <div class="col-auto">
                                 <div class="icon-shape icon-sm icon-shape-info rounded">
@@ -263,8 +263,8 @@
                             <div class="col ms-n2">
                                 <div class="d-flex align-items-center mb-1">
                                     <h3 class="h6 mb-0 me-2">Actualización de trámite #SP-2025-0095</h3>
-                                    <span class="badge bg-info me-2">Sistema</span>
-                                    <span class="badge bg-primary">Nueva</span>
+                                    <span class="badge badge-system me-2">Sistema</span>
+                                    <span class="badge badge-new">Nueva</span>
                                 </div>
                                 <p class="text-gray-700 mb-1">Tu solicitud de permiso ha avanzado al paso 3 de 4. Ahora está en revisión por el Departamento de RH.</p>
                                 <div class="d-flex align-items-center">
@@ -322,7 +322,7 @@
                             <div class="col ms-n2">
                                 <div class="d-flex align-items-center mb-1">
                                     <h3 class="h6 mb-0 me-2">Nueva convocatoria disponible</h3>
-                                    <span class="badge bg-success">Convocatoria</span>
+                                    <span class="badge badge-category">Convocatoria</span>
                                 </div>
                                 <p class="text-gray-700 mb-1">Se ha publicado la convocatoria de Becas Educativas 2025. Revisa los requisitos y documentación necesaria.</p>
                                 <div class="d-flex align-items-center">
@@ -518,7 +518,7 @@
                             <div class="col ms-n2">
                                 <div class="d-flex align-items-center mb-1">
                                     <h3 class="h6 mb-0 me-2">Trámite completado exitosamente</h3>
-                                    <span class="badge bg-success">Sistema</span>
+                                    <span class="badge badge-system">Sistema</span>
                                 </div>
                                 <p class="text-gray-700 mb-1">Tu solicitud de permiso #SP-2025-0089 ha sido aprobada y completada. Puedes descargar tu documento autorizado.</p>
                                 <div class="d-flex align-items-center">
@@ -577,7 +577,7 @@
                             <div class="col ms-n2">
                                 <div class="d-flex align-items-center mb-1">
                                     <h3 class="h6 mb-0 me-2">Actualización del sistema</h3>
-                                    <span class="badge bg-info">Sistema</span>
+                                    <span class="badge badge-system">Sistema</span>
                                 </div>
                                 <p class="text-gray-700 mb-1">Se realizarán mejoras al sistema el próximo sábado de 10:00 PM a 2:00 AM. El servicio estará temporalmente no disponible.</p>
                                 <div class="d-flex align-items-center">

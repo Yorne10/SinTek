@@ -259,7 +259,7 @@
                         </div>
                         <h3 class="h6 mb-0">Solicitud de beca</h3>
                     </div>
-                    <span class="badge bg-warning">Temporada</span>
+                    <span class="badge badge-category">Temporada</span>
                 </div>
                 <div class="card-body">
                     <p class="text-gray-700 small mb-3">Solicita apoyo económico para estudios de nivel superior, posgrado o capacitación especializada.</p>
@@ -300,7 +300,7 @@
                         </div>
                         <h3 class="h6 mb-0">Solicitud de promoción</h3>
                     </div>
-                    <span class="badge bg-warning">Temporada</span>
+                    <span class="badge badge-category">Temporada</span>
                 </div>
                 <div class="card-body">
                     <p class="text-gray-700 small mb-3">Solicita evaluación para promoción de nivel o categoría según convocatoria vigente.</p>
