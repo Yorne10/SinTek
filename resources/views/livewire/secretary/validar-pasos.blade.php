@@ -102,7 +102,7 @@
                         <span class="small fw-bold">40%</span>
                     </div>
                     <div class="progress mb-4" style="height: 15px;">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
                     <div class="timeline timeline-one-side">

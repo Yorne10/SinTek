@@ -79,7 +79,7 @@
 
                             <div class="col-md-12 d-flex justify-content-end gap-2">
                                 <button type="button" class="btn btn-outline-gray-600">Limpiar</button>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-cetam-primary">
                                     <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                     </svg>
@@ -103,7 +103,7 @@
                         <p class="small text-gray-500 mb-0 mt-1">Listado de convocatorias activas y pasadas</p>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-primary">
+                        <button type="button" class="btn btn-sm btn-outline-cetam-primary">
                             <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"></path>
                             </svg>
@@ -144,13 +144,13 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-primary" type="button">
+                                        <button class="btn btn-sm btn-outline-cetam-primary" type="button">
                                             <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                             </svg>
                                             Editar
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="visually-hidden">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -182,13 +182,13 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-primary" type="button">
+                                        <button class="btn btn-sm btn-outline-cetam-primary" type="button">
                                             <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                             </svg>
                                             Editar
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="visually-hidden">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -215,13 +215,13 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-primary" type="button">
+                                        <button class="btn btn-sm btn-outline-cetam-primary" type="button">
                                             <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                             </svg>
                                             Editar
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="visually-hidden">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -268,7 +268,7 @@
                         <h2 class="fs-5 fw-bold mb-0">Reglamentos y manuales institucionales</h2>
                         <p class="small text-gray-500 mb-0 mt-1">Documentos normativos y de consulta</p>
                     </div>
-                    <button type="button" class="btn btn-sm btn-primary">
+                    <button type="button" class="btn btn-sm btn-cetam-primary">
                         <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
                         </svg>
@@ -291,13 +291,13 @@
                                 </div>
                             </div>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                <a href="#" class="btn btn-sm btn-outline-cetam-primary">
                                     <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                     </svg>
                                     Descargar
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -324,13 +324,13 @@
                                 </div>
                             </div>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                <a href="#" class="btn btn-sm btn-outline-cetam-primary">
                                     <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                     </svg>
                                     Descargar
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -357,13 +357,13 @@
                                 </div>
                             </div>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-primary">
+                                <a href="#" class="btn btn-sm btn-outline-cetam-primary">
                                     <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                     </svg>
                                     Descargar
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">

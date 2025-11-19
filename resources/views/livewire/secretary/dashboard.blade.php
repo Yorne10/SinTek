@@ -166,7 +166,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4 mb-3">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}" class="btn btn-outline-cetam-secondary w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
                                     <svg class="icon icon-lg mb-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
@@ -176,7 +176,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4 mb-3">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}" class="btn btn-outline-tertiary w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}" class="btn btn-outline-cetam-tertiary w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
                                     <svg class="icon icon-lg mb-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"></path>
@@ -186,7 +186,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4 mb-3">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.reportes') }}" class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.reportes') }}" class="btn btn-outline-cetam-info w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
                                     <svg class="icon icon-lg mb-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
@@ -237,7 +237,7 @@
                                 </td>
                                 <td class="fw-normal text-gray-500">06/11/2025</td>
                                 <td>
-                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-secondary">
+                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-cetam-secondary">
                                         <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
@@ -255,7 +255,7 @@
                                 </td>
                                 <td class="fw-normal text-gray-500">06/11/2025</td>
                                 <td>
-                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-secondary">
+                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-cetam-secondary">
                                         <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
@@ -273,7 +273,7 @@
                                 </td>
                                 <td class="fw-normal text-gray-500">05/11/2025</td>
                                 <td>
-                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-secondary">
+                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-cetam-secondary">
                                         <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
@@ -291,7 +291,7 @@
                                 </td>
                                 <td class="fw-normal text-gray-500">05/11/2025</td>
                                 <td>
-                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-secondary">
+                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-cetam-secondary">
                                         <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
@@ -309,7 +309,7 @@
                                 </td>
                                 <td class="fw-normal text-gray-500">04/11/2025</td>
                                 <td>
-                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-secondary">
+                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.validar-pasos') }}" class="btn btn-sm btn-cetam-secondary">
                                         <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>

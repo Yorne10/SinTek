@@ -24,7 +24,7 @@ class UserCreate extends Component
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'role' => ['required', 'string', 'in:admin,secretary,worker'],
+            'role' => ['required', 'string', 'in:secretary,worker'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)],
             'gender' => ['nullable', 'string', 'in:Male,Female,Other'],
             'city' => ['nullable', 'string', 'max:255'],

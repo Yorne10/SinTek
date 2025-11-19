@@ -88,7 +88,6 @@
                             <select wire:model="role" class="form-select @error('role') is-invalid @enderror"
                                 id="role" aria-label="Seleccionar rol" required>
                                 <option value="">Seleccionar...</option>
-                                <option value="admin">Administrador</option>
                                 <option value="secretary">Secretario(a)</option>
                                 <option value="worker">Trabajador(a)</option>
                             </select>
@@ -165,9 +164,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="h6">Roles del sistema</h3>
+                                    <h3 class="h6">Roles disponibles</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        <strong>Administrador:</strong> Acceso completo al sistema.<br>
                                         <strong>Secretario(a):</strong> Gestión de solicitudes y trabajadores.<br>
                                         <strong>Trabajador(a):</strong> Acceso a trámites personales.
                                     </p>

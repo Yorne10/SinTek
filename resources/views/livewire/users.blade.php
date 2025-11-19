@@ -64,7 +64,6 @@
                 </div>
                 <select class="form-select fmxw-200 d-none d-md-inline" aria-label="Filtrar por rol">
                     <option selected>Todos los roles</option>
-                    <option value="admin">Administrador</option>
                     <option value="secretary">Secretario/Operador</option>
                     <option value="worker">Trabajador</option>
                 </select>

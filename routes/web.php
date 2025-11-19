@@ -110,6 +110,7 @@ Route::prefix("p/{$slug}")
 
             // Rutas para secretarios/operadores
             Route::middleware(['role:secretary'])->group(function () {
+                // Funciones de secretaría
                 Route::get('/panel-solicitudes', PanelSolicitudes::class)->name('secretary.panel-solicitudes');
                 Route::get('/validar-pasos', ValidarPasos::class)->name('secretary.validar-pasos');
                 Route::get('/busqueda-trabajadores', BusquedaTrabajadores::class)->name('secretary.busqueda-trabajadores');
@@ -118,8 +119,15 @@ Route::prefix("p/{$slug}")
                 Route::get('/notificaciones-secretary', SecretaryNotificaciones::class)->name('secretary.notificaciones');
             });
 
-            // Rutas para administradores
+            // Rutas para administradores (gestión de usuarios y sistema)
             Route::middleware(['role:admin'])->group(function () {
+                Route::get('/configuracion', Configuracion::class)->name('admin.configuracion');
+                Route::get('/bitacora', Bitacora::class)->name('admin.bitacora');
+                Route::get('/reportes', Reportes::class)->name('admin.reportes');
+            });
+
+            // Rutas compartidas: admin Y secretary (gestión de procesos)
+            Route::middleware(['role:admin,secretary'])->group(function () {
                 Route::get('/crear-proceso', CrearProceso::class)->name('admin.crear-proceso');
                 Route::get('/definir-pasos', DefinirPasos::class)->name('admin.definir-pasos');
                 Route::get('/crear-paso', CrearPaso::class)->name('admin.crear-paso');
@@ -128,9 +136,6 @@ Route::prefix("p/{$slug}")
                 Route::get('/solicitudes', Solicitudes::class)->name('admin.solicitudes');
                 Route::get('/convocatorias-eventos', ConvocatoriasEventos::class)->name('admin.convocatorias-eventos');
                 Route::get('/plantillas-documentos', PlantillasDocumentos::class)->name('admin.plantillas-documentos');
-                Route::get('/reportes', Reportes::class)->name('admin.reportes');
-                Route::get('/bitacora', Bitacora::class)->name('admin.bitacora');
-                Route::get('/configuracion', Configuracion::class)->name('admin.configuracion');
             });
 
             // Rutas de la plantilla original

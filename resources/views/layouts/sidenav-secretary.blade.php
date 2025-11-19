@@ -92,18 +92,6 @@
         </a>
       </li>
 
-      {{-- Reportes --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.reportes') }}" class="nav-link">
-          <span class="sidebar-icon">
-            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
-            </svg>
-          </span>
-          <span class="sidebar-text">Reportes</span>
-        </a>
-      </li>
-
       {{-- Notificaciones --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notificaciones') }}" class="nav-link">
@@ -113,6 +101,45 @@
             </svg>
           </span>
           <span class="sidebar-text">Notificaciones</span>
+        </a>
+      </li>
+
+      <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+
+      {{-- Gestión de procesos --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-proceso') }}" class="nav-link">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+            </svg>
+          </span>
+          <span class="sidebar-text">Crear proceso</span>
+        </a>
+      </li>
+
+      {{-- Definir pasos --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.definir-pasos') }}" class="nav-link">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"></path>
+            </svg>
+          </span>
+          <span class="sidebar-text">Definir pasos</span>
+        </a>
+      </li>
+
+      {{-- Modificar proceso --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.modificar-proceso') }}" class="nav-link">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
+              <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path>
+            </svg>
+          </span>
+          <span class="sidebar-text">Modificar proceso</span>
         </a>
       </li>
 
