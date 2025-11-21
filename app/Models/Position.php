@@ -17,10 +17,15 @@ class Position extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $primaryKey = 'positions_id';
 
-    public function worker()
+    protected $fillable = [
+        'budget_key',
+        'position_name',
+    ];
+
+    public function workers()
     {
-        return $this->belongsTo(Worker::class);
+        return $this->belongsToMany(Worker::class, 'positions_workers', 'positions_id', 'worker_id', 'positions_id', 'workers_id');
     }
 }

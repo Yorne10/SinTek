@@ -17,15 +17,29 @@ class Worker extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $primaryKey = 'workers_id';
+
+    protected $fillable = [
+        'user_id',
+        'curp',
+        'sex',
+        'phone',
+        'adress',
+        'rfc',
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'users_id');
     }
 
     public function positions()
     {
-        return $this->hasMany(Position::class);
+        return $this->belongsToMany(Position::class, 'positions_workers', 'worker_id', 'positions_id', 'workers_id', 'positions_id');
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'worker_id', 'workers_id');
     }
 }

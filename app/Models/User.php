@@ -14,22 +14,26 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
+
+    protected $primaryKey = 'users_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
- /*    protected $fillable = [
+    protected $fillable = [
         'name',
         'email',
         'password',
-    ]; */
-    protected $guarded=[];
+        'role',
+        'active',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -56,7 +60,27 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function worker()
     {
-        return $this->hasOne(Worker::class);
+        return $this->hasOne(Worker::class, 'user_id', 'users_id');
+    }
+
+    public function createdProcesses()
+    {
+        return $this->hasMany(Process::class, 'created_by', 'users_id');
+    }
+
+    public function requestSteps()
+    {
+        return $this->hasMany(RequestStep::class, 'user_id', 'users_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id', 'users_id');
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(Log::class, 'user_id', 'users_id');
     }
 
     /**

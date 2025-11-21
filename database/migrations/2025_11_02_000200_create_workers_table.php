@@ -17,13 +17,13 @@ return new class extends Migration {
     {
         if (!Schema::hasTable('workers')) {
             Schema::create('workers', function (Blueprint $table) {
-                $table->increments('id');
-                $table->unsignedInteger('user_id');
-                $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-                $table->string('curp', 18)->unique();
-                $table->string('sexo', 1); // M/F
-                $table->string('telefono')->nullable();
-                $table->string('direccion')->nullable();
+                $table->id('workers_id');
+                $table->foreignId('user_id')->nullable()->constrained('users', 'users_id');
+                $table->string('curp', 20)->nullable();
+                $table->string('sex', 10)->nullable();
+                $table->string('phone', 20)->nullable();
+                $table->string('adress', 255)->nullable();
+                $table->string('rfc', 20)->nullable();
                 $table->timestamps();
             });
         }

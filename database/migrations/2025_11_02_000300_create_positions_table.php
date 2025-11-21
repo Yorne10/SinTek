@@ -16,12 +16,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('positions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('worker_id');
-            $table->foreign('worker_id')->references('id')->on('workers')->cascadeOnDelete();
-            $table->string('clave_presupuestal');
-            $table->string('plaza')->nullable();
-            $table->string('puesto')->nullable();
+            $table->id('positions_id');
+            $table->string('budget_key', 100)->nullable();
+            $table->string('position_name', 150);
             $table->timestamps();
         });
     }

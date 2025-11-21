@@ -26,13 +26,31 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!auth()->check()) {
+        // Check if authenticated (supports both web and API)
+        $user = $request->user();
+
+        if (!$user) {
+            // If API request, return JSON response
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthenticated'
+                ], 401);
+            }
+            // Otherwise redirect to login
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         }
 
-        $user = auth()->user();
-
+        // Check if user has one of the required roles
         if (!in_array($user->role, $roles)) {
+            // If API request, return JSON response
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No tienes permisos para acceder a esta sección.'
+                ], 403);
+            }
+            // Otherwise abort with 403
             abort(403, 'No tienes permisos para acceder a esta sección.');
         }
 
