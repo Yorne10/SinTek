@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             WorkerUserSeeder::class,
             SecretaryUserSeeder::class,
-            AllTablesSeeder::class,
+            // AllTablesSeeder::class, // Deshabilitado - usa esquema antiguo
         ]);
     }
 }

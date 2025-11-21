@@ -21,26 +21,16 @@ class AdminUserSeeder extends Seeder
         $user = User::firstOrCreate(
             ['email' => $email],
             [
-                'first_name' => 'Admin',
-                'last_name' => 'Principal',
-                'gender' => 'M',
+                'name' => 'Admin Principal',
                 'password' => Hash::make($password),
                 'remember_token' => Str::random(10),
                 'email_verified_at' => now(),
-                'approved_at' => now(),
                 'role' => 'admin',
-                'curp' => 'ADMN000000HXXX0001',
-                'budget_keys' => null,
+                'active' => 1,
             ]
         );
 
-        // Ensure admin has a Worker profile
-        Worker::firstOrCreate(
-            ['user_id' => $user->id],
-            [
-                'curp' => $user->curp ?? 'ADMN000000HXXX0001',
-                'sexo' => $user->gender === 'F' ? 'F' : 'M',
-            ]
-        );
+        $this->command->info("Admin user created/found: {$user->email}");
+        $this->command->info("Password: {$password}");
     }
 }

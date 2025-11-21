@@ -30,43 +30,43 @@ class WorkerUserSeeder extends Seeder
         $user = User::firstOrCreate(
             ['email' => $email],
             [
-                'first_name' => 'Juan',
-                'last_name' => 'Pérez García',
-                'gender' => 'M',
+                'name' => 'Juan Pérez García',
                 'password' => Hash::make($password),
                 'remember_token' => Str::random(10),
                 'email_verified_at' => now(),
-                'approved_at' => now(),
                 'role' => 'worker',
-                'curp' => 'PEGJ850315HDFRNN01',
-                'budget_keys' => 'CLAVE-001, CLAVE-002',
+                'active' => 1,
             ]
         );
 
         // Ensure worker has a Worker profile
         $worker = Worker::firstOrCreate(
-            ['user_id' => $user->id],
+            ['user_id' => $user->users_id],
             [
-                'curp' => $user->curp ?? 'PEGJ850315HDFRNN01',
-                'sexo' => $user->gender === 'F' ? 'F' : 'M',
-                'telefono' => '5551234567',
-                'direccion' => 'Calle Principal #123, Colonia Centro',
+                'curp' => 'PEGJ850315HDFRNN01',
+                'sex' => 'M',
+                'phone' => '5551234567',
+                'adress' => 'Calle Principal #123, Colonia Centro',
+                'rfc' => 'PEGJ850315XXX',
             ]
         );
 
         // Create sample positions
-        $claves = ['CLAVE-001', 'CLAVE-002'];
-        foreach ($claves as $clave) {
-            Position::firstOrCreate(
-                [
-                    'worker_id' => $worker->id,
-                    'clave_presupuestal' => $clave,
-                ],
-                [
-                    'plaza' => 'Plaza Ejemplo',
-                    'puesto' => 'Analista',
-                ]
-            );
-        }
+        $position1 = Position::firstOrCreate(
+            ['budget_key' => 'CLAVE-001'],
+            ['position_name' => 'Analista de Sistemas']
+        );
+
+        $position2 = Position::firstOrCreate(
+            ['budget_key' => 'CLAVE-002'],
+            ['position_name' => 'Técnico Administrativo']
+        );
+
+        // Attach positions to worker (many to many relationship)
+        $worker->positions()->syncWithoutDetaching([$position1->positions_id, $position2->positions_id]);
+
+        $this->command->info("Worker user created/found: {$user->email}");
+        $this->command->info("Password: {$password}");
+        $this->command->info("Worker profile created with 2 positions");
     }
 }
