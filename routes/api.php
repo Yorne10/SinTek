@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\ConvocationController;
+use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\ProcessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,9 +40,16 @@ Route::middleware(['auth:sanctum', 'role:worker'])->group(function () {
     Route::get('/convocations/{id}', [ConvocationController::class, 'show']);
     Route::get('/convocation-documents/{id}', [ConvocationController::class, 'downloadDocument'])->name('api.convocation-document.show');
 
+    // Trámites/Procesos
+    Route::get('/processes', [ProcessController::class, 'index']);
+    Route::get('/processes/{id}', [ProcessController::class, 'show']);
+
+    // Notificaciones (móvil)
+    Route::get('/my-notifications', [NotificationController::class, 'index']);
+    Route::post('/my-notifications/read', [NotificationController::class, 'markAsRead']);
+
     // TODO: Agregar más endpoints para workers
     // Route::get('/my-requests', 'API\WorkerController@myRequests');
     // Route::get('/my-documents', 'API\WorkerController@myDocuments');
-    // Route::get('/my-notifications', 'API\NotificationController@myNotifications');
     // Route::apiResource('faqs', 'API\FaqController')->only(['index', 'show']);
 });

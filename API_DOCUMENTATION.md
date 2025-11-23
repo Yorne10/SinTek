@@ -1064,6 +1064,420 @@ class ConvocationDocument {
 
 ---
 
+## Trámites/Procesos Endpoints
+
+### 1. Listar Trámites Disponibles
+**GET** `/processes`
+
+Obtiene todos los trámites/procesos activos disponibles para iniciar.
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Query Parameters (Opcionales):**
+- `search`: Buscar por nombre o descripción del proceso
+- `category`: Filtrar por categoría (personal, administrativo, laboral, academico)
+
+**Response Success (200):**
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "process_id": 1,
+            "name": "Solicitud de vacaciones",
+            "description": "Proceso para solicitar días de vacaciones",
+            "process_code": "VAC-001",
+            "category": "personal",
+            "priority": "media",
+            "deadline_days": 5,
+            "department": "Recursos Humanos",
+            "steps_count": 3,
+            "created_at": "2025-11-22 10:00:00"
+        },
+        {
+            "process_id": 2,
+            "name": "Solicitud de permiso",
+            "description": "Proceso para solicitar permiso laboral",
+            "process_code": "PER-001",
+            "category": "laboral",
+            "priority": "alta",
+            "deadline_days": 2,
+            "department": "Recursos Humanos",
+            "steps_count": 2,
+            "created_at": "2025-11-22 11:00:00"
+        }
+    ],
+    "count": 2
+}
+```
+
+**Ejemplo Flutter - Obtener todos los procesos:**
+```dart
+Future<List<Process>> fetchProcesses() async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/processes'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    if (jsonData['success']) {
+      List<dynamic> processesJson = jsonData['data'];
+      return processesJson.map((json) => Process.fromJson(json)).toList();
+    }
+    throw Exception(jsonData['message']);
+  }
+  throw Exception('Error al cargar procesos');
+}
+```
+
+**Ejemplo Flutter - Buscar procesos:**
+```dart
+Future<List<Process>> searchProcesses(String searchTerm) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/processes?search=$searchTerm'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    if (jsonData['success']) {
+      List<dynamic> processesJson = jsonData['data'];
+      return processesJson.map((json) => Process.fromJson(json)).toList();
+    }
+  }
+  return [];
+}
+```
+
+**Ejemplo Flutter - Filtrar por categoría:**
+```dart
+Future<List<Process>> fetchProcessesByCategory(String category) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/processes?category=$category'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    if (jsonData['success']) {
+      List<dynamic> processesJson = jsonData['data'];
+      return processesJson.map((json) => Process.fromJson(json)).toList();
+    }
+  }
+  return [];
+}
+```
+
+**Modelo Flutter sugerido:**
+```dart
+class Process {
+  final int processId;
+  final String name;
+  final String description;
+  final String? processCode;
+  final String? category;
+  final String? priority;
+  final int? deadlineDays;
+  final String? department;
+  final int stepsCount;
+  final String createdAt;
+
+  Process({
+    required this.processId,
+    required this.name,
+    required this.description,
+    this.processCode,
+    this.category,
+    this.priority,
+    this.deadlineDays,
+    this.department,
+    required this.stepsCount,
+    required this.createdAt,
+  });
+
+  factory Process.fromJson(Map<String, dynamic> json) {
+    return Process(
+      processId: json['process_id'],
+      name: json['name'],
+      description: json['description'],
+      processCode: json['process_code'],
+      category: json['category'],
+      priority: json['priority'],
+      deadlineDays: json['deadline_days'],
+      department: json['department'],
+      stepsCount: json['steps_count'],
+      createdAt: json['created_at'],
+    );
+  }
+}
+```
+
+### 2. Obtener Detalle de un Proceso
+**GET** `/processes/{id}`
+
+Obtiene los detalles completos de un proceso específico, incluyendo todos sus pasos.
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**URL Parameters:**
+- `id` (required): ID del proceso
+
+**Response Success (200):**
+```json
+{
+    "success": true,
+    "data": {
+        "process_id": 1,
+        "name": "Solicitud de vacaciones",
+        "description": "Proceso para solicitar días de vacaciones. Se requiere justificación y aprobación del jefe inmediato.",
+        "process_code": "VAC-001",
+        "category": "personal",
+        "priority": "media",
+        "deadline_days": 5,
+        "department": "Recursos Humanos",
+        "steps": [
+            {
+                "step_id": 1,
+                "order": 1,
+                "title": "Llenar formato de solicitud",
+                "description": "El trabajador debe llenar el formato oficial de solicitud de vacaciones",
+                "condition_type": "approval"
+            },
+            {
+                "step_id": 2,
+                "order": 2,
+                "title": "Aprobación del jefe inmediato",
+                "description": "El jefe directo debe aprobar la solicitud",
+                "condition_type": "approval"
+            },
+            {
+                "step_id": 3,
+                "order": 3,
+                "title": "Autorización de RH",
+                "description": "Recursos Humanos valida y autoriza las fechas",
+                "condition_type": "final"
+            }
+        ],
+        "created_at": "2025-11-22 10:00:00"
+    }
+}
+```
+
+**Response Not Found (404):**
+```json
+{
+    "success": false,
+    "message": "Proceso no encontrado"
+}
+```
+
+**Response Forbidden (403):**
+```json
+{
+    "success": false,
+    "message": "Este proceso no está disponible"
+}
+```
+
+**Ejemplo Flutter:**
+```dart
+Future<ProcessDetail> fetchProcessDetail(int processId) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/processes/$processId'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final jsonData = json.decode(response.body);
+    if (jsonData['success']) {
+      return ProcessDetail.fromJson(jsonData['data']);
+    }
+    throw Exception(jsonData['message']);
+  } else if (response.statusCode == 404) {
+    throw Exception('Proceso no encontrado');
+  } else if (response.statusCode == 403) {
+    throw Exception('Este proceso no está disponible');
+  }
+  throw Exception('Error al cargar detalle del proceso');
+}
+```
+
+**Modelos Flutter sugeridos:**
+```dart
+class ProcessDetail {
+  final int processId;
+  final String name;
+  final String description;
+  final String? processCode;
+  final String? category;
+  final String? priority;
+  final int? deadlineDays;
+  final String? department;
+  final List<ProcessStep> steps;
+  final String createdAt;
+
+  ProcessDetail({
+    required this.processId,
+    required this.name,
+    required this.description,
+    this.processCode,
+    this.category,
+    this.priority,
+    this.deadlineDays,
+    this.department,
+    required this.steps,
+    required this.createdAt,
+  });
+
+  factory ProcessDetail.fromJson(Map<String, dynamic> json) {
+    return ProcessDetail(
+      processId: json['process_id'],
+      name: json['name'],
+      description: json['description'],
+      processCode: json['process_code'],
+      category: json['category'],
+      priority: json['priority'],
+      deadlineDays: json['deadline_days'],
+      department: json['department'],
+      steps: (json['steps'] as List)
+          .map((step) => ProcessStep.fromJson(step))
+          .toList(),
+      createdAt: json['created_at'],
+    );
+  }
+}
+
+class ProcessStep {
+  final int stepId;
+  final int order;
+  final String title;
+  final String? description;
+  final String? conditionType;
+
+  ProcessStep({
+    required this.stepId,
+    required this.order,
+    required this.title,
+    this.description,
+    this.conditionType,
+  });
+
+  factory ProcessStep.fromJson(Map<String, dynamic> json) {
+    return ProcessStep(
+      stepId: json['step_id'],
+      order: json['order'],
+      title: json['title'],
+      description: json['description'],
+      conditionType: json['condition_type'],
+    );
+  }
+}
+```
+
+**Ejemplo de uso en UI Flutter:**
+```dart
+class ProcessDetailScreen extends StatefulWidget {
+  final int processId;
+
+  const ProcessDetailScreen({required this.processId});
+
+  @override
+  _ProcessDetailScreenState createState() => _ProcessDetailScreenState();
+}
+
+class _ProcessDetailScreenState extends State<ProcessDetailScreen> {
+  late Future<ProcessDetail> _processDetail;
+
+  @override
+  void initState() {
+    super.initState();
+    _processDetail = fetchProcessDetail(widget.processId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Detalle del Trámite')),
+      body: FutureBuilder<ProcessDetail>(
+        future: _processDetail,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          final process = snapshot.data!;
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(process.name, style: Theme.of(context).textTheme.headlineSmall),
+                SizedBox(height: 8),
+                Text(process.description),
+                SizedBox(height: 16),
+
+                if (process.deadlineDays != null)
+                  Chip(label: Text('Tiempo estimado: ${process.deadlineDays} días')),
+
+                SizedBox(height: 24),
+                Text('Pasos del proceso:', style: Theme.of(context).textTheme.titleMedium),
+                SizedBox(height: 8),
+
+                ...process.steps.map((step) => Card(
+                  margin: EdgeInsets.only(bottom: 12),
+                  child: ListTile(
+                    leading: CircleAvatar(child: Text('${step.order}')),
+                    title: Text(step.title),
+                    subtitle: step.description != null ? Text(step.description!) : null,
+                  ),
+                )).toList(),
+
+                SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // TODO: Iniciar trámite
+                    },
+                    child: Text('Iniciar Trámite'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+---
+
 ## Notas Importantes
 
 ### 🔐 Autenticación y Autorización

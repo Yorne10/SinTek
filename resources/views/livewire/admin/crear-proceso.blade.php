@@ -1,4 +1,4 @@
-{{--
+{{-- 
     Company: CETAM
     Project: ST
     File: crear-proceso.blade.php
@@ -8,8 +8,8 @@
 
     Changelog:
     - ID: <ID> | Date: dd/mm/yyyy
-      Modified by: <Developer name>
-      Description: <Brief description of change>
+      Modified by: Codex
+      Description: Formular funcional para creación de procesos.
 --}}
 
 {{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
@@ -40,63 +40,65 @@
         <div class="col-12 col-xl-8">
             <div class="card card-body shadow border-0 mb-4">
                 <h2 class="h5 mb-4">Información del proceso</h2>
-                <form>
+
+                @if ($successMessage)
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <span class="icon icon-sm text-success me-2 fas fa-check-circle"></span>
+                        <div>{{ $successMessage }}</div>
+                    </div>
+                @endif
+
+                <form wire:submit.prevent="save">
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="process_name">Nombre del proceso</label>
-                            <input class="form-control" id="process_name" type="text" placeholder="Ej: Solicitud de vacaciones">
+                            <label for="process_name">Nombre del proceso <span class="text-danger">*</span></label>
+                            <input wire:model.defer="name" class="form-control @error('name') is-invalid @enderror" id="process_name" type="text" placeholder="Ej: Solicitud de vacaciones" required>
+                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="process_code">Código del proceso</label>
-                            <input class="form-control" id="process_code" type="text" placeholder="Ej: SOL-VAC-001">
-                            <small class="form-text text-muted">Este código debe ser único y se usará para identificar el proceso.</small>
+                            <input wire:model.defer="process_code" class="form-control @error('process_code') is-invalid @enderror" id="process_code" type="text" placeholder="Ej: SOL-VAC-001">
+                            <small class="form-text text-muted">Código único para identificar el proceso.</small>
+                            @error('process_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="process_description">Descripción</label>
-                            <textarea class="form-control" id="process_description" rows="4" placeholder="Describe el propósito y alcance del proceso..."></textarea>
+                            <textarea wire:model.defer="description" class="form-control @error('description') is-invalid @enderror" id="process_description" rows="4" placeholder="Describe el propósito y alcance del proceso..."></textarea>
+                            @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="process_category">Categoría</label>
-                            <select class="form-select" id="process_category">
-                                <option selected>Seleccionar categoría</option>
-                                <option value="1">Solicitudes</option>
-                                <option value="2">Trámites administrativos</option>
-                                <option value="3">Recursos humanos</option>
-                                <option value="4">Servicios</option>
-                                <option value="5">Otros</option>
-                            </select>
+                            <input wire:model.defer="category" class="form-control @error('category') is-invalid @enderror" id="process_category" type="text" placeholder="Ej: Recursos Humanos">
+                            @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="process_priority">Prioridad</label>
-                            <select class="form-select" id="process_priority">
+                            <select wire:model="priority" class="form-select @error('priority') is-invalid @enderror" id="process_priority">
                                 <option value="low">Baja</option>
-                                <option value="medium" selected>Media</option>
+                                <option value="medium">Media</option>
                                 <option value="high">Alta</option>
                                 <option value="urgent">Urgente</option>
                             </select>
+                            @error('priority') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="process_deadline">Tiempo máximo de respuesta (días)</label>
-                            <input class="form-control" id="process_deadline" type="number" placeholder="15" min="1">
+                            <input wire:model.defer="deadline_days" class="form-control @error('deadline_days') is-invalid @enderror" id="process_deadline" type="number" placeholder="15" min="1">
                             <small class="form-text text-muted">Días hábiles para completar el proceso.</small>
+                            @error('deadline_days') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="process_department">Departamento responsable</label>
-                            <select class="form-select" id="process_department">
-                                <option selected>Seleccionar departamento</option>
-                                <option value="1">Recursos Humanos</option>
-                                <option value="2">Administración</option>
-                                <option value="3">Operaciones</option>
-                                <option value="4">Legal</option>
-                            </select>
+                            <label for="process_department">Área responsable</label>
+                            <input wire:model.defer="department" class="form-control @error('department') is-invalid @enderror" id="process_department" type="text" placeholder="Ej: Administración">
+                            @error('department') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
@@ -106,21 +108,12 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="process_active" checked>
+                                <input wire:model="active" class="form-check-input" type="checkbox" id="process_active" checked>
                                 <label class="form-check-label" for="process_active">
                                     Proceso activo
                                 </label>
                             </div>
                             <small class="form-text text-muted">Los trabajadores podrán iniciar este proceso si está activo.</small>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="process_notifications">
-                                <label class="form-check-label" for="process_notifications">
-                                    Enviar notificaciones
-                                </label>
-                            </div>
-                            <small class="form-text text-muted">Notificar automáticamente a los usuarios involucrados.</small>
                         </div>
                     </div>
 
@@ -130,7 +123,7 @@
                                 <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                 Guardar proceso
                             </button>
-                            <a href="#" class="btn btn-link text-gray-700 ms-2">Cancelar</a>
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.gestion-tramites') }}" class="btn btn-link text-gray-700 ms-2">Cancelar</a>
                         </div>
                     </div>
                 </form>
@@ -152,55 +145,14 @@
                         <svg class="icon icon-xs me-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
                         Código del proceso
                     </h3>
-                    <p class="small text-gray-700">Use un código único y descriptivo para identificar fácilmente el proceso. Por ejemplo: SOL-VAC-001 para "Solicitud de vacaciones 001".</p>
+                    <p class="small text-gray-700">Usa nombres claros y únicos para identificar fácilmente el proceso.</p>
                 </div>
                 <div>
                     <h3 class="h6 mb-2">
                         <svg class="icon icon-xs me-1 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
                         Siguiente paso
                     </h3>
-                    <p class="small text-gray-700">Después de crear el proceso, deberá definir los pasos específicos que lo componen en la sección "Definir pasos".</p>
-                </div>
-            </div>
-
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <h2 class="h6 mb-3">Procesos recientes</h2>
-                    <ul class="list-group list-group-flush list my--3">
-                        <li class="list-group-item px-0">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-shape icon-xs icon-shape-success rounded me-2">
-                                    <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <div class="flex-fill">
-                                    <small class="fw-bold">Solicitud de vacaciones</small>
-                                    <div class="small text-gray">Activo</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-shape icon-xs icon-shape-success rounded me-2">
-                                    <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <div class="flex-fill">
-                                    <small class="fw-bold">Reembolso de gastos</small>
-                                    <div class="small text-gray">Activo</div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-shape icon-xs icon-shape-warning rounded me-2">
-                                    <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>
-                                </div>
-                                <div class="flex-fill">
-                                    <small class="fw-bold">Cambio de puesto</small>
-                                    <div class="small text-gray">Inactivo</div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    <p class="small text-gray-700">Después de crear el proceso, define los pasos específicos en la sección "Definir pasos".</p>
                 </div>
             </div>
         </div>

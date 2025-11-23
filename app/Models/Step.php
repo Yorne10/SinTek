@@ -16,13 +16,22 @@ class Step extends Model
         'order',
         'tittle',
         'description',
+        'instructions',
         'condition_type',
+        'responsible',
+        'deadline_days',
+        'priority',
+        'send_notification',
+        'requires_documents',
         'next_yes',
         'next_no',
     ];
 
     protected $casts = [
         'order' => 'integer',
+        'deadline_days' => 'integer',
+        'send_notification' => 'boolean',
+        'requires_documents' => 'boolean',
     ];
 
     public function process()

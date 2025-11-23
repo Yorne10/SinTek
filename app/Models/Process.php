@@ -16,6 +16,11 @@ class Process extends Model
         'description',
         'active',
         'created_by',
+        'process_code',
+        'category',
+        'priority',
+        'deadline_days',
+        'department',
     ];
 
     protected $casts = [
