@@ -49,40 +49,87 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <form>
+                    @if (session()->has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>¡Éxito!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+
+                    <form wire:submit.prevent="save">
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="titulo" class="form-label fw-bold">Título de la convocatoria *</label>
-                                <input type="text" class="form-control" id="titulo" placeholder="Ej: Convocatoria para plaza de coordinador administrativo">
+                                <input wire:model="titulo" type="text" class="form-control @error('titulo') is-invalid @enderror" id="titulo" placeholder="Ej: Convocatoria para plaza de coordinador administrativo">
+                                @error('titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
                                 <label for="descripcion" class="form-label fw-bold">Descripción *</label>
-                                <textarea class="form-control" id="descripcion" rows="4" placeholder="Ingrese una descripción detallada de la convocatoria..."></textarea>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="fecha_inicio" class="form-label fw-bold">Fecha de inicio *</label>
-                                <input type="date" class="form-control" id="fecha_inicio">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="fecha_fin" class="form-label fw-bold">Fecha de fin *</label>
-                                <input type="date" class="form-control" id="fecha_fin">
+                                <textarea wire:model="descripcion" class="form-control @error('descripcion') is-invalid @enderror" id="descripcion" rows="4" placeholder="Ingrese una descripción detallada de la convocatoria..."></textarea>
+                                @error('descripcion') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label for="documento_convocatoria" class="form-label fw-bold">Documento de la convocatoria (PDF)</label>
-                                <input type="file" class="form-control" id="documento_convocatoria" accept=".pdf">
-                                <small class="form-text text-muted">Formato permitido: PDF. Tamaño máximo: 5MB</small>
+                                <div class="form-check">
+                                    <input wire:model="convocatoria_permanente" class="form-check-input" type="checkbox" id="convocatoria_permanente">
+                                    <label class="form-check-label fw-bold" for="convocatoria_permanente">
+                                        Convocatoria permanente
+                                    </label>
+                                </div>
+                                <small class="form-text text-muted">Marque esta opción si la convocatoria no tiene fecha de cierre</small>
+                            </div>
+
+                            <div class="col-md-6 mb-3" id="fecha_inicio_container">
+                                <label for="fecha_inicio" class="form-label fw-bold">Fecha de inicio *</label>
+                                <input wire:model="fecha_inicio" type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio">
+                                @error('fecha_inicio') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3" id="fecha_fin_container">
+                                <label for="fecha_fin" class="form-label fw-bold">Fecha de fin</label>
+                                <input wire:model="fecha_fin" type="date" class="form-control @error('fecha_fin') is-invalid @enderror" id="fecha_fin">
+                                <small class="form-text text-muted">Dejar vacío si es permanente</small>
+                                @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label fw-bold">Documentos de la convocatoria (PDF) <span class="text-muted small">(Opcional)</span></label>
+                                <div id="documentos_container">
+                                    @foreach($documentos as $index => $documento)
+                                    <div class="documento-item mb-3" wire:key="doc-{{ $index }}">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <input type="text" wire:model="documentos.{{ $index }}.titulo" class="form-control @error('documentos.'.$index.'.titulo') is-invalid @enderror" placeholder="Título del documento (ej: Bases de la convocatoria)">
+                                                @error('documentos.'.$index.'.titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="file" wire:model="documentos.{{ $index }}.archivo" class="form-control @error('documentos.'.$index.'.archivo') is-invalid @enderror" accept=".pdf">
+                                                @error('documentos.'.$index.'.archivo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                            </div>
+                                            <div class="col-md-1 d-flex align-items-center">
+                                                <button type="button" wire:click="removeDocumento({{ $index }})" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <small class="form-text text-muted">Formato permitido: PDF. Tamaño máximo: 5MB</small>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <button type="button" wire:click="addDocumento" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-plus me-1"></i>
+                                    Agregar documento
+                                </button>
                             </div>
 
                             <div class="col-md-12 d-flex justify-content-end gap-2">
-                                <button type="button" class="btn btn-outline-gray-600">Limpiar</button>
-                                <button type="submit" class="btn btn-cetam-primary">
-                                    <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
+                                <button type="button" wire:click="limpiar" class="btn btn-secondary">
+                                    <i class="fas fa-eraser me-1"></i>
+                                    Limpiar
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check me-1"></i>
                                     Crear convocatoria
                                 </button>
                             </div>
@@ -125,32 +172,55 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Sample convocatoria 1 --}}
+                            @forelse($convocatorias as $convocatoria)
                             <tr>
-                                <td class="fw-bold">Convocatoria para plaza de coordinador administrativo</td>
+                                <td class="fw-bold">{{ $convocatoria->title }}</td>
                                 <td>
-                                    <p class="small text-gray-700 mb-0">Se convoca a participar en el proceso de selección para el puesto de coordinador del área administrativa...</p>
+                                    <p class="small text-gray-700 mb-0">{{ Str::limit($convocatoria->description, 100) }}</p>
                                 </td>
-                                <td>01/11/2025</td>
-                                <td>15/11/2025</td>
-                                <td><span class="badge bg-success">Activa</span></td>
+                                <td>{{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}</td>
+                                <td>{{ $convocatoria->end_date ? $convocatoria->end_date->format('d/m/Y') : 'Permanente' }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-link text-primary p-0">
-                                        <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Ver PDF
-                                    </a>
+                                    @if($convocatoria->status === 'activa')
+                                        <span class="fw-bold text-success">Activa</span>
+                                    @elseif($convocatoria->status === 'cerrada')
+                                        <span class="fw-bold text-secondary">Cerrada</span>
+                                    @elseif($convocatoria->status === 'proxima')
+                                        <span class="fw-bold text-warning">Próxima</span>
+                                    @else
+                                        <span class="fw-bold text-info">{{ ucfirst($convocatoria->status) }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($convocatoria->documents->count() > 0)
+                                        <div class="btn-group">
+                                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.show', $convocatoria->documents->first()->convocation_document_id) }}" target="_blank" class="btn btn-sm btn-secondary">Ver PDF</a>
+                                            @if($convocatoria->documents->count() > 1)
+                                            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span class="visually-hidden">Más documentos</span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach($convocatoria->documents as $index => $doc)
+                                                    @if($index > 0)
+                                                    <li><a class="dropdown-item" href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.show', $doc->convocation_document_id) }}" target="_blank">{{ $doc->title }}</a></li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <span class="small text-gray-500">Sin documento</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-cetam-primary" type="button">
+                                        <button class="btn btn-sm btn-secondary" type="button">
                                             <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                             </svg>
                                             Editar
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="visually-hidden">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -162,98 +232,28 @@
                                     </div>
                                 </td>
                             </tr>
-
-                            {{-- Sample convocatoria 2 --}}
+                            @empty
                             <tr>
-                                <td class="fw-bold">Convocatoria de becas académicas 2025</td>
-                                <td>
-                                    <p class="small text-gray-700 mb-0">El CETAM convoca a los trabajadores a participar en el programa de becas para estudios de posgrado...</p>
-                                </td>
-                                <td>15/10/2025</td>
-                                <td>31/10/2025</td>
-                                <td><span class="badge bg-secondary">Cerrada</span></td>
-                                <td>
-                                    <a href="#" class="btn btn-sm btn-link text-primary p-0">
-                                        <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Ver PDF
-                                    </a>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-cetam-primary" type="button">
-                                            <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                            </svg>
-                                            Editar
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="visually-hidden">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Ver detalles</a></li>
-                                            <li><a class="dropdown-item" href="#">Duplicar</a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item text-warning" href="#">Reactivar</a></li>
-                                        </ul>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="text-gray-500">
+                                        <p class="fw-bold">No hay convocatorias registradas</p>
+                                        <p class="small">Crea tu primera convocatoria usando el formulario superior</p>
                                     </div>
                                 </td>
                             </tr>
-
-                            {{-- Sample convocatoria 3 --}}
-                            <tr>
-                                <td class="fw-bold">Proceso de promoción interna 2025</td>
-                                <td>
-                                    <p class="small text-gray-700 mb-0">Se informa a los trabajadores sobre el proceso de promoción interna para el ejercicio 2025...</p>
-                                </td>
-                                <td>20/11/2025</td>
-                                <td>15/12/2025</td>
-                                <td><span class="badge bg-warning">Próxima</span></td>
-                                <td>
-                                    <span class="small text-gray-500">Sin documento</span>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-cetam-primary" type="button">
-                                            <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
-                                            </svg>
-                                            Editar
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-cetam-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <span class="visually-hidden">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Ver detalles</a></li>
-                                            <li><a class="dropdown-item" href="#">Duplicar</a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item text-danger" href="#">Desactivar</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
                 <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination mb-0">
-                            <li class="page-item">
-                                <a class="page-link" href="#">Anterior</a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Siguiente</a>
-                            </li>
-                        </ul>
+                    @if($convocatorias->hasPages())
+                    <nav aria-label="Page navigation">
+                        {{ $convocatorias->links() }}
                     </nav>
-                    <div class="fw-normal small mt-4 mt-lg-0">Mostrando <b>3</b> de <b>8</b> convocatorias</div>
+                    @endif
+                    <div class="fw-normal small mt-4 mt-lg-0">
+                        Mostrando <b>{{ $convocatorias->firstItem() ?? 0 }}</b> a <b>{{ $convocatorias->lastItem() ?? 0 }}</b> de <b>{{ $convocatorias->total() }}</b> convocatorias
+                    </div>
                 </div>
             </div>
         </div>
@@ -418,3 +418,22 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Manejar checkbox de convocatoria permanente
+    const checkboxPermanente = document.getElementById('convocatoria_permanente');
+    const fechaFinInput = document.getElementById('fecha_fin');
+
+    if (checkboxPermanente && fechaFinInput) {
+        checkboxPermanente.addEventListener('change', function() {
+            if (this.checked) {
+                fechaFinInput.value = '';
+                fechaFinInput.disabled = true;
+            } else {
+                fechaFinInput.disabled = false;
+            }
+        });
+    }
+});
+</script>

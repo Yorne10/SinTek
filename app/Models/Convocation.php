@@ -29,4 +29,9 @@ class Convocation extends Model
     {
         return $this->hasMany(Notification::class, 'convocations_id', 'convocation_id');
     }
+
+    public function documents()
+    {
+        return $this->hasMany(ConvocationDocument::class, 'convocation_id', 'convocation_id');
+    }
 }

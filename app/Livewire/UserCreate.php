@@ -4,36 +4,30 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\Worker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
 class UserCreate extends Component
 {
-    public $first_name = '';
-    public $last_name = '';
+    public $name = '';
     public $email = '';
     public $role = '';
     public $password = '';
     public $password_confirmation = '';
-    public $gender = '';
-    public $city = '';
 
     protected function rules()
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'role' => ['required', 'string', 'in:secretary,worker'],
+            'name' => ['required', 'string', 'max:150'],
+            'email' => ['required', 'string', 'email', 'max:150', 'unique:users'],
+            'role' => ['required', 'string', 'in:admin,secretary,worker'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)],
-            'gender' => ['nullable', 'string', 'in:Male,Female,Other'],
-            'city' => ['nullable', 'string', 'max:255'],
         ];
     }
 
     protected $messages = [
-        'first_name.required' => 'El nombre es obligatorio.',
-        'last_name.required' => 'Los apellidos son obligatorios.',
+        'name.required' => 'El nombre completo es obligatorio.',
         'email.required' => 'El correo electrónico es obligatorio.',
         'email.email' => 'El correo electrónico debe ser válido.',
         'email.unique' => 'Este correo electrónico ya está registrado.',
@@ -51,18 +45,26 @@ class UserCreate extends Component
         try {
             // Create the user
             $user = User::create([
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
+                'name' => $this->name,
                 'email' => $this->email,
                 'password' => Hash::make($this->password),
-                'gender' => $this->gender,
-                'city' => $this->city,
+                'role' => $this->role,
+                'active' => 1,
             ]);
 
-            // Assign the role
-            $user->assignRole($this->role);
+            // If worker, create empty worker profile (to be completed by user in their profile)
+            if ($this->role === 'worker') {
+                Worker::create([
+                    'user_id' => $user->users_id,
+                    'curp' => null,
+                    'sex' => null,
+                    'phone' => null,
+                    'adress' => null,
+                    'rfc' => null,
+                ]);
+            }
 
-            session()->flash('success', 'Usuario creado exitosamente.');
+            session()->flash('success', 'Usuario creado exitosamente. El usuario podrá completar su información personal desde su perfil.');
 
             // Redirect to users list
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.users.index');

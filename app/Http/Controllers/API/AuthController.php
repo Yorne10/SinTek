@@ -105,7 +105,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Login user
+     * Login user (Mobile API - Workers only)
      */
     public function login(Request $request)
     {
@@ -126,14 +126,22 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid credentials'
+                'message' => 'Credenciales inválidas'
             ], 401);
+        }
+
+        // Check if user is a worker (Mobile API restriction)
+        if ($user->role !== 'worker') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Acceso denegado. Esta aplicación es solo para trabajadores. Los administradores y secretarios deben usar la aplicación web.'
+            ], 403);
         }
 
         if (!$user->active) {
             return response()->json([
                 'success' => false,
-                'message' => 'User account is inactive'
+                'message' => 'Tu cuenta está inactiva. Contacta al administrador.'
             ], 403);
         }
 
@@ -143,18 +151,15 @@ class AuthController extends Controller
         // Create new token with role ability
         $token = $user->createToken('auth-token', [$user->role])->plainTextToken;
 
-        // Load worker relation if user is a worker
-        $userData = $user->toArray();
-        if ($user->role === 'worker') {
-            $user->load('worker.positions');
-            $userData['worker'] = $user->worker;
-        }
+        // Load worker relation with positions
+        $user->load('worker.positions');
 
         return response()->json([
             'success' => true,
-            'message' => 'Login successful',
+            'message' => 'Inicio de sesión exitoso',
             'data' => [
-                'user' => $userData,
+                'user' => $user,
+                'worker' => $user->worker,
                 'token' => $token,
             ]
         ], 200);

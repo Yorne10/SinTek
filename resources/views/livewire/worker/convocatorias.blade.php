@@ -39,29 +39,34 @@
             <div class="card border-0 shadow">
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                     <h2 class="fs-5 fw-bold mb-0">Convocatorias activas</h2>
-                    <span class="badge bg-success">3 vigentes</span>
+                    <span class="badge bg-success">{{ $convocatorias->count() }} vigentes</span>
                 </div>
                 <div class="card-body">
-                    {{-- Convocatoria 1 --}}
-                    <div class="card mb-4 border">
+                    @forelse($convocatorias as $index => $convocatoria)
+                    <div class="card {{ $index < $convocatorias->count() - 1 ? 'mb-4' : 'mb-0' }} border">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <div>
-                                    <h3 class="h5 mb-2">Convocatoria de Becas Educativas 2025</h3>
+                                    <h3 class="h5 mb-2">{{ $convocatoria->title }}</h3>
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="badge bg-success me-2">Vigente</span>
-                                        <span class="badge bg-info">Educación</span>
+                                        @if($convocatoria->status === 'activa')
+                                            <span class="badge bg-success me-2">Vigente</span>
+                                        @elseif($convocatoria->status === 'permanente')
+                                            <span class="badge bg-info me-2">Permanente</span>
+                                        @elseif($convocatoria->status === 'proxima')
+                                            <span class="badge bg-warning me-2">Próximamente</span>
+                                        @endif
                                     </div>
                                 </div>
-                                <div class="icon-shape icon-md icon-shape-primary rounded">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                                <div class="text-primary">
+                                    <svg class="icon icon-lg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z"></path>
+                                        <path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"></path>
                                     </svg>
                                 </div>
                             </div>
                             <p class="text-gray-700 mb-3">
-                                CETAM convoca a sus trabajadores sindicalizados a participar en el programa de Becas Educativas 2025
-                                para apoyo en estudios de nivel medio superior, superior y posgrado para hijos de trabajadores.
+                                {{ $convocatoria->description }}
                             </p>
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -69,9 +74,9 @@
                                         <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                                         </svg>
-                                        Fecha de publicación:
+                                        Fecha de inicio:
                                     </small>
-                                    <small class="text-gray-700">01/11/2025</small>
+                                    <small class="text-gray-700">{{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}</small>
                                 </div>
                                 <div class="col-md-6">
                                     <small class="text-gray-600 fw-bold d-block mb-1">
@@ -80,186 +85,46 @@
                                         </svg>
                                         Fecha límite:
                                     </small>
-                                    <small class="text-danger fw-bold">30/11/2025</small>
+                                    @if($convocatoria->end_date)
+                                        <small class="text-danger fw-bold">{{ $convocatoria->end_date->format('d/m/Y') }}</small>
+                                    @else
+                                        <small class="text-info fw-bold">Sin fecha límite (Permanente)</small>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="border-top pt-3">
-                                <small class="text-gray-600 fw-bold d-block mb-2">Documentos disponibles:</small>
-                                <div class="row">
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Convocatoria completa</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Formato de solicitud</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Requisitos</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    {{-- Convocatoria 2 --}}
-                    <div class="card mb-4 border">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <h3 class="h5 mb-2">Programa de Capacitación y Desarrollo Profesional</h3>
-                                    <div class="d-flex align-items-center mb-2">
-                                        <span class="badge bg-success me-2">Vigente</span>
-                                        <span class="badge bg-warning">Capacitación</span>
-                                    </div>
-                                </div>
-                                <div class="icon-shape icon-md icon-shape-warning rounded">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 mb-3">
-                                Convocatoria abierta para participar en cursos de capacitación técnica y administrativa.
-                                Ofrecemos talleres presenciales y en línea en diversas áreas de especialización.
-                            </p>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <small class="text-gray-600 fw-bold d-block mb-1">
-                                        <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Fecha de publicación:
-                                    </small>
-                                    <small class="text-gray-700">15/10/2025</small>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-gray-600 fw-bold d-block mb-1">
-                                        <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Fecha límite:
-                                    </small>
-                                    <small class="text-warning fw-bold">15/12/2025</small>
-                                </div>
-                            </div>
+                            @if($convocatoria->documents->count() > 0)
                             <div class="border-top pt-3">
                                 <small class="text-gray-600 fw-bold d-block mb-2">Documentos disponibles:</small>
                                 <div class="row">
+                                    @foreach($convocatoria->documents as $documento)
                                     <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Catálogo de cursos</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.show', $documento->convocation_document_id) }}" target="_blank" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
+                                            <span class="text-truncate">{{ $documento->title }}</span>
+                                            <svg class="icon icon-xs ms-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                             </svg>
                                         </a>
                                     </div>
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Formato de inscripción</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Calendario</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    {{-- Convocatoria 3 --}}
-                    <div class="card mb-0 border">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <h3 class="h5 mb-2">Programa de Estímulos al Desempeño 2025</h3>
-                                    <div class="d-flex align-items-center mb-2">
-                                        <span class="badge bg-success me-2">Vigente</span>
-                                        <span class="badge bg-secondary">Estímulos</span>
-                                    </div>
-                                </div>
-                                <div class="icon-shape icon-md icon-shape-secondary rounded">
-                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 mb-3">
-                                Convocatoria para participar en el Programa de Estímulos al Desempeño.
-                                Reconocimiento económico para trabajadores con desempeño sobresaliente durante el año.
-                            </p>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <small class="text-gray-600 fw-bold d-block mb-1">
-                                        <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Fecha de publicación:
-                                    </small>
-                                    <small class="text-gray-700">20/10/2025</small>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-gray-600 fw-bold d-block mb-1">
-                                        <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                        </svg>
-                                        Fecha límite:
-                                    </small>
-                                    <small class="text-warning fw-bold">31/12/2025</small>
-                                </div>
-                            </div>
+                            @else
                             <div class="border-top pt-3">
-                                <small class="text-gray-600 fw-bold d-block mb-2">Documentos disponibles:</small>
-                                <div class="row">
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Bases del programa</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Formato de postulación</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4 mb-2">
-                                        <a href="#" class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                            <span>Criterios de evaluación</span>
-                                            <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
+                                <small class="text-gray-500 fst-italic">No hay documentos disponibles para esta convocatoria</small>
                             </div>
+                            @endif
                         </div>
                     </div>
+                    @empty
+                    <div class="text-center py-5">
+                        <svg class="icon icon-xxl text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h5 class="text-gray-600">No hay convocatorias disponibles</h5>
+                        <p class="text-gray-500">Por el momento no hay convocatorias activas. Consulta próximamente.</p>
+                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

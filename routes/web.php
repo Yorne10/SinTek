@@ -48,6 +48,7 @@ use App\Livewire\Secretary\BusquedaTrabajadores;
 use App\Livewire\Secretary\ConvocatoriasDocumentos;
 use App\Livewire\Secretary\Reportes as SecretaryReportes;
 use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
+use App\Http\Controllers\ConvocationDocumentController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\FallbackAuthController;
 
@@ -96,6 +97,10 @@ Route::prefix("p/{$slug}")
         Route::middleware('auth')->group(function () {
             Route::get('/dashboard', Dashboard::class)->name('dashboard.index');
             Route::get('/profile', Profile::class)->name('profile.index');
+
+            // Rutas para documentos de convocatorias
+            Route::get('/convocation-document/{id}', [ConvocationDocumentController::class, 'show'])->name('convocation-document.show');
+            Route::get('/convocation-document/{id}/download', [ConvocationDocumentController::class, 'download'])->name('convocation-document.download');
 
             // Preguntas frecuentes (compartido entre todos los roles)
             Route::get('/preguntas-frecuentes', PreguntasFrecuentes::class)->name('preguntas-frecuentes');
