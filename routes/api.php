@@ -8,6 +8,7 @@ use App\Http\Controllers\API\ConvocationController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\ProcessController;
 use App\Http\Controllers\API\RequestController;
+use App\Http\Controllers\API\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,4 +56,11 @@ Route::middleware(['auth:sanctum', 'role:worker'])->group(function () {
     // Notificaciones (móvil)
     Route::get('/my-notifications', [NotificationController::class, 'index']);
     Route::post('/my-notifications/read', [NotificationController::class, 'markAsRead']);
+
+    // FAQs - Preguntas Frecuentes
+    Route::get('/faq-categories', [FaqController::class, 'getCategories']);
+    Route::get('/faqs', [FaqController::class, 'getAllFaqs']);
+    Route::get('/faqs/category/{categoryId}', [FaqController::class, 'getFaqsByCategory']);
+    Route::get('/faqs/search', [FaqController::class, 'searchFaqs']);
+    Route::get('/faqs/{faqId}', [FaqController::class, 'getFaqById']);
 });

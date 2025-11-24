@@ -22,12 +22,12 @@
         $prefix . '.ui.bootstrap-tables', $prefix . '.billing.transactions', $prefix . '.ui.buttons', $prefix . '.ui.forms',
         $prefix . '.ui.modals', $prefix . '.ui.notifications', $prefix . '.ui.typography', $prefix . '.marketing.upgrade-to-pro',
         // Rutas de trabajadores
-        $prefix . '.worker.tramites-disponibles', $prefix . '.worker.mis-tramites',
+        $prefix . '.worker.tramites-disponibles', $prefix . '.worker.mis-tramites', $prefix . '.worker.detalle-tramite',
         $prefix . '.worker.convocatorias', $prefix . '.worker.notificaciones',
         // Rutas de secretarios
         $prefix . '.secretary.panel-solicitudes', $prefix . '.secretary.validar-pasos',
         $prefix . '.secretary.busqueda-trabajadores', $prefix . '.secretary.convocatorias-documentos',
-        $prefix . '.secretary.reportes', $prefix . '.secretary.notificaciones',
+        $prefix . '.secretary.reportes', $prefix . '.secretary.notificaciones', $prefix . '.secretary.gestion-faqs',
         // Rutas de administradores
         $prefix . '.admin.crear-proceso', $prefix . '.admin.definir-pasos', $prefix . '.admin.crear-paso',
         $prefix . '.admin.modificar-proceso', $prefix . '.admin.gestion-tramites', $prefix . '.admin.solicitudes',

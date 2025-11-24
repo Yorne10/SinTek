@@ -48,6 +48,7 @@ use App\Livewire\Secretary\BusquedaTrabajadores;
 use App\Livewire\Secretary\ConvocatoriasDocumentos;
 use App\Livewire\Secretary\Reportes as SecretaryReportes;
 use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
+use App\Livewire\Secretary\GestionFaqs;
 use App\Http\Controllers\ConvocationDocumentController;
 use App\Http\Controllers\InstitutionalDocumentController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -128,6 +129,7 @@ Route::prefix("p/{$slug}")
                 Route::get('/convocatorias-documentos', ConvocatoriasDocumentos::class)->name('secretary.convocatorias-documentos');
                 Route::get('/reportes-secretary', SecretaryReportes::class)->name('secretary.reportes');
                 Route::get('/notificaciones-secretary', SecretaryNotificaciones::class)->name('secretary.notificaciones');
+                Route::get('/gestion-faqs', GestionFaqs::class)->name('secretary.gestion-faqs');
             });
 
             // Rutas para administradores (gestión de usuarios y sistema)
