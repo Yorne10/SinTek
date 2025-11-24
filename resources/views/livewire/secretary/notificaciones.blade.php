@@ -32,13 +32,6 @@
         </div>
     </div>
 
-    @if (session()->has('success'))
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <span class="icon icon-sm text-success me-2 fas fa-check-circle"></span>
-            <div>{{ session('success') }}</div>
-        </div>
-    @endif
-
     <div class="row">
         <div class="col-12 col-lg-5 mb-4">
             <div class="card border-0 shadow h-100">
@@ -110,7 +103,7 @@
                             <small class="text-muted d-block mt-1">Ejemplo: “Tu documento ya está listo, puedes pasar por ventanilla”.</small>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 animate-up-2">
+                        <button type="button" id="sendNotificationBtn" class="btn btn-primary w-100 animate-up-2">
                             <span class="icon icon-xs text-white me-2 fas fa-paper-plane"></span>
                             Enviar notificación
                         </button>
@@ -138,8 +131,8 @@
                                 <tr>
                                     <th class="border-0">Título</th>
                                     <th class="border-0">Destino</th>
-                                    <th class="border-0">Tipo</th>
-                                    <th class="border-0 text-end">Fecha</th>
+                                    <th class="border-0">Fecha</th>
+                                    <th class="border-0">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,21 +140,25 @@
                                     <tr wire:key="notification-{{ $notification->notification_id }}">
                                         <td class="fw-semibold">
                                             {{ $notification->tittle ?? 'Sin título' }}
-                                            <div class="text-gray-600 small mb-0 text-truncate" style="max-width: 320px;">
+                                            <div class="text-gray-600 small mb-0 text-truncate" style="max-width: 280px;">
                                                 {{ $notification->message }}
                                             </div>
                                         </td>
                                         <td>
                                             <div class="fw-semibold">{{ $notification->user->name ?? 'Usuario' }}</div>
-                                            <div class="text-muted small">General</div>
+                                            <div class="text-muted small">{{ $notification->user->email ?? 'N/A' }}</div>
+                                        </td>
+                                        <td class="text-muted small">
+                                            {{ optional($notification->created_at)->format('d/m/Y H:i') }}
                                         </td>
                                         <td>
-                                            <span class="badge bg-info text-white text-capitalize">
-                                                {{ $notification->type ?? 'general' }}
-                                            </span>
-                                        </td>
-                                        <td class="text-end text-muted small">
-                                            {{ optional($notification->created_at)->format('d/m/Y H:i') }}
+                                            <button type="button" class="btn btn-sm btn-secondary view-notification-btn" data-notification-id="{{ $notification->notification_id }}" data-notification-title="{{ $notification->tittle ?? 'Sin título' }}" data-notification-message="{{ $notification->message }}" data-notification-user="{{ $notification->user->name ?? 'Usuario' }}" data-notification-date="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
+                                                <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                Ver detalles
+                                            </button>
                                         </td>
                                     </tr>
                                 @empty
@@ -183,3 +180,75 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-primary me-2',
+            cancelButton: 'btn btn-gray'
+        },
+        buttonsStyling: false
+    });
+
+    // Botón enviar notificación con confirmación
+    document.getElementById('sendNotificationBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        swalWithBootstrapButtons.fire({
+            title: '¿Enviar notificación?',
+            text: '¿Estás seguro de enviar esta notificación a los usuarios seleccionados?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, enviar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('sendNotification');
+            }
+        });
+    });
+
+    // Event listener para ver detalles de notificación
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.view-notification-btn')) {
+            const button = e.target.closest('.view-notification-btn');
+            const title = button.getAttribute('data-notification-title');
+            const message = button.getAttribute('data-notification-message');
+            const user = button.getAttribute('data-notification-user');
+            const date = button.getAttribute('data-notification-date');
+
+            swalWithBootstrapButtons.fire({
+                title: title,
+                html: `
+                    <div class="text-start">
+                        <p class="mb-3"><strong>Mensaje:</strong></p>
+                        <p class="mb-3">${message}</p>
+                        <hr>
+                        <p class="mb-2"><strong>Destinatario:</strong> ${user}</p>
+                        <p class="mb-0 text-muted small"><strong>Fecha:</strong> ${date}</p>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Cerrar',
+                width: '600px'
+            });
+        }
+    });
+
+    // Escuchar evento de notificación enviada
+    if (window.Livewire) {
+        Livewire.on('notification-sent', (event) => {
+            const detail = event || {};
+            swalWithBootstrapButtons.fire({
+                icon: detail.type || 'success',
+                title: detail.title || 'Aviso',
+                text: detail.message || '',
+                confirmButtonText: 'Entendido',
+                showConfirmButton: true
+            });
+        });
+    }
+});
+</script>

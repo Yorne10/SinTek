@@ -115,9 +115,16 @@ class Notificaciones extends Component
             ]);
         }
 
+        $count = $recipients->count();
         $this->reset(['title', 'message', 'selectedUsers', 'sendToAll', 'workerSearch']);
         $this->resetPage();
-        session()->flash('success', 'Notificación enviada a los usuarios seleccionados.');
+
+        $this->dispatch(
+            'notification-sent',
+            type: 'success',
+            title: '¡Notificación enviada!',
+            message: "La notificación ha sido enviada a {$count} " . ($count === 1 ? 'usuario' : 'usuarios') . " exitosamente."
+        );
     }
 
     public function getFilteredWorkersProperty()

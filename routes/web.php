@@ -49,6 +49,7 @@ use App\Livewire\Secretary\ConvocatoriasDocumentos;
 use App\Livewire\Secretary\Reportes as SecretaryReportes;
 use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
 use App\Http\Controllers\ConvocationDocumentController;
+use App\Http\Controllers\InstitutionalDocumentController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\FallbackAuthController;
 
@@ -101,6 +102,10 @@ Route::prefix("p/{$slug}")
             // Rutas para documentos de convocatorias
             Route::get('/convocation-document/{id}', [ConvocationDocumentController::class, 'show'])->name('convocation-document.show');
             Route::get('/convocation-document/{id}/download', [ConvocationDocumentController::class, 'download'])->name('convocation-document.download');
+
+            // Rutas para documentos institucionales
+            Route::get('/institutional-document/{id}', [InstitutionalDocumentController::class, 'show'])->name('institutional-document.show');
+            Route::get('/institutional-document/{id}/download', [InstitutionalDocumentController::class, 'download'])->name('institutional-document.download');
 
             // Preguntas frecuentes (compartido entre todos los roles)
             Route::get('/preguntas-frecuentes', PreguntasFrecuentes::class)->name('preguntas-frecuentes');

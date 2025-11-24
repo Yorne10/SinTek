@@ -202,6 +202,7 @@
             @endif
             @endif
 
+            @if($user->role === 'worker')
             <div class="card border-0 shadow mt-4">
                 <div class="card-body">
                     <h2 class="h6 mb-3">Información importante</h2>
@@ -220,6 +221,7 @@
                     </ul>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
