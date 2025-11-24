@@ -5,15 +5,7 @@
     Created on: 04/11/2025
     Created by: Alfonso Angel Garcia Hernandez
     Approved by: Alfonso Angel Garcia Hernandez
-
-    Changelog:
-    - ID: <ID> | Date: dd/mm/yyyy
-      Modified by: <Developer name>
-      Description: <Brief description of change>
 --}}
-
-{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -46,6 +38,7 @@
 
     <div class="row">
         <div class="col-12 col-xl-8 mb-4">
+            {{-- Selector de proceso --}}
             <div class="card border-0 shadow mb-4">
                 <div class="card-header">
                     <div class="row align-items-center">
@@ -63,57 +56,59 @@
                 </div>
                 <div class="card-body">
                     @if($selectedProcess)
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="icon-shape icon-md icon-shape-primary rounded me-3">
-                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <svg class="icon icon-lg text-primary me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
                         <div>
                             <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
                             <p class="small text-gray mb-0">
-                                Código: {{ $selectedProcess->process_code ?? 'N/A' }} |
-                                Categoría: {{ ucfirst($selectedProcess->category ?? 'N/A') }}
+                                @if($selectedProcess->process_code)
+                                Código: {{ $selectedProcess->process_code }}
+                                @endif
+                                @if($selectedProcess->category)
+                                | Categoría: {{ ucfirst($selectedProcess->category) }}
+                                @endif
                             </p>
                         </div>
                     </div>
                     @else
-                    <div class="alert alert-warning" role="alert">
+                    <div class="alert alert-warning mb-0" role="alert">
                         No hay procesos disponibles. Por favor, crea un proceso primero.
                     </div>
                     @endif
                 </div>
             </div>
 
+            {{-- Lista de pasos --}}
             <div class="card border-0 shadow">
                 <div class="card-header border-bottom">
                     <h2 class="h5 mb-0">Pasos del proceso</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     @if($selectedProcess && count($steps) > 0)
                     <div class="table-responsive">
-                        <table class="table table-hover align-items-center">
+                        <table class="table table-hover align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom" style="width: 60px;">Orden</th>
+                                    <th class="border-bottom" style="width: 70px;">Orden</th>
                                     <th class="border-bottom">Paso</th>
                                     <th class="border-bottom">Tipo</th>
                                     <th class="border-bottom">Responsable</th>
-                                    <th class="border-bottom">Prioridad</th>
-                                    <th class="border-bottom" style="width: 100px;">Acciones</th>
+                                    <th class="border-bottom" style="width: 120px;">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($steps as $step)
                                 <tr>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            @if($step->condition_type === 'final')
-                                            <span class="badge bg-success rounded-circle me-2" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
-                                                <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                            </span>
-                                            @else
-                                            <span class="badge bg-primary rounded-circle me-2" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">{{ $step->order }}</span>
-                                            @endif
+                                        @if($step->condition_type === 'final')
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <svg class="icon icon-sm text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                         </div>
+                                        @else
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <span class="badge rounded-circle bg-primary" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">{{ $step->order }}</span>
+                                        </div>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="d-block">
@@ -124,21 +119,20 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="badge bg-{{ $this->getStepTypeBadge($step->condition_type) }}">{{ $this->getStepTypeLabel($step->condition_type) }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="small">{{ $step->responsible ?? '—' }}</span>
-                                    </td>
-                                    <td>
-                                        @if($step->priority === 'urgente')
-                                        <span class="badge bg-danger">Urgente</span>
-                                        @elseif($step->priority === 'alta')
-                                        <span class="badge bg-warning">Alta</span>
-                                        @elseif($step->priority === 'media')
-                                        <span class="badge bg-info">Media</span>
+                                        @if($step->condition_type === 'form')
+                                            <span class="fw-bold text-info">Formulario</span>
+                                        @elseif($step->condition_type === 'approval')
+                                            <span class="fw-bold text-warning">Aprobación</span>
+                                        @elseif($step->condition_type === 'upload')
+                                            <span class="fw-bold text-secondary">Carga de archivos</span>
+                                        @elseif($step->condition_type === 'final')
+                                            <span class="fw-bold text-success">Final</span>
                                         @else
-                                        <span class="badge bg-secondary">Baja</span>
+                                            <span class="fw-bold text-gray-600">{{ ucfirst($step->condition_type) }}</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <span class="small text-gray-700">{{ $step->responsible ?? '—' }}</span>
                                     </td>
                                     <td>
                                         <div class="btn-group">
@@ -166,28 +160,30 @@
                         </table>
                     </div>
                     @else
-                    <div class="alert alert-light text-center" role="alert">
-                        <div class="d-flex flex-column align-items-center py-4">
-                            <svg class="icon icon-lg text-gray-400 mb-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                    <div class="text-center py-5">
+                        <svg class="icon icon-lg text-gray-400 mb-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                        </svg>
+                        <h5 class="text-gray-700 mb-2">No hay pasos registrados</h5>
+                        <p class="text-gray-600 mb-3">Este proceso aún no tiene pasos configurados.</p>
+                        @if($selectedProcessId)
+                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-paso', ['process_id' => $selectedProcessId]) }}" class="btn btn-sm btn-gray-800">
+                            <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
-                            <h5 class="text-gray-700 mb-2">No hay pasos registrados</h5>
-                            <p class="text-gray-600 mb-3">Este proceso aún no tiene pasos configurados.</p>
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-paso', ['process_id' => $selectedProcessId]) }}" class="btn btn-sm btn-gray-800">
-                                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                Agregar primer paso
-                            </a>
-                        </div>
+                            Agregar primer paso
+                        </a>
+                        @endif
                     </div>
                     @endif
                 </div>
             </div>
         </div>
 
+        {{-- Sidebar --}}
         <div class="col-12 col-xl-4">
+            {{-- Tipos de paso --}}
             <div class="card border-0 shadow mb-4">
                 <div class="card-header border-bottom">
                     <h2 class="h6 mb-0">Tipos de paso</h2>
@@ -196,45 +192,37 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0 border-bottom pb-3">
                             <div class="d-flex align-items-start">
-                                <div class="icon-shape icon-sm icon-shape-info rounded me-2">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
-                                </div>
+                                <svg class="icon icon-sm text-info me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
                                 <div>
                                     <h3 class="h6 mb-1">Formulario</h3>
-                                    <p class="small mb-0">El usuario completa campos</p>
+                                    <p class="small text-gray-600 mb-0">El usuario completa campos de información</p>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item px-0 border-bottom pb-3">
                             <div class="d-flex align-items-start">
-                                <div class="icon-shape icon-sm icon-shape-warning rounded me-2">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                </div>
+                                <svg class="icon icon-sm text-warning me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                 <div>
                                     <h3 class="h6 mb-1">Aprobación</h3>
-                                    <p class="small mb-0">Requiere decisión (Sí/No)</p>
+                                    <p class="small text-gray-600 mb-0">Requiere una decisión de aprobación</p>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item px-0 border-bottom pb-3">
                             <div class="d-flex align-items-start">
-                                <div class="icon-shape icon-sm icon-shape-secondary rounded me-2">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path></svg>
-                                </div>
+                                <svg class="icon icon-sm text-secondary me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path></svg>
                                 <div>
                                     <h3 class="h6 mb-1">Carga de archivos</h3>
-                                    <p class="small mb-0">Subir documentos requeridos</p>
+                                    <p class="small text-gray-600 mb-0">Subir documentos requeridos</p>
                                 </div>
                             </div>
                         </li>
-                        <li class="list-group-item px-0 pb-3">
+                        <li class="list-group-item px-0 pb-0">
                             <div class="d-flex align-items-start">
-                                <div class="icon-shape icon-sm icon-shape-success rounded me-2">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                </div>
+                                <svg class="icon icon-sm text-success me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                 <div>
                                     <h3 class="h6 mb-1">Final</h3>
-                                    <p class="small mb-0">Cierra el proceso</p>
+                                    <p class="small text-gray-600 mb-0">Cierra y completa el proceso</p>
                                 </div>
                             </div>
                         </li>
@@ -242,17 +230,22 @@
                 </div>
             </div>
 
+            {{-- Ayuda --}}
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <h2 class="h6 mb-3">Ayuda</h2>
-                    <p class="small text-gray-700">
-                        <svg class="icon icon-xs text-primary me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                        Cada paso debe tener un orden secuencial. Los pasos de tipo "Aprobación" pueden tener ramificaciones condicionales.
-                    </p>
-                    <p class="small text-gray-700">
-                        <svg class="icon icon-xs text-primary me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                        Use el botón "Vista previa" para simular el flujo del proceso antes de guardarlo.
-                    </p>
+                    <div class="d-flex mb-3">
+                        <svg class="icon icon-xs text-primary me-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        <p class="small text-gray-700 mb-0">
+                            Cada paso debe tener un orden secuencial. Los pasos se ejecutan en el orden definido.
+                        </p>
+                    </div>
+                    <div class="d-flex">
+                        <svg class="icon icon-xs text-primary me-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        <p class="small text-gray-700 mb-0">
+                            El paso de tipo "Final" debe ser el último paso del proceso.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,10 +1,12 @@
+<?php
+// generated rewrite of topbar to add dynamic notifications
+?>
 {{--
     Company: CETAM
     Project: ST
     File: topbar.blade.php
     Created on: 05/11/2025
     Created by: Alfonso Angel Garcia Hernandez
-    Approved by: Alfonso Angel Garcia Hernandez
 
     Changelog:
     - ID: <ID> | Date: dd/mm/yyyy
@@ -18,8 +20,17 @@
       </div>
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center">
+        @php
+            $user = auth()->user();
+            $userNotifications = $user
+                ? $user->notifications()->latest()->limit(5)->get()
+                : collect();
+            $unreadNotifications = $userNotifications->whereNull('read_at')->count();
+            $notificationRoute = route(config('proj.route_name_prefix', 'proj') . '.worker.notificaciones');
+        @endphp
         <li class="nav-item dropdown">
-          <a class="nav-link text-dark notification-bell unread dropdown-toggle" data-unread-notifications="true"
+          <a class="nav-link text-dark notification-bell dropdown-toggle"
+            data-unread-notifications="{{ $unreadNotifications > 0 ? 'true' : 'false' }}"
             href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
             <svg class="icon icon-sm text-gray-900" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
@@ -27,124 +38,42 @@
                 d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
               </path>
             </svg>
+            @if($unreadNotifications > 0)
+              <span class="notification-badge bg-danger text-white">{{ $unreadNotifications }}</span>
+            @endif
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-center mt-2 py-0">
             <div class="list-group list-group-flush">
-              <a href="#" class="text-center text-primary fw-bold border-bottom border-light py-3">Notificaciones</a>
-              <a href="#" class="list-group-item list-group-item-action border-bottom">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <div class="icon-shape icon-sm icon-shape-primary rounded">
-                      <svg class="icon icon-xs text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="col ps-0 ms-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="h6 mb-0 text-small">Sistema</h4>
-                      </div>
-                      <div class="text-end">
-                        <small class="text-danger">Hace unos momentos</small>
+              <a href="{{ $notificationRoute }}" class="text-center text-primary fw-bold border-bottom border-light py-3">Notificaciones</a>
+              @forelse($userNotifications as $notification)
+                <a href="{{ $notificationRoute }}" class="list-group-item list-group-item-action border-bottom">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <div class="icon-shape icon-sm {{ $notification->read_at ? 'icon-shape-secondary' : 'icon-shape-primary' }} rounded">
+                        <svg class="icon icon-xs text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                        </svg>
                       </div>
                     </div>
-                    <p class="font-small mt-1 mb-0">Tu solicitud de vacaciones ha sido aprobada.</p>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action border-bottom">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <div class="icon-shape icon-sm icon-shape-warning rounded">
-                      <svg class="icon icon-xs text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                      </svg>
+                    <div class="col ps-0 ms-2">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <h4 class="h6 mb-0 text-small">{{ $notification->tittle ?? 'Notificaci�n' }}</h4>
+                        </div>
+                        <div class="text-end">
+                          <small class="{{ $notification->read_at ? 'text-muted' : 'text-danger' }}">
+                            {{ $notification->created_at?->diffForHumans() }}
+                          </small>
+                        </div>
+                      </div>
+                      <p class="font-small mt-1 mb-0">{{ $notification->message }}</p>
                     </div>
                   </div>
-                  <div class="col ps-0 ms-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="h6 mb-0 text-small">Recursos Humanos</h4>
-                      </div>
-                      <div class="text-end">
-                        <small class="text-danger">Hace 2 horas</small>
-                      </div>
-                    </div>
-                    <p class="font-small mt-1 mb-0">Se requiere documentación adicional para tu trámite.</p>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action border-bottom">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <div class="icon-shape icon-sm icon-shape-success rounded">
-                      <svg class="icon icon-xs text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="col ps-0 m-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="h6 mb-0 text-small">Administración</h4>
-                      </div>
-                      <div class="text-end">
-                        <small>Hace 5 horas</small>
-                      </div>
-                    </div>
-                    <p class="font-small mt-1 mb-0">Tu constancia laboral está lista para descarga.</p>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action border-bottom">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <div class="icon-shape icon-sm icon-shape-info rounded">
-                      <svg class="icon icon-xs text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="col ps-0 ms-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="h6 mb-0 text-small">Convocatorias</h4>
-                      </div>
-                      <div class="text-end">
-                        <small>Hace 1 día</small>
-                      </div>
-                    </div>
-                    <p class="font-small mt-1 mb-0">Nueva convocatoria disponible: "Capacitación técnica 2025".</p>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action border-bottom">
-                <div class="row align-items-center">
-                  <div class="col-auto">
-                    <div class="icon-shape icon-sm icon-shape-secondary rounded">
-                      <svg class="icon icon-xs text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="col ps-0 ms-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="h6 mb-0 text-small">Sistema</h4>
-                      </div>
-                      <div class="text-end">
-                        <small>Hace 2 días</small>
-                      </div>
-                    </div>
-                    <p class="font-small mt-1 mb-0">Recordatorio: Actualiza tus datos personales.
-                    </p>
-                  </div>
-                </div>
-              </a>
-              <a href="#" class="dropdown-item text-center fw-bold rounded-bottom py-3">
+                </a>
+              @empty
+                <div class="list-group-item border-0 text-center py-4 text-gray-500">Sin notificaciones</div>
+              @endforelse
+              <a href="{{ $notificationRoute }}" class="dropdown-item text-center fw-bold rounded-bottom py-3">
                 <svg class="icon icon-xxs text-gray-400 me-1" fill="currentColor" viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>

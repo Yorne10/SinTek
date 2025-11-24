@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Log;
 
 class Users extends Component
 {
@@ -16,6 +17,9 @@ class Users extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+     * Optimiza el input de b���squeda para que no dispare demasiadas peticiones.
+     */
     public function updatingSearch()
     {
         $this->resetPage();
@@ -34,9 +38,13 @@ class Users extends Component
     public function render()
     {
         $users = User::query()
+            ->select(['users_id', 'name', 'email', 'role', 'active', 'created_at'])
             ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
+                $search = '%' . $this->search . '%';
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', $search)
+                        ->orWhere('email', 'like', $search);
+                });
             })
             ->when($this->roleFilter, function ($query) {
                 $query->where('role', $this->roleFilter);
@@ -48,7 +56,6 @@ class Users extends Component
                     $query->where('active', 0);
                 }
             })
-            ->with('worker')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -66,5 +73,35 @@ class Users extends Component
         ];
 
         return $roles[$role] ?? $role;
+    }
+
+    public function toggleUserStatus(int $userId): void
+    {
+        try {
+            $user = User::findOrFail($userId);
+            $user->active = (int)!$user->active;
+            $user->save();
+
+            $this->dispatch(
+                'users-notify',
+                type: $user->active ? 'success' : 'warning',
+                title: $user->active ? 'Usuario activado' : 'Usuario desactivado',
+                message: $user->active ? 'Usuario activado correctamente.' : 'Usuario desactivado correctamente.'
+            );
+        } catch (\Throwable $th) {
+            Log::error('No se pudo cambiar el estado del usuario', [
+                'user_id' => $userId,
+                'error' => $th->getMessage(),
+            ]);
+
+            $this->dispatch(
+                'users-notify',
+                type: 'error',
+                title: 'No se pudo actualizar',
+                message: 'Intenta de nuevo o contacta a soporte si el problema persiste.'
+            );
+        } finally {
+            $this->resetPage();
+        }
     }
 }

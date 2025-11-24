@@ -43,9 +43,6 @@
                 <span class="fas fa-user-plus me-2"></span>
                 Nuevo usuario
             </a>
-            <div class="btn-group ms-2 ms-lg-3">
-                <button type="button" class="btn btn-sm btn-outline-gray-600">Exportar</button>
-            </div>
         </div>
     </div>
 
@@ -58,7 +55,7 @@
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                         </svg>
                     </span>
-                    <input wire:model.live="search" type="text" class="form-control" placeholder="Buscar usuarios">
+                    <input wire:model.live.debounce.400ms="search" type="text" class="form-control" placeholder="Buscar usuarios">
                 </div>
                 <select wire:model.live="roleFilter" class="form-select fmxw-200 d-none d-md-inline" aria-label="Filtrar por rol">
                     <option value="">Todos los roles</option>
@@ -111,7 +108,7 @@
                         @if($user->active)
                             <span class="fw-bold text-success">Activo</span>
                         @else
-                            <span class="fw-bold text-danger">Inactivo</span>
+                            <span class="fw-bold text-warning">Inactivo</span>
                         @endif
                     </td>
                     <td><span class="fw-normal">{{ $user->created_at->format('d/m/Y') }}</span></td>
@@ -132,10 +129,11 @@
                                     Editar
                                 </a>
                                 <div role="separator" class="dropdown-divider my-1"></div>
-                                <a class="dropdown-item text-warning d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-warning me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
-                                    Desactivar
-                                </a>
+                                <button class="dropdown-item {{ $user->active ? 'text-warning' : 'text-success' }} d-flex align-items-center toggle-user-status" type="button" data-user-id="{{ $user->users_id }}" data-user-name="{{ $user->name }}" data-user-active="{{ $user->active ? '1' : '0' }}" wire:loading.attr="disabled" wire:target="toggleUserStatus">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading wire:target="toggleUserStatus"></span>
+                                    <svg class="dropdown-icon {{ $user->active ? 'text-warning' : 'text-success' }} me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+                                    {{ $user->active ? 'Desactivar' : 'Activar' }}
+                                </button>
                             </div>
                         </div>
                     </td>
@@ -167,3 +165,63 @@
         </div>
     </div>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-primary me-2',
+            cancelButton: 'btn btn-gray'
+        },
+        buttonsStyling: false
+    });
+
+    // Event listener para botones de activar/desactivar
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.toggle-user-status')) {
+            e.preventDefault();
+            const button = e.target.closest('.toggle-user-status');
+            const userId = button.getAttribute('data-user-id');
+            const userName = button.getAttribute('data-user-name');
+            const isActive = button.getAttribute('data-user-active') === '1';
+
+            const action = isActive ? 'desactivar' : 'activar';
+            const actionTitle = isActive ? 'Desactivar usuario' : 'Activar usuario';
+            const actionText = isActive
+                ? `¿Estás seguro de desactivar al usuario ${userName}? El usuario no podrá iniciar sesión.`
+                : `¿Estás seguro de activar al usuario ${userName}? El usuario podrá iniciar sesión nuevamente.`;
+            const confirmText = isActive ? 'Sí, desactivar' : 'Sí, activar';
+
+            swalWithBootstrapButtons.fire({
+                title: actionTitle,
+                text: actionText,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: confirmText,
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('toggleUserStatus', userId);
+                }
+            });
+        }
+    });
+
+    // Escuchar evento de notificación de usuarios
+    if (window.Livewire) {
+        Livewire.on('users-notify', (event) => {
+            const detail = event || {};
+            swalWithBootstrapButtons.fire({
+                icon: detail.type || 'success',
+                title: detail.title || 'Aviso',
+                text: detail.message || '',
+                confirmButtonText: 'Entendido',
+                showConfirmButton: true
+            });
+        });
+    }
+});
+</script>
+

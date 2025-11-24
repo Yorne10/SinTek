@@ -28,14 +28,14 @@ class UserCreate extends Component
 
     protected $messages = [
         'name.required' => 'El nombre completo es obligatorio.',
-        'email.required' => 'El correo electrónico es obligatorio.',
-        'email.email' => 'El correo electrónico debe ser válido.',
-        'email.unique' => 'Este correo electrónico ya está registrado.',
+        'email.required' => 'El correo electronico es obligatorio.',
+        'email.email' => 'El correo electronico debe ser valido.',
+        'email.unique' => 'Este correo electronico ya esta registrado.',
         'role.required' => 'El rol es obligatorio.',
-        'role.in' => 'El rol seleccionado no es válido.',
-        'password.required' => 'La contraseña es obligatoria.',
-        'password.confirmed' => 'Las contraseñas no coinciden.',
-        'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+        'role.in' => 'El rol seleccionado no es valido.',
+        'password.required' => 'La contrasena es obligatoria.',
+        'password.confirmed' => 'Las contrasenas no coinciden.',
+        'password.min' => 'La contrasena debe tener al menos 8 caracteres.',
     ];
 
     public function save()
@@ -43,7 +43,6 @@ class UserCreate extends Component
         $this->validate();
 
         try {
-            // Create the user
             $user = User::create([
                 'name' => $this->name,
                 'email' => $this->email,
@@ -52,7 +51,6 @@ class UserCreate extends Component
                 'active' => 1,
             ]);
 
-            // If worker, create empty worker profile (to be completed by user in their profile)
             if ($this->role === 'worker') {
                 Worker::create([
                     'user_id' => $user->users_id,
@@ -64,13 +62,26 @@ class UserCreate extends Component
                 ]);
             }
 
-            session()->flash('success', 'Usuario creado exitosamente. El usuario podrá completar su información personal desde su perfil.');
+            // Guardar el nombre antes de limpiar
+            $userName = $this->name;
 
-            // Redirect to users list
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.users.index');
+            // Limpiar el formulario
+            $this->reset(['name', 'email', 'role', 'password', 'password_confirmation']);
+
+            $this->dispatch(
+                'user-created',
+                type: 'success',
+                title: '¡Usuario creado exitosamente!',
+                message: 'El usuario ' . $userName . ' ha sido registrado correctamente. Podrá completar su información personal desde su perfil.'
+            );
 
         } catch (\Exception $e) {
-            session()->flash('error', 'Error al crear el usuario: ' . $e->getMessage());
+            $this->dispatch(
+                'user-created',
+                type: 'error',
+                title: 'Error al crear el usuario',
+                message: $e->getMessage()
+            );
         }
     }
 

@@ -45,13 +45,15 @@
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="institution_name">Nombre de la institución</label>
-                                <input class="form-control" id="institution_name" type="text" placeholder="CETAM" disabled>
+                                <input wire:model="institution_name" class="form-control @error('institution_name') is-invalid @enderror" id="institution_name" type="text" placeholder="CETAM">
+                                @error('institution_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="system_name">Nombre del sistema</label>
-                                <input class="form-control" id="system_name" type="text" placeholder="SinTek" disabled>
+                                <input wire:model="system_name" class="form-control @error('system_name') is-invalid @enderror" id="system_name" type="text" placeholder="SinTek">
+                                @error('system_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                     </div>
@@ -59,64 +61,24 @@
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="contact_email">Correo de contacto</label>
-                                <input class="form-control" id="contact_email" type="email" placeholder="contacto@cetam.gob.mx" disabled>
+                                <input wire:model="contact_email" class="form-control @error('contact_email') is-invalid @enderror" id="contact_email" type="email" placeholder="contacto@cetam.gob.mx">
+                                @error('contact_email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="contact_phone">Teléfono</label>
-                                <input class="form-control" id="contact_phone" type="text" placeholder="(999) 999-9999" disabled>
+                                <input wire:model="contact_phone" class="form-control @error('contact_phone') is-invalid @enderror" id="contact_phone" type="text" placeholder="(999) 999-9999">
+                                @error('contact_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col">
-                            <button class="btn btn-gray-800 mt-2 animate-up-2" type="button" disabled>Guardar cambios</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="card card-body shadow border-0 mb-4">
-                <h2 class="h5 mb-4">Notificaciones</h2>
-                <form>
-                    <div class="row">
-                        <div class="col-sm-6 mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="notify_new_request" disabled>
-                                <label class="form-check-label" for="notify_new_request">
-                                    Nuevas solicitudes
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="notify_approved" disabled>
-                                <label class="form-check-label" for="notify_approved">
-                                    Solicitudes aprobadas
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="notify_rejected" disabled>
-                                <label class="form-check-label" for="notify_rejected">
-                                    Solicitudes rechazadas
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="notify_new_user" disabled>
-                                <label class="form-check-label" for="notify_new_user">
-                                    Nuevos usuarios
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <button class="btn btn-gray-800 mt-2 animate-up-2" type="button" disabled>Guardar preferencias</button>
+                            <button type="button" id="saveGeneralBtn" class="btn btn-gray-800 mt-2 animate-up-2">
+                                <span class="fas fa-save me-2"></span>
+                                Guardar cambios
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -129,19 +91,26 @@
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="session_timeout">Tiempo de sesión (minutos)</label>
-                                <input class="form-control" id="session_timeout" type="number" placeholder="120" disabled>
+                                <input wire:model="session_timeout" class="form-control @error('session_timeout') is-invalid @enderror" id="session_timeout" type="number" placeholder="120" min="5" max="1440">
+                                @error('session_timeout') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <small class="form-text text-muted">Entre 5 y 1440 minutos (24 horas)</small>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="max_attempts">Intentos máximos de login</label>
-                                <input class="form-control" id="max_attempts" type="number" placeholder="5" disabled>
+                                <input wire:model="max_attempts" class="form-control @error('max_attempts') is-invalid @enderror" id="max_attempts" type="number" placeholder="5" min="1" max="10">
+                                @error('max_attempts') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <small class="form-text text-muted">Entre 1 y 10 intentos</small>
                             </div>
                         </div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col">
-                            <button class="btn btn-gray-800 mt-2 animate-up-2" type="button" disabled>Actualizar configuración</button>
+                            <button type="button" id="saveSecurityBtn" class="btn btn-gray-800 mt-2 animate-up-2">
+                                <span class="fas fa-shield-alt me-2"></span>
+                                Actualizar configuración
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -150,28 +119,6 @@
 
         <div class="col-12 col-xl-4">
             <div class="card card-body shadow border-0 mb-4">
-                <h2 class="h5 mb-4">Logotipo</h2>
-                <div class="d-flex align-items-center">
-                    <div class="me-3">
-                        <img class="rounded" src="{{ asset('assets/img/brand/light.svg') }}" alt="Logo" width="100">
-                    </div>
-                    <div>
-                        <button class="btn btn-sm btn-gray-800 d-inline-flex align-items-center mb-2" type="button" disabled>
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z"></path>
-                                <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
-                            </svg>
-                            Cambiar
-                        </button>
-                        <button class="btn btn-sm btn-link text-danger mb-2" type="button" disabled>Eliminar</button>
-                        <div>
-                            <small class="text-gray">JPG, PNG o SVG. Max 800KB.</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card card-body shadow border-0 mb-4">
                 <h2 class="h5 mb-4">Mantenimiento</h2>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div>
@@ -179,18 +126,8 @@
                         <p class="small mb-0">Desactiva el acceso al sistema</p>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="maintenance_mode" disabled>
+                        <input wire:model.live="maintenanceMode" wire:change="toggleMaintenanceMode" class="form-check-input" type="checkbox" id="maintenance_mode">
                         <label class="form-check-label" for="maintenance_mode"></label>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <h3 class="h6 mb-1">Registro de usuarios</h3>
-                        <p class="small mb-0">Permite nuevos registros</p>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="allow_registration" disabled>
-                        <label class="form-check-label" for="allow_registration"></label>
                     </div>
                 </div>
             </div>
@@ -227,3 +164,63 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-primary me-2',
+            cancelButton: 'btn btn-gray'
+        },
+        buttonsStyling: false
+    });
+
+    // Botón de guardar información general
+    document.getElementById('saveGeneralBtn')?.addEventListener('click', function() {
+        swalWithBootstrapButtons.fire({
+            title: '¿Guardar cambios?',
+            text: '¿Deseas guardar los cambios en la información general?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('saveGeneralInfo');
+            }
+        });
+    });
+
+    // Botón de guardar configuración de seguridad
+    document.getElementById('saveSecurityBtn')?.addEventListener('click', function() {
+        swalWithBootstrapButtons.fire({
+            title: '¿Actualizar configuración?',
+            text: '¿Deseas actualizar la configuración de seguridad?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, actualizar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                @this.call('saveSecurityConfig');
+            }
+        });
+    });
+
+    // Escuchar evento de notificación de configuración
+    if (window.Livewire) {
+        Livewire.on('config-notify', (event) => {
+            const detail = event || {};
+            swalWithBootstrapButtons.fire({
+                icon: detail.type || 'success',
+                title: detail.title || 'Aviso',
+                text: detail.message || '',
+                confirmButtonText: 'Entendido',
+                showConfirmButton: true
+            });
+        });
+    }
+});
+</script>

@@ -109,6 +109,7 @@ Route::prefix("p/{$slug}")
             Route::middleware(['role:worker'])->group(function () {
                 Route::get('/tramites-disponibles', TramitesDisponibles::class)->name('worker.tramites-disponibles');
                 Route::get('/mis-tramites', MisTramites::class)->name('worker.mis-tramites');
+                Route::get('/detalle-tramite/{id}', \App\Livewire\Worker\DetalleTramite::class)->name('worker.detalle-tramite');
                 Route::get('/convocatorias', Convocatorias::class)->name('worker.convocatorias');
                 Route::get('/notificaciones', Notificaciones::class)->name('worker.notificaciones');
             });

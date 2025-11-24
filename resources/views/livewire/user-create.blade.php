@@ -35,18 +35,6 @@
 
     <div class="row">
         <div class="col-12 col-xl-8">
-            @if (session()->has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if (session()->has('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ session('error') }}
-            </div>
-            @endif
-
             <div class="card card-body border-0 shadow mb-4">
                 <h2 class="h5 mb-4">Información del usuario</h2>
                 <form wire:submit.prevent="save" action="#" method="POST">
@@ -105,7 +93,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-primary mt-2 animate-up-2">
+                        <button type="button" id="createUserBtn" class="btn btn-primary mt-2 animate-up-2">
                             <span class="icon icon-xs text-white me-2 fas fa-user-plus"></span>
                             Crear usuario
                         </button>
@@ -163,4 +151,49 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary me-2',
+                cancelButton: 'btn btn-gray'
+            },
+            buttonsStyling: false
+        });
+
+        // Botón de crear usuario con confirmación
+        document.getElementById('createUserBtn').addEventListener('click', function() {
+            swalWithBootstrapButtons.fire({
+                title: '¿Estás seguro?',
+                text: '¿Deseas crear este nuevo usuario?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, crear',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('save');
+                }
+            });
+        });
+
+        // Escuchar evento de usuario creado
+        if (window.Livewire) {
+            Livewire.on('user-created', (event) => {
+                const detail = event || {};
+                swalWithBootstrapButtons.fire({
+                    icon: detail.type || 'success',
+                    title: detail.title || 'Aviso',
+                    text: detail.message || '',
+                    confirmButtonText: 'Entendido',
+                    showConfirmButton: true
+                });
+            });
+        }
+    });
+    </script>
+
 </div>
