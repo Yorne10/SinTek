@@ -22,8 +22,7 @@
         @endif
             {{-- <p class="text-center"><a href="{{ route('dashboard') }}" class="text-gray-700"><i
                 class="fas fa-angle-left me-2"></i> Back to homepage</a></p> --}}
-        <div class="row justify-content-center form-bg-image"
-            style="background: url('/assets/img/illustrations/signin.svg') center center no-repeat; background-size: cover;">
+        <div class="row justify-content-center form-bg-image">
             <div class="col-12 d-flex align-items-center justify-content-center">
                 <div class="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                         <div class="text-center text-md-center mb-4 mt-md-0">

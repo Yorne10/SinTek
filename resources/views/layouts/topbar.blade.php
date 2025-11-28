@@ -22,17 +22,19 @@
       <ul class="navbar-nav align-items-center">
         @php
             $user = auth()->user();
-            $userNotifications = $user
+            $isWorker = $user && $user->role === 'worker';
+            $userNotifications = $isWorker && $user
                 ? $user->notifications()->latest()->limit(5)->get()
                 : collect();
             $unreadNotifications = $userNotifications->whereNull('read_at')->count();
             $notificationRoute = route(config('proj.route_name_prefix', 'proj') . '.worker.notificaciones');
         @endphp
+        @if($isWorker)
         <li class="nav-item dropdown">
           <a class="nav-link text-white notification-bell dropdown-toggle"
             data-unread-notifications="{{ $unreadNotifications > 0 ? 'true' : 'false' }}"
             href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-            @icon('notif.bell', 'icon icon-sm text-primary')
+            <i class="{{ icon('notif.bell') }} text-primary" style="font-size: 1.5rem;"></i>
             @if($unreadNotifications > 0)
               <span class="notification-badge bg-danger text-white">{{ $unreadNotifications }}</span>
             @endif
@@ -51,7 +53,7 @@
                     <div class="col ps-0 ms-2">
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
-                          <h4 class="h6 mb-0 text-small">{{ $notification->tittle ?? 'Notificaci�n' }}</h4>
+                          <h4 class="h6 mb-0 text-small">{{ $notification->tittle ?? 'Notificación' }}</h4>
                         </div>
                         <div class="text-end">
                           <small class="{{ $notification->read_at ? 'text-muted' : 'text-danger' }}">
@@ -73,6 +75,7 @@
             </div>
           </div>
         </li>
+        @endif
         <li class="nav-item dropdown ms-lg-3">
           <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">

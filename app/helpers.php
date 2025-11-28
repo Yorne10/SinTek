@@ -23,7 +23,7 @@ if (!function_exists('icon')) {
 
         // Final fallback
         if (!$iconClass) {
-            $iconClass = 'fas fa-question-circle';
+            $iconClass = 'fa-solid fa-circle-question';
         }
 
         return trim("{$iconClass} {$additionalClasses}");

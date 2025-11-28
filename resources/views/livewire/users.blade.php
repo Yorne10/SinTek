@@ -26,9 +26,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                            </svg>
+                            @icon('nav.home', 'icon icon-xxs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Administración</li>
@@ -40,7 +38,7 @@
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <span class="fas fa-user-plus me-2"></span>
+                @icon('user.add', 'icon icon-xs me-2')
                 Nuevo usuario
             </a>
         </div>
@@ -121,17 +119,17 @@
                             </button>
                             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
+                                    @icon('action.view', 'dropdown-icon text-gray-400 me-2')
                                     Ver detalles
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
+                                    @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
                                     Editar
                                 </a>
                                 <div role="separator" class="dropdown-divider my-1"></div>
                                 <button class="dropdown-item {{ $user->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center toggle-user-status" type="button" data-user-id="{{ $user->users_id }}" data-user-name="{{ $user->name }}" data-user-active="{{ $user->is_active ? '1' : '0' }}" wire:loading.attr="disabled" wire:target="toggleUserStatus">
                                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading wire:target="toggleUserStatus"></span>
-                                    <svg class="dropdown-icon {{ $user->is_active ? 'text-warning' : 'text-success' }} me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+                                    @icon($user->is_active ? 'state.warning' : 'state.success', "dropdown-icon {{ $user->is_active ? 'text-warning' : 'text-success' }} me-2")
                                     {{ $user->is_active ? 'Desactivar' : 'Activar' }}
                                 </button>
                             </div>
