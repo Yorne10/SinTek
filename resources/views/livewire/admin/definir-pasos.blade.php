@@ -14,9 +14,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                            </svg>
+                            @icon('nav.home', 'icon icon-xxs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Administración</li>
@@ -28,9 +26,7 @@
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-paso') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg>
+                @icon('action.create', 'icon icon-xs me-2')
                 Agregar paso
             </a>
         </div>
@@ -57,7 +53,7 @@
                 <div class="card-body">
                     @if($selectedProcess)
                     <div class="d-flex align-items-center">
-                        <svg class="icon icon-lg text-primary me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                        @icon('process.docs', 'icon icon-lg text-primary me-3')
                         <div>
                             <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
                             <p class="small text-gray mb-0">
@@ -102,7 +98,7 @@
                                     <td>
                                         @if($step->condition_type === 'final')
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <svg class="icon icon-sm text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                            @icon('state.success', 'icon icon-sm text-success')
                                         </div>
                                         @else
                                         <div class="d-flex align-items-center justify-content-center">
@@ -143,12 +139,12 @@
                                             </button>
                                             <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                                 <a class="dropdown-item d-flex align-items-center" href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-paso', ['step_id' => $step->step_id]) }}">
-                                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path></svg>
+                                                    @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
                                                     Editar
                                                 </a>
                                                 <div role="separator" class="dropdown-divider my-1"></div>
                                                 <a class="dropdown-item text-danger d-flex align-items-center" href="#" wire:click.prevent="deleteStep({{ $step->step_id }})">
-                                                    <svg class="dropdown-icon text-danger me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                                    @icon('action.delete', 'dropdown-icon text-danger me-2')
                                                     Eliminar
                                                 </a>
                                             </div>
@@ -161,17 +157,12 @@
                     </div>
                     @else
                     <div class="text-center py-5">
-                        <svg class="icon icon-lg text-gray-400 mb-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                        </svg>
+                        @icon('process.docs', 'icon icon-lg text-gray-400 mb-3')
                         <h5 class="text-gray-700 mb-2">No hay pasos registrados</h5>
                         <p class="text-gray-600 mb-3">Este proceso aún no tiene pasos configurados.</p>
                         @if($selectedProcessId)
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-paso', ['process_id' => $selectedProcessId]) }}" class="btn btn-sm btn-gray-800">
-                            <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
+                            @icon('action.create', 'icon icon-xs me-2')
                             Agregar primer paso
                         </a>
                         @endif
@@ -192,7 +183,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0 border-bottom pb-3">
                             <div class="d-flex align-items-start">
-                                <svg class="icon icon-sm text-info me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                                @icon('process.docs', 'icon icon-sm text-info me-3')
                                 <div>
                                     <h3 class="h6 mb-1">Formulario</h3>
                                     <p class="small text-gray-600 mb-0">El usuario completa campos de información</p>
@@ -201,7 +192,7 @@
                         </li>
                         <li class="list-group-item px-0 border-bottom pb-3">
                             <div class="d-flex align-items-start">
-                                <svg class="icon icon-sm text-warning me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                @icon('state.success', 'icon icon-sm text-warning me-3')
                                 <div>
                                     <h3 class="h6 mb-1">Aprobación</h3>
                                     <p class="small text-gray-600 mb-0">Requiere una decisión de aprobación</p>
@@ -210,7 +201,7 @@
                         </li>
                         <li class="list-group-item px-0 border-bottom pb-3">
                             <div class="d-flex align-items-start">
-                                <svg class="icon icon-sm text-secondary me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path></svg>
+                                @icon('action.upload', 'icon icon-sm text-secondary me-3')
                                 <div>
                                     <h3 class="h6 mb-1">Carga de archivos</h3>
                                     <p class="small text-gray-600 mb-0">Subir documentos requeridos</p>
@@ -219,7 +210,7 @@
                         </li>
                         <li class="list-group-item px-0 pb-0">
                             <div class="d-flex align-items-start">
-                                <svg class="icon icon-sm text-success me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                @icon('state.success', 'icon icon-sm text-success me-3')
                                 <div>
                                     <h3 class="h6 mb-1">Final</h3>
                                     <p class="small text-gray-600 mb-0">Cierra y completa el proceso</p>
@@ -235,13 +226,13 @@
                 <div class="card-body">
                     <h2 class="h6 mb-3">Ayuda</h2>
                     <div class="d-flex mb-3">
-                        <svg class="icon icon-xs text-primary me-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        @icon('state.info', 'icon icon-xs text-primary me-2 mt-1 flex-shrink-0')
                         <p class="small text-gray-700 mb-0">
                             Cada paso debe tener un orden secuencial. Los pasos se ejecutan en el orden definido.
                         </p>
                     </div>
                     <div class="d-flex">
-                        <svg class="icon icon-xs text-primary me-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        @icon('state.info', 'icon icon-xs text-primary me-2 mt-1 flex-shrink-0')
                         <p class="small text-gray-700 mb-0">
                             El paso de tipo "Final" debe ser el último paso del proceso.
                         </p>

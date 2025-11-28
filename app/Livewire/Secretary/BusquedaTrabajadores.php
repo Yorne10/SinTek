@@ -77,11 +77,11 @@ class BusquedaTrabajadores extends Component
             ->when($this->statusFilter, function ($query) {
                 if ($this->statusFilter === 'active') {
                     $query->whereHas('user', function ($q) {
-                        $q->where('active', 1);
+                        $q->where('is_active', 1);
                     });
                 } elseif ($this->statusFilter === 'inactive') {
                     $query->whereHas('user', function ($q) {
-                        $q->where('active', 0);
+                        $q->where('is_active', 0);
                     });
                 }
             })

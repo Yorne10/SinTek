@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\User;
 use App\Models\Worker;
+use App\Models\Position;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -26,6 +27,10 @@ class Profile extends Component
 
     // Worker fields (non-editable)
     public $sex;
+
+    // Position fields
+    public $budgetKey = '';
+    public $positionName = '';
 
     public function rules()
     {
@@ -62,7 +67,7 @@ class Profile extends Component
 
         // Load worker data if user is a worker
         if ($this->user->role === 'worker') {
-            $this->worker = $this->user->worker;
+            $this->worker = $this->user->worker ? $this->user->worker->load('positions') : null;
             if ($this->worker) {
                 $this->curp = $this->worker->curp;
                 $this->rfc = $this->worker->rfc;
@@ -111,6 +116,68 @@ class Profile extends Component
                 ]);
             }
         }
+    }
+
+    public function addBudgetKey(): void
+    {
+        if ($this->user->role !== 'worker') {
+            return;
+        }
+
+        $this->validate([
+            'budgetKey' => 'required|string|max:100',
+            'positionName' => 'nullable|string|max:150',
+        ], [
+            'budgetKey.required' => 'La clave presupuestal es obligatoria.',
+            'budgetKey.max' => 'La clave presupuestal debe tener máximo 100 caracteres.',
+            'positionName.max' => 'El nombre de la plaza debe tener máximo 150 caracteres.',
+        ]);
+
+        if (env('IS_DEMO')) {
+            $this->dispatch(
+                'profile-notify',
+                type: 'warning',
+                title: 'Modo Demo',
+                message: 'No puedes agregar claves en la versión de demostración.'
+            );
+            return;
+        }
+
+        $budgetKey = trim($this->budgetKey);
+        $positionName = trim((string) $this->positionName);
+
+        if ($budgetKey === '') {
+            $this->addError('budgetKey', 'La clave presupuestal no puede estar vacía.');
+            return;
+        }
+
+        if (!$this->worker) {
+            $this->worker = Worker::create([
+                'user_id' => $this->user->users_id,
+                'curp' => $this->curp,
+                'rfc' => $this->rfc,
+                'phone' => $this->phone,
+                'adress' => $this->adress,
+                'sex' => $this->sex,
+            ]);
+        }
+
+        $position = Position::firstOrCreate(
+            ['budget_key' => $budgetKey],
+            ['position_name' => $positionName ?: $budgetKey]
+        );
+
+        $this->worker->positions()->syncWithoutDetaching([$position->positions_id]);
+        $this->worker = $this->worker->fresh(['positions']);
+
+        $this->reset(['budgetKey', 'positionName']);
+
+        $this->dispatch(
+            'profile-notify',
+            type: 'success',
+            title: 'Clave agregada',
+            message: 'Se agregó la clave presupuestal a tu perfil.'
+        );
     }
 
     public function render()

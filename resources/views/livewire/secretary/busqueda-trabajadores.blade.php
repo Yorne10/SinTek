@@ -121,7 +121,7 @@
                         @endif
                     </td>
                     <td>
-                        @if($worker->user->active)
+                        @if($worker->user->is_active)
                             <span class="fw-bold text-success">Activo</span>
                         @else
                             <span class="fw-bold text-warning">Inactivo</span>

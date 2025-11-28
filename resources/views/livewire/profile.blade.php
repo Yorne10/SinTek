@@ -118,6 +118,49 @@
                     </div>
                 </form>
             </div>
+
+            @if($user->role === 'worker')
+            <div class="card card-body border-0 shadow mb-4">
+                <h2 class="h5 mb-4">Claves presupuestales (plazas)</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="budgetKey" class="form-label">Clave presupuestal <span class="text-danger">*</span></label>
+                        <input wire:model.defer="budgetKey" id="budgetKey" type="text" class="form-control @error('budgetKey') is-invalid @enderror" placeholder="Ej. DOC-TIT-001">
+                        @error('budgetKey') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="positionName" class="form-label">Nombre de la plaza (opcional)</label>
+                        <input wire:model.defer="positionName" id="positionName" type="text" class="form-control @error('positionName') is-invalid @enderror" placeholder="Ej. Docente Titular">
+                        @error('positionName') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-primary" wire:click="addBudgetKey" wire:loading.attr="disabled" wire:target="addBudgetKey">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading wire:target="addBudgetKey"></span>
+                        Agregar clave
+                    </button>
+                    <span class="text-gray-600 small ms-3">Agrega tus plazas para que queden ligadas a tu perfil.</span>
+                </div>
+
+                <div class="mt-4">
+                    <h6 class="text-gray-700 mb-2">Tus claves registradas</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        @if($worker && $worker->positions && $worker->positions->count() > 0)
+                            @foreach($worker->positions as $position)
+                                <span class="badge bg-light text-dark border">
+                                    <span class="fw-bold">{{ $position->budget_key }}</span>
+                                    @if($position->position_name)
+                                        <small class="text-muted ms-1">{{ $position->position_name }}</small>
+                                    @endif
+                                </span>
+                            @endforeach
+                        @else
+                            <span class="text-gray-500 small">Aún no registras claves.</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
 
         <div class="col-12 col-xl-4">
@@ -270,5 +313,18 @@ document.addEventListener('DOMContentLoaded', function() {
             showConfirmButton: true
         });
     @endif
+
+    if (window.Livewire) {
+        Livewire.on('profile-notify', (event) => {
+            const detail = event || {};
+            swalWithBootstrapButtons.fire({
+                icon: detail.type || 'success',
+                title: detail.title || 'Aviso',
+                text: detail.message || '',
+                confirmButtonText: 'Entendido',
+                showConfirmButton: true
+            });
+        });
+    }
 });
 </script>

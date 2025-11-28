@@ -105,7 +105,7 @@
                         <span class="fw-normal text-dark">{{ $this->getRoleLabel($user->role) }}</span>
                     </td>
                     <td>
-                        @if($user->active)
+                        @if($user->is_active)
                             <span class="fw-bold text-success">Activo</span>
                         @else
                             <span class="fw-bold text-warning">Inactivo</span>
@@ -129,10 +129,10 @@
                                     Editar
                                 </a>
                                 <div role="separator" class="dropdown-divider my-1"></div>
-                                <button class="dropdown-item {{ $user->active ? 'text-warning' : 'text-success' }} d-flex align-items-center toggle-user-status" type="button" data-user-id="{{ $user->users_id }}" data-user-name="{{ $user->name }}" data-user-active="{{ $user->active ? '1' : '0' }}" wire:loading.attr="disabled" wire:target="toggleUserStatus">
+                                <button class="dropdown-item {{ $user->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center toggle-user-status" type="button" data-user-id="{{ $user->users_id }}" data-user-name="{{ $user->name }}" data-user-active="{{ $user->is_active ? '1' : '0' }}" wire:loading.attr="disabled" wire:target="toggleUserStatus">
                                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" wire:loading wire:target="toggleUserStatus"></span>
-                                    <svg class="dropdown-icon {{ $user->active ? 'text-warning' : 'text-success' }} me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
-                                    {{ $user->active ? 'Desactivar' : 'Activar' }}
+                                    <svg class="dropdown-icon {{ $user->is_active ? 'text-warning' : 'text-success' }} me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+                                    {{ $user->is_active ? 'Desactivar' : 'Activar' }}
                                 </button>
                             </div>
                         </div>

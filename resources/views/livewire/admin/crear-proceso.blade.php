@@ -22,9 +22,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                            </svg>
+                            @icon('nav.home', 'icon icon-xxs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Administración</li>
@@ -120,7 +118,7 @@
                     <div class="row align-items-center mt-4">
                         <div class="col">
                             <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">
-                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                @icon('state.success', 'icon icon-xs me-2')
                                 Guardar proceso
                             </button>
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.gestion-tramites') }}" class="btn btn-link text-gray-700 ms-2">Cancelar</a>
@@ -135,21 +133,21 @@
                 <h2 class="h5 mb-4">Ayuda</h2>
                 <div class="mb-3">
                     <h3 class="h6 mb-2">
-                        <svg class="icon icon-xs me-1 text-info" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                        @icon('support.help', 'icon icon-xs me-1 text-info')
                         ¿Qué es un proceso?
                     </h3>
                     <p class="small text-gray-700">Un proceso es un flujo de trabajo que define los pasos necesarios para completar un trámite específico.</p>
                 </div>
                 <div class="mb-3">
                     <h3 class="h6 mb-2">
-                        <svg class="icon icon-xs me-1 text-info" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                        @icon('support.help', 'icon icon-xs me-1 text-info')
                         Código del proceso
                     </h3>
                     <p class="small text-gray-700">Usa nombres claros y únicos para identificar fácilmente el proceso.</p>
                 </div>
                 <div>
                     <h3 class="h6 mb-2">
-                        <svg class="icon icon-xs me-1 text-info" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                        @icon('support.help', 'icon icon-xs me-1 text-info')
                         Siguiente paso
                     </h3>
                     <p class="small text-gray-700">Después de crear el proceso, define los pasos específicos en la sección "Definir pasos".</p>
