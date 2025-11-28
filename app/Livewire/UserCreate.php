@@ -48,7 +48,7 @@ class UserCreate extends Component
                 'email' => $this->email,
                 'password' => Hash::make($this->password),
                 'role' => $this->role,
-                'active' => 1,
+                'is_active' => true,
             ]);
 
             if ($this->role === 'worker') {

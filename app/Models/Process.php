@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Process extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'process_id';
 
@@ -24,7 +25,7 @@ class Process extends Model
     ];
 
     protected $casts = [
-        'active' => 'integer',
+        'active' => 'boolean',
     ];
 
     public function creator()

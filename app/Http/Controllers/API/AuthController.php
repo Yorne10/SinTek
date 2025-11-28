@@ -36,7 +36,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'active' => 1,
+            'is_active' => true,
         ]);
 
         $token = $user->createToken('auth-token', [$request->role])->plainTextToken;
@@ -79,7 +79,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'worker',
-            'active' => 1,
+            'is_active' => true,
         ]);
 
         $worker = Worker::create([
@@ -138,7 +138,7 @@ class AuthController extends Controller
             ], 403);
         }
 
-        if (!$user->active) {
+        if (!$user->is_active) {
             return response()->json([
                 'success' => false,
                 'message' => 'Tu cuenta está inactiva. Contacta al administrador.'

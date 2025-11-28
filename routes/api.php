@@ -36,6 +36,8 @@ Route::middleware(['auth:sanctum', 'role:worker'])->group(function () {
     Route::put('/my-profile', [ProfileController::class, 'update']);
     Route::patch('/my-profile', [ProfileController::class, 'update']);
     Route::put('/my-profile/password', [ProfileController::class, 'updatePassword']);
+    Route::post('/my-profile/photo', [ProfileController::class, 'updatePhoto']);
+    Route::delete('/my-profile/photo', [ProfileController::class, 'deletePhoto']);
 
     // Convocatorias
     Route::get('/convocations', [ConvocationController::class, 'index']);

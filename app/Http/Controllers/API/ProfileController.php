@@ -135,6 +135,103 @@ class ProfileController extends Controller
     }
 
     /**
+     * Update profile photo
+     * POST /api/my-profile/photo
+     */
+    public function updatePhoto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'profile_photo' => 'required|string', // Base64 encoded image
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = $request->user();
+
+        try {
+            // Validar que sea una imagen base64 válida
+            $base64Image = $request->profile_photo;
+
+            // Remover el prefijo data:image si existe
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
+                $base64Image = substr($base64Image, strpos($base64Image, ',') + 1);
+                $type = strtolower($type[1]); // jpg, png, gif
+
+                if (!in_array($type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Formato de imagen no válido. Solo se permiten JPG, PNG y GIF.'
+                    ], 422);
+                }
+            }
+
+            // Decodificar para validar
+            $imageData = base64_decode($base64Image);
+            if ($imageData === false) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'La imagen no es válida.'
+                ], 422);
+            }
+
+            // Guardar la foto de perfil como base64
+            $user->profile_photo = $request->profile_photo;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto de perfil actualizada exitosamente',
+                'data' => [
+                    'profile_photo' => $user->profile_photo
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Profile Photo Update Error', [
+                'user_id' => $user->users_id,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar la foto de perfil',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete profile photo
+     * DELETE /api/my-profile/photo
+     */
+    public function deletePhoto(Request $request)
+    {
+        $user = $request->user();
+
+        try {
+            $user->profile_photo = null;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Foto de perfil eliminada exitosamente'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar la foto de perfil',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Update password
      * PUT /api/my-profile/password
      */

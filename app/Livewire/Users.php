@@ -38,7 +38,7 @@ class Users extends Component
     public function render()
     {
         $users = User::query()
-            ->select(['users_id', 'name', 'email', 'role', 'active', 'created_at'])
+            ->select(['users_id', 'name', 'email', 'role', 'is_active', 'created_at'])
             ->when($this->search, function ($query) {
                 $search = '%' . $this->search . '%';
                 $query->where(function ($q) use ($search) {
@@ -51,9 +51,9 @@ class Users extends Component
             })
             ->when($this->statusFilter, function ($query) {
                 if ($this->statusFilter === 'active') {
-                    $query->where('active', 1);
+                    $query->where('is_active', 1);
                 } elseif ($this->statusFilter === 'inactive') {
-                    $query->where('active', 0);
+                    $query->where('is_active', 0);
                 }
             })
             ->orderBy('created_at', 'desc')
@@ -79,14 +79,14 @@ class Users extends Component
     {
         try {
             $user = User::findOrFail($userId);
-            $user->active = (int)!$user->active;
+            $user->is_active = !$user->is_active;
             $user->save();
 
             $this->dispatch(
                 'users-notify',
-                type: $user->active ? 'success' : 'warning',
-                title: $user->active ? 'Usuario activado' : 'Usuario desactivado',
-                message: $user->active ? 'Usuario activado correctamente.' : 'Usuario desactivado correctamente.'
+                type: $user->is_active ? 'success' : 'warning',
+                title: $user->is_active ? 'Usuario activado' : 'Usuario desactivado',
+                message: $user->is_active ? 'Usuario activado correctamente.' : 'Usuario desactivado correctamente.'
             );
         } catch (\Throwable $th) {
             Log::error('No se pudo cambiar el estado del usuario', [

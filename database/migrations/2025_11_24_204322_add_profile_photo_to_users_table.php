@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('faqs', function (Blueprint $table) {
-            $table->id('faq_id');
-            $table->text('question');
-            $table->text('answer')->nullable();
-            $table->string('category', 100)->nullable();
-            $table->tinyInteger('status')->default(1);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->text('profile_photo')->nullable()->after('remember_token');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('faqs');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('profile_photo');
+        });
     }
 };
