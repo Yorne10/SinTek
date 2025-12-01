@@ -13,6 +13,7 @@ namespace App\Livewire\Secretary;
 use App\Models\Convocation;
 use App\Models\ConvocationDocument;
 use App\Models\InstitutionalDocument;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -83,6 +84,7 @@ class ConvocatoriasDocumentos extends Component
     public function save()
     {
         $this->validate();
+        $user = Auth::user();
 
         try {
             // Determinar el estado de la convocatoria
@@ -116,6 +118,12 @@ class ConvocatoriasDocumentos extends Component
                 'end_date' => $this->convocatoria_permanente ? null : $this->fecha_fin,
                 'status' => $status,
             ]);
+
+            ActivityLogger::log(
+                'convocatoria.creada',
+                "Creación de convocatoria '{$convocatoria->title}' (ID: {$convocatoria->convocation_id})",
+                $user?->users_id
+            );
 
             // Guardar documentos si existen
             if (!empty($this->documentos)) {
@@ -159,13 +167,14 @@ class ConvocatoriasDocumentos extends Component
             'doc_version' => 'required|string|max:20',
             'doc_archivo' => 'required|file|mimes:pdf|max:10240',
         ]);
+        $user = Auth::user();
 
         try {
             $fileContent = file_get_contents($this->doc_archivo->getRealPath());
             $fileName = $this->doc_archivo->getClientOriginalName();
             $fileSize = $this->doc_archivo->getSize();
 
-            InstitutionalDocument::create([
+            $institutional = InstitutionalDocument::create([
                 'title' => $this->doc_titulo,
                 'description' => $this->doc_descripcion,
                 'category' => $this->doc_categoria,
@@ -178,6 +187,12 @@ class ConvocatoriasDocumentos extends Component
                 'effective_date' => $this->doc_fecha_vigencia,
                 'uploaded_by' => Auth::id(),
             ]);
+
+            ActivityLogger::log(
+                'documento.institucional.crear',
+                "Documento institucional '{$this->doc_titulo}' creado (ID: {$institutional->institutional_document_id})",
+                $user?->users_id
+            );
 
             $this->reset(['doc_titulo', 'doc_descripcion', 'doc_categoria', 'doc_version', 'doc_fecha_vigencia', 'doc_archivo']);
             $this->showInstitutionalForm = false;
@@ -210,9 +225,16 @@ class ConvocatoriasDocumentos extends Component
     public function archiveInstitutionalDocument($id)
     {
         try {
+            $user = Auth::user();
             $document = InstitutionalDocument::findOrFail($id);
             $document->status = 'archivado';
             $document->save();
+
+            ActivityLogger::log(
+                'documento.institucional.archivar',
+                "Documento institucional '{$document->title}' archivado (ID: {$document->institutional_document_id})",
+                $user?->users_id
+            );
 
             $this->dispatch(
                 'convocatoria-notify',

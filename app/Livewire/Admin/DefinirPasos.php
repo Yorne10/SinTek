@@ -21,6 +21,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\Process;
 use App\Models\Step;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 
 class DefinirPasos extends Component
@@ -62,6 +63,12 @@ class DefinirPasos extends Component
         $step = Step::find($stepId);
         if ($step) {
             $step->delete();
+            $user = auth()->user();
+            ActivityLogger::log(
+                'paso.eliminar',
+                "Paso '{$step->tittle}' eliminado del proceso ID {$step->process_id}",
+                $user?->users_id
+            );
             $this->loadProcess();
             session()->flash('success', 'Paso eliminado exitosamente');
         }

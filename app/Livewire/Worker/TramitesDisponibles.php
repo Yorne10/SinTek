@@ -14,6 +14,7 @@ use App\Models\Process;
 use App\Models\Worker;
 use App\Models\RequestStep;
 use App\Models\Step;
+use App\Services\ActivityLogger;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -113,7 +114,14 @@ class TramitesDisponibles extends Component
                 }
             }
 
-            DB::commit();
+            DB::commit();
+
+            ActivityLogger::log(
+                'tramite.iniciar',
+                "Inicio de trámite '{$process->name}' (Solicitud #{$request->request_id})",
+                $user->users_id
+            );
+
 
             session()->flash('success', 'Trámite iniciado exitosamente');
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.worker.detalle-tramite', ['id' => $request->request_id]);

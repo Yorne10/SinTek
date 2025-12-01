@@ -12,6 +12,7 @@ namespace App\Livewire\Secretary;
 
 use App\Models\Faq;
 use App\Models\FaqCategory;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -75,7 +76,7 @@ class GestionFaqs extends Component
         }
     }
 
-    public function saveCategory()
+        public function saveCategory()
     {
         $this->validate([
             'categoryName' => 'required|string|max:100',
@@ -91,7 +92,7 @@ class GestionFaqs extends Component
                     'description' => $this->categoryDescription,
                     'order' => $this->categoryOrder,
                 ]);
-                $message = 'Categoría actualizada exitosamente.';
+                $message = 'Categor?a actualizada exitosamente.';
             } else {
                 FaqCategory::create([
                     'name' => $this->categoryName,
@@ -99,15 +100,23 @@ class GestionFaqs extends Component
                     'order' => $this->categoryOrder,
                     'is_active' => true,
                 ]);
-                $message = 'Categoría creada exitosamente.';
+                $message = 'Categor?a creada exitosamente.';
             }
+
+            $user = auth()->user();
+            $action = $this->editingCategoryId ? 'actualizada' : 'creada';
+            ActivityLogger::log(
+                $this->editingCategoryId ? 'faq.categoria.editar' : 'faq.categoria.crear',
+                "Categoría de FAQ '{$this->categoryName}' {$action}",
+                $user?->users_id
+            );
 
             $this->resetCategoryForm();
             $this->showCategoryForm = false;
 
-            $this->dispatch('faq-notify', type: 'success', title: '¡xito!', message: $message);
+            $this->dispatch('faq-notify', type: 'success', title: '?xito!', message: $message);
         } catch (\Exception $e) {
-            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo guardar la categoría.');
+            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo guardar la categor?a.');
         }
     }
 
@@ -147,13 +156,20 @@ class GestionFaqs extends Component
             }
 
             $category->delete();
+            $user = auth()->user();
+            ActivityLogger::log(
+                'faq.categoria.eliminar',
+                "Categoría de FAQ '{$category->name}' eliminada",
+                $user?->users_id
+            );
+
             $this->dispatch('faq-notify', type: 'success', title: '¡Eliminada!', message: 'Categoría eliminada exitosamente.');
         } catch (\Exception $e) {
             $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo eliminar la categoría.');
         }
     }
 
-    public function saveFaq()
+        public function saveFaq()
     {
         $this->validate([
             'selectedCategoryId' => 'required|exists:faq_categories,faq_category_id',
@@ -183,16 +199,24 @@ class GestionFaqs extends Component
                 $message = 'FAQ creada exitosamente.';
             }
 
+            $user = auth()->user();
+            $action = $this->editingFaqId ? 'actualizada' : 'creada';
+            ActivityLogger::log(
+                $this->editingFaqId ? 'faq.editar' : 'faq.crear',
+                "FAQ '{$this->faqQuestion}' {$action}",
+                $user?->users_id
+            );
+
             $this->resetFaqForm();
             $this->showFaqForm = false;
 
-            $this->dispatch('faq-notify', type: 'success', title: '¡xito!', message: $message);
+            $this->dispatch('faq-notify', type: 'success', title: '?xito!', message: $message);
         } catch (\Exception $e) {
             $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo guardar la FAQ.');
         }
     }
 
-    public function editFaq($faqId)
+public function editFaq($faqId)
     {
         $faq = Faq::findOrFail($faqId);
         $this->editingFaqId = $faqId;
@@ -222,6 +246,13 @@ class GestionFaqs extends Component
         try {
             $faq = Faq::findOrFail($faqId);
             $faq->delete();
+        $user = auth()->user();
+        ActivityLogger::log(
+            'faq.eliminar',
+            "FAQ '{$faq->question}' eliminada",
+            $user?->users_id
+        );
+
             $this->dispatch('faq-notify', type: 'success', title: '¡Eliminada!', message: 'FAQ eliminada exitosamente.');
         } catch (\Exception $e) {
             $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo eliminar la FAQ.');

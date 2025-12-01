@@ -20,6 +20,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Process;
+use App\Services\ActivityLogger;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -58,6 +59,7 @@ class CrearProceso extends Component
     public function save()
     {
         $this->validate();
+        $user = Auth::user();
 
         Process::create([
             'name' => $this->name,
@@ -70,6 +72,13 @@ class CrearProceso extends Component
             'deadline_days' => $this->deadline_days,
             'department' => $this->department,
         ]);
+        ActivityLogger::log(
+            'proceso.crear',
+            "Proceso '{$this->name}' creado",
+            Auth::id()
+        );
+
+
 
         $this->reset([
             'name', 'description', 'process_code',

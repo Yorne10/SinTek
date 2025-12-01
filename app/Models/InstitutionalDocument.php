@@ -26,6 +26,10 @@ class InstitutionalDocument extends Model
         'uploaded_by',
     ];
 
+    protected $hidden = [
+        'file_content',
+    ];
+
     protected $casts = [
         'effective_date' => 'date',
         'file_size' => 'integer',

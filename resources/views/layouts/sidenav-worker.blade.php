@@ -1,25 +1,25 @@
 {{--
-  Empresa: CETAM
-  Proyecto: ST
-  Archivo: sidenav-worker.blade.php
-  Fecha de creacin: 03/11/25
-  Realizado por: Alfonso Angel Garca Hernndez
-  Validado por: Alfonso Angel Garca Hernndez
+Empresa: CETAM
+Proyecto: ST
+Archivo: sidenav-worker.blade.php
+Fecha de creacin: 03/11/25
+Realizado por: Alfonso Angel Garca Hernndez
+Validado por: Alfonso Angel Garca Hernndez
 --}}
 <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
   <div class="sidebar-inner px-2 pt-3">
     <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
       <div class="d-flex align-items-center">
         <div class="avatar-lg me-4">
-          <img src="{{ asset('assets/img/team/profile-picture-3.jpg') }}" class="card-img-top rounded-circle border-white"
-            alt="{{ auth()->user()->first_name ?? 'Usuario' }}">
+          <img src="{{ asset('assets/img/team/profile-picture-3.jpg') }}"
+            class="card-img-top rounded-circle border-white" alt="{{ auth()->user()->first_name ?? 'Usuario' }}">
         </div>
         <div class="d-block">
           <h2 class="h5 mb-3">Hola, {{ auth()->user()->first_name ?? 'Usuario' }}</h2>
           <form method="POST" action="{{ route(config('proj.route_name_prefix', 'proj') . '.auth.logout') }}">
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
-            @icon('auth.logout', 'fa-xs me-1')
+              @icon('auth.logout', 'fa-xs me-1')
               Cerrar sesin
             </button>
           </form>
@@ -35,9 +35,11 @@
     <ul class="nav flex-column pt-3 pt-md-0">
       {{-- Logo --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}" class="nav-link d-flex align-items-center">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}"
+          class="nav-link d-flex align-items-center">
           <span class="sidebar-icon me-3">
-            <img src="{{ asset('assets/img/brand/sintek.png') }}" height="20" width="20" alt="{{ config('app.name') }} Logo">
+            <img src="{{ asset('assets/img/brand/sintek.png') }}" height="20" width="20"
+              alt="{{ config('app.name') }} Logo">
           </span>
           <span class="mt-1 ms-1 sidebar-text">
             {{ config('app.name') }}
@@ -67,7 +69,8 @@
 
       {{-- Nuevo trmite --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.tramites-disponibles') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.tramites-disponibles') }}"
+          class="nav-link">
           <span class="sidebar-icon">
             @icon('process.docs', 'me-2')
           </span>
@@ -95,7 +98,7 @@
         </a>
       </li>
 
-      <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+
 
       {{-- Preguntas frecuentes (FAQ) --}}
       <li class="nav-item">

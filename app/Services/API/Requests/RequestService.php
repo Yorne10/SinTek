@@ -10,6 +10,7 @@ use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Services\ActivityLogger;
 
 class RequestService
 {
@@ -121,9 +122,7 @@ class RequestService
                 ]);
             }
 
-            DB::commit();
 
-            return response()->json([
                 'success' => true,
                 'message' => 'Trámite creado exitosamente',
                 'data' => [
@@ -244,6 +243,20 @@ class RequestService
 
             DB::commit();
 
+            $stepName = $currentStep->step?->tittle ?? 'Paso';
+            ActivityLogger::log(
+                'tramite.paso.completado',
+                "Worker {$user->name} completó el paso {$stepName} del trámite {$req->request_id} desde app móvil.",
+                $user->users_id
+            );
+            if (!$nextStep) {
+                ActivityLogger::log(
+                    'tramite.completado',
+                    "Worker {$user->name} completó el trámite {$req->request_id} ({$req->process->name}) desde app móvil.",
+                    $user->users_id
+                );
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Paso completado exitosamente',
@@ -326,9 +339,7 @@ class RequestService
                 $req->save();
             }
 
-            DB::commit();
 
-            return response()->json([
                 'success' => true,
                 'message' => 'Acción realizada exitosamente',
                 'data' => [
@@ -348,3 +359,4 @@ class RequestService
         }
     }
 }
+

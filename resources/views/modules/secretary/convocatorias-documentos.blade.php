@@ -97,14 +97,16 @@
                                                 class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
                                                 placeholder="Título del documento">
                                             @error('documentos.' . $index . '.titulo') <div class="invalid-feedback">
-                                            {{ $message }}</div> @enderror
+                                                {{ $message }}
+                                            </div> @enderror
                                         </div>
                                         <div class="col-md-6">
                                             <input type="file" wire:model="documentos.{{ $index }}.archivo"
                                                 class="form-control @error('documentos.' . $index . '.archivo') is-invalid @enderror"
                                                 accept=".pdf">
                                             @error('documentos.' . $index . '.archivo') <div class="invalid-feedback">
-                                            {{ $message }}</div> @enderror
+                                                {{ $message }}
+                                            </div> @enderror
                                         </div>
                                         <div class="col-md-1">
                                             <button type="button" wire:click="removeDocumento({{ $index }})"
@@ -183,7 +185,8 @@
                                             <div class="d-block">
                                                 <span class="fw-bold">{{ $convocatoria->title }}</span>
                                                 <div class="small text-gray">
-                                                    {{ Str::limit($convocatoria->description, 80) }}</div>
+                                                    {{ Str::limit($convocatoria->description, 80) }}
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
@@ -438,8 +441,8 @@
                                                 data-doc-id="{{ $document->institutional_document_id }}"
                                                 data-doc-title="{{ $document->title }}">Archivar</a></li>
                                     </ul>
+                                    </div>
                                 </div>
-                            </div>
                         @empty
                             <div class="text-center py-5">
                                 <svg class="icon icon-lg text-gray-400 mb-3" fill="currentColor" viewBox="0 0 20 20"
@@ -492,7 +495,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                    @this.call('save');
                 }
             });
         });

@@ -128,8 +128,8 @@ Changelog:
                                     <div class="col">
                                         <button type="button" id="saveSecurityBtn"
                                             class="btn btn-gray-800 mt-2 animate-up-2">
-                                            <span class="fas fa-shield-alt me-2"></span>
-                                            Actualizar configuración
+                                            <span class="fas fa-save me-2"></span>
+                                            Guardar cambios
                                         </button>
                                     </div>
                                 </div>

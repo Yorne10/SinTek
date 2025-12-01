@@ -18,6 +18,7 @@ namespace App\Livewire\Secretary;
 use App\Events\NotificationCreated;
 use App\Models\Notification;
 use App\Models\User;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -118,6 +119,14 @@ class Notificaciones extends Component
         $count = $recipients->count();
         $this->reset(['title', 'message', 'selectedUsers', 'sendToAll', 'workerSearch']);
         $this->resetPage();
+
+        $sender = auth()->user();
+        $targetLabel = $this->sendToAll ? 'todos los trabajadores' : "{$count} usuario(s)";
+        ActivityLogger::log(
+            'notificacion.crear',
+            "Notificación '{$this->title}' enviada a {$targetLabel}",
+            $sender?->users_id
+        );
 
         $this->dispatch(
             'notification-sent',

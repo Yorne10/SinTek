@@ -6,26 +6,75 @@
  * Created on: 05/11/2025
  * Created by: Alfonso Angel Garcia Hernandez
  * Approved by: Alfonso Angel Garcia Hernandez
- *
- * Changelog:
- * - ID: <ID> | Modified on: dd/mm/yyyy |
- * Modified by: <Developer name> |
- * Description: <Brief description of change> |
- *
- * - ID: <ID> | Modified on: dd/mm/yyyy |
- * Modified by: <Developer name> |
- * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Admin;
 
+use App\Models\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Bitacora extends Component
 {
+    use WithPagination;
+
+    public $search = '';
+    public $roleFilter = '';
+    public $actionFilter = '';
+    protected $paginationTheme = 'bootstrap';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingRoleFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingActionFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function getRoleLabel($role)
+    {
+        $roles = [
+            'admin' => 'Administrador',
+            'secretary' => 'Secretario',
+            'worker' => 'Trabajador',
+            'system' => 'Sistema',
+        ];
+
+        return $roles[$role] ?? 'N/D';
+    }
+
     public function render()
     {
-        return view('modules.admin.bitacora')->layout('layouts.app');
+        $logs = Log::with('user')
+            ->when($this->search, function ($query) {
+                $term = '%' . $this->search . '%';
+                $query->where('action', 'like', $term)
+                    ->orWhere('description', 'like', $term)
+                    ->orWhereHas('user', function ($q) use ($term) {
+                        $q->where('name', 'like', $term);
+                    });
+            })
+            ->when($this->roleFilter, function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('role', $this->roleFilter);
+                });
+            })
+            ->when($this->actionFilter, function ($query) {
+                $query->where('action', 'like', '%' . $this->actionFilter . '%');
+            })
+            ->orderByDesc('date')
+            ->orderByDesc('created_at')
+            ->paginate(15);
+
+        return view('modules.admin.bitacora', [
+            'logs' => $logs,
+        ])->layout('layouts.app');
     }
 }
-

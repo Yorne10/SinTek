@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Worker;
 
 use Livewire\Component;
@@ -7,6 +6,7 @@ use App\Models\Request as WorkerRequest;
 use App\Models\RequestStep;
 use App\Models\Worker;
 use App\Models\Step;
+use App\Services\ActivityLogger;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -48,14 +48,14 @@ class DetalleTramite extends Component
         }
 
         $currentStepModel = $this->currentStep->step;
+        $user = Auth::user();
+        $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
 
-        // Marcar paso actual como completado
         $this->currentStep->update([
             'request_step_status' => 'completed',
             'step_date' => Carbon::now(),
         ]);
 
-        // Buscar siguiente paso secuencial
         $nextStep = Step::where('process_id', $this->request->process_id)
             ->where('order', '>', $currentStepModel->order)
             ->orderBy('order', 'asc')
@@ -74,13 +74,24 @@ class DetalleTramite extends Component
                 ]);
             }
 
+            ActivityLogger::log(
+                'tramite.paso.completar',
+                "Completado paso '{$stepName}' del trámite #{$this->request->request_id}",
+                $user->users_id
+            );
+
             session()->flash('success', 'Paso completado exitosamente');
         } else {
-            // No hay más pasos, completar trámite
             $this->request->update([
                 'status' => 'completed',
                 'end_date' => Carbon::now(),
             ]);
+
+            ActivityLogger::log(
+                'tramite.completado',
+                "Completado trámite #{$this->request->request_id} del proceso '" . ($this->request->process->name ?? 'Proceso') . "'",
+                $user->users_id
+            );
 
             session()->flash('success', 'Trámite completado exitosamente');
         }
@@ -96,14 +107,15 @@ class DetalleTramite extends Component
         }
 
         $currentStepModel = $this->currentStep->step;
+        $user = Auth::user();
+        $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
+        $decisionLabel = $decision === 'yes' ? 'sí' : 'no';
 
-        // Marcar paso actual como completado
         $this->currentStep->update([
             'request_step_status' => 'completed',
             'step_date' => Carbon::now(),
         ]);
 
-        // Determinar siguiente paso según decisión
         $nextStepId = $decision === 'yes' ? $currentStepModel->next_yes : $currentStepModel->next_no;
 
         if ($nextStepId) {
@@ -129,14 +141,25 @@ class DetalleTramite extends Component
                     ]);
                 }
 
+                ActivityLogger::log(
+                    'tramite.decision',
+                    "Decisión '{$decisionLabel}' registrada en paso '{$stepName}' del trámite #{$this->request->request_id}",
+                    $user->users_id
+                );
+
                 session()->flash('success', 'Decisión registrada exitosamente');
             }
         } else {
-            // Completar trámite
             $this->request->update([
                 'status' => 'completed',
                 'end_date' => Carbon::now(),
             ]);
+
+            ActivityLogger::log(
+                'tramite.completado',
+                "Completado trámite #{$this->request->request_id} del proceso '" . ($this->request->process->name ?? 'Proceso') . "'",
+                $user->users_id
+            );
 
             session()->flash('success', 'Trámite completado exitosamente');
         }
@@ -149,4 +172,3 @@ class DetalleTramite extends Component
         return view('modules.worker.detalle-tramite')->layout('layouts.app');
     }
 }
-

@@ -19,7 +19,7 @@ abstract class RestfulController extends Controller
         ], Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return $this->methodNotAllowed();
     }
@@ -34,7 +34,7 @@ abstract class RestfulController extends Controller
         return $this->methodNotAllowed();
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         return $this->methodNotAllowed();
     }
@@ -49,7 +49,7 @@ abstract class RestfulController extends Controller
         return $this->methodNotAllowed();
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         return $this->methodNotAllowed();
     }

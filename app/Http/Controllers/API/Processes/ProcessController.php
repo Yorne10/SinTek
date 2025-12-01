@@ -20,7 +20,7 @@ class ProcessController extends RestfulController
         return $this->processService->index($request);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         return $this->processService->show($id);
     }

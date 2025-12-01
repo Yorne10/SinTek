@@ -102,7 +102,7 @@ Changelog:
         </a>
       </li>
 
-      <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+
 
       {{-- Gestión de procesos --}}
       <li class="nav-item">
@@ -134,7 +134,7 @@ Changelog:
         </a>
       </li>
 
-      <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
+
 
       {{-- Mi perfil --}}
       <li class="nav-item">

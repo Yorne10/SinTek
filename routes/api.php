@@ -25,7 +25,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register/worker', [AuthController::class, 'registerWorker']);
 
 // Protected routes - SOLO PARA WORKERS (App mvil)
-Route::middleware(['auth:sanctum', 'role:worker'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:worker', 'log.api'])->group(function () {
     // Auth routes
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);

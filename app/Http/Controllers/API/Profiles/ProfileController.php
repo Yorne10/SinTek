@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\Profiles;
 
-use App\Http\Controllers\RestfulController;
+use App\Http\Controllers\Controller;
 use App\Services\API\Profiles\ProfileService;
 use Illuminate\Http\Request;
 
-class ProfileController extends RestfulController
+class ProfileController extends Controller
 {
     protected ProfileService $profileService;
 

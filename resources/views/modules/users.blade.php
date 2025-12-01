@@ -49,22 +49,24 @@
                             </div>
 
                             <div class="table-settings mb-4">
-                                <div class="row justify-content-between align-items-center">
-                                    <div class="col-9 col-lg-8 d-md-flex">
-                                        <div class="input-group me-2 me-lg-3 fmxw-300">
-                                            <span class="input-group-text">
-                                                <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                    <path fill-rule="evenodd"
-                                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                            </span>
-                                            <input wire:model.live.debounce.400ms="search" type="text"
-                                                class="form-control" placeholder="Buscar usuarios">
-                                        </div>
+                                <div class="d-flex flex-wrap gap-3 align-items-center">
+                                    <div class="input-group fmxw-300">
+                                        <span class="input-group-text">
+                                            <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </span>
+                                        <input wire:model.live.debounce.400ms="search" type="text"
+                                            class="form-control" placeholder="Buscar usuarios">
+                                    </div>
+                                    <div class="d-flex align-items-center text-nowrap">
+                                        <span class="small text-gray-600 me-2">Filtrar por rol:</span>
                                         <select wire:model.live="roleFilter"
-                                            class="form-select fmxw-200 d-none d-md-inline"
+                                            class="form-select"
+                                            style="min-width: 200px;"
                                             aria-label="Filtrar por rol">
                                             <option value="">Todos los roles</option>
                                             <option value="admin">Administrador</option>
@@ -72,8 +74,10 @@
                                             <option value="worker">Trabajador</option>
                                         </select>
                                     </div>
-                                    <div class="col-3 col-lg-4 d-flex justify-content-end">
-                                        <select wire:model.live="statusFilter" class="form-select fmxw-100"
+                                    <div class="d-flex align-items-center text-nowrap">
+                                        <span class="small text-gray-600 me-2">Filtrar por estado:</span>
+                                        <select wire:model.live="statusFilter" class="form-select"
+                                            style="min-width: 140px;"
                                             aria-label="Filtrar por estado">
                                             <option value="">Todos</option>
                                             <option value="active">Activo</option>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Documents;
 use App\Http\Controllers\RestfulController;
 use App\Services\Documents\InstitutionalDocumentService;
 
+use Illuminate\Http\Request;
+
 class InstitutionalDocumentController extends RestfulController
 {
     protected InstitutionalDocumentService $institutionalDocumentService;
@@ -14,7 +16,7 @@ class InstitutionalDocumentController extends RestfulController
         $this->institutionalDocumentService = $institutionalDocumentService;
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         return $this->institutionalDocumentService->show($id);
     }

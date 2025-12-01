@@ -19,8 +19,25 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
+    use \App\Traits\EnsuresUtf8;
 
     protected $primaryKey = 'users_id';
+
+    /**
+     * Accessor for name to ensure UTF-8.
+     */
+    public function getNameAttribute($value)
+    {
+        return $this->ensureUtf8($value);
+    }
+
+    /**
+     * Accessor for email to ensure UTF-8.
+     */
+    public function getEmailAttribute($value)
+    {
+        return $this->ensureUtf8($value);
+    }
 
     /**
      * The attributes that are mass assignable.

@@ -3,6 +3,7 @@
 namespace App\Livewire\Worker;
 
 use App\Models\Notification;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -23,10 +24,19 @@ class Notificaciones extends Component
 
     public function markAsRead(int $notificationId): void
     {
-        Notification::where('user_id', auth()->id())
+        $updated = Notification::where('user_id', auth()->id())
             ->whereNull('read_at')
             ->where('notification_id', $notificationId)
             ->update(['read_at' => now()]);
+
+        if ($updated) {
+            $user = auth()->user();
+            ActivityLogger::log(
+                'notificacion.marcar_leida',
+                "Notificación #{$notificationId} marcada como leída",
+                $user->users_id
+            );
+        }
     }
 
     public function getNotificationsProperty()

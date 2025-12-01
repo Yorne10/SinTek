@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Convocations;
 
 use App\Http\Controllers\RestfulController;
 use App\Services\API\Convocations\ConvocationService;
+use Illuminate\Http\Request;
 
 class ConvocationController extends RestfulController
 {
@@ -14,12 +15,12 @@ class ConvocationController extends RestfulController
         $this->convocationService = $convocationService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         return $this->convocationService->index();
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         return $this->convocationService->show($id);
     }

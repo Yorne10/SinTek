@@ -12,6 +12,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\Process;
 use App\Models\Step;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 
 class CrearPaso extends Component
@@ -122,7 +123,7 @@ class CrearPaso extends Component
         }
     }
 
-    public function save()
+        public function save()
     {
         $this->validate([
             'process_id' => 'required|exists:processes,process_id',
@@ -162,19 +163,31 @@ class CrearPaso extends Component
             'next_no' => $this->condition_type === 'approval' ? $this->next_no : null,
         ];
 
+        $user = auth()->user();
         if ($this->isEditing) {
             $step = Step::find($this->step_id);
             $step->update($data);
+            $actionKey = 'paso.actualizado';
+            $actionVerb = 'actualiz?';
             session()->flash('success', 'Paso actualizado exitosamente');
         } else {
-            Step::create($data);
+            $step = Step::create($data);
+            $actionKey = 'paso.creado';
+            $actionVerb = 'cre?';
             session()->flash('success', 'Paso creado exitosamente');
         }
+
+        $actionVerb = $actionKey === 'paso.creado' ? 'creado' : 'actualizado';
+        ActivityLogger::log(
+            $actionKey === 'paso.creado' ? 'paso.crear' : 'paso.editar',
+            "Paso '{$this->tittle}' {$actionVerb} en proceso ID {$this->process_id}",
+            $user?->users_id
+        );
 
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.admin.definir-pasos');
     }
 
-    public function render()
+public function render()
     {
         return view('modules.admin.crear-paso')
             ->layout('layouts.app');

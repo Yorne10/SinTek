@@ -45,8 +45,8 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id('logs_id');
             $table->foreignId('user_id')->nullable()->constrained('users', 'users_id')->onDelete('set null');
-            $table->string('action', 255)->nullable();
-            $table->text('description')->nullable();
+            $table->string('action', 255)->nullable()->charset('utf8mb4')->collation('utf8mb4_unicode_ci');
+            $table->text('description')->nullable()->charset('utf8mb4')->collation('utf8mb4_unicode_ci');
             $table->dateTime('date')->nullable();
             $table->timestamps();
         });
