@@ -52,7 +52,7 @@ $red-200    : #FBAEA7 !default;
 $orange     : #FBA918 !default;  // Warning/Amber color
 $brown      : #B9A084 !default;  // Complementary Brown - for charts/illustrations only
 $yellow     : #F3C78E !default;  // Warning/Yellow color
-$green      : #10B981 !default;  // Success color
+$green      : #1c075e !default;  // Success color
 $teal       : #1E90FF !default;  // Info/Light Blue - for active/in-progress states
 $cyan       : #63B1BD !default;  // Complementary Cyan - for charts/illustrations only
 $soft-indigo: #f5e8ff !default;
@@ -76,7 +76,7 @@ $colors: ("blue": $blue,
 
 // Color scheme - CETAM Official Colors
 $primary  : #1F2937 !default;  // Dark Slate Gray - Main backgrounds, buttons, bars, headers
-$secondary: #FB503B !default;  // Vibrant Orange-Red - Highlighted interactive elements
+$secondary: #CBD4C4 !default;  // Vibrant Orange-Red - Highlighted interactive elements
 $tertiary : #31316A !default;  // Indigo Dark Blue - Secondary backgrounds, complementary areas
 
 // Series names and colors. This can be extended or customized as desired. Just add more series and colors.

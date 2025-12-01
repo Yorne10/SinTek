@@ -7,7 +7,7 @@
     Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
+{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
 {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
@@ -17,21 +17,21 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'icon icon-xxs')
+                            @icon('nav.home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Mi perfil</li>
                 </ol>
             </nav>
             <h2 class="h4">Mi perfil</h2>
-            <p class="mb-0">Gestiona tu informacin personal y mantn tus datos actualizados.</p>
+            <p class="mb-0">Gestiona tu información personal y mantén tus datos actualizados.</p>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Informacin general</h2>
+                <h2 class="h5 mb-4">Información general</h2>
                 <form id="profileForm" action="#" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="email">Correo electrnico <span class="text-danger">*</span></label>
+                                <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" type="email" placeholder="correo@ejemplo.com" required>
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -54,7 +54,7 @@
                     </div>
 
                     @if($user->role === 'worker')
-                    <h2 class="h5 my-4">Informacin personal del trabajador</h2>
+                    <h2 class="h5 my-4">Información personal del trabajador</h2>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
@@ -89,9 +89,9 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="phone">Telfono</label>
+                                <label for="phone">Teléfono</label>
                                 <input wire:model="phone" class="form-control @error('phone') is-invalid @enderror"
-                                    id="phone" type="text" placeholder="Nmero de telfono">
+                                    id="phone" type="text" placeholder="Número de teléfono">
                                 @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -99,9 +99,9 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <div class="form-group">
-                                <label for="adress">Direccin</label>
+                                <label for="adress">Dirección</label>
                                 <textarea wire:model="adress" class="form-control @error('adress') is-invalid @enderror"
-                                    id="adress" rows="3" placeholder="Direccin completa"></textarea>
+                                    id="adress" rows="3" placeholder="Dirección completa"></textarea>
                                 @error('adress') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                                 </span>
                             @endforeach
                         @else
-                            <span class="text-gray-500 small">An no registras claves.</span>
+                            <span class="text-gray-500 small">Aún no registras claves.</span>
                         @endif
                     </div>
                 </div>
@@ -186,7 +186,7 @@
             @if($user->role === 'worker' && $worker)
             <div class="card border-0 shadow mt-4">
                 <div class="card-body">
-                    <h2 class="h6 mb-3">Informacin del trabajador</h2>
+                    <h2 class="h6 mb-3">Información del trabajador</h2>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0 d-flex justify-content-between">
                             <span class="text-gray-600">CURP:</span>
@@ -209,7 +209,7 @@
                             </span>
                         </li>
                         <li class="list-group-item px-0 d-flex justify-content-between">
-                            <span class="text-gray-600">Telfono:</span>
+                            <span class="text-gray-600">Teléfono:</span>
                             <span class="fw-bold">{{ $worker->phone ?? 'No especificado' }}</span>
                         </li>
                     </ul>
@@ -246,7 +246,7 @@
             @if($user->role === 'worker')
             <div class="card border-0 shadow mt-4">
                 <div class="card-body">
-                    <h2 class="h6 mb-3">Informacin importante</h2>
+                    <h2 class="h6 mb-3">Información importante</h2>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
@@ -280,11 +280,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Botn de guardar con confirmacin
     document.getElementById('saveProfileBtn').addEventListener('click', function() {
         swalWithBootstrapButtons.fire({
-            title: 'Ests seguro?',
-            text: 'Deseas guardar los cambios realizados en tu perfil?',
+            title: '¿Estás seguro?',
+            text: '¿Deseas guardar los cambios realizados en tu perfil?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'S, guardar',
+            confirmButtonText: 'Sí, guardar',
             cancelButtonText: 'Cancelar',
             reverseButtons: true
         }).then((result) => {
@@ -292,8 +292,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 @this.call('save').then(() => {
                     swalWithBootstrapButtons.fire({
                         icon: 'success',
-                        title: 'Guardado!',
-                        text: 'Tu informacin ha sido actualizada correctamente.',
+                        title: '¡Guardado!',
+                        text: 'Tu información ha sido actualizada correctamente.',
                         showConfirmButton: true,
                         timer: 2000
                     });
@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
         swalWithBootstrapButtons.fire({
             icon: 'warning',
             title: 'Modo Demo',
-            text: 'No puedes realizar esta accin en la versin de demostracin.',
+            text: 'No puedes realizar esta acción en la versión de demostración.',
             showConfirmButton: true
         });
     @endif

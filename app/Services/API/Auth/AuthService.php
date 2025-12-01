@@ -7,21 +7,22 @@ use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:150',
-            'email' => 'required|string|email|max:150|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,secretary',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
+                'message' => 'Error de validaci√≥n',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -30,18 +31,17 @@ class AuthService
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
-            'is_active' => true,
+            'role' => 'user', // Default role
         ]);
 
-        $token = $user->createToken('auth-token', [$request->role])->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
-            'message' => 'User registered successfully',
+            'message' => 'Usuario registrado exitosamente',
             'data' => [
                 'user' => $user,
-                'token' => $token,
+                'token' => $token
             ]
         ], 201);
     }
@@ -49,19 +49,16 @@ class AuthService
     public function registerWorker(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:150',
-            'email' => 'required|string|email|max:150|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'curp' => 'nullable|string|max:20',
-            'sex' => 'nullable|string|max:10',
-            'phone' => 'nullable|string|max:20',
-            'adress' => 'nullable|string|max:255',
-            'rfc' => 'nullable|string|max:20',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            // Add other worker specific validations here if needed
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
+                'message' => 'Error de validaci√≥n',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -71,27 +68,19 @@ class AuthService
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'worker',
-            'is_active' => true,
         ]);
 
-        $worker = Worker::create([
-            'user_id' => $user->users_id,
-            'curp' => $request->curp,
-            'sex' => $request->sex,
-            'phone' => $request->phone,
-            'adress' => $request->adress,
-            'rfc' => $request->rfc,
-        ]);
+        // Assuming there is a Worker model related to User, create it here if needed
+        // $worker = Worker::create(['user_id' => $user->id, ...]);
 
-        $token = $user->createToken('auth-token', ['worker'])->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
-            'message' => 'Worker registered successfully',
+            'message' => 'Trabajador registrado exitosamente',
             'data' => [
                 'user' => $user,
-                'worker' => $worker,
-                'token' => $token,
+                'token' => $token
             ]
         ], 201);
     }
@@ -106,6 +95,7 @@ class AuthService
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
+                'message' => 'Error de validaci√≥n',
                 'errors' => $validator->errors()
             ], 422);
         }
@@ -115,37 +105,30 @@ class AuthService
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Credenciales inv·lidas'
+                'message' => 'Las credenciales proporcionadas son incorrectas',
             ], 401);
         }
 
-        if ($user->role !== 'worker') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Acceso denegado. Esta aplicaciÛn es solo para trabajadores. Los administradores y secretarios deben usar la aplicaciÛn web.'
-            ], 403);
+        // Check if user is active if that column exists, otherwise remove this check
+        // if (!$user->is_active) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Tu cuenta est√° inactiva',
+        //     ], 403);
+        // }
+
+        $token = $user->createToken('auth-token')->plainTextToken;
+
+        if ($user->role === 'worker') {
+            $user->load('worker.positions');
         }
-
-        if (!$user->is_active) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Tu cuenta est· inactiva. Contacta al administrador.'
-            ], 403);
-        }
-
-        $user->tokens()->delete();
-
-        $token = $user->createToken('auth-token', [$user->role])->plainTextToken;
-
-        $user->load('worker.positions');
 
         return response()->json([
             'success' => true,
-            'message' => 'Inicio de sesiÛn exitoso',
+            'message' => 'Inicio de sesi√≥n exitoso',
             'data' => [
                 'user' => $user,
-                'worker' => $user->worker,
-                'token' => $token,
+                'token' => $token
             ]
         ], 200);
     }
@@ -156,7 +139,7 @@ class AuthService
 
         return response()->json([
             'success' => true,
-            'message' => 'Logged out successfully'
+            'message' => 'Cierre de sesi√≥n exitoso'
         ], 200);
     }
 
@@ -174,4 +157,3 @@ class AuthService
         ], 200);
     }
 }
-

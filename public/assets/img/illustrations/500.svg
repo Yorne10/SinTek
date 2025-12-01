@@ -7,7 +7,7 @@
 	.st1{fill:#E1E8F6;}
 	.st2{fill:#E6E8E8;}
 	.st3{opacity:0.75;fill:none;stroke:#FFFFFF;stroke-miterlimit:10;enable-background:new    ;}
-	.st4{fill:#EE5050;}
+	.st4{fill:#CBD4C4;}
 	.st5{fill:#D35050;}
 	.st6{fill:url(#SVGID_1_);}
 	.st7{fill:#19034D;}
@@ -59,7 +59,7 @@
 		c0.3-0.9,0.4-1.9,0.3-2.8c0-1.1,0-2.1-0.1-3.2C112.4,255.2,112,252,112,250.5z"/>
 	
 		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="36.352" y1="-114.5988" x2="68.882" y2="-99.7087" gradientTransform="matrix(1 0 0 -1 42 196)">
-		<stop  offset="0" style="stop-color:#EE5050;stop-opacity:0.91"/>
+		<stop  offset="0" style="stop-color:#CBD4C4;stop-opacity:0.91"/>
 		<stop  offset="0.56" style="stop-color:#311573;stop-opacity:0"/>
 	</linearGradient>
 	<path class="st6" d="M88.9,286.3c3.6,2.2,5.7,6.3,5.4,10.6c-0.4,4.3-3.9,7.8-7,10.4s-7,5.3-9.1,9.1c2.2-0.3,4.4-0.4,6.6-0.5

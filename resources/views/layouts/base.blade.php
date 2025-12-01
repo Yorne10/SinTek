@@ -45,8 +45,8 @@
     <!-- Fontawesome local (versi³n 5.x incluida en /public/vendor) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Sweet Alert -->
-    <link type="text/css" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
+    <!-- Sweet Alert - AHORA compilado en volt.css con colores CETAM -->
+    <!-- <link type="text/css" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet"> -->
 
     <!-- Notyf -->
     <link type="text/css" href="{{ asset('vendor/notyf/notyf.min.css') }}" rel="stylesheet">

@@ -19,7 +19,7 @@
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                 <li class="breadcrumb-item">
                     <a href="#">
-                        @icon('nav.home', 'icon-xxs')
+                        @icon('nav.home', 'fa-xs')
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">Administración</a></li>
@@ -43,7 +43,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-sm rounded me-4 me-sm-0">
-                                @icon('process.docs', 'icon text-info')
+                                @icon('process.docs', 'fa-lg text-info')
                             </div>
                             <div class="d-sm-none">
                                 <h2 class="h5">Procesos Activos</h2>
@@ -74,7 +74,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-sm rounded me-4 me-sm-0">
-                                @icon('state.success', 'icon text-info')
+                                @icon('state.success', 'fa-lg text-info')
                             </div>
                             <div class="d-sm-none">
                                 <h2 class="fw-extrabold h5">Solicitudes Recientes</h2>
@@ -91,7 +91,7 @@
                             </small>
                             <div class="small d-flex mt-1">
                                 <div>
-                                    @icon('nav.up', 'icon-xs text-success')
+                                    @icon('nav.up', 'fa-xs text-success')
                                     <span class="text-success fw-bolder">12%</span> vs. semana anterior
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-sm rounded me-4 me-sm-0">
-                                @icon('action.view', 'icon text-info')
+                                @icon('action.view', 'fa-lg text-info')
                             </div>
                             <div class="d-sm-none">
                                 <h2 class="fw-extrabold h5">En Trámite</h2>

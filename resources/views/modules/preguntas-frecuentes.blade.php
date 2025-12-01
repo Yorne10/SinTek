@@ -20,7 +20,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'icon icon-xxs')
+                            @icon('nav.home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Preguntas frecuentes</li>

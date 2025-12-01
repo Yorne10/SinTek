@@ -2,27 +2,70 @@
  * = Icon boxes
  */
 
+// Shared icon scale tokens (override with !default to respect external design systems)
+$icon-size-base: 1rem !default;
+$icon-size-xxs: 0.75rem !default;
+$icon-size-xs: 0.875rem !default;
+$icon-size-sm: $icon-size-base !default;
+$icon-size: $icon-size-base !default;
+$icon-size-lg: 1.333rem !default;
+$icon-size-xl: 2rem !default;  // fa-2x
+$icon-size-xxl: 3rem !default; // fa-3x
+
+.fa-xs { font-size: $icon-size-xxs !important; line-height: 1; }
+.fa-sm { font-size: $icon-size-xs !important; line-height: 1; }
+.fa-lg { font-size: $icon-size-lg !important; line-height: 1; }
+.fa-2x { font-size: $icon-size-xl !important; line-height: 1; }
+.fa-3x { font-size: $icon-size-xxl !important; line-height: 1; }
+
+.notification-bell i {
+	font-size: 1.75rem !important; // fuerza campana destacada en topbar
+}
+
  .icon {
 	height: $icon-size;
+	// Normalize font-icon sizing to match SVG heights
+	i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+		font-size: $icon-size;
+		line-height: 1;
+	}
 
 	&.icon-xxs {
 		height: $icon-size-xxs;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xxs;
+		}
 	}
 
 	&.icon-xs {
 		height: $icon-size-xs;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xs;
+		}
 	}
 	&.icon-sm {
 		height: $icon-size-sm;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-sm;
+		}
 	}
 	&.icon-lg {
 		height: $icon-size-lg;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-lg;
+		}
 	}
 	&.icon-xl {
 		height: $icon-size-xl;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xl;
+		}
 	}
 	&.icon-xxl {
 		height: $icon-size-xxl;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xxl;
+		}
 	}
 
 	&.active-dot {
@@ -33,12 +76,17 @@
 }
 
 // Icons included in shapes
-.icon-shape {
+	.icon-shape {
 	width: $icon-shape;
 	height: $icon-shape;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+
+	i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+		font-size: $icon-size;
+		line-height: 1;
+	}
 
 	svg {
 		height: $icon-size;
@@ -47,6 +95,9 @@
 	&.icon-xxs {
 		width: $icon-shape-xxs;
 		height: $icon-shape-xxs;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xxs;
+		}
 		svg {
 			height: $icon-size-xxs;
 		}
@@ -55,6 +106,9 @@
 	&.icon-xs {
 		width: $icon-shape-xs;
 		height: $icon-shape-xs;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xs;
+		}
 		svg {
 			height: $icon-size-xs;
 		}
@@ -63,6 +117,9 @@
 	&.icon-sm {
 		width: $icon-shape-sm;
 		height: $icon-shape-sm;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-sm;
+		}
 		svg {
 			height: $icon-size-sm;
 		}
@@ -71,6 +128,9 @@
 	&.icon-lg {
 		width: $icon-shape-lg;
 		height: $icon-shape-lg;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-lg;
+		}
 		svg {
 			height: $icon-size-lg;
 		}
@@ -79,6 +139,9 @@
 	&.icon-xl {
 		width: $icon-shape-xl;
 		height: $icon-shape-xl;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xl;
+		}
 		svg {
 			height: $icon-size-xl;
 		}
@@ -87,6 +150,9 @@
 	&.icon-xxl {
 		width: $icon-shape-xxl;
 		height: $icon-shape-xxl;
+		i, .fa, .fas, .far, .fal, .fab, .fa-solid {
+			font-size: $icon-size-xxl;
+		}
 		svg {
 			height: $icon-size-xxl;
 		}

@@ -19,7 +19,7 @@
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                 <li class="breadcrumb-item">
                     <a href="#">
-                        @icon('nav.home', 'icon-xxs')
+                        @icon('nav.home', 'fa-xs')
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">Secretaría</a></li>
@@ -43,7 +43,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-sm rounded me-4 me-sm-0">
-                                @icon('process.docs', 'icon text-info')
+                                @icon('process.docs', 'fa-lg text-info')
                             </div>
                             <div class="d-sm-none">
                                 <h2 class="h5">Pendientes</h2>
@@ -74,7 +74,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-sm rounded me-4 me-sm-0">
-                                @icon('state.success', 'icon text-info')
+                                @icon('state.success', 'fa-lg text-info')
                             </div>
                             <div class="d-sm-none">
                                 <h2 class="fw-extrabold h5">Validadas Hoy</h2>
@@ -91,7 +91,7 @@
                             </small>
                             <div class="small d-flex mt-1">
                                 <div>
-                                    @icon('nav.up', 'icon-xs text-success')
+                                    @icon('nav.up', 'fa-xs text-success')
                                     <span class="text-success fw-bolder">15%</span> vs. ayer
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-sm rounded me-4 me-sm-0">
-                                @icon('user.list', 'icon text-info')
+                                @icon('user.list', 'fa-lg text-info')
                             </div>
                             <div class="d-sm-none">
                                 <h2 class="fw-extrabold h5">Trabajadores</h2>
@@ -145,7 +145,7 @@
                         <div class="col-12 col-md-6 col-lg-3 mb-3">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.panel-solicitudes') }}" class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
-                                    @icon('process.docs', 'icon-lg mb-2')
+                                    @icon('process.docs', 'fa-lg mb-2')
                                     <div class="fw-bold">Panel de Solicitudes</div>
                                 </div>
                             </a>
@@ -153,7 +153,7 @@
                         <div class="col-12 col-md-6 col-lg-3 mb-3">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}" class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
-                                    @icon('user.list', 'icon-lg mb-2')
+                                    @icon('user.list', 'fa-lg mb-2')
                                     <div class="fw-bold">Buscar Trabajadores</div>
                                 </div>
                             </a>
@@ -161,7 +161,7 @@
                         <div class="col-12 col-md-6 col-lg-3 mb-3">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}" class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
-                                    @icon('file.generic', 'icon-lg mb-2')
+                                    @icon('file.generic', 'fa-lg mb-2')
                                     <div class="fw-bold">Convocatorias y Documentos</div>
                                 </div>
                             </a>
@@ -169,7 +169,7 @@
                         <div class="col-12 col-md-6 col-lg-3 mb-3">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.reportes') }}" class="btn btn-outline-info w-100 d-flex align-items-center justify-content-center" style="min-height: 80px;">
                                 <div class="text-center">
-                                    @icon('report.bar', 'icon-lg mb-2')
+                                    @icon('report.bar', 'fa-lg mb-2')
                                     <div class="fw-bold">Reportes</div>
                                 </div>
                             </a>

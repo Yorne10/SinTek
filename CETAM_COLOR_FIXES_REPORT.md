@@ -146,8 +146,8 @@ Created comprehensive utility classes for proper CETAM color usage:
 **Changes:**
 - **Before:**
   ```html
-  <span class="sidebar-icon"><i class="fab fa-laravel me-2" style="color: #fb503b;"></i></span>
-  <span class="sidebar-text" style="color: #fb503b;">Laravel Examples</span>
+  <span class="sidebar-icon"><i class="fab fa-laravel me-2" style="color: #CBD4C4;"></i></span>
+  <span class="sidebar-text" style="color: #CBD4C4;">Laravel Examples</span>
   ```
 - **After:**
   ```html
@@ -286,7 +286,7 @@ Created comprehensive utility classes for proper CETAM color usage:
   - ✅ Examples: "En revisión", "Sistema", "Nuevo"
 
 #### ✅ Category Colors (Properly Used)
-- **Secondary (Orange-Red #FB503B):**
+- **Secondary (Orange-Red #CBD4C4):**
   - ✅ Category badges, highlighted elements
   - ✅ Examples: "Convocatoria", "Trámite", "Temporada"
 

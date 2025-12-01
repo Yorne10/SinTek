@@ -1,0 +1,107 @@
+// ============================================
+// SWEETALERT2 CUSTOM CONFIGURATION - CETAM COLORS
+// ============================================
+// Este archivo SOBRESCRIBE COMPLETAMENTE los colores de SweetAlert2
+// para que usen los colores del sistema CETAM definidos en _variables.scss
+// IMPORTANTE: NO usar !default para forzar los colores de CETAM
+// ============================================
+
+// ===========================================
+// COLORES DE ICONOS (Estados)
+// ===========================================
+// SOBRESCRIBIR completamente los colores de los iconos
+$swal2-success: $success;              // Verde - Icono de éxito (checkmark)
+$swal2-error: $danger;                  // Rojo - Icono de error (X)
+$swal2-warning: $warning;               // Amarillo - Icono de advertencia (!)
+$swal2-info: $info;                     // Azul claro - Icono de información (i)
+$swal2-question: $info;                 // Azul claro - Icono de pregunta (?)
+
+// Borde del icono success (animación del círculo)
+$swal2-success-border: rgba($success, .3);
+
+// ===========================================
+// COLORES DE BOTONES
+// ===========================================
+$swal2-confirm-button-background-color: $primary;  // Botón confirmar
+$swal2-cancel-button-background-color: $gray-500;  // Botón cancelar
+
+// Estados hover de los botones (oscurecer 10%)
+$swal2-button-darken-hover: rgba($black, .1);
+$swal2-button-darken-active: rgba($black, .2);
+
+// ===========================================
+// COLORES DE VALIDACIÓN Y MENSAJES
+// ===========================================
+$swal2-validation-message-icon-background: $danger;  // Icono de error en validación
+$swal2-close-button-hover-color: $danger;            // Botón X al hacer hover
+
+// ===========================================
+// COLORES DE FOCUS/OUTLINE
+// ===========================================
+$swal2-outline-color: rgba($primary, .4);            // Color del outline en focus
+
+// ===========================================
+// FORZAR ICONOS Y BOTONES CON COLORES CETAM
+// ===========================================
+:root {
+  --swal2-success-color: #{$swal2-success};
+  --swal2-success-border-color: #{$swal2-success-border};
+  --swal2-error-color: #{$swal2-error};
+  --swal2-warning-color: #{$swal2-warning};
+  --swal2-info-color: #{$swal2-info};
+}
+
+.swal2-icon.swal2-success {
+  border-color: var(--swal2-success-color) !important;
+  color: var(--swal2-success-color) !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: var(--swal2-success-border-color) !important;
+}
+
+.swal2-icon.swal2-success [class^="swal2-success-line"] {
+  background-color: var(--swal2-success-color) !important;
+}
+
+.swal2-icon.swal2-error {
+  border-color: var(--swal2-error-color) !important;
+  color: var(--swal2-error-color) !important;
+}
+
+.swal2-icon.swal2-error [class^="swal2-x-mark-line"] {
+  background-color: var(--swal2-error-color) !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: var(--swal2-warning-color) !important;
+  color: var(--swal2-warning-color) !important;
+}
+
+.swal2-icon.swal2-info,
+.swal2-icon.swal2-question {
+  border-color: var(--swal2-info-color) !important;
+  color: var(--swal2-info-color) !important;
+}
+
+.swal2-styled.swal2-confirm {
+  background: $swal2-confirm-button-background-color !important;
+}
+
+.swal2-styled.swal2-cancel {
+  background: $swal2-cancel-button-background-color !important;
+}
+
+.swal2-styled:focus {
+  box-shadow: 0 0 0 1px $white, 0 0 0 3px $swal2-outline-color !important;
+}
+
+// ===========================================
+// NOTAS
+// ===========================================
+// Ahora cuando cambies los colores en custom/_variables.scss:
+// - $success → Cambia TODOS los elementos verdes (icono, bordes, animaciones)
+// - $danger → Cambia TODOS los elementos rojos (icono, bordes, validaciones)
+// - $warning → Cambia TODOS los elementos amarillos (icono, bordes)
+// - $info → Cambia TODOS los elementos azules (icono, bordes)
+// - $primary → Cambia el botón confirmar y outlines

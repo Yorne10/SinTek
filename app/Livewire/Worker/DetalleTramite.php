@@ -76,13 +76,13 @@ class DetalleTramite extends Component
 
             session()->flash('success', 'Paso completado exitosamente');
         } else {
-            // No hay ms pasos, completar trmite
+            // No hay más pasos, completar trámite
             $this->request->update([
                 'status' => 'completed',
                 'end_date' => Carbon::now(),
             ]);
 
-            session()->flash('success', 'Trmite completado exitosamente');
+            session()->flash('success', 'Trámite completado exitosamente');
         }
 
         $this->loadRequest();
@@ -103,7 +103,7 @@ class DetalleTramite extends Component
             'step_date' => Carbon::now(),
         ]);
 
-        // Determinar siguiente paso segn decisin
+        // Determinar siguiente paso según decisión
         $nextStepId = $decision === 'yes' ? $currentStepModel->next_yes : $currentStepModel->next_no;
 
         if ($nextStepId) {
@@ -129,16 +129,16 @@ class DetalleTramite extends Component
                     ]);
                 }
 
-                session()->flash('success', 'Decisin registrada exitosamente');
+                session()->flash('success', 'Decisión registrada exitosamente');
             }
         } else {
-            // Completar trmite
+            // Completar trámite
             $this->request->update([
                 'status' => 'completed',
                 'end_date' => Carbon::now(),
             ]);
 
-            session()->flash('success', 'Trmite completado exitosamente');
+            session()->flash('success', 'Trámite completado exitosamente');
         }
 
         $this->loadRequest();

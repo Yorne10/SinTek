@@ -19,7 +19,7 @@
           <form method="POST" action="{{ route(config('proj.route_name_prefix', 'proj') . '.auth.logout') }}">
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
-              @icon('auth.logout', 'icon icon-xxs me-1')
+            @icon('auth.logout', 'fa-xs me-1')
               Cerrar sesin
             </button>
           </form>
@@ -28,7 +28,7 @@
       <div class="collapse-close d-md-none">
         <a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
           aria-expanded="true" aria-label="Toggle navigation">
-          @icon('nav.close', 'icon icon-xs')
+          @icon('nav.close', 'fa-xs')
         </a>
       </div>
     </div>
@@ -49,7 +49,7 @@
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('nav.home', 'icon icon-xs me-2')
+            @icon('nav.home', 'me-2')
           </span>
           <span class="sidebar-text">Inicio</span>
         </a>
@@ -59,7 +59,7 @@
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.mis-tramites') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('list.checklist', 'icon icon-xs me-2')
+            @icon('list.checklist', 'me-2')
           </span>
           <span class="sidebar-text">Mis trmites</span>
         </a>
@@ -69,7 +69,7 @@
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.tramites-disponibles') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('process.docs', 'icon icon-xs me-2')
+            @icon('process.docs', 'me-2')
           </span>
           <span class="sidebar-text">Nuevo trmite</span>
         </a>
@@ -79,7 +79,7 @@
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('user.profile', 'icon icon-xs me-2')
+            @icon('user.profile', 'me-2')
           </span>
           <span class="sidebar-text">Mi perfil</span>
         </a>
@@ -89,7 +89,7 @@
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocatorias') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('file.generic', 'icon icon-xs me-2')
+            @icon('file.generic', 'me-2')
           </span>
           <span class="sidebar-text">Convocatorias</span>
         </a>
@@ -101,7 +101,7 @@
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.preguntas-frecuentes') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('support.help', 'icon icon-xs me-2')
+            @icon('support.help', 'me-2')
           </span>
           <span class="sidebar-text">Preguntas frecuentes</span>
         </a>

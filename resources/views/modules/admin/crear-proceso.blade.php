@@ -1,158 +1,177 @@
-{{-- 
-    Company: CETAM
-    Project: ST
-    File: crear-proceso.blade.php
-    Created on: 04/11/2025
-    Created by: Alfonso Angel Garcia Hernandez
-    Approved by: Alfonso Angel Garcia Hernandez
+{{--
+Company: CETAM
+Project: ST
+File: crear-proceso.blade.php
+Created on: 04/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 
-    Changelog:
-    - ID: <ID> | Date: dd/mm/yyyy
-      Modified by: Codex
-      Description: Formular funcional para creacin de procesos.
---}}
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: Codex
+    Description: Formular funcional para creacin de procesos.
+    --}}
 
-{{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
+    {{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
+    {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
-<div>
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div class="d-block mb-4 mb-md-0">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'icon icon-xxs')
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">Administracin</li>
-                    <li class="breadcrumb-item active" aria-current="page">Crear proceso</li>
-                </ol>
-            </nav>
-            <h2 class="h4">Crear proceso</h2>
-            <p class="mb-0">Define un nuevo proceso de trmite para el sistema.</p>
+    <div>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+            <div class="d-block mb-4 mb-md-0">
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                    <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
+                                @icon('nav.home', 'fa-xs')
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">Administracin</li>
+                        <li class="breadcrumb-item active" aria-current="page">Crear proceso</li>
+                    </ol>
+                </nav>
+                <h2 class="h4">Crear proceso</h2>
+                <p class="mb-0">Define un nuevo proceso de trámite para el sistema.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12 col-xl-8">
-            <div class="card card-body shadow border-0 mb-4">
-                <h2 class="h5 mb-4">Informacin del proceso</h2>
+        <div class="row">
+            <div class="col-12 col-xl-8">
+                <div class="card card-body shadow border-0 mb-4">
+                    <h2 class="h5 mb-4">Informacin del proceso</h2>
 
-                @if ($successMessage)
-                    <div class="alert alert-success d-flex align-items-center" role="alert">
-                        <span class="icon icon-sm text-success me-2 fas fa-check-circle"></span>
-                        <div>{{ $successMessage }}</div>
-                    </div>
-                @endif
+                    @if ($successMessage)
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <span class="fa-xs text-success me-2 fas fa-check-circle"></span>
+                            <div>{{ $successMessage }}</div>
+                        </div>
+                    @endif
 
-                <form wire:submit.prevent="save">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="process_name">Nombre del proceso <span class="text-danger">*</span></label>
-                            <input wire:model.defer="name" class="form-control @error('name') is-invalid @enderror" id="process_name" type="text" placeholder="Ej: Solicitud de vacaciones" required>
-                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="process_code">Cdigo del proceso</label>
-                            <input wire:model.defer="process_code" class="form-control @error('process_code') is-invalid @enderror" id="process_code" type="text" placeholder="Ej: SOL-VAC-001">
-                            <small class="form-text text-muted">Cdigo nico para identificar el proceso.</small>
-                            @error('process_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="process_description">Descripcin</label>
-                            <textarea wire:model.defer="description" class="form-control @error('description') is-invalid @enderror" id="process_description" rows="4" placeholder="Describe el propsito y alcance del proceso..."></textarea>
-                            @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="process_category">Categora</label>
-                            <input wire:model.defer="category" class="form-control @error('category') is-invalid @enderror" id="process_category" type="text" placeholder="Ej: Recursos Humanos">
-                            @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="process_priority">Prioridad</label>
-                            <select wire:model="priority" class="form-select @error('priority') is-invalid @enderror" id="process_priority">
-                                <option value="low">Baja</option>
-                                <option value="medium">Media</option>
-                                <option value="high">Alta</option>
-                                <option value="urgent">Urgente</option>
-                            </select>
-                            @error('priority') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="process_deadline">Tiempo mximo de respuesta (das)</label>
-                            <input wire:model.defer="deadline_days" class="form-control @error('deadline_days') is-invalid @enderror" id="process_deadline" type="number" placeholder="15" min="1">
-                            <small class="form-text text-muted">Das hbiles para completar el proceso.</small>
-                            @error('deadline_days') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="process_department">rea responsable</label>
-                            <input wire:model.defer="department" class="form-control @error('department') is-invalid @enderror" id="process_department" type="text" placeholder="Ej: Administracin">
-                            @error('department') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-
-                    <hr class="my-4">
-                    <h2 class="h5 mb-3">Configuracin</h2>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-check form-switch">
-                                <input wire:model="active" class="form-check-input" type="checkbox" id="process_active" checked>
-                                <label class="form-check-label" for="process_active">
-                                    Proceso activo
-                                </label>
+                    <form wire:submit.prevent="save">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="process_name">Nombre del proceso <span class="text-danger">*</span></label>
+                                <input wire:model.defer="name" class="form-control @error('name') is-invalid @enderror"
+                                    id="process_name" type="text" placeholder="Ej: Solicitud de vacaciones" required>
+                                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
-                            <small class="form-text text-muted">Los trabajadores podrn iniciar este proceso si est activo.</small>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="process_code">Cdigo del proceso</label>
+                                <input wire:model.defer="process_code"
+                                    class="form-control @error('process_code') is-invalid @enderror" id="process_code"
+                                    type="text" placeholder="Ej: SOL-VAC-001">
+                                <small class="form-text text-muted">Cdigo nico para identificar el proceso.</small>
+                                @error('process_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="process_description">Descripcin</label>
+                                <textarea wire:model.defer="description"
+                                    class="form-control @error('description') is-invalid @enderror"
+                                    id="process_description" rows="4"
+                                    placeholder="Describe el propsito y alcance del proceso..."></textarea>
+                                @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="process_category">Categora</label>
+                                <input wire:model.defer="category"
+                                    class="form-control @error('category') is-invalid @enderror" id="process_category"
+                                    type="text" placeholder="Ej: Recursos Humanos">
+                                @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="process_priority">Prioridad</label>
+                                <select wire:model="priority"
+                                    class="form-select @error('priority') is-invalid @enderror" id="process_priority">
+                                    <option value="low">Baja</option>
+                                    <option value="medium">Media</option>
+                                    <option value="high">Alta</option>
+                                    <option value="urgent">Urgente</option>
+                                </select>
+                                @error('priority') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="process_deadline">Tiempo mximo de respuesta (das)</label>
+                                <input wire:model.defer="deadline_days"
+                                    class="form-control @error('deadline_days') is-invalid @enderror"
+                                    id="process_deadline" type="number" placeholder="15" min="1">
+                                <small class="form-text text-muted">Das hbiles para completar el proceso.</small>
+                                @error('deadline_days') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="process_department">rea responsable</label>
+                                <input wire:model.defer="department"
+                                    class="form-control @error('department') is-invalid @enderror"
+                                    id="process_department" type="text" placeholder="Ej: Administracin">
+                                @error('department') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
 
-                    <div class="row align-items-center mt-4">
-                        <div class="col">
-                            <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">
-                                @icon('state.success', 'icon icon-xs me-2')
-                                Guardar proceso
-                            </button>
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.gestion-tramites') }}" class="btn btn-link text-gray-700 ms-2">Cancelar</a>
+                        <hr class="my-4">
+                        <h2 class="h5 mb-3">Configuracin</h2>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check form-switch">
+                                    <input wire:model="active" class="form-check-input" type="checkbox"
+                                        id="process_active" checked>
+                                    <label class="form-check-label" for="process_active">
+                                        Proceso activo
+                                    </label>
+                                </div>
+                                <small class="form-text text-muted">Los trabajadores podrn iniciar este proceso si est
+                                    activo.</small>
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                        <div class="row align-items-center mt-4">
+                            <div class="col">
+                                <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">
+                                    @icon('state.success', 'me-2')
+                                    Guardar proceso
+                                </button>
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.gestion-tramites') }}"
+                                    class="btn btn-link text-gray-700 ms-2">Cancelar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <div class="col-12 col-xl-4">
-            <div class="card card-body shadow border-0 mb-4">
-                <h2 class="h5 mb-4">Ayuda</h2>
-                <div class="mb-3">
-                    <h3 class="h6 mb-2">
-                        @icon('support.help', 'icon icon-xs me-1 text-info')
-                        Qu es un proceso?
-                    </h3>
-                    <p class="small text-gray-700">Un proceso es un flujo de trabajo que define los pasos necesarios para completar un trmite especfico.</p>
-                </div>
-                <div class="mb-3">
-                    <h3 class="h6 mb-2">
-                        @icon('support.help', 'icon icon-xs me-1 text-info')
-                        Cdigo del proceso
-                    </h3>
-                    <p class="small text-gray-700">Usa nombres claros y nicos para identificar fcilmente el proceso.</p>
-                </div>
-                <div>
-                    <h3 class="h6 mb-2">
-                        @icon('support.help', 'icon icon-xs me-1 text-info')
-                        Siguiente paso
-                    </h3>
-                    <p class="small text-gray-700">Despus de crear el proceso, define los pasos especficos en la seccin "Definir pasos".</p>
+            <div class="col-12 col-xl-4">
+                <div class="card card-body shadow border-0 mb-4">
+                    <h2 class="h5 mb-4">Ayuda</h2>
+                    <div class="mb-3">
+                        <h3 class="h6 mb-2">
+                            @icon('support.help', 'fa-xs me-1 text-info')
+                            Qu es un proceso?
+                        </h3>
+                        <p class="small text-gray-700">Un proceso es un flujo de trabajo que define los pasos necesarios
+                            para completar un trámite específico.</p>
+                    </div>
+                    <div class="mb-3">
+                        <h3 class="h6 mb-2">
+                            @icon('support.help', 'fa-xs me-1 text-info')
+                            Cdigo del proceso
+                        </h3>
+                        <p class="small text-gray-700">Usa nombres claros y nicos para identificar fcilmente el proceso.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="h6 mb-2">
+                            @icon('support.help', 'fa-xs me-1 text-info')
+                            Siguiente paso
+                        </h3>
+                        <p class="small text-gray-700">Despus de crear el proceso, define los pasos especficos en la
+                            seccin "Definir pasos".</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

@@ -39,7 +39,7 @@ Each category must be used **ONLY** as indicated in this official guide.
 
 | Variable | Name | Hex | Usage |
 |----------|------|-----|-------|
-| `$secondary` | Vibrant Orange-Red | `#FB503B` | Highlighted interactive elements (secondary buttons, active icons, status indicators) |
+| `$secondary` | Vibrant Orange-Red | `#CBD4C4` | Highlighted interactive elements (secondary buttons, active icons, status indicators) |
 
 **Allowed Usage:**
 - Secondary/action buttons (`btn-secondary`)
