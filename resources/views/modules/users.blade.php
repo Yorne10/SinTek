@@ -84,33 +84,22 @@
                             </div>
 
                             <div class="card card-body shadow border-0 table-wrapper table-responsive">
-                                <table class="table user-table table-hover align-items-center">
-                                    <thead>
+                                <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <th class="border-bottom">Nombre</th>
-                                            <th class="border-bottom">Correo</th>
-                                            <th class="border-bottom">Rol</th>
-                                            <th class="border-bottom">Estado</th>
-                                            <th class="border-bottom">Fecha de registro</th>
-                                            <th class="border-bottom">Acciones</th>
+                                            <th class="border-0 rounded-start">Nombre</th>
+                                            <th class="border-0">Correo</th>
+                                            <th class="border-0">Rol</th>
+                                            <th class="border-0">Estado</th>
+                                            <th class="border-0">Fecha de registro</th>
+                                            <th class="border-0 rounded-end">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse($users as $user)
                                             <tr>
                                                 <td>
-                                                    <a href="#" class="d-flex align-items-center">
-                                                        <div class="avatar rounded-circle me-3 d-flex align-items-center justify-content-center bg-primary text-white fw-bold"
-                                                            style="width: 48px; height: 48px; font-size: 1.2rem;">
-                                                            {{ strtoupper(substr($user->name, 0, 1)) }}{{ strtoupper(substr(explode(' ', $user->name)[1] ?? '', 0, 1)) }}
-                                                        </div>
-                                                        <div class="d-block">
-                                                            <span class="fw-bold">{{ $user->name }}</span>
-                                                            <div class="small text-gray">
-                                                                {{ '@' . strtolower(str_replace(' ', '.', explode(' ', $user->name)[0])) }}
-                                                            </div>
-                                                        </div>
-                                                    </a>
+                                                    <span class="fw-bold text-gray-900">{{ $user->name }}</span>
                                                 </td>
                                                 <td><span class="fw-normal">{{ $user->email }}</span></td>
                                                 <td>

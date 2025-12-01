@@ -1,4 +1,4 @@
-{{--
+{{-- 
 Company: CETAM
 Project: ST
 File: user-create.blade.php
@@ -6,6 +6,9 @@ Created on: 06/11/2025
 Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
 --}}
+
+{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
+{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -41,7 +44,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div>
                                 <label for="name">Nombre completo <span class="text-danger">*</span></label>
                                 <input wire:model="name" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" type="text" placeholder="Nombre completo" required>
+                                    id="name" type="text" placeholder="Nombre completo">
                                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -49,7 +52,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="form-group">
                                 <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" type="email" placeholder="correo@ejemplo.com" required>
+                                    id="email" type="email" placeholder="correo@ejemplo.com">
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -59,7 +62,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="col-md-12 mb-3">
                             <label for="role">Rol <span class="text-danger">*</span></label>
                             <select wire:model="role" class="form-select @error('role') is-invalid @enderror" id="role"
-                                aria-label="Seleccionar rol" required>
+                                aria-label="Seleccionar rol">
                                 <option value="">Seleccionar...</option>
                                 <option value="admin">Administrador</option>
                                 <option value="secretary">Secretario(a)</option>
@@ -76,7 +79,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <label for="password">Contraseña <span class="text-danger">*</span></label>
                                 <input wire:model="password"
                                     class="form-control @error('password') is-invalid @enderror" id="password"
-                                    type="password" placeholder="Ingresa la contraseña" required>
+                                    type="password" placeholder="Ingresa la contraseña">
                                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 <small class="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
@@ -87,8 +90,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         class="text-danger">*</span></label>
                                 <input wire:model="password_confirmation"
                                     class="form-control @error('password_confirmation') is-invalid @enderror"
-                                    id="password_confirmation" type="password" placeholder="Confirma la contraseña"
-                                    required>
+                                    id="password_confirmation" type="password" placeholder="Confirma la contraseña">
                                 @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -97,7 +99,7 @@ Approved by: Alfonso Angel Garcia Hernandez
 
                     <div class="mt-3">
                         <button type="button" id="createUserBtn" class="btn btn-primary mt-2 animate-up-2">
-                            <span class="fa-xs text-white me-2 fas fa-user-plus"></span>
+                            <i class="fa-xs text-white me-2 fas fa-user-plus"></i>
                             Crear usuario
                         </button>
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.index') }}"
@@ -116,7 +118,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                <span class="fa-xs text-info me-3 fas fa-info-circle"></span>
+                                @icon('state.info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Roles disponibles</h3>
                                     <p class="text-gray-700 small mb-0">
@@ -127,21 +129,23 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 </div>
                             </div>
                         </li>
-                        <span class="fa-xs text-info me-3 fas fa-lock"></span>
-                        <div>
-                            <h3 class="h6">Seguridad</h3>
-                            <p class="text-gray-700 small mb-0">
-                                Se recomienda que el usuario cambie la contraseña en el primer acceso.
-                            </p>
-                        </div>
+                        <li class="list-group-item px-0">
+                            <div class="d-flex align-items-start">
+                                @icon('access.lock', 'fa-xs text-info me-3')
+                                <div>
+                                    <h3 class="h6">Seguridad</h3>
+                                    <p class="text-gray-700 small mb-0">
+                                        Se recomienda que el usuario cambie la contraseña en el primer acceso.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                </li>
-                </ul>
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -153,7 +157,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             buttonsStyling: false
         });
 
-        // Botn de crear usuario con confirmacin
+        // Botón de crear usuario con confirmación
         document.getElementById('createUserBtn').addEventListener('click', function () {
             swalWithBootstrapButtons.fire({
                 title: '¿Estás seguro?',
@@ -174,16 +178,16 @@ Approved by: Alfonso Angel Garcia Hernandez
         if (window.Livewire) {
             Livewire.on('user-created', (event) => {
                 const detail = event || {};
+                const iconType = detail.type || 'success';
+                const confirmText = iconType === 'warning' ? 'Entendido' : 'Aceptar';
                 swalWithBootstrapButtons.fire({
-                    icon: detail.type || 'success',
+                    icon: iconType,
                     title: detail.title || 'Aviso',
                     text: detail.message || '',
-                    confirmButtonText: 'Aceptar',
+                    confirmButtonText: confirmText,
                     showConfirmButton: true
                 });
             });
         }
     });
 </script>
-
-</div>
