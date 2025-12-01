@@ -3,8 +3,8 @@
   Project: ST
   File: sidenav-secretary.blade.php
   Created on: 04/11/2025
-  Created by: Alfonso Angel García Hernández
-  Approved by: Alfonso Angel García Hernández
+  Created by: Alfonso Angel Garca Hernndez
+  Approved by: Alfonso Angel Garca Hernndez
 
   Changelog:
 --}}
@@ -22,7 +22,7 @@
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
               @icon('auth.logout', 'icon icon-xxs me-1')
-              Cerrar sesión
+              Cerrar sesin
             </button>
           </form>
         </div>
@@ -57,7 +57,7 @@
         </a>
       </li>
 
-      {{-- Búsqueda de trabajadores --}}
+      {{-- Bsqueda de trabajadores --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}" class="nav-link">
           <span class="sidebar-icon">
@@ -67,7 +67,7 @@
         </a>
       </li>
 
-      {{-- Gestión de convocatorias y documentos públicos --}}
+      {{-- Gestin de convocatorias y documentos pblicos --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}" class="nav-link">
           <span class="sidebar-icon">
@@ -77,17 +77,17 @@
         </a>
       </li>
 
-      {{-- Enviar notificación --}}
+      {{-- Enviar notificacin --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notificaciones') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('notif.bell', 'icon icon-xs me-2')
           </span>
-          <span class="sidebar-text">Enviar notificación</span>
+          <span class="sidebar-text">Enviar notificacin</span>
         </a>
       </li>
 
-      {{-- Gestión de FAQs --}}
+      {{-- Gestin de FAQs --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.gestion-faqs') }}" class="nav-link">
           <span class="sidebar-icon">
@@ -99,7 +99,7 @@
 
       <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
 
-      {{-- Gestión de procesos --}}
+      {{-- Gestin de procesos --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-proceso') }}" class="nav-link">
           <span class="sidebar-icon">

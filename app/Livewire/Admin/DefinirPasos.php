@@ -73,7 +73,7 @@ class DefinirPasos extends Component
             ->orderBy('name', 'asc')
             ->get();
 
-        return view('livewire.admin.definir-pasos', [
+        return view('modules.admin.definir-pasos', [
             'procesos' => $procesos
         ])->layout('layouts.app');
     }
@@ -102,3 +102,4 @@ class DefinirPasos extends Component
         return $badges[$conditionType] ?? 'primary';
     }
 }
+

@@ -46,9 +46,10 @@ class PreguntasFrecuentes extends Component
             ->get()
             ->groupBy('faq_category_id');
 
-        return view('livewire.preguntas-frecuentes', [
+        return view('modules.preguntas-frecuentes', [
             'categories' => $categories,
             'faqs' => $faqs,
         ])->layout('layouts.app');
     }
 }
+

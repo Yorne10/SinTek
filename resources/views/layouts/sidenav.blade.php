@@ -3,8 +3,8 @@
   Project: ST
   File: sidenav.blade.php
   Created on: 04/11/2025
-  Created by: Alfonso Angel García Hernández
-  Approved by: Alfonso Angel García Hernández
+  Created by: Alfonso Angel Garca Hernndez
+  Approved by: Alfonso Angel Garca Hernndez
 
   Changelog:
 --}}

@@ -69,6 +69,7 @@ class Login extends Component
     public function render()
     {
         // Aplicar layout de la app; el contenido se inyectará vía $slot
-        return view('livewire.auth.login')->layout('layouts.app');
+        return view('modules.auth.login')->layout('layouts.app');
     }
 }
+

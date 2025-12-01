@@ -87,6 +87,7 @@ class UserCreate extends Component
 
     public function render()
     {
-        return view('livewire.user-create')->layout('layouts.app');
+        return view('modules.user-create')->layout('layouts.app');
     }
 }
+

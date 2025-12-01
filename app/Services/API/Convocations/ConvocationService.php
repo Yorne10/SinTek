@@ -1,19 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Services\API\Convocations;
 
-use App\Http\Controllers\Controller;
 use App\Models\Convocation;
 use App\Models\ConvocationDocument;
-use Illuminate\Http\Request;
 
-class ConvocationController extends Controller
+class ConvocationService
 {
-    /**
-     * Obtener todas las convocatorias activas
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index()
     {
         $convocatorias = Convocation::with('documents')
@@ -50,12 +43,6 @@ class ConvocationController extends Controller
         ]);
     }
 
-    /**
-     * Obtener una convocatoria específica
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show($id)
     {
         $convocatoria = Convocation::with('documents')->find($id);
@@ -91,30 +78,6 @@ class ConvocationController extends Controller
         ]);
     }
 
-    /**
-     * Obtener el label del estado
-     *
-     * @param string $status
-     * @return string
-     */
-    private function getStatusLabel($status)
-    {
-        $labels = [
-            'activa' => 'Vigente',
-            'permanente' => 'Permanente',
-            'proxima' => 'Próximamente',
-            'cerrada' => 'Cerrada',
-        ];
-
-        return $labels[$status] ?? ucfirst($status);
-    }
-
-    /**
-     * Descargar documento de convocatoria (PDF en Base64)
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function downloadDocument($id)
     {
         $document = ConvocationDocument::find($id);
@@ -126,7 +89,6 @@ class ConvocationController extends Controller
             ], 404);
         }
 
-        // Convertir el contenido binario a Base64 para enviarlo por JSON
         $base64Content = base64_encode($document->file_content);
 
         return response()->json([
@@ -140,4 +102,17 @@ class ConvocationController extends Controller
             ],
         ]);
     }
+
+    private function getStatusLabel(string $status): string
+    {
+        $labels = [
+            'activa' => 'Vigente',
+            'permanente' => 'Permanente',
+            'proxima' => 'Próximamente',
+            'cerrada' => 'Cerrada',
+        ];
+
+        return $labels[$status] ?? ucfirst($status);
+    }
 }
+

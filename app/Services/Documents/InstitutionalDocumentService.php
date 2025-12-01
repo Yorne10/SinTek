@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\Documents;
 
 use App\Models\InstitutionalDocument;
-use Illuminate\Http\Request;
 
-class InstitutionalDocumentController extends Controller
+class InstitutionalDocumentService
 {
-    /**
-     * Mostrar el documento en el navegador
-     */
     public function show($id)
     {
         $document = InstitutionalDocument::findOrFail($id);
@@ -19,9 +15,6 @@ class InstitutionalDocumentController extends Controller
             ->header('Content-Disposition', 'inline; filename="' . $document->file_name . '"');
     }
 
-    /**
-     * Descargar el documento
-     */
     public function download($id)
     {
         $document = InstitutionalDocument::findOrFail($id);

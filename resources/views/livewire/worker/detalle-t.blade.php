@@ -1,3 +1,3 @@
-<div>
-    {{-- Success is as dangerous as failure. --}}
-</div>
+{{-- Vista movida a modules/worker\detalle-t.blade.php --}}
+@include('modules.worker.detalle-t')
+

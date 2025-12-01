@@ -35,7 +35,7 @@ class MisTramites extends Component
         $worker = Worker::where('user_id', $user->users_id)->first();
 
         if (!$worker) {
-            return view('livewire.worker.mis-tramites', [
+            return view('modules.worker.mis-tramites', [
                 'requests' => collect([]),
                 'stats' => [
                     'total' => 0,
@@ -76,7 +76,7 @@ class MisTramites extends Component
             'completed' => $allRequests->where('status', 'completed')->count(),
         ];
 
-        return view('livewire.worker.mis-tramites', [
+        return view('modules.worker.mis-tramites', [
             'requests' => $requests,
             'stats' => $stats,
         ])->layout('layouts.app');
@@ -103,3 +103,4 @@ class MisTramites extends Component
         return $request->requestSteps->count();
     }
 }
+

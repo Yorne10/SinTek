@@ -25,7 +25,8 @@ class ModificarProceso extends Component
 {
     public function render()
     {
-        return view('livewire.admin.modificar-proceso')
+        return view('modules.admin.modificar-proceso')
             ->layout('layouts.app');
     }
 }
+

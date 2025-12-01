@@ -8,6 +8,7 @@ class ConvocatoriasEventos extends Component
 {
     public function render()
     {
-        return view('livewire.admin.convocatorias-eventos')->layout('layouts.app');
+        return view('modules.admin.convocatorias-eventos')->layout('layouts.app');
     }
 }
+

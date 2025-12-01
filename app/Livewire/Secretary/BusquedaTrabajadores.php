@@ -88,8 +88,9 @@ class BusquedaTrabajadores extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.secretary.busqueda-trabajadores', [
+        return view('modules.secretary.busqueda-trabajadores', [
             'workers' => $workers
         ])->layout('layouts.app');
     }
 }
+

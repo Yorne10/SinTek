@@ -53,7 +53,7 @@
                     <div class="col ps-0 ms-2">
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
-                          <h4 class="h6 mb-0 text-small">{{ $notification->tittle ?? 'Notificación' }}</h4>
+                          <h4 class="h6 mb-0 text-small">{{ $notification->tittle ?? 'Notificacin' }}</h4>
                         </div>
                         <div class="text-end">
                           <small class="{{ $notification->read_at ? 'text-muted' : 'text-danger' }}">

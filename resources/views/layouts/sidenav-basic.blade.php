@@ -3,9 +3,9 @@
   Empresa: CETAM
   Proyecto: ST
   Archivo: sidenav.blade.php
-  Fecha de creación: 02/11/25
-  Realizado por: Alfonso Angel García Hernández
-  Validado por: Alfonso Angel García Hernández
+  Fecha de creacin: 02/11/25
+  Realizado por: Alfonso Angel Garca Hernndez
+  Validado por: Alfonso Angel Garca Hernndez
 --}}
 <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
   <div class="sidebar-inner px-2 pt-3">

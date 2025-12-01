@@ -50,8 +50,9 @@ class Notificaciones extends Component
 
     public function render()
     {
-        return view('livewire.worker.notificaciones', [
+        return view('modules.worker.notificaciones', [
             'notifications' => $this->notifications,
         ])->layout('layouts.app');
     }
 }
+

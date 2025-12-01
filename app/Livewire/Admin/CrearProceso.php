@@ -83,7 +83,8 @@ class CrearProceso extends Component
 
     public function render()
     {
-        return view('livewire.admin.crear-proceso')
+        return view('modules.admin.crear-proceso')
             ->layout('layouts.app');
     }
 }
+

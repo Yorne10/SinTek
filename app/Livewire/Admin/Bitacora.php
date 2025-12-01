@@ -25,6 +25,7 @@ class Bitacora extends Component
 {
     public function render()
     {
-        return view('livewire.admin.bitacora')->layout('layouts.app');
+        return view('modules.admin.bitacora')->layout('layouts.app');
     }
 }
+

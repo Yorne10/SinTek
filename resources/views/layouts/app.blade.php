@@ -17,7 +17,7 @@
     @php($routeName = request()->route()?->getName())
     @php($prefix = config('proj.route_name_prefix', 'proj'))
     @php($isAppShell = in_array($routeName, [
-        // Rutas app principales con navegación completa
+        // Rutas app principales con navegacin completa
         $prefix . '.dashboard.index', $prefix . '.profile.index', $prefix . '.profile.example', $prefix . '.users.index', $prefix . '.users.create',
         $prefix . '.ui.bootstrap-tables', $prefix . '.billing.transactions', $prefix . '.ui.buttons', $prefix . '.ui.forms',
         $prefix . '.ui.modals', $prefix . '.ui.notifications', $prefix . '.ui.typography', $prefix . '.marketing.upgrade-to-pro',
@@ -37,12 +37,12 @@
         $prefix . '.preguntas-frecuentes',
     ]))
     @php($isAuthShell = in_array($routeName, [
-        // Rutas de autenticación/landing
+        // Rutas de autenticacin/landing
         $prefix . '.auth.register', $prefix . '.examples.register', $prefix . '.auth.login', $prefix . '.examples.login',
         $prefix . '.auth.forgot-password', $prefix . '.examples.forgot-password', $prefix . '.auth.reset-password', $prefix . '.examples.reset-password',
     ]))
     @php($isMinimalShell = in_array($routeName, [
-        // Páginas minimalistas
+        // Pginas minimalistas
         $prefix . '.errors.404', $prefix . '.errors.500', $prefix . '.auth.lock',
     ]))
 

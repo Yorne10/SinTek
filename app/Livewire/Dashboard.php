@@ -27,14 +27,15 @@ class Dashboard extends Component
 
         // Redireccionar según el rol del usuario
         if ($user->hasRole('admin')) {
-            return view('livewire.admin.dashboard')->layout('layouts.app');
+            return view('modules.admin.dashboard')->layout('layouts.app');
         } elseif ($user->hasRole('secretary')) {
-            return view('livewire.secretary.dashboard')->layout('layouts.app');
+            return view('modules.secretary.dashboard')->layout('layouts.app');
         } elseif ($user->hasRole('worker')) {
-            return view('livewire.worker.dashboard')->layout('layouts.app');
+            return view('modules.worker.dashboard')->layout('layouts.app');
         }
 
         // Vista por defecto si no tiene un rol específico
         return view('dashboard')->layout('layouts.app');
     }
 }
+

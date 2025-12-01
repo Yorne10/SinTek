@@ -8,6 +8,7 @@ class ForgotPasswordExample extends Component
 {
     public function render()
     {
-        return view('livewire.forgot-password-example')->layout('layouts.app');
+        return view('modules.forgot-password-example')->layout('layouts.app');
     }
 }
+

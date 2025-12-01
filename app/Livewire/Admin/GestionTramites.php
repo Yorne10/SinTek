@@ -8,6 +8,7 @@ class GestionTramites extends Component
 {
     public function render()
     {
-        return view('livewire.admin.gestion-tramites')->layout('layouts.app');
+        return view('modules.admin.gestion-tramites')->layout('layouts.app');
     }
 }
+

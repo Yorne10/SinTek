@@ -105,7 +105,7 @@ class GestionFaqs extends Component
             $this->resetCategoryForm();
             $this->showCategoryForm = false;
 
-            $this->dispatch('faq-notify', type: 'success', title: '¡Éxito!', message: $message);
+            $this->dispatch('faq-notify', type: 'success', title: '¡xito!', message: $message);
         } catch (\Exception $e) {
             $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo guardar la categoría.');
         }
@@ -186,7 +186,7 @@ class GestionFaqs extends Component
             $this->resetFaqForm();
             $this->showFaqForm = false;
 
-            $this->dispatch('faq-notify', type: 'success', title: '¡Éxito!', message: $message);
+            $this->dispatch('faq-notify', type: 'success', title: '¡xito!', message: $message);
         } catch (\Exception $e) {
             $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo guardar la FAQ.');
         }
@@ -252,10 +252,11 @@ class GestionFaqs extends Component
 
         $allCategories = FaqCategory::active()->ordered()->get();
 
-        return view('livewire.secretary.gestion-faqs', [
+        return view('modules.secretary.gestion-faqs', [
             'categories' => $categories,
             'faqs' => $faqs,
             'allCategories' => $allCategories,
         ])->layout('layouts.app');
     }
 }
+

@@ -8,6 +8,7 @@ class Reportes extends Component
 {
     public function render()
     {
-        return view('livewire.admin.reportes')->layout('layouts.app');
+        return view('modules.admin.reportes')->layout('layouts.app');
     }
 }
+

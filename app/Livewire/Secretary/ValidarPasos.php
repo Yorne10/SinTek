@@ -18,7 +18,8 @@ class ValidarPasos extends Component
 {
     public function render()
     {
-        return view('livewire.secretary.validar-pasos')
+        return view('modules.secretary.validar-pasos')
             ->layout('layouts.app');
     }
 }
+

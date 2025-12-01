@@ -49,8 +49,8 @@ use App\Livewire\Secretary\ConvocatoriasDocumentos;
 use App\Livewire\Secretary\Reportes as SecretaryReportes;
 use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
 use App\Livewire\Secretary\GestionFaqs;
-use App\Http\Controllers\ConvocationDocumentController;
-use App\Http\Controllers\InstitutionalDocumentController;
+use App\Http\Controllers\Documents\ConvocationDocumentController;
+use App\Http\Controllers\Documents\InstitutionalDocumentController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\FallbackAuthController;
 
@@ -69,10 +69,10 @@ use App\Http\Controllers\Auth\FallbackAuthController;
 $slug = config('proj.slug');
 $namePrefix = config('proj.route_name_prefix', 'proj');
 
-// Redirección base a login dentro del prefijo
+// Redireccin base a login dentro del prefijo
 Route::redirect('/', "/p/{$slug}/login");
 
-// Verificación de correo (enlace firmado, sin exigir sesión)
+// Verificacin de correo (enlace firmado, sin exigir sesin)
 Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
     ->middleware(['signed'])
     ->name('verification.verify');
@@ -80,7 +80,7 @@ Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
 Route::prefix("p/{$slug}")
     ->as($namePrefix . '.')
     ->group(function () use ($namePrefix) {
-        // Público
+        // Pblico
     Route::get('/register', Register::class)->name('auth.register');
     Route::post('/register', [FallbackAuthController::class, 'register'])->name('auth.register.submit');
 
@@ -90,7 +90,7 @@ Route::prefix("p/{$slug}")
         Route::get('/forgot-password', ForgotPassword::class)->name('auth.forgot-password');
         Route::get('/reset-password/{id}', ResetPassword::class)->name('auth.reset-password')->middleware('signed');
 
-        // Errores y páginas informativas
+        // Errores y pginas informativas
         Route::get('/404', Err404::class)->name('errors.404');
         Route::get('/500', Err500::class)->name('errors.500');
         Route::get('/upgrade-to-pro', UpgradeToPro::class)->name('marketing.upgrade-to-pro');
@@ -122,7 +122,7 @@ Route::prefix("p/{$slug}")
 
             // Rutas para secretarios/operadores
             Route::middleware(['role:secretary'])->group(function () {
-                // Funciones de secretaría
+                // Funciones de secretara
                 Route::get('/panel-solicitudes', PanelSolicitudes::class)->name('secretary.panel-solicitudes');
                 Route::get('/validar-pasos', ValidarPasos::class)->name('secretary.validar-pasos');
                 Route::get('/busqueda-trabajadores', BusquedaTrabajadores::class)->name('secretary.busqueda-trabajadores');
@@ -132,14 +132,14 @@ Route::prefix("p/{$slug}")
                 Route::get('/gestion-faqs', GestionFaqs::class)->name('secretary.gestion-faqs');
             });
 
-            // Rutas para administradores (gestión de usuarios y sistema)
+            // Rutas para administradores (gestin de usuarios y sistema)
             Route::middleware(['role:admin'])->group(function () {
                 Route::get('/configuracion', Configuracion::class)->name('admin.configuracion');
                 Route::get('/bitacora', Bitacora::class)->name('admin.bitacora');
                 Route::get('/reportes', Reportes::class)->name('admin.reportes');
             });
 
-            // Rutas compartidas: admin Y secretary (gestión de procesos)
+            // Rutas compartidas: admin Y secretary (gestin de procesos)
             Route::middleware(['role:admin,secretary'])->group(function () {
                 Route::get('/crear-proceso', CrearProceso::class)->name('admin.crear-proceso');
                 Route::get('/definir-pasos', DefinirPasos::class)->name('admin.definir-pasos');
@@ -154,7 +154,7 @@ Route::prefix("p/{$slug}")
             // Rutas de la plantilla original
             Route::get('/profile-example', ProfileExample::class)->name('profile.example');
 
-            // Ruta de gestión de usuarios (solo para admin)
+            // Ruta de gestin de usuarios (solo para admin)
             Route::middleware(['role:admin'])->group(function () {
                 Route::get('/users', Users::class)->name('users.index');
                 Route::get('/users/create', UserCreate::class)->name('users.create');

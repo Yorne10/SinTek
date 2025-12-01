@@ -16,8 +16,9 @@ class Convocatorias extends Component
             ->orderBy('start_date', 'desc')
             ->get();
 
-        return view('livewire.worker.convocatorias', [
+        return view('modules.worker.convocatorias', [
             'convocatorias' => $convocatorias
         ])->layout('layouts.app');
     }
 }
+

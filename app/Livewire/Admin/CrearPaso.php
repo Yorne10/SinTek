@@ -176,7 +176,8 @@ class CrearPaso extends Component
 
     public function render()
     {
-        return view('livewire.admin.crear-paso')
+        return view('modules.admin.crear-paso')
             ->layout('layouts.app');
     }
 }
+

@@ -258,9 +258,10 @@ class ConvocatoriasDocumentos extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10, ['*'], 'institutional_page');
 
-        return view('livewire.secretary.convocatorias-documentos', [
+        return view('modules.secretary.convocatorias-documentos', [
             'convocatorias' => $convocatorias,
             'institutionalDocuments' => $institutionalDocuments
         ])->layout('layouts.app');
     }
 }
+

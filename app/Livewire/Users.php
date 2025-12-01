@@ -59,7 +59,7 @@ class Users extends Component
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.users', [
+        return view('modules.users', [
             'users' => $users
         ])->layout('layouts.app');
     }
@@ -105,3 +105,4 @@ class Users extends Component
         }
     }
 }
+

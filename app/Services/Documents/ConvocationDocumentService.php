@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\Documents;
 
 use App\Models\ConvocationDocument;
-use Illuminate\Http\Request;
 
-class ConvocationDocumentController extends Controller
+class ConvocationDocumentService
 {
     public function show($id)
     {

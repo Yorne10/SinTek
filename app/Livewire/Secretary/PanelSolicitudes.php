@@ -93,7 +93,7 @@ class PanelSolicitudes extends Component
         $todayCount = $this->getTodayCount();
         $weekCount = $this->getWeekCount();
 
-        return view('livewire.secretary.panel-solicitudes', [
+        return view('modules.secretary.panel-solicitudes', [
             'requests' => $requests,
             'pendingCount' => $pendingCount,
             'inProgressCount' => $inProgressCount,
@@ -102,3 +102,4 @@ class PanelSolicitudes extends Component
         ])->layout('layouts.app');
     }
 }
+

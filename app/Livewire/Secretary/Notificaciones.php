@@ -172,10 +172,11 @@ class Notificaciones extends Component
 
     public function render()
     {
-        return view('livewire.secretary.notificaciones', [
+        return view('modules.secretary.notificaciones', [
             'filteredWorkers' => $this->filteredWorkers,
             'selectedWorkers' => $this->selectedWorkers,
             'notifications' => $this->notifications,
         ])->layout('layouts.app');
     }
 }
+

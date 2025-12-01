@@ -8,6 +8,7 @@ class UpgradeToPro extends Component
 {
     public function render()
     {
-        return view('livewire.upgrade-to-pro')->layout('layouts.app');
+        return view('modules.upgrade-to-pro')->layout('layouts.app');
     }
 }
+

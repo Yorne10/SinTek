@@ -8,6 +8,7 @@ class Solicitudes extends Component
 {
     public function render()
     {
-        return view('livewire.admin.solicitudes')->layout('layouts.app');
+        return view('modules.admin.solicitudes')->layout('layouts.app');
     }
 }
+

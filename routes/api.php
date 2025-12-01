@@ -1,14 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\ProfileController;
-use App\Http\Controllers\API\ConvocationController;
-use App\Http\Controllers\API\NotificationController;
-use App\Http\Controllers\API\ProcessController;
-use App\Http\Controllers\API\RequestController;
-use App\Http\Controllers\API\FaqController;
+use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Profiles\ProfileController;
+use App\Http\Controllers\API\Convocations\ConvocationController;
+use App\Http\Controllers\API\Notifications\NotificationController;
+use App\Http\Controllers\API\Processes\ProcessController;
+use App\Http\Controllers\API\Requests\RequestController;
+use App\Http\Controllers\API\Faq\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +24,7 @@ use App\Http\Controllers\API\FaqController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register/worker', [AuthController::class, 'registerWorker']);
 
-// Protected routes - SOLO PARA WORKERS (App Móvil)
+// Protected routes - SOLO PARA WORKERS (App mvil)
 Route::middleware(['auth:sanctum', 'role:worker'])->group(function () {
     // Auth routes
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -44,18 +43,18 @@ Route::middleware(['auth:sanctum', 'role:worker'])->group(function () {
     Route::get('/convocations/{id}', [ConvocationController::class, 'show']);
     Route::get('/convocation-documents/{id}', [ConvocationController::class, 'downloadDocument'])->name('api.convocation-document.show');
 
-    // Trámites/Procesos - Catálogo
+    // Trmites/Procesos - Catlogo
     Route::get('/processes', [ProcessController::class, 'index']);
     Route::get('/processes/{id}', [ProcessController::class, 'show']);
 
-    // Mis Trámites/Solicitudes
+    // Mis Trmites/Solicitudes
     Route::get('/my-requests', [RequestController::class, 'index']);
     Route::post('/my-requests', [RequestController::class, 'store']);
     Route::get('/my-requests/{id}', [RequestController::class, 'show']);
     Route::post('/my-requests/{id}/next-step', [RequestController::class, 'nextStep']);
     Route::post('/my-requests/{id}/conditional-step', [RequestController::class, 'conditionalStep']);
 
-    // Notificaciones (móvil)
+    // Notificaciones (mvil)
     Route::get('/my-notifications', [NotificationController::class, 'index']);
     Route::post('/my-notifications/read', [NotificationController::class, 'markAsRead']);
 

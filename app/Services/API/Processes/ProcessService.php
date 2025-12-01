@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Services\API\Processes;
 
-use App\Http\Controllers\Controller;
 use App\Models\Process;
 use Illuminate\Http\Request;
 
-class ProcessController extends Controller
+class ProcessService
 {
-    /**
-     * Obtener todos los trámites/procesos disponibles
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index(Request $request)
     {
         $query = Process::with('steps')
             ->where('active', 1);
 
-        // Filtro por búsqueda
         if ($request->has('search') && $request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
@@ -26,7 +19,6 @@ class ProcessController extends Controller
             });
         }
 
-        // Filtro por categoría
         if ($request->has('category') && $request->category) {
             $query->where('category', $request->category);
         }
@@ -44,7 +36,15 @@ class ProcessController extends Controller
                     'priority' => $proceso->priority,
                     'deadline_days' => $proceso->deadline_days,
                     'department' => $proceso->department,
-                    'steps_count' => $proceso->steps->count(),
+                    'steps' => $proceso->steps->map(function ($step) {
+                        return [
+                            'step_id' => $step->step_id,
+                            'order' => $step->order,
+                            'title' => $step->tittle,
+                            'description' => $step->description,
+                            'condition_type' => $step->condition_type,
+                        ];
+                    }),
                     'created_at' => $proceso->created_at->format('Y-m-d H:i:s'),
                 ];
             });
@@ -56,17 +56,9 @@ class ProcessController extends Controller
         ]);
     }
 
-    /**
-     * Obtener un proceso específico con sus pasos
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show($id)
     {
-        $proceso = Process::with(['steps' => function ($query) {
-            $query->orderBy('order', 'asc');
-        }])->find($id);
+        $proceso = Process::with('steps')->find($id);
 
         if (!$proceso) {
             return response()->json([
@@ -97,7 +89,7 @@ class ProcessController extends Controller
                     return [
                         'step_id' => $step->step_id,
                         'order' => $step->order,
-                        'title' => $step->tittle, // Nota: tiene typo en el modelo (tittle en lugar de title)
+                        'title' => $step->tittle,
                         'description' => $step->description,
                         'condition_type' => $step->condition_type,
                     ];

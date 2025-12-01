@@ -18,7 +18,8 @@ class Reportes extends Component
 {
     public function render()
     {
-        return view('livewire.secretary.reportes')
+        return view('modules.secretary.reportes')
             ->layout('layouts.app');
     }
 }
+

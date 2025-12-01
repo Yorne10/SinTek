@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Services\API\Notifications;
 
-use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class NotificationController extends Controller
+class NotificationService
 {
-    /**
-     * List notifications for the authenticated worker (mobile).
-     * Supports filtering by unread_only and incremental sync via ?since=timestamp.
-     */
     public function index(Request $request)
     {
         $userId = $request->user()->users_id;
@@ -42,9 +37,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Mark one or many notifications as read for the authenticated worker.
-     */
     public function markAsRead(Request $request)
     {
         $validated = $request->validate([

@@ -1,30 +1,14 @@
 <?php
-/**
- * Company: CETAM
- * Project: ST
- * File: FaqController.php
- * Created on: 24/11/2025
- * Created by: Codex
- * Approved by: Alfonso Angel García Hernández
- *
- * Description: API Controller for FAQs - provides endpoints for Flutter app
- */
 
-namespace App\Http\Controllers\API;
+namespace App\Services\API\Faq;
 
-use App\Http\Controllers\Controller;
 use App\Models\Faq;
 use App\Models\FaqCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class FaqController extends Controller
+class FaqService
 {
-    /**
-     * Get all active FAQ categories with their FAQs
-     *
-     * @return JsonResponse
-     */
     public function getCategories(): JsonResponse
     {
         try {
@@ -58,11 +42,6 @@ class FaqController extends Controller
         }
     }
 
-    /**
-     * Get all active FAQs grouped by category
-     *
-     * @return JsonResponse
-     */
     public function getAllFaqs(): JsonResponse
     {
         try {
@@ -103,12 +82,6 @@ class FaqController extends Controller
         }
     }
 
-    /**
-     * Get FAQs by category
-     *
-     * @param int $categoryId
-     * @return JsonResponse
-     */
     public function getFaqsByCategory(int $categoryId): JsonResponse
     {
         try {
@@ -118,49 +91,47 @@ class FaqController extends Controller
                 }])
                 ->findOrFail($categoryId);
 
-            $data = [
-                'category' => [
-                    'id' => $category->faq_category_id,
-                    'name' => $category->name,
-                    'description' => $category->description,
-                    'order' => $category->order,
-                ],
-                'faqs' => $category->activeFaqs->map(function ($faq) {
-                    return [
-                        'id' => $faq->faq_id,
-                        'question' => $faq->question,
-                        'answer' => $faq->answer,
-                        'order' => $faq->order,
-                    ];
-                })
-            ];
+            $faqs = $category->activeFaqs->map(function ($faq) use ($category) {
+                return [
+                    'id' => $faq->faq_id,
+                    'question' => $faq->question,
+                    'answer' => $faq->answer,
+                    'order' => $faq->order,
+                    'category' => [
+                        'id' => $category->faq_category_id,
+                        'name' => $category->name,
+                    ]
+                ];
+            });
 
             return response()->json([
                 'success' => true,
-                'data' => $data,
-                'message' => 'FAQs de la categoría obtenidas exitosamente.'
+                'data' => [
+                    'category' => [
+                        'id' => $category->faq_category_id,
+                        'name' => $category->name,
+                        'description' => $category->description,
+                        'order' => $category->order,
+                    ],
+                    'faqs' => $faqs,
+                ],
+                'message' => 'FAQs por categoría obtenidas exitosamente.'
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error al obtener las FAQs de la categoría.',
+                'message' => 'Error al obtener FAQs por categoría.',
                 'error' => $e->getMessage()
-            ], 404);
+            ], 500);
         }
     }
 
-    /**
-     * Search FAQs by keyword
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function searchFaqs(Request $request): JsonResponse
     {
         try {
-            $keyword = $request->input('keyword', '');
+            $keyword = $request->get('keyword');
 
-            if (empty($keyword)) {
+            if (!$keyword) {
                 return response()->json([
                     'success' => false,
                     'message' => 'El parámetro "keyword" es requerido.'
@@ -203,12 +174,6 @@ class FaqController extends Controller
         }
     }
 
-    /**
-     * Get a single FAQ by ID
-     *
-     * @param int $faqId
-     * @return JsonResponse
-     */
     public function getFaqById(int $faqId): JsonResponse
     {
         try {

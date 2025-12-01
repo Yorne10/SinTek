@@ -140,7 +140,7 @@
                     <div class="col-md-8">
                         <blockquote class="blockquote text-center">
                             Themesberg makes beautiful products to help people with creative ideas succeed. Our company empowers millions of people.
-                            <footer class="blockquote-footer mt-3 text-primary">Zoltan Szőgyényi</footer>
+                            <footer class="blockquote-footer mt-3 text-primary">Zoltan Szgynyi</footer>
                         </blockquote>
                     </div>
                 </div>

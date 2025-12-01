@@ -46,7 +46,7 @@ class TramitesDisponibles extends Component
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('livewire.worker.tramites-disponibles', [
+        return view('modules.worker.tramites-disponibles', [
             'procesos' => $procesos
         ])->layout('layouts.app');
     }
@@ -124,3 +124,4 @@ class TramitesDisponibles extends Component
         }
     }
 }
+

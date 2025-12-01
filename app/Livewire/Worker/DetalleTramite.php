@@ -76,13 +76,13 @@ class DetalleTramite extends Component
 
             session()->flash('success', 'Paso completado exitosamente');
         } else {
-            // No hay más pasos, completar trámite
+            // No hay ms pasos, completar trmite
             $this->request->update([
                 'status' => 'completed',
                 'end_date' => Carbon::now(),
             ]);
 
-            session()->flash('success', 'Trámite completado exitosamente');
+            session()->flash('success', 'Trmite completado exitosamente');
         }
 
         $this->loadRequest();
@@ -103,7 +103,7 @@ class DetalleTramite extends Component
             'step_date' => Carbon::now(),
         ]);
 
-        // Determinar siguiente paso según decisión
+        // Determinar siguiente paso segn decisin
         $nextStepId = $decision === 'yes' ? $currentStepModel->next_yes : $currentStepModel->next_no;
 
         if ($nextStepId) {
@@ -129,16 +129,16 @@ class DetalleTramite extends Component
                     ]);
                 }
 
-                session()->flash('success', 'Decisión registrada exitosamente');
+                session()->flash('success', 'Decisin registrada exitosamente');
             }
         } else {
-            // Completar trámite
+            // Completar trmite
             $this->request->update([
                 'status' => 'completed',
                 'end_date' => Carbon::now(),
             ]);
 
-            session()->flash('success', 'Trámite completado exitosamente');
+            session()->flash('success', 'Trmite completado exitosamente');
         }
 
         $this->loadRequest();
@@ -146,6 +146,7 @@ class DetalleTramite extends Component
 
     public function render()
     {
-        return view('livewire.worker.detalle-tramite')->layout('layouts.app');
+        return view('modules.worker.detalle-tramite')->layout('layouts.app');
     }
 }
+

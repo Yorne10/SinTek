@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Services\API\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
-class AuthController extends Controller
+class AuthService
 {
-    /**
-     * Register a new user (admin/secretary)
-     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -51,9 +46,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Register a new worker with user account
-     */
     public function registerWorker(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -104,9 +96,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Login user (Mobile API - Workers only)
-     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -126,37 +115,33 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Credenciales invÃ¡lidas'
+                'message' => 'Credenciales inválidas'
             ], 401);
         }
 
-        // Check if user is a worker (Mobile API restriction)
         if ($user->role !== 'worker') {
             return response()->json([
                 'success' => false,
-                'message' => 'Acceso denegado. Esta aplicaciÃ³n es solo para trabajadores. Los administradores y secretarios deben usar la aplicaciÃ³n web.'
+                'message' => 'Acceso denegado. Esta aplicación es solo para trabajadores. Los administradores y secretarios deben usar la aplicación web.'
             ], 403);
         }
 
         if (!$user->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Tu cuenta estÃ¡ inactiva. Contacta al administrador.'
+                'message' => 'Tu cuenta está inactiva. Contacta al administrador.'
             ], 403);
         }
 
-        // Revoke all previous tokens
         $user->tokens()->delete();
 
-        // Create new token with role ability
         $token = $user->createToken('auth-token', [$user->role])->plainTextToken;
 
-        // Load worker relation with positions
         $user->load('worker.positions');
 
         return response()->json([
             'success' => true,
-            'message' => 'Inicio de sesiÃ³n exitoso',
+            'message' => 'Inicio de sesión exitoso',
             'data' => [
                 'user' => $user,
                 'worker' => $user->worker,
@@ -165,9 +150,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-    /**
-     * Logout user
-     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -178,9 +160,6 @@ class AuthController extends Controller
         ], 200);
     }
 
-    /**
-     * Get current authenticated user
-     */
     public function me(Request $request)
     {
         $user = $request->user();
@@ -195,3 +174,4 @@ class AuthController extends Controller
         ], 200);
     }
 }
+

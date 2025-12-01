@@ -186,6 +186,7 @@ class Configuracion extends Component
 
     public function render()
     {
-        return view('livewire.admin.configuracion')->layout('layouts.app');
+        return view('modules.admin.configuracion')->layout('layouts.app');
     }
 }
+
