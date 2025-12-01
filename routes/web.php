@@ -137,6 +137,7 @@ Route::prefix("p/{$slug}")
                 Route::get('/configuracion', Configuracion::class)->name('admin.configuracion');
                 Route::get('/bitacora', Bitacora::class)->name('admin.bitacora');
                 Route::get('/reportes', Reportes::class)->name('admin.reportes');
+                Route::view('/alerts-preview', 'modules.admin.alerts-preview')->name('admin.alerts-preview');
             });
 
             // Rutas compartidas: admin Y secretary (gestin de procesos)

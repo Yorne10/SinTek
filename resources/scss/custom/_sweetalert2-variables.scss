@@ -14,7 +14,7 @@ $swal2-success: $success;              // Verde - Icono de éxito (checkmark)
 $swal2-error: $danger;                  // Rojo - Icono de error (X)
 $swal2-warning: $warning;               // Amarillo - Icono de advertencia (!)
 $swal2-info: $info;                     // Azul claro - Icono de información (i)
-$swal2-question: $info;                 // Azul claro - Icono de pregunta (?)
+$swal2-question: $gray-500;                 // Azul claro - Icono de pregunta (?)
 
 // Borde del icono success (animación del círculo)
 $swal2-success-border: rgba($success, .3);
@@ -49,6 +49,7 @@ $swal2-outline-color: rgba($primary, .4);            // Color del outline en foc
   --swal2-error-color: #{$swal2-error};
   --swal2-warning-color: #{$swal2-warning};
   --swal2-info-color: #{$swal2-info};
+  --swal2-question-color: #{$swal2-question};
 }
 
 .swal2-icon.swal2-success {
@@ -84,6 +85,11 @@ $swal2-outline-color: rgba($primary, .4);            // Color del outline en foc
   color: var(--swal2-info-color) !important;
 }
 
+.swal2-icon.swal2-question {
+  border-color: var(--swal2-question-color) !important;
+  color: var(--swal2-question-color) !important;
+}
+
 .swal2-styled.swal2-confirm {
   background: $swal2-confirm-button-background-color !important;
 }
@@ -94,6 +100,13 @@ $swal2-outline-color: rgba($primary, .4);            // Color del outline en foc
 
 .swal2-styled:focus {
   box-shadow: 0 0 0 1px $white, 0 0 0 3px $swal2-outline-color !important;
+}
+
+// Ajustar los botones a proporciones similares a la plantilla (menos altos y texto más compacto)
+.swal2-popup .swal2-styled {
+  padding: 0.45rem 1rem !important;
+  font-size: 0.9rem !important;
+  border-radius: 0.375rem !important;
 }
 
 // ===========================================

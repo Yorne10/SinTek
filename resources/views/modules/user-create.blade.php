@@ -178,7 +178,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     icon: detail.type || 'success',
                     title: detail.title || 'Aviso',
                     text: detail.message || '',
-                    confirmButtonText: 'Entendido',
+                    confirmButtonText: 'Aceptar',
                     showConfirmButton: true
                 });
             });

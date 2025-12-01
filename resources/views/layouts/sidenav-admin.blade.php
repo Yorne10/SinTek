@@ -88,12 +88,20 @@ Changelog:
             </li>
 
             {{-- Reportes globales --}}
-            <li class="nav-item">
-              <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.reportes') }}" class="nav-link">
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.reportes') }}" class="nav-link">
           <span class="sidebar-icon">@icon('report.bar', 'me-2')</span>
-                <span class="sidebar-text">Reportes globales</span>
-              </a>
-            </li>
+          <span class="sidebar-text">Reportes globales</span>
+        </a>
+      </li>
+
+      {{-- Preview de Alerts (temporal) --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.alerts-preview') }}" class="nav-link">
+          <span class="sidebar-icon">@icon('state.info', 'me-2')</span>
+          <span class="sidebar-text">Alerts preview</span>
+        </a>
+      </li>
 
             <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
 

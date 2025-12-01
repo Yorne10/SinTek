@@ -142,6 +142,28 @@
 
     @livewireScripts
     @yield('scripts')
+    <script>
+        (function patchSwalDefaults() {
+            if (window.__swalPatched) return;
+            if (!window.Swal) {
+                setTimeout(patchSwalDefaults, 300);
+                return;
+            }
+            const originalFire = window.Swal.fire.bind(window.Swal);
+            window.Swal.fire = function (opts) {
+                const config = typeof opts === 'object' ? { ...opts } : { title: opts };
+                if (!config.confirmButtonText) {
+                    if (config.icon === 'warning') {
+                        config.confirmButtonText = 'Entendido';
+                    } else if (config.icon === 'success') {
+                        config.confirmButtonText = 'Aceptar';
+                    }
+                }
+                return originalFire(config);
+            };
+            window.__swalPatched = true;
+        })();
+    </script>
 </body>
 
 </html>

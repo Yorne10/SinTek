@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 icon: detail.type || 'success',
                 title: detail.title || 'Aviso',
                 text: detail.message || '',
-                confirmButtonText: 'Entendido',
+                confirmButtonText: 'Aceptar',
                 showConfirmButton: true
             });
         });

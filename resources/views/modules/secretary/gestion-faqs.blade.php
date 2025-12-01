@@ -414,7 +414,7 @@
                     icon: detail.type || 'info',
                     title: detail.title || 'Aviso',
                     text: detail.message || '',
-                    confirmButtonText: 'Entendido'
+                    confirmButtonText: 'Aceptar'
                 });
             });
         }

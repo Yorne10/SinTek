@@ -33,6 +33,7 @@
         $prefix . '.admin.modificar-proceso', $prefix . '.admin.gestion-tramites', $prefix . '.admin.solicitudes',
         $prefix . '.admin.convocatorias-eventos', $prefix . '.admin.plantillas-documentos',
         $prefix . '.admin.reportes', $prefix . '.admin.bitacora', $prefix . '.admin.configuracion',
+        $prefix . '.admin.alerts-preview',
         // Rutas compartidas
         $prefix . '.preguntas-frecuentes',
     ]))

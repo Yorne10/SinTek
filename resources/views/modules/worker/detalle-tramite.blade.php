@@ -400,7 +400,7 @@
                         icon: detail.type || 'success',
                         title: detail.title || 'Actualizado',
                         text: detail.message || '',
-                        confirmButtonText: 'Entendido'
+                        confirmButtonText: 'Aceptar'
                     });
                 });
             }

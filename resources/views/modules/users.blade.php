@@ -244,11 +244,13 @@
                                     if (window.Livewire) {
                                         Livewire.on('users-notify', (event) => {
                                             const detail = event || {};
+                                            const iconType = detail.type || 'success';
+                                            const confirmText = iconType === 'warning' ? 'Entendido' : 'Aceptar';
                                             swalWithBootstrapButtons.fire({
-                                                icon: detail.type || 'success',
+                                                icon: iconType,
                                                 title: detail.title || 'Aviso',
                                                 text: detail.message || '',
-                                                confirmButtonText: 'Entendido',
+                                                confirmButtonText: confirmText,
                                                 showConfirmButton: true
                                             });
                                         });
