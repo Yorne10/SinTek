@@ -35,14 +35,12 @@ use App\Livewire\Admin\GestionTramites;
 use App\Livewire\Admin\Solicitudes;
 use App\Livewire\Admin\ConvocatoriasEventos;
 use App\Livewire\Admin\PlantillasDocumentos;
-use App\Livewire\Admin\Reportes;
 use App\Livewire\Admin\Bitacora;
 use App\Livewire\Admin\Configuracion;
 use App\Livewire\Admin\CrearProceso;
 use App\Livewire\Admin\CrearPaso;
 use App\Livewire\Admin\DefinirPasos;
 use App\Livewire\Admin\ModificarProceso;
-use App\Livewire\Secretary\PanelSolicitudes;
 use App\Livewire\Secretary\ValidarPasos;
 use App\Livewire\Secretary\BusquedaTrabajadores;
 use App\Livewire\Secretary\ConvocatoriasDocumentos;
@@ -81,12 +79,21 @@ Route::prefix("p/{$slug}")
     ->as($namePrefix . '.')
     ->group(function () use ($namePrefix) {
         // Pblico
-    Route::get('/register', Register::class)->name('auth.register');
-    Route::post('/register', [FallbackAuthController::class, 'register'])->name('auth.register.submit');
+        Route::get('/register', Register::class)->name('auth.register');
+        Route::post('/register', [FallbackAuthController::class, 'register'])->name('auth.register.submit');
 
-    Route::get('/login', Login::class)->name('auth.login');
-    Route::post('/login', [FallbackAuthController::class, 'login'])->name('auth.login.submit');
-    Route::post('/logout', [FallbackAuthController::class, 'logout'])->name('auth.logout');
+        Route::get('/login', Login::class)->name('auth.login');
+        Route::post('/login', [FallbackAuthController::class, 'login'])->name('auth.login.submit');
+        Route::post('/logout', [FallbackAuthController::class, 'logout'])->name('auth.logout');
+
+        // Ruta para sesión expirada
+        Route::view('/session-expired', 'errors.session-expired')->name('errors.session-expired');
+
+        // Fallback for GET logout (e.g. refresh) -> Redirect to session expired
+        Route::get('/logout', function () use ($namePrefix) {
+            return redirect()->route($namePrefix . '.errors.session-expired');
+        });
+
         Route::get('/forgot-password', ForgotPassword::class)->name('auth.forgot-password');
         Route::get('/reset-password/{id}', ResetPassword::class)->name('auth.reset-password')->middleware('signed');
 
@@ -123,7 +130,6 @@ Route::prefix("p/{$slug}")
             // Rutas para secretarios/operadores
             Route::middleware(['role:secretary'])->group(function () {
                 // Funciones de secretara
-                Route::get('/panel-solicitudes', PanelSolicitudes::class)->name('secretary.panel-solicitudes');
                 Route::get('/validar-pasos', ValidarPasos::class)->name('secretary.validar-pasos');
                 Route::get('/busqueda-trabajadores', BusquedaTrabajadores::class)->name('secretary.busqueda-trabajadores');
                 Route::get('/convocatorias-documentos', ConvocatoriasDocumentos::class)->name('secretary.convocatorias-documentos');
@@ -136,7 +142,6 @@ Route::prefix("p/{$slug}")
             Route::middleware(['role:admin'])->group(function () {
                 Route::get('/configuracion', Configuracion::class)->name('admin.configuracion');
                 Route::get('/bitacora', Bitacora::class)->name('admin.bitacora');
-                Route::get('/reportes', Reportes::class)->name('admin.reportes');
                 Route::view('/alerts-preview', 'modules.admin.alerts-preview')->name('admin.alerts-preview');
             });
 
@@ -159,6 +164,7 @@ Route::prefix("p/{$slug}")
             Route::middleware(['role:admin'])->group(function () {
                 Route::get('/users', Users::class)->name('users.index');
                 Route::get('/users/create', UserCreate::class)->name('users.create');
+                Route::get('/users/{id}/edit', \App\Livewire\UserEdit::class)->name('users.edit');
             });
             Route::get('/login-example', LoginExample::class)->name('examples.login');
             Route::get('/register-example', RegisterExample::class)->name('examples.register');

@@ -87,14 +87,6 @@ Changelog:
               </a>
             </li>
 
-            {{-- Reportes globales --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.reportes') }}" class="nav-link">
-          <span class="sidebar-icon">@icon('report.bar', 'me-2')</span>
-          <span class="sidebar-text">Reportes globales</span>
-        </a>
-      </li>
-
             {{-- Mi perfil --}}
             <li class="nav-item">
               <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">

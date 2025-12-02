@@ -32,7 +32,6 @@
                                                 </a>
                                             </li>
                                             <li class="breadcrumb-item">Secretara</li>
-                                            <li class="breadcrumb-item"><a href="#">Panel de solicitudes</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Validar pasos</li>
                                         </ol>
                                     </nav>

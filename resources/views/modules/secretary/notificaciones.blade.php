@@ -21,7 +21,7 @@
                                 @icon('nav.home', 'fa-xs')
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Secretara</li>
+                        <li class="breadcrumb-item">Secretaría</li>
                         <li class="breadcrumb-item active" aria-current="page">Notificaciones</li>
                     </ol>
                 </nav>
@@ -36,7 +36,8 @@
                 <div class="card border-0 shadow h-100">
                     <div class="card-header bg-white border-0 pb-0">
                         <h2 class="fs-5 fw-bold mb-0">Enviar notificación</h2>
-                        <p class="text-muted small mb-0">Solo título y mensaje; selecciona destinatarios o marca enviar a
+                        <p class="text-muted small mb-0">Solo título y mensaje; selecciona destinatarios o marca enviar
+                            a
                             todos.</p>
                     </div>
                     <div class="card-body">
@@ -113,7 +114,7 @@
                                 <label class="form-label fw-semibold">Mensaje</label>
                                 <textarea wire:model.defer="message" rows="4"
                                     class="form-control @error('message') is-invalid @enderror"
-                                    placeholder="Explica brevemente al usuario qu debe saber."></textarea>
+                                    placeholder="Explica brevemente al usuario qué debe saber."></textarea>
                                 @error('message') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 <small class="text-muted d-block mt-1">Ejemplo: Tu documento ya está listo, puedes pasar
                                     por ventanilla.</small>
@@ -137,7 +138,7 @@
                         </div>
                         <div class="ms-auto" style="min-width: 240px;">
                             <input wire:model.debounce.500ms="search" type="text" class="form-control form-control-sm"
-                                placeholder="Buscar por ttulo o mensaje">
+                                placeholder="Buscar por título o mensaje">
                         </div>
                     </div>
 
@@ -146,7 +147,7 @@
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="border-0">Ttulo</th>
+                                        <th class="border-0">Título</th>
                                         <th class="border-0">Destino</th>
                                         <th class="border-0">Fecha</th>
                                         <th class="border-0">Acciones</th>
@@ -156,7 +157,7 @@
                                     @forelse ($notifications as $notification)
                                         <tr wire:key="notification-{{ $notification->notification_id }}">
                                             <td class="fw-semibold">
-                                                {{ $notification->tittle ?? 'Sin ttulo' }}
+                                                {{ $notification->tittle ?? 'Sin título' }}
                                                 <div class="text-gray-600 small mb-0 text-truncate"
                                                     style="max-width: 280px;">
                                                     {{ $notification->message }}
@@ -173,7 +174,7 @@
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-secondary view-notification-btn"
                                                     data-notification-id="{{ $notification->notification_id }}"
-                                                    data-notification-title="{{ $notification->tittle ?? 'Sin ttulo' }}"
+                                                    data-notification-title="{{ $notification->tittle ?? 'Sin título' }}"
                                                     data-notification-message="{{ $notification->message }}"
                                                     data-notification-user="{{ $notification->user->name ?? 'Usuario' }}"
                                                     data-notification-date="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
@@ -218,7 +219,7 @@
                 buttonsStyling: false
             });
 
-            // Botn enviar notificacin con confirmacin
+            // Botón enviar notificación con confirmación
             document.getElementById('sendNotificationBtn')?.addEventListener('click', function (e) {
                 e.preventDefault();
 
@@ -227,7 +228,7 @@
                     text: '¿Estás seguro de enviar esta notificación a los usuarios seleccionados?',
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: 'S, enviar',
+                    confirmButtonText: 'Sí, enviar',
                     cancelButtonText: 'Cancelar',
                     reverseButtons: true
                 }).then((result) => {
@@ -237,7 +238,7 @@
                 });
             });
 
-            // Event listener para ver detalles de notificacin
+            // Event listener para ver detalles de notificación
             document.addEventListener('click', function (e) {
                 if (e.target.closest('.view-notification-btn')) {
                     const button = e.target.closest('.view-notification-btn');
@@ -264,7 +265,7 @@
                 }
             });
 
-            // Escuchar evento de notificacin enviada
+            // Escuchar evento de notificación enviada
             if (window.Livewire) {
                 Livewire.on('notification-sent', (event) => {
                     const detail = event || {};

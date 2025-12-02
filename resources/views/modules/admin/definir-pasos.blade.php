@@ -91,6 +91,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         <th class="border-bottom">Paso</th>
                                         <th class="border-bottom">Tipo</th>
                                         <th class="border-bottom">Responsable</th>
+                                        <th class="border-bottom">Docs. Requeridos</th>
                                         <th class="border-bottom" style="width: 120px;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -132,6 +133,20 @@ Approved by: Alfonso Angel Garcia Hernandez
                                             </td>
                                             <td>
                                                 <span class="small text-gray-700">{{ $step->responsible ?? '' }}</span>
+                                            </td>
+                                            <td>
+                                                @if($step->requiredDocuments->count() > 0)
+                                                    <ul class="list-unstyled mb-0 small">
+                                                        @foreach($step->requiredDocuments as $doc)
+                                                            <li>
+                                                                @icon('action.upload', 'fa-xs text-secondary me-1')
+                                                                {{ $doc->title }}
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    <span class="small text-muted">-</span>
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="btn-group">

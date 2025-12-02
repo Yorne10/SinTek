@@ -10,14 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class FallbackAuthService
 {
     public function login(Request $request)
     {
         $data = $request->validate([
-            'email' => ['required','email'],
-            'password' => ['required','min:6'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:6'],
         ]);
 
         $remember = (bool) $request->boolean('remember');
@@ -42,13 +43,13 @@ class FallbackAuthService
     public function register(Request $request)
     {
         $data = $request->validate([
-            'first_name' => ['required','string','max:100'],
-            'last_name' => ['required','string','max:100'],
-            'email' => ['required','email','unique:users,email'],
-            'gender' => ['required','in:M,F'],
-            'curp' => ['required','regex:/^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9]{2}$/i'],
-            'budget_keys' => ['required','string','max:2000'],
-            'password' => ['required','min:8','confirmed'],
+            'first_name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'gender' => ['required', 'in:M,F'],
+            'curp' => ['required', 'regex:/^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9]{2}$/i'],
+            'budget_keys' => ['required', 'string', 'max:2000'],
+            'password' => ['required', 'min:8', 'confirmed'],
         ]);
 
         $user = null;
@@ -99,7 +100,7 @@ class FallbackAuthService
             try {
                 $user->sendEmailVerificationNotification();
             } catch (\Throwable $e) {
-                logger()->warning('Email verification not sent: '.$e->getMessage());
+                logger()->warning('Email verification not sent: ' . $e->getMessage());
             }
         }
 
@@ -109,12 +110,24 @@ class FallbackAuthService
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        try {
+            $isIdle = $request->has('idle');
 
-        $request->session()->invalidate();
+            Auth::logout();
 
-        $request->session()->regenerateToken();
+            $request->session()->invalidate();
 
-        return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
+            $request->session()->regenerateToken();
+
+            if ($isIdle) {
+                return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+            }
+
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
+        } catch (\Throwable $e) {
+            Log::error('Logout error: ' . $e->getMessage());
+            // Force redirect even on error
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+        }
     }
 }

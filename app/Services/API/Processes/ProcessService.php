@@ -23,8 +23,7 @@ class ProcessService
             $query->where('category', $request->category);
         }
 
-        $procesos = $query->orderBy('priority', 'desc')
-            ->orderBy('created_at', 'desc')
+        $procesos = $query->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($proceso) {
                 return [
@@ -33,8 +32,6 @@ class ProcessService
                     'description' => $proceso->description,
                     'process_code' => $proceso->process_code,
                     'category' => $proceso->category,
-                    'priority' => $proceso->priority,
-                    'deadline_days' => $proceso->deadline_days,
                     'department' => $proceso->department,
                     'steps' => $proceso->steps->map(function ($step) {
                         return [
@@ -82,8 +79,6 @@ class ProcessService
                 'description' => $proceso->description,
                 'process_code' => $proceso->process_code,
                 'category' => $proceso->category,
-                'priority' => $proceso->priority,
-                'deadline_days' => $proceso->deadline_days,
                 'department' => $proceso->department,
                 'steps' => $proceso->steps->map(function ($step) {
                     return [

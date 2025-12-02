@@ -171,13 +171,13 @@
                     </div>
                     <h4 class="h5 mb-2">{{ $user->name }}</h4>
                     <p class="text-gray mb-3">
-                        @if($user->role === 'admin')
-                            <span class="badge bg-primary">Administrador</span>
-                        @elseif($user->role === 'secretary')
-                            <span class="badge bg-secondary">Secretario(a)</span>
-                        @elseif($user->role === 'worker')
-                            <span class="badge bg-info">Trabajador(a)</span>
-                        @endif
+                    @if($user->role === 'admin')
+                        <span class="fw-bold text-primary">Administrador</span>
+                    @elseif($user->role === 'secretary')
+                        <span class="fw-bold text-secondary">Secretario(a)</span>
+                    @elseif($user->role === 'worker')
+                        <span class="fw-bold text-info">Trabajador(a)</span>
+                    @endif
                     </p>
                     <p class="text-sm text-gray-600">{{ $user->email }}</p>
                 </div>

@@ -8,25 +8,21 @@ use Illuminate\Http\Request;
 
 class LogApiActivity
 {
-    /**
-     * Registra acciones de usuarios móviles (API) sin exponer IP ni endpoint.
-     */
     public function handle(Request $request, Closure $next)
     {
+        $routeName = $request->route()?->getName() ?? '';
+        if (str_contains($routeName, 'login') || str_contains($routeName, 'logout')) {
+            return $next($request);
+        }
+
         $response = $next($request);
 
+        // Solo registramos si el controlador/servicio envió acción y descripción explícitas
         $user = $request->user();
-        if ($user) {
-            $route = $request->route();
-            $routeName = $route?->getName();
-            $actionMethod = $route?->getActionMethod();
+        $action = $request->attributes->get('log_action');
+        $description = $request->attributes->get('log_description');
 
-            $action = $routeName
-                ? "api.{$routeName}"
-                : ($actionMethod ? "api.{$actionMethod}" : 'api.action');
-
-            $description = "Acción desde app móvil: {$action}";
-
+        if ($user && $action && $description) {
             ActivityLogger::log($action, $description, $user->users_id);
         }
 

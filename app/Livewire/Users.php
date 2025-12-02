@@ -104,5 +104,6 @@ class Users extends Component
             $this->resetPage();
         }
     }
+
 }
 

@@ -19,8 +19,6 @@ class Process extends Model
         'created_by',
         'process_code',
         'category',
-        'priority',
-        'deadline_days',
         'department',
     ];
 

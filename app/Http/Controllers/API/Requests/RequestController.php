@@ -39,4 +39,9 @@ class RequestController extends RestfulController
     {
         return $this->requestService->conditionalStep($request, $id);
     }
+
+    public function uploadDocument(Request $request, $id)
+    {
+        return $this->requestService->uploadDocument($request, $id);
+    }
 }

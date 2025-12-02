@@ -43,9 +43,7 @@ class TramitesDisponibles extends Component
             $query->where('category', $this->categoryFilter);
         }
 
-        $procesos = $query->orderBy('priority', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $procesos = $query->orderBy('created_at', 'desc')->get();
 
         return view('modules.worker.tramites-disponibles', [
             'procesos' => $procesos
@@ -114,13 +112,20 @@ class TramitesDisponibles extends Component
                 }
             }
 
-            DB::commit();
-
-            ActivityLogger::log(
-                'tramite.iniciar',
-                "Inicio de trámite '{$process->name}' (Solicitud #{$request->request_id})",
-                $user->users_id
-            );
+            DB::commit();
+
+
+
+            ActivityLogger::log(
+
+                'tramite.iniciar',
+
+                "Inicio de trámite '{$process->name}' (Solicitud #{$request->request_id})",
+
+                $user->users_id
+
+            );
+
 
 
             session()->flash('success', 'Trámite iniciado exitosamente');

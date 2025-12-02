@@ -160,7 +160,6 @@ Archivos que contienen SVG inline y deben migrarse:
 - [ ] `resources/views/livewire/admin/definir-pasos.blade.php`
 - [ ] `resources/views/livewire/admin/configuracion.blade.php`
 - [ ] `resources/views/livewire/secretary/busqueda-trabajadores.blade.php`
-- [ ] `resources/views/livewire/secretary/panel-solicitudes.blade.php`
 - [ ] `resources/views/livewire/secretary/convocatorias-documentos.blade.php`
 - [ ] `resources/views/livewire/secretary/gestion-faqs.blade.php`
 - [ ] `resources/views/livewire/secretary/notificaciones.blade.php`

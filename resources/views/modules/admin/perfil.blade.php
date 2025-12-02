@@ -159,8 +159,8 @@ Changelog:
                                         <h2 class="h6 mb-3">Información de cuenta</h2>
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item px-0 d-flex justify-content-between">
-                                                <span class="fw-bold">Rol:</span>
-                                                <span class="badge bg-primary">Administrador</span>
+                                                <span class="fw-bold me-1">Rol:</span>
+                                                <span class="fw-bold text-primary">Administrador</span>
                                             </li>
                                             <li class="list-group-item px-0 d-flex justify-content-between">
                                                 <span class="fw-bold">Estado:</span>

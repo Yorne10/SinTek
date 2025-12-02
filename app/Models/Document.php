@@ -17,6 +17,12 @@ class Document extends Model
         'type',
         'file_path',
         'name',
+        'mime_type',
+        'file_content',
+    ];
+
+    protected $hidden = [
+        'file_content',
     ];
 
     public function request()

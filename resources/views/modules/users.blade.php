@@ -134,11 +134,26 @@
                                                         </button>
                                                         <div
                                                             class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            <button class="dropdown-item d-flex align-items-center view-user-detail"
+                                                                type="button"
+                                                                data-user-id="{{ $user->users_id }}"
+                                                                data-user-name="{{ $user->name }}"
+                                                                data-user-email="{{ $user->email }}"
+                                                                data-user-role="{{ $this->getRoleLabel($user->role) }}"
+                                                                data-user-active="{{ $user->is_active ? '1' : '0' }}"
+                                                                data-user-created="{{ $user->created_at->format('d/m/Y H:i') }}"
+                                                                data-user-curp="{{ $user->role === 'worker' && $user->worker ? ($user->worker->curp ?? '') : '' }}"
+                                                                data-user-rfc="{{ $user->role === 'worker' && $user->worker ? ($user->worker->rfc ?? '') : '' }}"
+                                                                data-user-phone="{{ $user->role === 'worker' && $user->worker ? ($user->worker->phone ?? '') : '' }}"
+                                                                data-user-department="{{ $user->role === 'worker' && $user->worker ? ($user->worker->department ?? '') : '' }}"
+                                                                data-user-position="{{ $user->role === 'worker' && $user->worker ? ($user->worker->position ?? '') : '' }}"
+                                                                data-user-address="{{ $user->role === 'worker' && $user->worker ? ($user->worker->address ?? '') : '' }}"
+                                                                data-is-worker="{{ $user->role === 'worker' ? '1' : '0' }}">
                                                                 @icon('action.view', 'dropdown-icon text-gray-400 me-2')
                                                                 Ver detalles
-                                                            </a>
-                                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                            </button>
+                                                            <a class="dropdown-item d-flex align-items-center"
+                                                                href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.edit', $user->users_id) }}">
                                                                 @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
                                                                 Editar
                                                             </a>
@@ -163,13 +178,9 @@
                                             <tr>
                                                 <td colspan="6" class="text-center py-4">
                                                     <div class="text-gray-500">
-                                                        <svg class="icon icon-lg mb-3" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
-                                                            </path>
-                                                        </svg>
+                                                        <div class="mb-3">
+                                                            @icon('user.list', 'fa-3x')
+                                                        </div>
                                                         <p class="fw-bold">No se encontraron usuarios</p>
                                                         <p class="small">Intenta ajustar los filtros de búsqueda</p>
                                                     </div>
@@ -199,6 +210,60 @@
                                             cancelButton: 'btn btn-gray'
                                         },
                                         buttonsStyling: false
+                                    });
+
+                                    // Event listener para ver detalles
+                                    document.addEventListener('click', function (e) {
+                                        if (e.target.closest('.view-user-detail')) {
+                                            e.preventDefault();
+                                            const button = e.target.closest('.view-user-detail');
+                                            const userName = button.getAttribute('data-user-name');
+                                            const userEmail = button.getAttribute('data-user-email');
+                                            const userRole = button.getAttribute('data-user-role');
+                                            const userActive = button.getAttribute('data-user-active') === '1';
+                                            const userCreated = button.getAttribute('data-user-created');
+                                            const isWorker = button.getAttribute('data-is-worker') === '1';
+
+                                            let htmlContent = `
+                                                <div class="text-start">
+                                                    <p class="mb-2"><span class="fw-bold">Nombre:</span> ${userName}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Correo:</span> ${userEmail}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Rol:</span> ${userRole}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Estado:</span> <span class="fw-bold text-${userActive ? 'success' : 'warning'}">${userActive ? 'Activo' : 'Inactivo'}</span></p>
+                                                    <p class="mb-2"><span class="fw-bold">Fecha de registro:</span> ${userCreated}</p>
+                                            `;
+
+                                            if (isWorker) {
+                                                const curp = button.getAttribute('data-user-curp') || 'N/A';
+                                                const rfc = button.getAttribute('data-user-rfc') || 'N/A';
+                                                const phone = button.getAttribute('data-user-phone') || 'N/A';
+                                                const department = button.getAttribute('data-user-department') || 'N/A';
+                                                const position = button.getAttribute('data-user-position') || 'N/A';
+                                                const address = button.getAttribute('data-user-address') || 'N/A';
+
+                                                htmlContent += `
+                                                    <hr class="my-3">
+                                                    <h6 class="fw-bold mb-2">Información adicional del trabajador</h6>
+                                                    <p class="mb-2"><span class="fw-bold">CURP:</span> ${curp}</p>
+                                                    <p class="mb-2"><span class="fw-bold">RFC:</span> ${rfc}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Teléfono:</span> ${phone}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Departamento:</span> ${department}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Puesto:</span> ${position}</p>
+                                                    <p class="mb-0"><span class="fw-bold">Dirección:</span> ${address}</p>
+                                                `;
+                                            }
+
+                                            htmlContent += '</div>';
+
+                                            swalWithBootstrapButtons.fire({
+                                                title: 'Detalles del usuario',
+                                                html: htmlContent,
+                                                icon: 'info',
+                                                confirmButtonText: 'Cerrar',
+                                                showConfirmButton: true,
+                                                width: '600px'
+                                            });
+                                        }
                                     });
 
                                     // Event listener para botones de activar/desactivar

@@ -8,14 +8,10 @@ use Illuminate\Support\Facades\Auth;
 class ActivityLogger
 {
     /**
-     * Registra una acción en la bitácora.
+     * Registra una accion en la bitacora.
      */
     public static function log(string $action, string $description, ?int $userId = null): void
     {
-        // Asegurar que las cadenas estén en UTF-8
-        $action = mb_convert_encoding($action, 'UTF-8', 'UTF-8');
-        $description = mb_convert_encoding($description, 'UTF-8', 'UTF-8');
-
         Log::create([
             'user_id' => $userId ?? Auth::id(),
             'action' => $action,
@@ -25,35 +21,34 @@ class ActivityLogger
     }
 
     /**
-     * Obtiene una etiqueta legible para una acción.
+     * Obtiene una etiqueta legible para una accion.
      */
     public static function getActionLabel(string $action): string
     {
         $actions = [
             // Worker actions
-            'tramite.iniciar' => 'Iniciar trámite',
-            'tramite.paso.completar' => 'Completar paso',
-            'tramite.completado' => 'Completar trámite',
-            'tramite.decision' => 'Registrar decisión',
-            'tramite.documento.subir' => 'Subir documento',
-            'tramite.documento.actualizar' => 'Actualizar documento',
-            'notificacion.marcar_leida' => 'Marcar notificación como leída',
-            'notificacion.leida' => 'Marcar notificación como leída',
+            'tramite.iniciar' => 'Iniciar tramite',
+            'tramite.paso.completado' => 'Completar paso',
+            'tramite.completado' => 'Completar tramite',
+            'tramite.decision' => 'Registrar decision',
+            'tramite.documento.subido' => 'Subir documento',
+            'notificacion.marcar_leida' => 'Marcar notificacion como leida',
+            'notificacion.leida' => 'Marcar notificacion como leida',
 
             // Secretary actions
             'convocatoria.creada' => 'Crear convocatoria',
             'convocatoria.editada' => 'Editar convocatoria',
             'convocatoria.eliminada' => 'Eliminar convocatoria',
             'convocatoria.publicada' => 'Publicar convocatoria',
-            'notificacion.crear' => 'Crear notificación',
+            'notificacion.crear' => 'Crear notificacion',
             'notificaciones.enviadas' => 'Enviar notificaciones',
             'faq.crear' => 'Crear pregunta frecuente',
             'faq.editar' => 'Editar pregunta frecuente',
             'faq.eliminar' => 'Eliminar pregunta frecuente',
             'faq.publicar' => 'Publicar pregunta frecuente',
-            'faq.categoria.crear' => 'Crear categoría FAQ',
-            'faq.categoria.editar' => 'Editar categoría FAQ',
-            'faq.categoria.eliminar' => 'Eliminar categoría FAQ',
+            'faq.categoria.crear' => 'Crear categoria FAQ',
+            'faq.categoria.editar' => 'Editar categoria FAQ',
+            'faq.categoria.eliminar' => 'Eliminar categoria FAQ',
             'documento.institucional.crear' => 'Crear documento institucional',
             'documento.institucional.archivar' => 'Archivar documento institucional',
 
@@ -68,15 +63,12 @@ class ActivityLogger
             'paso.actualizado' => 'Actualizar paso',
 
             // API actions
-            'api.login' => 'Inicio de sesión (API)',
+            'api.login' => 'Inicio de sesion (API)',
             'api.profile' => 'Consultar perfil (API)',
             'api.convocations' => 'Consultar convocatorias (API)',
             'api.processes' => 'Consultar procesos (API)',
         ];
 
-        $label = $actions[$action] ?? $action;
-
-        // Ensure the returned label is valid UTF-8
-        return mb_convert_encoding($label, 'UTF-8', 'UTF-8');
+        return $actions[$action] ?? $action;
     }
 }

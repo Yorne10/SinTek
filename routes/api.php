@@ -53,6 +53,7 @@ Route::middleware(['auth:sanctum', 'role:worker', 'log.api'])->group(function ()
     Route::get('/my-requests/{id}', [RequestController::class, 'show']);
     Route::post('/my-requests/{id}/next-step', [RequestController::class, 'nextStep']);
     Route::post('/my-requests/{id}/conditional-step', [RequestController::class, 'conditionalStep']);
+    Route::post('/my-requests/{id}/upload-document', [RequestController::class, 'uploadDocument']);
 
     // Notificaciones (mvil)
     Route::get('/my-notifications', [NotificationController::class, 'index']);

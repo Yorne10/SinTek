@@ -48,9 +48,11 @@ class DefinirPasos extends Component
     public function loadProcess()
     {
         if ($this->selectedProcessId) {
-            $this->selectedProcess = Process::with(['steps' => function ($query) {
-                $query->orderBy('order', 'asc');
-            }])->find($this->selectedProcessId);
+            $this->selectedProcess = Process::with([
+                'steps' => function ($query) {
+                    $query->orderBy('order', 'asc')->with('requiredDocuments');
+                }
+            ])->find($this->selectedProcessId);
 
             if ($this->selectedProcess) {
                 $this->steps = $this->selectedProcess->steps;

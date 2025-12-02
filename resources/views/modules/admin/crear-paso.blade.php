@@ -269,7 +269,7 @@ Changelog:
                                             <input class="form-check-input" type="checkbox" id="enviar_notificacion"
                                                 wire:model="send_notification">
                                             <label class="form-check-label" for="enviar_notificacion">
-                                                Enviar notificación
+                                                Enviar notificacion
                                             </label>
                                         </div>
                                         <small class="form-text text-muted">Notificar al responsable cuando llegue a
@@ -278,29 +278,47 @@ Changelog:
                                     <div class="col-md-6 mb-3">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="requiere_documentos"
-                                                wire:model.live="requires_documents">
+                                                wire:model.live="requires_documents"
+                                                @if($condition_type === 'upload') checked disabled @endif>
                                             <label class="form-check-label" for="requiere_documentos">
                                                 Requiere documentos adjuntos
                                             </label>
                                         </div>
-                                        <small class="form-text text-muted">El paso solicita documentos
-                                            específicos.</small>
+                                        <small class="form-text text-muted">El paso solicita documentos especificos.</small>
                                     </div>
                                 </div>
 
                                 @if($requires_documents)
                                     <hr class="my-4">
-                                    <div class="alert alert-info" role="alert">
-                                        <div class="d-flex align-items-center">
-                                            <svg class="icon icon-xs text-info me-2" fill="currentColor" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            <span class="small">Este paso requerirá documentos adjuntos. La gestión de
-                                                documentos específicos se configurará en una versión futura.</span>
-                                        </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h3 class="h6 mb-0">Documentos requeridos</h3>
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                            wire:click="addDocument">
+                                            Agregar documento
+                                        </button>
+                                    </div>
+                                    @if(count($documents) === 0)
+                                        <p class="text-muted small mb-3">Agrega al menos un documento para solicitar en este paso.</p>
+                                    @endif
+                                    <div class="row">
+                                        @foreach($documents as $index => $document)
+                                            <div class="col-12 mb-2">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="flex-grow-1 me-2">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Titulo del documento"
+                                                            wire:model="documents.{{ $index }}.title">
+                                                        @error('documents.' . $index . '.title')
+                                                            <span class="text-danger small">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <button type="button" class="btn btn-link text-danger px-2"
+                                                        wire:click="removeDocument({{ $index }})">
+                                                        Quitar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 @endif
 

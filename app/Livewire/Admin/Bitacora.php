@@ -20,7 +20,6 @@ class Bitacora extends Component
 
     public $search = '';
     public $roleFilter = '';
-    public $actionFilter = '';
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
@@ -29,11 +28,6 @@ class Bitacora extends Component
     }
 
     public function updatingRoleFilter()
-    {
-        $this->resetPage();
-    }
-
-    public function updatingActionFilter()
     {
         $this->resetPage();
     }
@@ -65,9 +59,6 @@ class Bitacora extends Component
                 $query->whereHas('user', function ($q) {
                     $q->where('role', $this->roleFilter);
                 });
-            })
-            ->when($this->actionFilter, function ($query) {
-                $query->where('action', 'like', '%' . $this->actionFilter . '%');
             })
             ->orderByDesc('date')
             ->orderByDesc('created_at')

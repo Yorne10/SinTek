@@ -31,7 +31,7 @@ Changelog:
                             </ol>
                         </nav>
                         <h2 class="h4">Parámetros y configuración</h2>
-                        <p class="mb-0">Administra parmetros generales del sistema.</p>
+                        <p class="mb-0">Administra parámetros generales del sistema.</p>
                     </div>
                 </div>
 
@@ -102,25 +102,15 @@ Changelog:
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <div>
-                                            <label for="session_timeout">Tiempo de sesin (minutos)</label>
+                                            <label for="session_timeout">Tiempo de inactividad para cierre de sesión
+                                                (minutos)</label>
                                             <input wire:model="session_timeout"
                                                 class="form-control @error('session_timeout') is-invalid @enderror"
-                                                id="session_timeout" type="number" placeholder="120" min="5" max="1440">
+                                                id="session_timeout" type="number" placeholder="120" min="1" max="1440">
                                             @error('session_timeout') <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
-                                            <small class="form-text text-muted">Entre 5 y 1440 minutos (24
-                                                horas)</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div>
-                                            <label for="max_attempts">Intentos máximos de login</label>
-                                            <input wire:model="max_attempts"
-                                                class="form-control @error('max_attempts') is-invalid @enderror"
-                                                id="max_attempts" type="number" placeholder="5" min="1" max="10">
-                                            @error('max_attempts') <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                            <small class="form-text text-muted">Entre 1 y 10 intentos</small>
+                                            <small class="form-text text-muted">Si el usuario permanece inactivo por
+                                                este tiempo, se le pedirá confirmar si sigue ahí.</small>
                                         </div>
                                     </div>
                                 </div>

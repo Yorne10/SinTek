@@ -12,6 +12,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\Process;
 use App\Models\Step;
+use App\Models\StepRequiredDocument;
 use App\Services\ActivityLogger;
 use Livewire\Component;
 
@@ -30,6 +31,7 @@ class CrearPaso extends Component
     public $priority = 'media';
     public $send_notification = false;
     public $requires_documents = false;
+    public $documents = [];
     public $next_yes;
     public $next_no;
 
@@ -43,16 +45,13 @@ class CrearPaso extends Component
 
     public function mount($process_id = null, $step_id = null)
     {
-        // Cargar procesos disponibles
         $this->procesos = Process::where('active', 1)->orderBy('name')->get();
 
         if ($step_id) {
-            // Modo edición
             $this->isEditing = true;
             $this->step_id = $step_id;
             $this->loadStep();
         } elseif ($process_id) {
-            // Modo creación con proceso preseleccionado
             $this->process_id = $process_id;
             $this->loadAvailableSteps();
             $this->calculateNextOrder();
@@ -61,7 +60,7 @@ class CrearPaso extends Component
 
     public function loadStep()
     {
-        $step = Step::find($this->step_id);
+        $step = Step::with('requiredDocuments')->find($this->step_id);
         if ($step) {
             $this->process_id = $step->process_id;
             $this->tittle = $step->tittle;
@@ -76,10 +75,9 @@ class CrearPaso extends Component
             $this->requires_documents = $step->requires_documents ?? false;
             $this->next_yes = $step->next_yes;
             $this->next_no = $step->next_no;
+            $this->documents = $step->requiredDocuments->map(fn ($doc) => ['title' => $doc->title])->toArray();
 
-            // Activar ramificación si tiene flujo condicional
             $this->activarRamificacion = ($this->condition_type === 'approval');
-
             $this->loadAvailableSteps();
         }
     }
@@ -94,9 +92,28 @@ class CrearPaso extends Component
 
     public function updatedConditionType()
     {
-        // Si cambia a approval, activar ramificación
-        if ($this->condition_type === 'approval') {
-            $this->activarRamificacion = true;
+        $this->activarRamificacion = $this->condition_type === 'approval';
+
+        if ($this->condition_type === 'upload') {
+            $this->requires_documents = true;
+            if (empty($this->documents)) {
+                $this->documents = [['title' => '']];
+            }
+        }
+    }
+
+    public function addDocument()
+    {
+        $this->documents[] = ['title' => ''];
+        $this->requires_documents = true;
+    }
+
+    public function removeDocument($index)
+    {
+        unset($this->documents[$index]);
+        $this->documents = array_values($this->documents);
+        if (empty($this->documents) && $this->condition_type !== 'upload') {
+            $this->requires_documents = false;
         }
     }
 
@@ -106,7 +123,6 @@ class CrearPaso extends Component
             $query = Step::where('process_id', $this->process_id)
                 ->orderBy('order', 'asc');
 
-            // Excluir el paso actual si estamos editando
             if ($this->step_id) {
                 $query->where('step_id', '!=', $this->step_id);
             }
@@ -123,9 +139,9 @@ class CrearPaso extends Component
         }
     }
 
-        public function save()
+    public function save()
     {
-        $this->validate([
+        $rules = [
             'process_id' => 'required|exists:processes,process_id',
             'tittle' => 'required|string|max:200',
             'order' => 'required|integer|min:1',
@@ -139,12 +155,20 @@ class CrearPaso extends Component
             'requires_documents' => 'boolean',
             'next_yes' => 'nullable|exists:steps,step_id',
             'next_no' => 'nullable|exists:steps,step_id',
-        ], [
+        ];
+
+        if ($this->requires_documents || $this->condition_type === 'upload') {
+            $rules['documents'] = 'required|array|min:1';
+            $rules['documents.*.title'] = 'required|string|max:150';
+        }
+
+        $this->validate($rules, [
             'process_id.required' => 'Debes seleccionar un proceso',
             'tittle.required' => 'El nombre del paso es obligatorio',
             'order.required' => 'El orden es obligatorio',
             'condition_type.required' => 'Debes seleccionar un tipo de paso',
             'priority.required' => 'Debes seleccionar una prioridad',
+            'documents.*.title.required' => 'Indica el título del documento requerido',
         ]);
 
         $data = [
@@ -158,7 +182,7 @@ class CrearPaso extends Component
             'deadline_days' => $this->deadline_days,
             'priority' => $this->priority,
             'send_notification' => $this->send_notification,
-            'requires_documents' => $this->requires_documents,
+            'requires_documents' => ($this->condition_type === 'upload') ? true : $this->requires_documents,
             'next_yes' => $this->condition_type === 'approval' ? $this->next_yes : null,
             'next_no' => $this->condition_type === 'approval' ? $this->next_no : null,
         ];
@@ -168,16 +192,27 @@ class CrearPaso extends Component
             $step = Step::find($this->step_id);
             $step->update($data);
             $actionKey = 'paso.actualizado';
-            $actionVerb = 'actualiz?';
+            $actionVerb = 'actualizado';
             session()->flash('success', 'Paso actualizado exitosamente');
         } else {
             $step = Step::create($data);
+            $this->step_id = $step->step_id;
             $actionKey = 'paso.creado';
-            $actionVerb = 'cre?';
+            $actionVerb = 'creado';
             session()->flash('success', 'Paso creado exitosamente');
         }
 
-        $actionVerb = $actionKey === 'paso.creado' ? 'creado' : 'actualizado';
+        // Sincronizar documentos requeridos
+        StepRequiredDocument::where('step_id', $step->step_id)->delete();
+        if ($this->requires_documents || $this->condition_type === 'upload') {
+            foreach ($this->documents as $doc) {
+                StepRequiredDocument::create([
+                    'step_id' => $step->step_id,
+                    'title' => $doc['title'],
+                ]);
+            }
+        }
+
         ActivityLogger::log(
             $actionKey === 'paso.creado' ? 'paso.crear' : 'paso.editar',
             "Paso '{$this->tittle}' {$actionVerb} en proceso ID {$this->process_id}",
@@ -187,10 +222,9 @@ class CrearPaso extends Component
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.admin.definir-pasos');
     }
 
-public function render()
+    public function render()
     {
         return view('modules.admin.crear-paso')
             ->layout('layouts.app');
     }
 }
-

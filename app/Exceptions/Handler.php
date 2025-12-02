@@ -37,5 +37,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+        });
+
+        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+        });
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Worker;
 
 use Livewire\Component;
@@ -12,9 +13,13 @@ use Carbon\Carbon;
 
 class DetalleTramite extends Component
 {
+    use \Livewire\WithFileUploads;
+
     public $requestId;
     public $request;
     public $currentStep;
+    public $allSteps = [];
+    public $file;
 
     public function mount($id)
     {
@@ -38,6 +43,11 @@ class DetalleTramite extends Component
         $this->currentStep = $this->request->requestSteps
             ->where('request_step_status', 'in_progress')
             ->first();
+
+        // Cargar todos los pasos del proceso para el timeline completo
+        $this->allSteps = Step::where('process_id', $this->request->process_id)
+            ->orderBy('order', 'asc')
+            ->get();
     }
 
     public function nextStep()
@@ -48,7 +58,6 @@ class DetalleTramite extends Component
         }
 
         $currentStepModel = $this->currentStep->step;
-        $user = Auth::user();
         $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
 
         $this->currentStep->update([
@@ -75,9 +84,9 @@ class DetalleTramite extends Component
             }
 
             ActivityLogger::log(
-                'tramite.paso.completar',
-                "Completado paso '{$stepName}' del trámite #{$this->request->request_id}",
-                $user->users_id
+                'tramite.paso.completado',
+                "Paso completado: '{$stepName}' del trámite '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                Auth::id()
             );
 
             session()->flash('success', 'Paso completado exitosamente');
@@ -89,14 +98,54 @@ class DetalleTramite extends Component
 
             ActivityLogger::log(
                 'tramite.completado',
-                "Completado trámite #{$this->request->request_id} del proceso '" . ($this->request->process->name ?? 'Proceso') . "'",
-                $user->users_id
+                "Trámite completado: '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                Auth::id()
             );
 
             session()->flash('success', 'Trámite completado exitosamente');
         }
 
         $this->loadRequest();
+    }
+
+    public function uploadFile()
+    {
+        $this->validate([
+            'file' => 'required|file|max:10240', // 10MB Max
+        ]);
+
+        if (!$this->currentStep) {
+            session()->flash('error', 'No hay un paso activo');
+            return;
+        }
+
+        $currentStepModel = $this->currentStep->step;
+
+        if ($currentStepModel->condition_type !== 'upload') {
+            session()->flash('error', 'Este paso no requiere carga de archivos');
+            return;
+        }
+
+        $content = file_get_contents($this->file->getRealPath());
+
+        \App\Models\Document::create([
+            'request_id' => $this->request->request_id,
+            'step_id' => $currentStepModel->step_id,
+            'name' => $this->file->getClientOriginalName(),
+            'mime_type' => $this->file->getMimeType(),
+            'file_content' => $content,
+            'type' => 'user_upload',
+        ]);
+
+        $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
+        ActivityLogger::log(
+            'tramite.documento.subido',
+            "Documento '{$this->file->getClientOriginalName()}' subido para el paso '{$stepName}' del trámite '" . ($this->request->process->name ?? 'Proceso') . "'.",
+            Auth::id()
+        );
+
+        $this->file = null;
+        $this->nextStep();
     }
 
     public function conditionalStep($decision)
@@ -107,7 +156,6 @@ class DetalleTramite extends Component
         }
 
         $currentStepModel = $this->currentStep->step;
-        $user = Auth::user();
         $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
         $decisionLabel = $decision === 'yes' ? 'sí' : 'no';
 
@@ -143,8 +191,8 @@ class DetalleTramite extends Component
 
                 ActivityLogger::log(
                     'tramite.decision',
-                    "Decisión '{$decisionLabel}' registrada en paso '{$stepName}' del trámite #{$this->request->request_id}",
-                    $user->users_id
+                    "Decisión '{$decisionLabel}' en el paso '{$stepName}' del trámite '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                    Auth::id()
                 );
 
                 session()->flash('success', 'Decisión registrada exitosamente');
@@ -157,8 +205,8 @@ class DetalleTramite extends Component
 
             ActivityLogger::log(
                 'tramite.completado',
-                "Completado trámite #{$this->request->request_id} del proceso '" . ($this->request->process->name ?? 'Proceso') . "'",
-                $user->users_id
+                "Trámite completado: '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                Auth::id()
             );
 
             session()->flash('success', 'Trámite completado exitosamente');

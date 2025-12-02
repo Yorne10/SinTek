@@ -7,9 +7,9 @@ use App\Models\RequestStep;
 use App\Models\Process;
 use App\Models\Step;
 use App\Models\Worker;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use App\Services\ActivityLogger;
 
 class RequestService
@@ -59,7 +59,7 @@ class RequestService
                         return [
                             'request_step_id' => $reqStep->request_step_id,
                             'step_id' => $reqStep->step_id,
-                            'status' => $reqStep->status,
+                            'status' => $reqStep->request_step_status,
                             'order' => $reqStep->step?->order,
                         ];
                     }),
@@ -87,7 +87,7 @@ class RequestService
         if (!$worker) {
             return response()->json([
                 'success' => false,
-                'message' => 'No se encontró perfil de trabajador para este usuario',
+                'message' => 'No se encontr? perfil de trabajador para este usuario',
             ], 404);
         }
 
@@ -95,7 +95,7 @@ class RequestService
         if (!$process || !$process->active) {
             return response()->json([
                 'success' => false,
-                'message' => 'El proceso no está disponible',
+                'message' => 'El proceso no est? disponible',
             ], 400);
         }
 
@@ -109,22 +109,29 @@ class RequestService
                 'process_id' => $process->process_id,
                 'status' => 'pendiente',
                 'details' => $validated['details'] ?? null,
-                'deadline_at' => $process->deadline_days
-                    ? Carbon::now()->addDays($process->deadline_days)
-                    : null,
+                'deadline_at' => null,
             ]);
 
             foreach ($process->steps as $step) {
                 RequestStep::create([
                     'request_id' => $newRequest->request_id,
                     'step_id' => $step->step_id,
-                    'status' => $step->order === 1 ? 'en_progreso' : 'pendiente',
+                    'request_step_status' => $step->order === 1 ? 'en_progreso' : 'pendiente',
+                    'step_date' => $step->order === 1 ? Carbon::now() : null,
                 ]);
             }
 
+            DB::commit();
 
+            ActivityLogger::log(
+                'tramite.iniciar',
+                "Inicio de tramite '{$process->name}' (Solicitud #{$newRequest->request_id}).",
+                $user->users_id
+            );
+
+            return response()->json([
                 'success' => true,
-                'message' => 'Trámite creado exitosamente',
+                'message' => 'Tr?mite creado exitosamente',
                 'data' => [
                     'request_id' => $newRequest->request_id,
                     'request_code' => $newRequest->request_code,
@@ -135,7 +142,7 @@ class RequestService
 
             return response()->json([
                 'success' => false,
-                'message' => 'Error al crear el trámite',
+                'message' => 'Error al crear el tr?mite',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -181,7 +188,7 @@ class RequestService
                         'step_id' => $reqStep->step_id,
                         'title' => $reqStep->step?->tittle,
                         'description' => $reqStep->step?->description,
-                        'status' => $reqStep->status,
+                        'status' => $reqStep->request_step_status,
                         'order' => $reqStep->step?->order,
                     ];
                 }),
@@ -213,7 +220,7 @@ class RequestService
             ], 404);
         }
 
-        $currentStep = $req->requestSteps()->where('status', 'en_progreso')->first();
+        $currentStep = $req->requestSteps()->where('request_step_status', 'en_progreso')->first();
         if (!$currentStep) {
             return response()->json([
                 'success' => false,
@@ -223,21 +230,22 @@ class RequestService
 
         DB::beginTransaction();
         try {
-            $currentStep->status = 'completado';
-            $currentStep->completed_at = Carbon::now();
+            $currentStep->request_step_status = 'completado';
+            $currentStep->step_date = Carbon::now();
             $currentStep->save();
 
             $nextStep = $req->requestSteps()
-                ->where('status', 'pendiente')
+                ->where('request_step_status', 'pendiente')
                 ->orderBy('step_id')
                 ->first();
 
             if ($nextStep) {
-                $nextStep->status = 'en_progreso';
+                $nextStep->request_step_status = 'en_progreso';
+                $nextStep->step_date = Carbon::now();
                 $nextStep->save();
             } else {
                 $req->status = 'completado';
-                $req->completed_at = Carbon::now();
+                $req->end_date = Carbon::now();
                 $req->save();
             }
 
@@ -246,13 +254,13 @@ class RequestService
             $stepName = $currentStep->step?->tittle ?? 'Paso';
             ActivityLogger::log(
                 'tramite.paso.completado',
-                "Worker {$user->name} completó el paso {$stepName} del trámite {$req->request_id} desde app móvil.",
+                "Paso completado: '{$stepName}' del tramite '{$req->process->name}'.",
                 $user->users_id
             );
             if (!$nextStep) {
                 ActivityLogger::log(
                     'tramite.completado',
-                    "Worker {$user->name} completó el trámite {$req->request_id} ({$req->process->name}) desde app móvil.",
+                    "Tramite completado: '{$req->process->name}'.",
                     $user->users_id
                 );
             }
@@ -305,7 +313,7 @@ class RequestService
             ], 404);
         }
 
-        $currentStep = $req->requestSteps()->where('status', 'en_progreso')->first();
+        $currentStep = $req->requestSteps()->where('request_step_status', 'en_progreso')->first();
         if (!$currentStep) {
             return response()->json([
                 'success' => false,
@@ -315,23 +323,24 @@ class RequestService
 
         DB::beginTransaction();
         try {
-            $currentStep->status = $validated['condition_type'] === 'aprobado' ? 'completado' : 'rechazado';
-            $currentStep->completed_at = Carbon::now();
+            $currentStep->request_step_status = $validated['condition_type'] === 'aprobado' ? 'completado' : 'rechazado';
+            $currentStep->step_date = Carbon::now();
             $currentStep->comments = $validated['comments'] ?? null;
             $currentStep->save();
 
             if ($validated['condition_type'] === 'aprobado') {
                 $nextStep = $req->requestSteps()
-                    ->where('status', 'pendiente')
+                    ->where('request_step_status', 'pendiente')
                     ->orderBy('step_id')
                     ->first();
 
                 if ($nextStep) {
-                    $nextStep->status = 'en_progreso';
+                    $nextStep->request_step_status = 'en_progreso';
+                    $nextStep->step_date = Carbon::now();
                     $nextStep->save();
                 } else {
                     $req->status = 'completado';
-                    $req->completed_at = Carbon::now();
+                    $req->end_date = Carbon::now();
                     $req->save();
                 }
             } else {
@@ -339,7 +348,25 @@ class RequestService
                 $req->save();
             }
 
+            DB::commit();
 
+            $stepName = $currentStep->step?->tittle ?? 'Paso';
+            $decisionLabel = $validated['condition_type'] === 'aprobado' ? 'aprobado' : 'rechazado';
+            ActivityLogger::log(
+                'tramite.decision',
+                "Decision '{$decisionLabel}' en el paso '{$stepName}' del tramite '{$req->process->name}'.",
+                $user->users_id
+            );
+
+            if ($req->status === 'completado') {
+                ActivityLogger::log(
+                    'tramite.completado',
+                    "Tramite completado: '{$req->process->name}'.",
+                    $user->users_id
+                );
+            }
+
+            return response()->json([
                 'success' => true,
                 'message' => 'Acción realizada exitosamente',
                 'data' => [
@@ -358,5 +385,81 @@ class RequestService
             ], 500);
         }
     }
-}
 
+    public function uploadDocument(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'file' => 'required|file|max:10240', // 10MB max
+            'step_id' => 'required|integer|exists:steps,step_id',
+        ]);
+
+        $user = $request->user();
+        $worker = Worker::where('user_id', $user->users_id)->first();
+
+        if (!$worker) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró perfil de trabajador para este usuario',
+            ], 404);
+        }
+
+        $req = WorkerRequest::where('worker_id', $worker->workers_id)->find($id);
+
+        if (!$req) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trámite no encontrado',
+            ], 404);
+        }
+
+        // Verify step belongs to process
+        $step = Step::where('process_id', $req->process_id)->find($validated['step_id']);
+        if (!$step) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El paso no pertenece al proceso de este trámite',
+            ], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $file = $request->file('file');
+            $content = file_get_contents($file->getRealPath());
+
+            $document = \App\Models\Document::create([
+                'request_id' => $req->request_id,
+                'step_id' => $step->step_id,
+                'name' => $file->getClientOriginalName(),
+                'mime_type' => $file->getMimeType(),
+                'file_content' => $content,
+                'type' => 'user_upload',
+            ]);
+
+            // Log activity
+            ActivityLogger::log(
+                'tramite.documento.subido',
+                "Documento '{$document->name}' subido para el paso '{$step->tittle}' del tramite '{$req->process->name}'.",
+                $user->users_id
+            );
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Documento subido exitosamente',
+                'data' => [
+                    'document_id' => $document->document_id,
+                    'name' => $document->name,
+                ]
+            ], 201);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al subir el documento',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+}

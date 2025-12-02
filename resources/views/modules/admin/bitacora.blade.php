@@ -67,18 +67,6 @@
                                             <option value="worker">Trabajador</option>
                                         </select>
                                     </div>
-                                    <div class="d-flex align-items-center text-nowrap">
-                                        <span class="small text-gray-600 me-2">Filtrar por acción:</span>
-                                        <select wire:model.live="actionFilter" class="form-select"
-                                            style="min-width: 200px;"
-                                            aria-label="Filtrar por acción">
-                                            <option value="">Todas las acciones</option>
-                                            <option value="create">Crear</option>
-                                            <option value="update">Actualizar</option>
-                                            <option value="delete">Eliminar</option>
-                                            <option value="view">Ver</option>
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
 

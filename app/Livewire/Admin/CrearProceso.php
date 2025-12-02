@@ -9,12 +9,12 @@
  *
  * Changelog:
  * - ID: <ID> | Modified on: dd/mm/yyyy |
- * Modified by: <Developer name> |
- * Description: <Brief description of change> |
+ *   Modified by: <Developer name> |
+ *   Description: <Brief description of change> |
  *
  * - ID: <ID> | Modified on: dd/mm/yyyy |
- * Modified by: <Developer name> |
- * Description: <Brief description of change> |
+ *   Modified by: <Developer name> |
+ *   Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Admin;
@@ -31,35 +31,47 @@ class CrearProceso extends Component
     public $active = true;
     public $process_code = '';
     public $category = '';
-    public $priority = 'medium';
-    public $deadline_days = null;
     public $department = '';
     public $successMessage = '';
+
+    // Opciones precargadas para selects
+    public array $categoryOptions = [
+        'Administrativo',
+        'Operativo',
+        'Finanzas',
+        'Recursos Humanos',
+        'Tecnologia',
+    ];
+
+    public array $departmentOptions = [
+        'Administracion',
+        'Finanzas',
+        'Recursos Humanos',
+        'Sistemas',
+        'Juridico',
+    ];
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'description' => 'nullable|string|max:2000',
         'active' => 'boolean',
         'process_code' => 'nullable|string|max:50',
-        'category' => 'nullable|string|max:100',
-        'priority' => 'nullable|string|in:low,medium,high,urgent',
-        'deadline_days' => 'nullable|integer|min:1|max:365',
-        'department' => 'nullable|string|max:100',
+        'category' => 'nullable|string|in:Administrativo,Operativo,Finanzas,Recursos Humanos,Tecnologia',
+        'department' => 'nullable|string|in:Administracion,Finanzas,Recursos Humanos,Sistemas,Juridico',
     ];
 
     protected $messages = [
         'name.required' => 'El nombre es obligatorio.',
         'name.max' => 'El nombre no debe exceder 255 caracteres.',
-        'description.max' => 'La descripción es demasiado larga.',
-        'process_code.max' => 'El código no debe exceder 50 caracteres.',
-        'deadline_days.min' => 'El tiempo máximo de respuesta debe ser al menos 1 día.',
-        'deadline_days.max' => 'El tiempo máximo de respuesta no debe exceder 365 días.',
+        'description.max' => 'La descripcion es demasiado larga.',
+        'process_code.max' => 'El codigo no debe exceder 50 caracteres.',
+        'category.in' => 'Selecciona una categoria valida.',
+        'department.in' => 'Selecciona un area responsable valida.',
     ];
 
     public function save()
     {
         $this->validate();
-        $user = Auth::user();
 
         Process::create([
             'name' => $this->name,
@@ -68,25 +80,20 @@ class CrearProceso extends Component
             'created_by' => Auth::id(),
             'process_code' => $this->process_code,
             'category' => $this->category,
-            'priority' => $this->priority,
-            'deadline_days' => $this->deadline_days,
             'department' => $this->department,
         ]);
+
         ActivityLogger::log(
             'proceso.crear',
             "Proceso '{$this->name}' creado",
             Auth::id()
         );
 
-
-
         $this->reset([
             'name', 'description', 'process_code',
-            'category', 'priority', 'deadline_days',
-            'department', 'active',
+            'category', 'department', 'active',
         ]);
         $this->active = true;
-        $this->priority = 'medium';
         $this->successMessage = 'Proceso creado correctamente.';
     }
 
@@ -96,4 +103,3 @@ class CrearProceso extends Component
             ->layout('layouts.app');
     }
 }
-

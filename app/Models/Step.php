@@ -60,6 +60,11 @@ class Step extends Model
         return $this->hasMany(Document::class, 'step_id', 'step_id');
     }
 
+    public function requiredDocuments()
+    {
+        return $this->hasMany(StepRequiredDocument::class, 'step_id', 'step_id');
+    }
+
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'steps_id', 'step_id');

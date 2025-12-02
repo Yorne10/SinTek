@@ -49,17 +49,6 @@ Changelog:
         </a>
       </li>
 
-      {{-- Panel de solicitudes --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.panel-solicitudes') }}"
-          class="nav-link">
-          <span class="sidebar-icon">
-            @icon('process.docs', 'me-2')
-          </span>
-          <span class="sidebar-text">Panel de solicitudes</span>
-        </a>
-      </li>
-
       {{-- Bsqueda de trabajadores --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}"
@@ -78,7 +67,7 @@ Changelog:
           <span class="sidebar-icon">
             @icon('file.generic', 'me-2')
           </span>
-          <span class="sidebar-text">Gestionar convocatorias</span>
+          <span class="sidebar-text">Convocatorias y Documentos</span>
         </a>
       </li>
 

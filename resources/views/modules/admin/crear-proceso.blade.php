@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Company: CETAM
 Project: ST
 File: crear-proceso.blade.php
@@ -9,10 +9,10 @@ Approved by: Alfonso Angel Garcia Hernandez
 Changelog:
 - ID: <ID> | Date: dd/mm/yyyy
     Modified by: Codex
-    Description: Formular funcional para creacin de procesos.
+    Description: Formulario funcional para creación de procesos.
     --}}
 
-    {{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
+    {{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
     {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
     <div>
@@ -25,7 +25,7 @@ Changelog:
                                 @icon('nav.home', 'fa-xs')
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Administracin</li>
+                        <li class="breadcrumb-item">Administración</li>
                         <li class="breadcrumb-item active" aria-current="page">Crear proceso</li>
                     </ol>
                 </nav>
@@ -37,7 +37,7 @@ Changelog:
         <div class="row">
             <div class="col-12 col-xl-8">
                 <div class="card card-body shadow border-0 mb-4">
-                    <h2 class="h5 mb-4">Informacin del proceso</h2>
+                    <h2 class="h5 mb-4">Información del proceso</h2>
 
                     @if ($successMessage)
                         <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -57,64 +57,52 @@ Changelog:
                         </div>
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="process_code">Cdigo del proceso</label>
+                                <label for="process_code">Código del proceso</label>
                                 <input wire:model.defer="process_code"
                                     class="form-control @error('process_code') is-invalid @enderror" id="process_code"
                                     type="text" placeholder="Ej: SOL-VAC-001">
-                                <small class="form-text text-muted">Cdigo nico para identificar el proceso.</small>
+                                <small class="form-text text-muted">Código único para identificar el proceso.</small>
                                 @error('process_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="process_description">Descripcin</label>
+                                <label for="process_description">Descripción</label>
                                 <textarea wire:model.defer="description"
                                     class="form-control @error('description') is-invalid @enderror"
                                     id="process_description" rows="4"
-                                    placeholder="Describe el propsito y alcance del proceso..."></textarea>
+                                    placeholder="Describe el propósito y alcance del proceso..."></textarea>
                                 @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="process_category">Categora</label>
-                                <input wire:model.defer="category"
-                                    class="form-control @error('category') is-invalid @enderror" id="process_category"
-                                    type="text" placeholder="Ej: Recursos Humanos">
+                                <label for="process_category">Categoría</label>
+                                <select wire:model.defer="category"
+                                    class="form-select @error('category') is-invalid @enderror" id="process_category">
+                                    <option value="">Selecciona una categoría...</option>
+                                    @foreach($categoryOptions as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
                                 @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="process_priority">Prioridad</label>
-                                <select wire:model="priority"
-                                    class="form-select @error('priority') is-invalid @enderror" id="process_priority">
-                                    <option value="low">Baja</option>
-                                    <option value="medium">Media</option>
-                                    <option value="high">Alta</option>
-                                    <option value="urgent">Urgente</option>
+                                <label for="process_department">Área responsable</label>
+                                <select wire:model.defer="department"
+                                    class="form-select @error('department') is-invalid @enderror"
+                                    id="process_department">
+                                    <option value="">Selecciona un área...</option>
+                                    @foreach($departmentOptions as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
                                 </select>
-                                @error('priority') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="process_deadline">Tiempo mximo de respuesta (das)</label>
-                                <input wire:model.defer="deadline_days"
-                                    class="form-control @error('deadline_days') is-invalid @enderror"
-                                    id="process_deadline" type="number" placeholder="15" min="1">
-                                <small class="form-text text-muted">Das hbiles para completar el proceso.</small>
-                                @error('deadline_days') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="process_department">rea responsable</label>
-                                <input wire:model.defer="department"
-                                    class="form-control @error('department') is-invalid @enderror"
-                                    id="process_department" type="text" placeholder="Ej: Administracin">
                                 @error('department') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
 
                         <hr class="my-4">
-                        <h2 class="h5 mb-3">Configuracin</h2>
+                        <h2 class="h5 mb-3">Configuración</h2>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -125,7 +113,7 @@ Changelog:
                                         Proceso activo
                                     </label>
                                 </div>
-                                <small class="form-text text-muted">Los trabajadores podrn iniciar este proceso si est
+                                <small class="form-text text-muted">Los trabajadores podrán iniciar este proceso si está
                                     activo.</small>
                             </div>
                         </div>
@@ -149,27 +137,28 @@ Changelog:
                     <h2 class="h5 mb-4">Ayuda</h2>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'fa-xs me-1 text-info')
-                            Qu es un proceso?
+                            @icon('support.help', 'fa-xs me-1 text-primary')
+                            ¿Qué es un proceso?
                         </h3>
                         <p class="small text-gray-700">Un proceso es un flujo de trabajo que define los pasos necesarios
                             para completar un trámite específico.</p>
                     </div>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'fa-xs me-1 text-info')
-                            Cdigo del proceso
+                            @icon('support.help', 'fa-xs me-1 text-primary')
+                            Código del proceso
                         </h3>
-                        <p class="small text-gray-700">Usa nombres claros y nicos para identificar fcilmente el proceso.
+                        <p class="small text-gray-700">Usa nombres claros y únicos para identificar fácilmente el
+                            proceso.
                         </p>
                     </div>
                     <div>
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'fa-xs me-1 text-info')
+                            @icon('support.help', 'fa-xs me-1 text-primary')
                             Siguiente paso
                         </h3>
-                        <p class="small text-gray-700">Despus de crear el proceso, define los pasos especficos en la
-                            seccin "Definir pasos".</p>
+                        <p class="small text-gray-700">Después de crear el proceso, define los pasos específicos en la
+                            sección "Definir pasos".</p>
                     </div>
                 </div>
             </div>

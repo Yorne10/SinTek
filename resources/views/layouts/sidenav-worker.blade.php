@@ -47,34 +47,24 @@ Validado por: Alfonso Angel Garca Hernndez
         </a>
       </li>
 
-      {{-- Inicio / Bandeja de entrada --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}" class="nav-link">
-          <span class="sidebar-icon">
-            @icon('nav.home', 'me-2')
-          </span>
-          <span class="sidebar-text">Inicio</span>
-        </a>
-      </li>
-
-      {{-- Mis trmites --}}
+      {{-- Mis trámites --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.mis-tramites') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('list.checklist', 'me-2')
           </span>
-          <span class="sidebar-text">Mis trmites</span>
+          <span class="sidebar-text">Mis trámites</span>
         </a>
       </li>
 
-      {{-- Nuevo trmite --}}
+      {{-- Nuevo trámite --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.tramites-disponibles') }}"
           class="nav-link">
           <span class="sidebar-icon">
             @icon('process.docs', 'me-2')
           </span>
-          <span class="sidebar-text">Nuevo trmite</span>
+          <span class="sidebar-text">Nuevo trámite</span>
         </a>
       </li>
 
@@ -97,8 +87,6 @@ Validado por: Alfonso Angel Garca Hernndez
           <span class="sidebar-text">Convocatorias</span>
         </a>
       </li>
-
-
 
       {{-- Preguntas frecuentes (FAQ) --}}
       <li class="nav-item">

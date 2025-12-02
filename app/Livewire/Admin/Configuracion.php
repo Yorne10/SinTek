@@ -18,15 +18,13 @@ class Configuracion extends Component
 
     // Seguridad
     public $session_timeout = 120;
-    public $max_attempts = 5;
 
     protected $rules = [
         'institution_name' => 'required|string|max:255',
         'system_name' => 'required|string|max:255',
         'contact_email' => 'required|email|max:255',
         'contact_phone' => 'nullable|string|max:20',
-        'session_timeout' => 'required|integer|min:5|max:1440',
-        'max_attempts' => 'required|integer|min:1|max:10',
+        'session_timeout' => 'required|integer|min:1|max:1440',
     ];
 
     protected $messages = [
@@ -35,11 +33,8 @@ class Configuracion extends Component
         'contact_email.required' => 'El correo de contacto es obligatorio.',
         'contact_email.email' => 'El correo debe ser válido.',
         'session_timeout.required' => 'El tiempo de sesión es obligatorio.',
-        'session_timeout.min' => 'El tiempo de sesión debe ser al menos 5 minutos.',
+        'session_timeout.min' => 'El tiempo de sesión debe ser al menos 1 minuto.',
         'session_timeout.max' => 'El tiempo de sesión no puede exceder 1440 minutos (24 horas).',
-        'max_attempts.required' => 'Los intentos máximos son obligatorios.',
-        'max_attempts.min' => 'Debe permitir al menos 1 intento.',
-        'max_attempts.max' => 'No se pueden configurar más de 10 intentos.',
     ];
 
     public function mount()
@@ -47,13 +42,12 @@ class Configuracion extends Component
         // Verificar si el modo mantenimiento está activo
         $this->maintenanceMode = app()->isDownForMaintenance();
 
-        // Cargar valores de configuración
-        $this->institution_name = config('app.institution_name', 'CETAM');
-        $this->system_name = config('app.name', 'SinTek');
-        $this->contact_email = config('app.contact_email', 'contacto@cetam.gob.mx');
-        $this->contact_phone = config('app.contact_phone', '(999) 999-9999');
-        $this->session_timeout = config('session.lifetime', 120);
-        $this->max_attempts = config('auth.max_attempts', 5);
+        // Cargar valores de configuración desde la base de datos
+        $this->institution_name = \App\Models\SystemSetting::getValue('institution_name', config('app.institution_name', 'CETAM'));
+        $this->system_name = \App\Models\SystemSetting::getValue('system_name', config('app.name', 'SinTek'));
+        $this->contact_email = \App\Models\SystemSetting::getValue('contact_email', config('mail.from.address', 'contacto@cetam.gob.mx'));
+        $this->contact_phone = \App\Models\SystemSetting::getValue('contact_phone', config('app.contact_phone', '(999) 999-9999'));
+        $this->session_timeout = (int) \App\Models\SystemSetting::getValue('session_timeout', config('session.lifetime', 120));
     }
 
     public function saveGeneralInfo()
@@ -66,12 +60,10 @@ class Configuracion extends Component
         ]);
 
         try {
-            $this->updateEnvFile([
-                'APP_INSTITUTION_NAME' => $this->institution_name,
-                'APP_NAME' => $this->system_name,
-                'APP_CONTACT_EMAIL' => $this->contact_email,
-                'APP_CONTACT_PHONE' => $this->contact_phone,
-            ]);
+            \App\Models\SystemSetting::setValue('institution_name', $this->institution_name);
+            \App\Models\SystemSetting::setValue('system_name', $this->system_name);
+            \App\Models\SystemSetting::setValue('contact_email', $this->contact_email);
+            \App\Models\SystemSetting::setValue('contact_phone', $this->contact_phone);
 
             $this->dispatch(
                 'config-notify',
@@ -93,14 +85,10 @@ class Configuracion extends Component
     {
         $this->validate([
             'session_timeout' => $this->rules['session_timeout'],
-            'max_attempts' => $this->rules['max_attempts'],
         ]);
 
         try {
-            $this->updateEnvFile([
-                'SESSION_LIFETIME' => $this->session_timeout,
-                'AUTH_MAX_ATTEMPTS' => $this->max_attempts,
-            ]);
+            \App\Models\SystemSetting::setValue('session_timeout', $this->session_timeout);
 
             $this->dispatch(
                 'config-notify',
@@ -155,33 +143,6 @@ class Configuracion extends Component
                 message: 'No se pudo cambiar el modo mantenimiento: ' . $e->getMessage()
             );
         }
-    }
-
-    private function updateEnvFile(array $data)
-    {
-        $envPath = base_path('.env');
-
-        if (!File::exists($envPath)) {
-            throw new \Exception('El archivo .env no existe');
-        }
-
-        $envContent = File::get($envPath);
-
-        foreach ($data as $key => $value) {
-            $pattern = "/^{$key}=.*/m";
-            $replacement = "{$key}=\"{$value}\"";
-
-            if (preg_match($pattern, $envContent)) {
-                $envContent = preg_replace($pattern, $replacement, $envContent);
-            } else {
-                $envContent .= "\n{$replacement}";
-            }
-        }
-
-        File::put($envPath, $envContent);
-
-        // Limpiar cache de configuración
-        Artisan::call('config:clear');
     }
 
     public function render()

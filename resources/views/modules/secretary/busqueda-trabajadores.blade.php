@@ -1,10 +1,10 @@
-{{--
+﻿{{--
 * Company: CETAM
 * Project: ST
 * File: busqueda-trabajadores.blade.php
 * Created on: 04/11/2025
-* Created by: Alfonso Angel Garca Hernndez
-* Approved by: Alfonso Angel Garca Hernndez
+* Created by: Alfonso Angel Garcia Hernandez
+* Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
 <div>
@@ -17,63 +17,53 @@
                             @icon('nav.home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Secretara</li>
-                    <li class="breadcrumb-item active" aria-current="page">Bsqueda de trabajadores</li>
+                    <li class="breadcrumb-item">Secretaria</li>
+                    <li class="breadcrumb-item active" aria-current="page">Busqueda de trabajadores</li>
                 </ol>
             </nav>
-            <h2 class="h4">Bsqueda de trabajadores</h2>
-            <p class="mb-0">Busca trabajadores por diferentes criterios y consulta su informacin.</p>
+            <h2 class="h4">Busqueda de trabajadores</h2>
+            <p class="mb-0">Busca trabajadores por diferentes criterios y consulta su informacion.</p>
         </div>
     </div>
 
     <div class="table-settings mb-4">
-        <div class="row justify-content-between align-items-center">
-            <div class="col-12 col-lg-9 d-flex flex-wrap gap-2">
-                <div class="input-group me-2 fmxw-300">
-                    <span class="input-group-text">
-                        <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </span>
-                    <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
-                        placeholder="Buscar por nombre o email">
-                </div>
-                <input wire:model.live.debounce.400ms="searchCurp" type="text" class="form-control fmxw-200"
-                    placeholder="CURP" maxlength="18">
-                <input wire:model.live.debounce.400ms="searchRfc" type="text" class="form-control fmxw-150"
-                    placeholder="RFC" maxlength="13">
-                <select wire:model.live="statusFilter" class="form-select fmxw-120" aria-label="Filtrar por estado">
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+            <div class="input-group fmxw-300">
+                <span class="input-group-text">@icon('action.search', 'icon icon-xs')</span>
+                <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
+                    placeholder="Buscar trabajadores">
+            </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <input wire:model.live.debounce.400ms="searchCurp" type="text" class="form-control"
+                    style="min-width: 180px;" placeholder="CURP" maxlength="18">
+            </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <input wire:model.live.debounce.400ms="searchRfc" type="text" class="form-control"
+                    style="min-width: 140px;" placeholder="RFC" maxlength="13">
+            </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 150px;"
+                    aria-label="Filtrar por estado">
                     <option value="">Todos</option>
                     <option value="active">Activos</option>
                     <option value="inactive">Inactivos</option>
                 </select>
-                <button wire:click="clearFilters" type="button" class="btn btn-outline-gray-600">
-                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    Limpiar
-                </button>
             </div>
         </div>
     </div>
 
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table user-table table-hover align-items-center">
-            <thead>
+        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
+            <thead class="thead-light">
                 <tr>
-                    <th class="border-bottom">Trabajador</th>
-                    <th class="border-bottom">CURP</th>
-                    <th class="border-bottom">RFC</th>
-                    <th class="border-bottom">Telfono</th>
-                    <th class="border-bottom">Claves presupuestales</th>
-                    <th class="border-bottom">Estado</th>
-                    <th class="border-bottom">Acciones</th>
+                    <th class="border-0 rounded-start">Trabajador</th>
+                    <th class="border-0">CURP</th>
+                    <th class="border-0">RFC</th>
+                    <th class="border-0">Telefono</th>
+                    <th class="border-0">Claves presupuestales</th>
+                    <th class="border-0">Estado</th>
+                    <th class="border-0 rounded-end">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,7 +76,7 @@
                                     {{ strtoupper(substr($worker->user->name, 0, 1)) }}{{ strtoupper(substr(explode(' ', $worker->user->name)[1] ?? '', 0, 1)) }}
                                 </div>
                                 <div class="d-block">
-                                    <span class="fw-bold">{{ $worker->user->name }}</span>
+                                    <span class="fw-bold text-gray-900">{{ $worker->user->name }}</span>
                                     <div class="small text-gray">{{ $worker->user->email }}</div>
                                 </div>
                             </a>
@@ -123,7 +113,7 @@
                                         <span class="badge bg-info-soft text-info">{{ $position->budget_key }}</span>
                                     @endforeach
                                     @if($totalPositions > 2)
-                                        <span class="small text-gray-600">+{{ $totalPositions - 2 }} ms</span>
+                                        <span class="small text-gray-600">+{{ $totalPositions - 2 }} mas</span>
                                     @endif
                                 </div>
                             @else
@@ -167,7 +157,7 @@
                                                 d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
                                                 clip-rule="evenodd"></path>
                                         </svg>
-                                        Ver historial de trámites
+                                        Ver historial de tramites
                                     </a>
                                     <div role="separator" class="dropdown-divider my-1"></div>
                                     <a class="dropdown-item d-flex align-items-center" href="#">
@@ -177,7 +167,7 @@
                                                 d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
                                             </path>
                                         </svg>
-                                        Editar informacin
+                                        Editar informacion
                                     </a>
                                 </div>
                             </div>
@@ -194,7 +184,7 @@
                                     </path>
                                 </svg>
                                 <p class="fw-bold">No se encontraron trabajadores</p>
-                                <p class="small">Intenta ajustar los filtros de bsqueda</p>
+                                <p class="small">Intenta ajustar los filtros de busqueda</p>
                             </div>
                         </td>
                     </tr>

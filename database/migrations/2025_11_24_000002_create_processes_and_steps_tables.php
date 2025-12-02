@@ -25,8 +25,6 @@ return new class extends Migration
             $table->string('process_code', 50)->nullable();
             $table->text('description')->nullable();
             $table->string('category', 100)->nullable();
-            $table->string('priority', 20)->nullable();
-            $table->integer('deadline_days')->nullable();
             $table->string('department', 100)->nullable();
             $table->boolean('active')->default(true);
             $table->foreignId('created_by')->nullable()->constrained('users', 'users_id')->onDelete('set null');
