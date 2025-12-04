@@ -2,40 +2,24 @@
     Company: CETAM
     Project: ST
     File: dashboard.blade.php
-    Created on: 05/11/2025
+    Created on: 01/12/2025
     Created by: Alfonso Angel Garcia Hernandez
     Approved by: Alfonso Angel Garcia Hernandez
-
-    Changelog:
-    - ID: <ID> | Date: dd/mm/yyyy
-      Modified by: <Developer name>
-      Description: <Brief description of change>
 --}}
 
 <div>
-    {{-- Breadcrumbs --}}
+    {{-- Header --}}
     <div class="py-4">
-        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                <li class="breadcrumb-item">
-                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                        @icon('nav.home', 'fa-xs')
-                    </a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-            </ol>
-        </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
                 <h1 class="h4">Panel de Administración</h1>
-                <p class="mb-0">Resumen general del sistema</p>
+                <p class="mb-0">Bienvenido, {{ Auth::user()->name }}</p>
             </div>
         </div>
     </div>
 
     {{-- Métricas principales --}}
     <div class="row">
-        {{-- Total de Usuarios --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
@@ -47,7 +31,7 @@
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
                             <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Total Usuarios</h2>
+                                <h2 class="h6 text-gray-400 mb-0">Usuarios</h2>
                                 <h3 class="fw-extrabold mb-1">{{ $totalUsers }}</h3>
                             </div>
                             <small class="text-gray-500">
@@ -59,23 +43,22 @@
             </div>
         </div>
 
-        {{-- Procesos Activos --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
-                                @icon('process.docs', 'icon')
+                            <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
+                                @icon('state.pending', 'icon')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
                             <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Procesos</h2>
-                                <h3 class="fw-extrabold mb-1">{{ $activeProcesses }}</h3>
+                                <h2 class="h6 text-gray-400 mb-0">Pendientes</h2>
+                                <h3 class="fw-extrabold mb-1">{{ $pendingRequests }}</h3>
                             </div>
                             <small class="text-gray-500">
-                                {{ $totalProcesses }} total
+                                requieren atención
                             </small>
                         </div>
                     </div>
@@ -83,13 +66,12 @@
             </div>
         </div>
 
-        {{-- Trámites en Proceso --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
+                            <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
                                 @icon('state.in_progress', 'icon')
                             </div>
                         </div>
@@ -107,23 +89,22 @@
             </div>
         </div>
 
-        {{-- Convocatorias Activas --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
-                                @icon('process.document', 'icon')
+                            <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
+                                @icon('state.success', 'icon')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
                             <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Convocatorias</h2>
-                                <h3 class="fw-extrabold mb-1">{{ $activeConvocations }}</h3>
+                                <h2 class="h6 text-gray-400 mb-0">Completados</h2>
+                                <h3 class="fw-extrabold mb-1">{{ $completedRequests }}</h3>
                             </div>
                             <small class="text-gray-500">
-                                {{ $totalConvocations }} total
+                                este mes
                             </small>
                         </div>
                     </div>
@@ -132,180 +113,136 @@
         </div>
     </div>
 
-    {{-- Distribución y estadísticas --}}
+    {{-- Contenido principal --}}
     <div class="row">
-        {{-- Distribución de Usuarios por Rol --}}
-        <div class="col-12 col-xl-4 mb-4">
-            <div class="card border-0 shadow h-100">
-                <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Usuarios por Rol</h2>
-                </div>
-                <div class="card-body">
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">Administradores</span>
-                            <span class="small fw-bold">{{ $usersByRole['admin'] }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ $totalUsers > 0 ? ($usersByRole['admin'] / $totalUsers * 100) : 0 }}%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">Secretarios</span>
-                            <span class="small fw-bold">{{ $usersByRole['secretary'] }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ $totalUsers > 0 ? ($usersByRole['secretary'] / $totalUsers * 100) : 0 }}%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-0">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">Trabajadores</span>
-                            <span class="small fw-bold">{{ $usersByRole['worker'] }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-primary" role="progressbar"
-                                style="width: {{ $totalUsers > 0 ? ($usersByRole['worker'] / $totalUsers * 100) : 0 }}%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- Distribución de Trámites --}}
-        <div class="col-12 col-xl-4 mb-4">
-            <div class="card border-0 shadow h-100">
-                <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Estado de Trámites</h2>
-                </div>
-                <div class="card-body">
-                    @php
-                        $total = $totalRequests > 0 ? $totalRequests : 1;
-                    @endphp
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">Completados</span>
-                            <span class="small fw-bold">{{ $completedRequests }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($completedRequests / $total * 100) }}%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">En Proceso</span>
-                            <span class="small fw-bold">{{ $inProgressRequests }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ ($inProgressRequests / $total * 100) }}%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">Pendientes</span>
-                            <span class="small fw-bold">{{ $pendingRequests }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-info" role="progressbar"
-                                style="width: {{ ($pendingRequests / $total * 100) }}%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-0">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small">Rechazados</span>
-                            <span class="small fw-bold">{{ $rejectedRequests }}</span>
-                        </div>
-                        <div class="progress" style="height: 10px;">
-                            <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ ($rejectedRequests / $total * 100) }}%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         {{-- Actividad Reciente --}}
-        <div class="col-12 col-xl-4 mb-4">
+        <div class="col-12 col-lg-7 mb-4">
             <div class="card border-0 shadow h-100">
-                <div class="card-header">
+                <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                     <h2 class="fs-5 fw-bold mb-0">Actividad Reciente</h2>
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.bitacora') }}"
+                        class="btn btn-sm btn-outline-gray-600">
+                        Ver todo
+                    </a>
                 </div>
                 <div class="card-body">
                     @forelse($recentLogs as $log)
                         <div class="d-flex align-items-start mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
                             <div class="me-3">
-                                @icon('state.info', 'text-gray-400')
+                                <div class="icon-shape icon-sm bg-light rounded">
+                                    @icon('state.info', 'text-gray-600')
+                                </div>
                             </div>
                             <div class="flex-grow-1">
-                                <div class="small fw-bold">{{ $log->user->name ?? 'Sistema' }}</div>
-                                <div class="small text-gray-600">{{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
-                                <div class="small text-gray-500">{{ $log->created_at->diffForHumans() }}</div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <div class="fw-bold">{{ $log->user->name ?? 'Sistema' }}</div>
+                                        <div class="text-gray-600 small">{{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="small text-gray-500">{{ $log->created_at->diffForHumans() }}</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @empty
-                        <div class="text-center text-gray-500 py-3">
-                            <div class="mb-2">
-                                @icon('state.info', 'fa-2x text-gray-400')
-                            </div>
+                        <div class="text-center text-gray-500 py-4">
+                            @icon('state.info', 'fa-2x text-gray-400 mb-2')
                             <p class="small mb-0">No hay actividad reciente</p>
                         </div>
                     @endforelse
                 </div>
-                <div class="card-footer">
-                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.bitacora') }}"
-                        class="btn btn-sm btn-link d-flex align-items-center justify-content-center">
-                        Ver toda la bitácora
-                        @icon('nav.forward', 'ms-2 fa-xs')
-                    </a>
+            </div>
+        </div>
+
+        {{-- Resumen --}}
+        <div class="col-12 col-lg-5 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-header border-bottom">
+                    <h2 class="fs-5 fw-bold mb-0">Resumen General</h2>
+                </div>
+                <div class="card-body">
+                    {{-- Procesos --}}
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-600">Procesos activos</span>
+                            <span class="h5 mb-0 fw-bold text-primary">{{ $activeProcesses }}</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar"
+                                style="width: {{ $totalProcesses > 0 ? ($activeProcesses / $totalProcesses * 100) : 0 }}%"></div>
+                        </div>
+                        <small class="text-gray-500">{{ $totalProcesses }} procesos totales</small>
+                    </div>
+
+                    {{-- Convocatorias --}}
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-600">Convocatorias activas</span>
+                            <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar"
+                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%"></div>
+                        </div>
+                        <small class="text-gray-500">{{ $totalConvocations }} convocatorias totales</small>
+                    </div>
+
+                    {{-- Usuarios por Rol --}}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-600 small">Administradores</span>
+                            <span class="fw-bold">{{ $usersByRole['admin'] }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-600 small">Secretarios</span>
+                            <span class="fw-bold">{{ $usersByRole['secretary'] }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-gray-600 small">Trabajadores</span>
+                            <span class="fw-bold">{{ $usersByRole['worker'] }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Estadísticas adicionales --}}
+    {{-- Estadísticas de Trámites --}}
     <div class="row">
-        <div class="col-12 mb-4">
+        <div class="col-12">
             <div class="card border-0 shadow">
                 <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Resumen General</h2>
+                    <h2 class="fs-5 fw-bold mb-0">Estado de Trámites</h2>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-between border-end pe-3">
-                                <div>
-                                    <span class="h6 mb-0">Total de trámites</span>
-                                </div>
-                                <div>
-                                    <span class="h5 mb-0 fw-bold text-primary">{{ $totalRequests }}</span>
-                                </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="text-center">
+                                <div class="h6 text-gray-600 mb-2">Total</div>
+                                <div class="h3 fw-bold text-primary mb-1">{{ $totalRequests }}</div>
+                                <small class="text-gray-500">trámites</small>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-3 mb-md-0">
-                            <div class="d-flex justify-content-between border-end pe-3">
-                                <div>
-                                    <span class="h6 mb-0">Trámites este mes</span>
-                                </div>
-                                <div>
-                                    <span class="h5 mb-0 fw-bold text-success">{{ $requestsThisMonth }}</span>
-                                </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="text-center border-start">
+                                <div class="h6 text-gray-600 mb-2">Pendientes</div>
+                                <div class="h3 fw-bold text-warning mb-1">{{ $pendingRequests }}</div>
+                                <small class="text-gray-500">{{ $totalRequests > 0 ? round($pendingRequests / $totalRequests * 100) : 0 }}%</small>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <span class="h6 mb-0">Tasa de completados</span>
-                                </div>
-                                <div>
-                                    <span class="h5 mb-0 fw-bold text-info">
-                                        {{ $totalRequests > 0 ? number_format(($completedRequests / $totalRequests * 100), 1) : 0 }}%
-                                    </span>
-                                </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="text-center border-start">
+                                <div class="h6 text-gray-600 mb-2">En Proceso</div>
+                                <div class="h3 fw-bold text-info mb-1">{{ $inProgressRequests }}</div>
+                                <small class="text-gray-500">{{ $totalRequests > 0 ? round($inProgressRequests / $totalRequests * 100) : 0 }}%</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center border-start">
+                                <div class="h6 text-gray-600 mb-2">Completados</div>
+                                <div class="h3 fw-bold text-success mb-1">{{ $completedRequests }}</div>
+                                <small class="text-gray-500">{{ $totalRequests > 0 ? round($completedRequests / $totalRequests * 100) : 0 }}%</small>
                             </div>
                         </div>
                     </div>

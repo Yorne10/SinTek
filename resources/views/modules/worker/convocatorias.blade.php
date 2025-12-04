@@ -137,101 +137,56 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        {{-- Column 1: Reglamentos --}}
+                        {{-- Column 1: Reglamentos (desde BD) --}}
                         <div class="col-md-6 mb-4">
                             <h3 class="h6 fw-bold mb-3">
-                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
-                                </svg>
+                                <span class="me-2">@icon('file.generic', 'icon icon-xs')</span>
                                 Reglamentos
                             </h3>
-                            <div class="list-group list-group-flush">
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Reglamento Interior de Trabajo</div>
-                                        <small class="text-gray-600">Actualizado: 01/2025</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Reglamento de Seguridad e Higiene</div>
-                                        <small class="text-gray-600">Actualizado: 12/2024</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Cdigo de tica y Conducta</div>
-                                        <small class="text-gray-600">Actualizado: 10/2024</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Contrato Colectivo de Trabajo</div>
-                                        <small class="text-gray-600">Vigencia: 2024-2026</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                            </div>
+                            @if($reglamentos->count() > 0)
+                                <div class="list-group list-group-flush">
+                                    @foreach($reglamentos as $doc)
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $doc->institutional_document_id) }}"
+                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <div class="fw-bold">{{ $doc->title }}</div>
+                                                <small class="text-gray-600">
+                                                    {{ $doc->effective_date ? 'Vigencia: ' . \Illuminate\Support\Carbon::parse($doc->effective_date)->format('m/Y') : 'Actualizado: ' . $doc->created_at->format('m/Y') }}
+                                                </small>
+                                            </div>
+                                            @icon('file.download', 'icon icon-xs text-gray-500')
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-gray-500 small">No hay reglamentos disponibles.</div>
+                            @endif
                         </div>
 
-                        {{-- Column 2: Manuales y Formatos --}}
+                        {{-- Column 2: Manuales y Formatos (desde BD) --}}
                         <div class="col-md-6 mb-4">
                             <h3 class="h6 fw-bold mb-3">
-                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z"></path>
-                                    <path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"></path>
-                                </svg>
+                                <span class="me-2">@icon('file.generic', 'icon icon-xs')</span>
                                 Manuales y Formatos
                             </h3>
-                            <div class="list-group list-group-flush">
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Manual de Procedimientos</div>
-                                        <small class="text-gray-600">Versin 3.2 - 2025</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Formatos de Solicitudes</div>
-                                        <small class="text-gray-600">Coleccin completa</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Gua del Usuario - Sistema ST</div>
-                                        <small class="text-gray-600">Actualizado: 11/2025</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <div class="fw-bold">Tabulador de Sueldos 2025</div>
-                                        <small class="text-gray-600">Vigencia: 01/2025</small>
-                                    </div>
-                                    <svg class="icon icon-xs text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                            </div>
+                            @if($manuales->count() > 0)
+                                <div class="list-group list-group-flush">
+                                    @foreach($manuales as $doc)
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $doc->institutional_document_id) }}"
+                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <div class="fw-bold">{{ $doc->title }}</div>
+                                                <small class="text-gray-600">
+                                                    {{ $doc->version ? 'Version ' . $doc->version : '' }}{{ $doc->effective_date ? ' - ' . \Illuminate\Support\Carbon::parse($doc->effective_date)->format('m/Y') : '' }}
+                                                </small>
+                                            </div>
+                                            @icon('file.download', 'icon icon-xs text-gray-500')
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-gray-500 small">No hay manuales ni formatos disponibles.</div>
+                            @endif
                         </div>
                     </div>
                 </div>

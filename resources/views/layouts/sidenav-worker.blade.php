@@ -68,16 +68,6 @@ Validado por: Alfonso Angel Garca Hernndez
         </a>
       </li>
 
-      {{-- Mi perfil --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">
-          <span class="sidebar-icon">
-            @icon('user.profile', 'me-2')
-          </span>
-          <span class="sidebar-text">Mi perfil</span>
-        </a>
-      </li>
-
       {{-- Convocatorias y documentos --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocatorias') }}" class="nav-link">
@@ -95,6 +85,16 @@ Validado por: Alfonso Angel Garca Hernndez
             @icon('support.help', 'me-2')
           </span>
           <span class="sidebar-text">Preguntas frecuentes</span>
+        </a>
+      </li>
+
+      {{-- Mi perfil --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">
+          <span class="sidebar-icon">
+            @icon('user.profile', 'me-2')
+          </span>
+          <span class="sidebar-text">Mi perfil</span>
         </a>
       </li>
     </ul>

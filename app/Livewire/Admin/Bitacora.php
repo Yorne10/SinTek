@@ -62,7 +62,7 @@ class Bitacora extends Component
             })
             ->orderByDesc('date')
             ->orderByDesc('created_at')
-            ->paginate(15);
+            ->paginate(10);
 
         return view('modules.admin.bitacora', [
             'logs' => $logs,

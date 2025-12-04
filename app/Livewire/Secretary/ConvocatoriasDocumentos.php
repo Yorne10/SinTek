@@ -129,12 +129,14 @@ class ConvocatoriasDocumentos extends Component
             if (!empty($this->documentos)) {
                 foreach ($this->documentos as $documento) {
                     if (isset($documento['archivo']) && $documento['archivo']) {
-                        $fileContent = file_get_contents($documento['archivo']->getRealPath());
-
+                        $file = $documento['archivo'];
                         ConvocationDocument::create([
                             'convocation_id' => $convocatoria->convocation_id,
                             'title' => $documento['titulo'],
-                            'file_content' => $fileContent,
+                            'file_name' => $file->getClientOriginalName(),
+                            'mime_type' => $file->getMimeType(),
+                            'file_size' => $file->getSize(),
+                            'file_content' => file_get_contents($file->getRealPath()),
                         ]);
                     }
                 }

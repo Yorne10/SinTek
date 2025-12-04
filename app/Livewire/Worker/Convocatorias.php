@@ -3,6 +3,7 @@
 namespace App\Livewire\Worker;
 
 use App\Models\Convocation;
+use App\Models\InstitutionalDocument;
 use Livewire\Component;
 
 class Convocatorias extends Component
@@ -16,9 +17,20 @@ class Convocatorias extends Component
             ->orderBy('start_date', 'desc')
             ->get();
 
+        $reglamentos = InstitutionalDocument::where('status', 'vigente')
+            ->where('category', 'reglamento')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $manuales = InstitutionalDocument::where('status', 'vigente')
+            ->where('category', '<>', 'reglamento')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('modules.worker.convocatorias', [
-            'convocatorias' => $convocatorias
+            'convocatorias' => $convocatorias,
+            'reglamentos' => $reglamentos,
+            'manuales' => $manuales,
         ])->layout('layouts.app');
     }
 }
-

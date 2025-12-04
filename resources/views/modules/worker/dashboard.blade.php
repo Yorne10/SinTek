@@ -2,168 +2,205 @@
 Company: CETAM
 Project: ST
 File: dashboard.blade.php
-Created on: 06/11/2025
+Created on: 01/12/2025
 Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
+--}}
 
-Changelog:
-- ID: <ID> | Date: dd/mm/yyyy
-    Modified by: <Developer name>
-        Description: <Brief description of change>
-            --}}
+<div>
+    {{-- Header --}}
+    <div class="py-4">
+        <div class="d-flex justify-content-between w-100 flex-wrap">
+            <div class="mb-3 mb-lg-0">
+                <h1 class="h4">Bienvenido, {{ Auth::user()->name }}</h1>
+                <p class="mb-0">Gestiona tus trámites y consulta convocatorias</p>
+            </div>
+        </div>
+    </div>
 
-            <div>
-                {{-- Breadcrumbs --}}
-                <div class="py-4">
-                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                            <li class="breadcrumb-item">
-                                <a href="#">
-                                    @icon('nav.home', 'fa-xs')
-                                </a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                        </ol>
-                    </nav>
-                    <div class="d-flex justify-content-between w-100 flex-wrap">
-                        <div class="mb-3 mb-lg-0">
-                            <h1 class="h4">Bienvenido, {{ Auth::user()->name ?? 'Trabajador' }}</h1>
-                            <p class="mb-0">Vista general de tus trámites y notificaciones.</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Mtricas principales --}}
-                <div class="row">
-                    {{-- Mis trámites totales --}}
-                    <div class="col-12 col-sm-6 col-xl-3 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-body">
-                                <div class="row d-block d-xl-flex align-items-center">
-                                    <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                        <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-                                            @icon('process.docs', 'icon')
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-7 px-xl-0">
-                                        <div class="d-none d-sm-block">
-                                            <h2 class="h6 text-gray-400 mb-0">Mis Trámites</h2>
-                                            <h3 class="fw-extrabold mb-1">{{ $myRequests }}</h3>
-                                        </div>
-                                        <small class="text-gray-500">
-                                            total
-                                        </small>
-                                    </div>
-                                </div>
+    {{-- Métricas principales --}}
+    <div class="row">
+        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="row d-block d-xl-flex align-items-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                                @icon('process.docs', 'icon')
                             </div>
                         </div>
-                    </div>
-
-                    {{-- Pendientes --}}
-                    <div class="col-12 col-sm-6 col-xl-3 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-body">
-                                <div class="row d-block d-xl-flex align-items-center">
-                                    <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                        <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
-                                            @icon('state.pending', 'icon')
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-7 px-xl-0">
-                                        <div class="d-none d-sm-block">
-                                            <h2 class="h6 text-gray-400 mb-0">Pendientes</h2>
-                                            <h3 class="fw-extrabold mb-1">{{ $myPendingRequests }}</h3>
-                                        </div>
-                                        <small class="text-gray-500">
-                                            sin iniciar
-                                        </small>
-                                    </div>
-                                </div>
+                        <div class="col-12 col-xl-7 px-xl-0">
+                            <div class="d-none d-sm-block">
+                                <h2 class="h6 text-gray-400 mb-0">Mis Trámites</h2>
+                                <h3 class="fw-extrabold mb-1">{{ $myRequests }}</h3>
                             </div>
-                        </div>
-                    </div>
-
-                    {{-- Trmites en proceso --}}
-                    <div class="col-12 col-sm-6 col-xl-3 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-body">
-                                <div class="row d-block d-xl-flex align-items-center">
-                                    <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                        <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
-                                            @icon('state.in_progress', 'icon')
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-7 px-xl-0">
-                                        <div class="d-none d-sm-block">
-                                            <h2 class="h6 text-gray-400 mb-0">En Proceso</h2>
-                                            <h3 class="fw-extrabold mb-1">{{ $myInProgressRequests }}</h3>
-                                        </div>
-                                        <small class="text-gray-500">
-                                            en curso
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Trmites completados --}}
-                    <div class="col-12 col-sm-6 col-xl-3 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-body">
-                                <div class="row d-block d-xl-flex align-items-center">
-                                    <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                        <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
-                                            @icon('state.success', 'icon')
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-7 px-xl-0">
-                                        <div class="d-none d-sm-block">
-                                            <h2 class="h6 text-gray-400 mb-0">Completados</h2>
-                                            <h3 class="fw-extrabold mb-1">{{ $myCompletedRequests }}</h3>
-                                        </div>
-                                        <small class="text-gray-500">
-                                            finalizados
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Resumen de Procesos y Convocatorias --}}
-                <div class="row">
-                    <div class="col-12 mb-4">
-                        <div class="card border-0 shadow">
-                            <div class="card-header">
-                                <h2 class="fs-5 fw-bold mb-0">Disponibles</h2>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <div class="d-flex justify-content-between border-end pe-3">
-                                            <div>
-                                                <span class="h6 mb-0">Procesos disponibles</span>
-                                            </div>
-                                            <div>
-                                                <span class="h5 mb-0 fw-bold text-primary">{{ $availableProcesses }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <span class="h6 mb-0">Convocatorias activas</span>
-                                            </div>
-                                            <div>
-                                                <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <small class="text-gray-500">
+                                total
+                            </small>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="row d-block d-xl-flex align-items-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
+                                @icon('state.pending', 'icon')
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-7 px-xl-0">
+                            <div class="d-none d-sm-block">
+                                <h2 class="h6 text-gray-400 mb-0">Pendientes</h2>
+                                <h3 class="fw-extrabold mb-1">{{ $myPendingRequests }}</h3>
+                            </div>
+                            <small class="text-gray-500">
+                                sin iniciar
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="row d-block d-xl-flex align-items-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
+                                @icon('state.in_progress', 'icon')
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-7 px-xl-0">
+                            <div class="d-none d-sm-block">
+                                <h2 class="h6 text-gray-400 mb-0">En Proceso</h2>
+                                <h3 class="fw-extrabold mb-1">{{ $myInProgressRequests }}</h3>
+                            </div>
+                            <small class="text-gray-500">
+                                en curso
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <div class="row d-block d-xl-flex align-items-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
+                                @icon('state.success', 'icon')
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-7 px-xl-0">
+                            <div class="d-none d-sm-block">
+                                <h2 class="h6 text-gray-400 mb-0">Completados</h2>
+                                <h3 class="fw-extrabold mb-1">{{ $myCompletedRequests }}</h3>
+                            </div>
+                            <small class="text-gray-500">
+                                finalizados
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Acciones Rápidas y Resumen --}}
+    <div class="row">
+        {{-- Acciones Rápidas --}}
+        <div class="col-12 col-lg-8 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-header">
+                    <h2 class="fs-5 fw-bold mb-0">Acciones Rápidas</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.tramites-disponibles') }}"
+                                class="btn btn-primary w-100 py-4">
+                                <div class="d-flex flex-column align-items-center">
+                                    @icon('action.create', 'fa-2x mb-2')
+                                    <span class="fw-bold">Iniciar Nuevo Trámite</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.mis-tramites') }}"
+                                class="btn btn-outline-primary w-100 py-4">
+                                <div class="d-flex flex-column align-items-center">
+                                    @icon('list.checklist', 'fa-2x mb-2')
+                                    <span class="fw-bold">Ver Mis Trámites</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocatorias') }}"
+                                class="btn btn-outline-primary w-100 py-3">
+                                <div class="d-flex flex-column align-items-center">
+                                    @icon('calendar.generic', 'fa-2x mb-2')
+                                    <span class="fw-bold">Convocatorias Activas</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.notificaciones') }}"
+                                class="btn btn-outline-primary w-100 py-3">
+                                <div class="d-flex flex-column align-items-center">
+                                    @icon('notif.bell', 'fa-2x mb-2')
+                                    <span class="fw-bold">Ver Notificaciones</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Información --}}
+        <div class="col-12 col-lg-4 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-header">
+                    <h2 class="fs-5 fw-bold mb-0">Disponibles</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4 pb-4 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-600">Procesos disponibles</span>
+                            <span class="h5 mb-0 fw-bold text-primary">{{ $availableProcesses }}</span>
+                        </div>
+                        <small class="text-gray-500">para iniciar trámites</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-600">Convocatorias activas</span>
+                            <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
+                        </div>
+                        <small class="text-gray-500">publicadas actualmente</small>
+                    </div>
+
+                    <div>
+                        <h6 class="text-gray-600 mb-3">Progreso</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="small text-gray-600">Completados</span>
+                            <span class="small fw-bold">{{ $myRequests > 0 ? round($myCompletedRequests / $myRequests * 100) : 0 }}%</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar"
+                                style="width: {{ $myRequests > 0 ? ($myCompletedRequests / $myRequests * 100) : 0 }}%"></div>
+                        </div>
+                        <small class="text-gray-500">{{ $myCompletedRequests }} de {{ $myRequests }} trámites</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

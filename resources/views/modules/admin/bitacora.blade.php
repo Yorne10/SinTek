@@ -150,18 +150,17 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                <div
-                                    class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-                                    @if($logs->hasPages())
-                                        <nav aria-label="Page navigation">
-                                            {{ $logs->links() }}
-                                        </nav>
-                                    @endif
-                                    <div class="fw-normal small mt-4 mt-lg-0">
-                                        Mostrando <b>{{ $logs->firstItem() ?? 0 }}</b> a
-                                        <b>{{ $logs->lastItem() ?? 0 }}</b> de <b>{{ $logs->total() }}</b> registros
-                                    </div>
+                            <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                                @if($logs->hasPages())
+                                    <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
+                                        {{ $logs->links('components.pagination-users') }}
+                                    </nav>
+                                @endif
+                                <div class="fw-normal small mt-0 mt-lg-0 ms-lg-auto">
+                                    Mostrando <b>{{ $logs->firstItem() ?? 0 }}</b> a
+                                    <b>{{ $logs->lastItem() ?? 0 }}</b> de <b>{{ $logs->total() }}</b> registros
                                 </div>
+                            </div>
                             </div>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function () {

@@ -15,6 +15,9 @@ class ConvocationDocument extends Model
     protected $fillable = [
         'convocation_id',
         'title',
+        'file_name',
+        'mime_type',
+        'file_size',
         'file_content',
     ];
 

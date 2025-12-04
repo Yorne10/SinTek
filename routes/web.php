@@ -44,6 +44,9 @@ use App\Livewire\Admin\ModificarProceso;
 use App\Livewire\Secretary\ValidarPasos;
 use App\Livewire\Secretary\BusquedaTrabajadores;
 use App\Livewire\Secretary\ConvocatoriasDocumentos;
+use App\Livewire\Secretary\ConvocatoriasDocumentosIndex;
+use App\Livewire\Secretary\ConvocatoriaForm;
+use App\Livewire\Secretary\DocumentoForm;
 use App\Livewire\Secretary\Reportes as SecretaryReportes;
 use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
 use App\Livewire\Secretary\GestionFaqs;
@@ -132,7 +135,11 @@ Route::prefix("p/{$slug}")
                 // Funciones de secretara
                 Route::get('/validar-pasos', ValidarPasos::class)->name('secretary.validar-pasos');
                 Route::get('/busqueda-trabajadores', BusquedaTrabajadores::class)->name('secretary.busqueda-trabajadores');
-                Route::get('/convocatorias-documentos', ConvocatoriasDocumentos::class)->name('secretary.convocatorias-documentos');
+                Route::get('/convocatorias-documentos', ConvocatoriasDocumentosIndex::class)->name('secretary.convocatorias-documentos');
+                Route::get('/convocatoria/create', ConvocatoriaForm::class)->name('secretary.convocatoria.create');
+                Route::get('/convocatoria/{id}/edit', ConvocatoriaForm::class)->name('secretary.convocatoria.edit');
+                Route::get('/documento/create', DocumentoForm::class)->name('secretary.documento.create');
+                Route::get('/documento/{id}/edit', DocumentoForm::class)->name('secretary.documento.edit');
                 Route::get('/reportes-secretary', SecretaryReportes::class)->name('secretary.reportes');
                 Route::get('/notificaciones-secretary', SecretaryNotificaciones::class)->name('secretary.notificaciones');
                 Route::get('/gestion-faqs', GestionFaqs::class)->name('secretary.gestion-faqs');

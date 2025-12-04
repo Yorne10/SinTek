@@ -189,14 +189,13 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                <div
-                                    class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                                <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
                                     @if($users->hasPages())
-                                        <nav aria-label="Page navigation">
-                                            {{ $users->links() }}
+                                        <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
+                                            {{ $users->onEachSide(1)->links('components.pagination-users') }}
                                         </nav>
                                     @endif
-                                    <div class="fw-normal small mt-4 mt-lg-0">
+                                    <div class="fw-normal small mt-0 mt-lg-0 ms-lg-auto">
                                         Mostrando <b>{{ $users->firstItem() ?? 0 }}</b> a
                                         <b>{{ $users->lastItem() ?? 0 }}</b> de <b>{{ $users->total() }}</b> usuarios
                                     </div>
