@@ -35,6 +35,12 @@ class Users extends Component
         $this->resetPage();
     }
 
+    public function clearFilters()
+    {
+        $this->reset(['search', 'roleFilter', 'statusFilter']);
+        $this->resetPage();
+    }
+
     public function render()
     {
         $users = User::query()

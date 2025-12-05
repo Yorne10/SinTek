@@ -65,67 +65,41 @@
                     </div>
                 @endif
 
-                {{-- Info alert --}}
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="alert alert-info d-flex align-items-center" role="alert">
-                            <svg class="icon icon-sm me-2" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <div>
-                                <strong>Información importante:</strong> Antes de iniciar un trámite, asegúrate de tener
-                                toda la documentación necesaria. Puedes consultar los requisitos en cada trámite.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 {{-- Filters --}}
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="card border-0 shadow">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-5 mb-3 mb-md-0">
-                                        <div class="input-group">
-                                            <span class="input-group-text">
-                                                <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd"
-                                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                            </span>
-                                            <input type="text" class="form-control" placeholder="Buscar trámite..."
-                                                wire:model.live="search">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3 mb-md-0">
-                                        <select class="form-select" wire:model.live="categoryFilter">
-                                            <option value="" selected>Todas las categoras</option>
-                                            <option value="personal">Gestin personal</option>
-                                            <option value="administrativo">Administrativo</option>
-                                            <option value="laboral">Laboral</option>
-                                            <option value="academico">Acadmico</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-gray-600 w-100"
-                                            wire:click="clearFilters">
-                                            <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            Limpiar filtros
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="table-settings mb-4">
+                    <div class="d-flex flex-wrap gap-3 align-items-center">
+                        <div class="input-group fmxw-300">
+                            <span class="input-group-text">
+                                <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Buscar trámite..."
+                                wire:model.live="search">
+                        </div>
+                        <div class="d-flex align-items-center text-nowrap">
+                            <span class="small text-gray-600 me-2">Categoría:</span>
+                            <select class="form-select" wire:model.live="categoryFilter" style="min-width: 200px;">
+                                <option value="" selected>Todas las categorías</option>
+                                <option value="personal">Gestión personal</option>
+                                <option value="administrativo">Administrativo</option>
+                                <option value="laboral">Laboral</option>
+                                <option value="academico">Académico</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-outline-gray-600" wire:click="clearFilters">
+                                <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Limpiar
+                            </button>
                         </div>
                     </div>
                 </div>

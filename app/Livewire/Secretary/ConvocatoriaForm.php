@@ -158,7 +158,7 @@ class ConvocatoriaForm extends Component
             }
 
             session()->flash('success', $message);
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos');
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.calls');
 
         } catch (\Exception $e) {
             session()->flash('error', 'Ocurrió un error al guardar la convocatoria: ' . $e->getMessage());

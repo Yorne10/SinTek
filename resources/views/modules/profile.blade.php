@@ -121,15 +121,17 @@
             <div class="card card-body border-0 shadow mb-4">
                 <h2 class="h5 mb-4">Claves presupuestales (plazas)</h2>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-3">
                         <label for="budgetKey" class="form-label">Clave presupuestal <span class="text-danger">*</span></label>
-                        <input wire:model.defer="budgetKey" id="budgetKey" type="text" class="form-control @error('budgetKey') is-invalid @enderror" placeholder="Ej. DOC-TIT-001">
+                        <select wire:model="budgetKey" id="budgetKey" class="form-select @error('budgetKey') is-invalid @enderror">
+                            <option value="">Selecciona una clave</option>
+                            @foreach($availablePositions as $positionOption)
+                                <option value="{{ $positionOption['positions_id'] }}">
+                                    {{ $positionOption['budget_key'] }}{{ $positionOption['position_name'] ? ' - ' . $positionOption['position_name'] : '' }}
+                                </option>
+                            @endforeach
+                        </select>
                         @error('budgetKey') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="positionName" class="form-label">Nombre de la plaza (opcional)</label>
-                        <input wire:model.defer="positionName" id="positionName" type="text" class="form-control @error('positionName') is-invalid @enderror" placeholder="Ej. Docente Titular">
-                        @error('positionName') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
@@ -141,21 +143,40 @@
                 </div>
 
                 <div class="mt-4">
-                    <h6 class="text-gray-700 mb-2">Tus claves registradas</h6>
-                    <div class="d-flex flex-wrap gap-2">
-                        @if($worker && $worker->positions && $worker->positions->count() > 0)
-                            @foreach($worker->positions as $position)
-                                <span class="badge bg-light text-dark border">
-                                    <span class="fw-bold">{{ $position->budget_key }}</span>
-                                    @if($position->position_name)
-                                        <small class="text-muted ms-1">{{ $position->position_name }}</small>
-                                    @endif
-                                </span>
-                            @endforeach
-                        @else
-                            <span class="text-gray-500 small">Aún no registras claves.</span>
-                        @endif
-                    </div>
+                    <h6 class="text-gray-700 mb-3">Tus claves registradas</h6>
+                    @if($worker && $worker->positions && $worker->positions->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="border-0 rounded-start">Clave Presupuestal</th>
+                                        <th class="border-0 rounded-end">Nombre del Puesto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($worker->positions as $position)
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bold text-gray-900">{{ $position->budget_key }}</span>
+                                            </td>
+                                            <td>
+                                                <span class="fw-normal">{{ $position->position_name ?? 'Sin nombre' }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center py-3">
+                            <div class="text-gray-500">
+                                <div class="mb-2">
+                                    @icon('finance.budget', 'fa-2x')
+                                </div>
+                                <p class="small mb-0">Aún no registras claves presupuestales.</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             @endif
@@ -216,31 +237,6 @@
                 </div>
             </div>
 
-            @if($worker->positions && $worker->positions->count() > 0)
-            <div class="card border-0 shadow mt-4">
-                <div class="card-body">
-                    <h2 class="h6 mb-3">Posiciones asignadas</h2>
-                    <ul class="list-group list-group-flush">
-                        @foreach($worker->positions as $position)
-                        <li class="list-group-item px-0">
-                            <div class="d-flex align-items-start">
-                                <div class="icon icon-shape icon-sm icon-shape-primary rounded me-2">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                                        <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">{{ $position->position_name }}</h6>
-                                    <small class="text-gray-600">Clave: {{ $position->budget_key }}</small>
-                                </div>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            @endif
             @endif
 
             @if($user->role === 'worker')

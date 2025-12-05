@@ -35,38 +35,49 @@ Approved by: Alfonso Angel Garcia Hernandez
 
     <div class="row">
         <div class="col-12 col-xl-8 mb-4">
-            {{-- Selector de proceso --}}
+            {{-- Selector de proceso o Título --}}
             <div class="card border-0 shadow mb-4">
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col">
                             <h2 class="h5 mb-0">Proceso seleccionado</h2>
                         </div>
-                        <div class="col text-end">
-                            <select class="form-select form-select-sm" style="width: auto; display: inline-block;"
-                                wire:model.live="selectedProcessId">
-                                @foreach($procesos as $proceso)
-                                    <option value="{{ $proceso->process_id }}">{{ $proceso->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if(!request()->route('process_id'))
+                            <div class="col text-end">
+                                <select class="form-select form-select-sm" style="width: auto; display: inline-block;"
+                                    wire:model.live="selectedProcessId">
+                                    @foreach($procesos as $proceso)
+                                        <option value="{{ $proceso->process_id }}">{{ $proceso->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">
                     @if($selectedProcess)
-                        <div class="d-flex align-items-center">
-                            @icon('process.docs', 'fa-lg text-primary me-3')
-                            <div>
-                                <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
-                                <p class="small text-gray mb-0">
-                                    @if($selectedProcess->process_code)
-                                        Código: {{ $selectedProcess->process_code }}
-                                    @endif
-                                    @if($selectedProcess->category)
-                                        | Categoría: {{ ucfirst($selectedProcess->category) }}
-                                    @endif
-                                </p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                @icon('process.docs', 'fa-lg text-primary me-3')
+                                <div>
+                                    <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
+                                    <p class="small text-gray mb-0">
+                                        @if($selectedProcess->process_code)
+                                            Código: {{ $selectedProcess->process_code }}
+                                        @endif
+                                        @if($selectedProcess->category)
+                                            | Categoría: {{ ucfirst($selectedProcess->category) }}
+                                        @endif
+                                    </p>
+                                </div>
                             </div>
+                            @if(request()->route('process_id'))
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.definir-pasos') }}"
+                                    class="btn btn-sm btn-outline-secondary">
+                                    @icon('action.edit', 'me-1')
+                                    Cambiar proceso
+                                </a>
+                            @endif
                         </div>
                     @else
                         <div class="alert alert-warning mb-0" role="alert">

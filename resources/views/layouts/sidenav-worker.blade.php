@@ -68,13 +68,23 @@ Validado por: Alfonso Angel Garca Hernndez
         </a>
       </li>
 
-      {{-- Convocatorias y documentos --}}
+      {{-- Convocatorias --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocatorias') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.calls') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('file.generic', 'me-2')
           </span>
           <span class="sidebar-text">Convocatorias</span>
+        </a>
+      </li>
+
+      {{-- Documentos --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.documents') }}" class="nav-link">
+          <span class="sidebar-icon">
+            @icon('file.generic', 'me-2')
+          </span>
+          <span class="sidebar-text">Documentos</span>
         </a>
       </li>
 

@@ -7,7 +7,7 @@ use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Notificaciones extends Component
+class Notifications extends Component
 {
     use WithPagination;
 
@@ -32,10 +32,13 @@ class Notificaciones extends Component
         if ($updated) {
             $user = auth()->user();
             ActivityLogger::log(
-                'notificacion.marcar_leida',
-                "Notificación #{$notificationId} marcada como leída",
+                'notification.mark_as_read',
+                "Notification #{$notificationId} marked as read",
                 $user->users_id
             );
+
+            // Emit event to update notifications component in topbar
+            $this->dispatch('notification-read');
         }
     }
 
@@ -55,15 +58,13 @@ class Notificaciones extends Component
 
     public function refreshList(): void
     {
-        // Método utilizado por wire:poll para refrescar el listado.
+        // Method used by wire:poll to refresh the list.
     }
 
     public function render()
     {
-        return view('modules.worker.notificaciones', [
+        return view('modules.worker.notifications', [
             'notifications' => $this->notifications,
         ])->layout('layouts.app');
     }
 }
-
-

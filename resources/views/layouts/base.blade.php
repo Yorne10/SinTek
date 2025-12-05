@@ -159,6 +159,25 @@
                         config.confirmButtonText = 'Aceptar';
                     }
                 }
+                if (config.icon === 'question' && config.showCancelButton) {
+                    // Coloca primero el botón de confirmación y después el de cancelar en los diálogos de pregunta
+                    config.reverseButtons = false;
+                    const existingDidRender = config.didRender;
+                    config.didRender = (dom) => {
+                        if (typeof existingDidRender === 'function') {
+                            existingDidRender(dom);
+                        }
+
+                        const actions = dom?.querySelector?.('.swal2-actions');
+                        const confirmBtn = dom?.querySelector?.('.swal2-confirm');
+                        const cancelBtn = dom?.querySelector?.('.swal2-cancel');
+
+                        // Reordena manualmente si el botón de cancelar aparece primero
+                        if (actions && confirmBtn && cancelBtn && confirmBtn.previousElementSibling === cancelBtn) {
+                            actions.insertBefore(confirmBtn, cancelBtn);
+                        }
+                    };
+                }
                 return originalFire(config);
             };
             window.__swalPatched = true;

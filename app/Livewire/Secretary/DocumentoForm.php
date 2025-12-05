@@ -116,7 +116,7 @@ class DocumentoForm extends Component
             }
 
             session()->flash('success', $message);
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos');
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.documents');
 
         } catch (\Exception $e) {
             session()->flash('error', 'Ocurrió un error al guardar el documento: ' . $e->getMessage());

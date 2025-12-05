@@ -32,6 +32,12 @@ class Bitacora extends Component
         $this->resetPage();
     }
 
+    public function clearFilters()
+    {
+        $this->reset(['search', 'roleFilter']);
+        $this->resetPage();
+    }
+
     public function getRoleLabel($role)
     {
         $roles = [
@@ -42,6 +48,11 @@ class Bitacora extends Component
         ];
 
         return $roles[$role] ?? 'N/D';
+    }
+
+    public function refreshList(): void
+    {
+        // Método utilizado por wire:poll para refrescar el listado.
     }
 
     public function render()

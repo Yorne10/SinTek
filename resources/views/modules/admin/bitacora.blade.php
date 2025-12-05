@@ -19,7 +19,7 @@
                         {{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
                         {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
-                        <div>
+                        <div wire:poll.10s="refreshList">
                             <div
                                 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
                                 <div class="d-block mb-4 mb-md-0">
@@ -66,6 +66,12 @@
                                             <option value="secretary">Secretario</option>
                                             <option value="worker">Trabajador</option>
                                         </select>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <button wire:click="clearFilters" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
+                                            @icon('action.refresh', 'me-2')
+                                            Limpiar filtros
+                                        </button>
                                     </div>
                                 </div>
                             </div>

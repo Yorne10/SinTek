@@ -30,7 +30,7 @@ class Profile extends Component
 
     // Position fields
     public $budgetKey = '';
-    public $positionName = '';
+    public $availablePositions = [];
 
     public function rules()
     {
@@ -75,6 +75,11 @@ class Profile extends Component
                 $this->adress = $this->worker->adress;
                 $this->sex = $this->worker->sex;
             }
+            $this->availablePositions = Position::orderBy('budget_key')->get([
+                'positions_id',
+                'budget_key',
+                'position_name',
+            ])->toArray();
         }
     }
 
@@ -125,12 +130,10 @@ class Profile extends Component
         }
 
         $this->validate([
-            'budgetKey' => 'required|string|max:100',
-            'positionName' => 'nullable|string|max:150',
+            'budgetKey' => 'required|integer|exists:positions,positions_id',
         ], [
             'budgetKey.required' => 'La clave presupuestal es obligatoria.',
-            'budgetKey.max' => 'La clave presupuestal debe tener máximo 100 caracteres.',
-            'positionName.max' => 'El nombre de la plaza debe tener máximo 150 caracteres.',
+            'budgetKey.exists' => 'La clave presupuestal seleccionada no existe.',
         ]);
 
         if (env('IS_DEMO')) {
@@ -143,13 +146,7 @@ class Profile extends Component
             return;
         }
 
-        $budgetKey = trim($this->budgetKey);
-        $positionName = trim((string) $this->positionName);
-
-        if ($budgetKey === '') {
-            $this->addError('budgetKey', 'La clave presupuestal no puede estar vacía.');
-            return;
-        }
+        $positionId = (int) $this->budgetKey;
 
         if (!$this->worker) {
             $this->worker = Worker::create([
@@ -162,15 +159,22 @@ class Profile extends Component
             ]);
         }
 
-        $position = Position::firstOrCreate(
-            ['budget_key' => $budgetKey],
-            ['position_name' => $positionName ?: $budgetKey]
-        );
+        // Verificar si ya tiene esta clave
+        if ($this->worker->positions()->where('positions.positions_id', $positionId)->exists()) {
+            $this->dispatch(
+                'profile-notify',
+                type: 'warning',
+                title: 'Clave duplicada',
+                message: 'Esta clave ya está registrada en tu perfil.'
+            );
+            return;
+        }
 
-        $this->worker->positions()->syncWithoutDetaching([$position->positions_id]);
+        // Agregar la relación en la tabla positions_workers
+        $this->worker->positions()->attach($positionId);
         $this->worker = $this->worker->fresh(['positions']);
 
-        $this->reset(['budgetKey', 'positionName']);
+        $this->reset(['budgetKey']);
 
         $this->dispatch(
             'profile-notify',

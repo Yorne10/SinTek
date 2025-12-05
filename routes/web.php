@@ -44,12 +44,14 @@ use App\Livewire\Admin\ModificarProceso;
 use App\Livewire\Secretary\ValidarPasos;
 use App\Livewire\Secretary\BusquedaTrabajadores;
 use App\Livewire\Secretary\ConvocatoriasDocumentos;
-use App\Livewire\Secretary\ConvocatoriasDocumentosIndex;
+use App\Livewire\Secretary\CallsIndex;
+use App\Livewire\Secretary\DocumentsIndex;
 use App\Livewire\Secretary\ConvocatoriaForm;
 use App\Livewire\Secretary\DocumentoForm;
 use App\Livewire\Secretary\Reportes as SecretaryReportes;
 use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
 use App\Livewire\Secretary\GestionFaqs;
+use App\Livewire\Secretary\ProcessesIndex;
 use App\Http\Controllers\Documents\ConvocationDocumentController;
 use App\Http\Controllers\Documents\InstitutionalDocumentController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -126,8 +128,10 @@ Route::prefix("p/{$slug}")
                 Route::get('/tramites-disponibles', TramitesDisponibles::class)->name('worker.tramites-disponibles');
                 Route::get('/mis-tramites', MisTramites::class)->name('worker.mis-tramites');
                 Route::get('/detalle-tramite/{id}', \App\Livewire\Worker\DetalleTramite::class)->name('worker.detalle-tramite');
-                Route::get('/convocatorias', Convocatorias::class)->name('worker.convocatorias');
-                Route::get('/notificaciones', Notificaciones::class)->name('worker.notificaciones');
+                Route::get('/calls', \App\Livewire\Worker\CallsIndex::class)->name('worker.calls');
+                Route::get('/convocatorias', \App\Livewire\Worker\CallsIndex::class)->name('worker.convocatorias');
+                Route::get('/documents', \App\Livewire\Worker\DocumentsIndex::class)->name('worker.documents');
+                Route::get('/notificaciones', \App\Livewire\Worker\Notifications::class)->name('worker.notificaciones');
             });
 
             // Rutas para secretarios/operadores
@@ -135,7 +139,8 @@ Route::prefix("p/{$slug}")
                 // Funciones de secretara
                 Route::get('/validar-pasos', ValidarPasos::class)->name('secretary.validar-pasos');
                 Route::get('/busqueda-trabajadores', BusquedaTrabajadores::class)->name('secretary.busqueda-trabajadores');
-                Route::get('/convocatorias-documentos', ConvocatoriasDocumentosIndex::class)->name('secretary.convocatorias-documentos');
+                Route::get('/secretary/calls', CallsIndex::class)->name('secretary.calls');
+                Route::get('/secretary/documents', DocumentsIndex::class)->name('secretary.documents');
                 Route::get('/convocatoria/create', ConvocatoriaForm::class)->name('secretary.convocatoria.create');
                 Route::get('/convocatoria/{id}/edit', ConvocatoriaForm::class)->name('secretary.convocatoria.edit');
                 Route::get('/documento/create', DocumentoForm::class)->name('secretary.documento.create');
@@ -143,6 +148,8 @@ Route::prefix("p/{$slug}")
                 Route::get('/reportes-secretary', SecretaryReportes::class)->name('secretary.reportes');
                 Route::get('/notificaciones-secretary', SecretaryNotificaciones::class)->name('secretary.notificaciones');
                 Route::get('/gestion-faqs', GestionFaqs::class)->name('secretary.gestion-faqs');
+                Route::get('/secretary/processes', ProcessesIndex::class)->name('secretary.processes');
+                Route::get('/secretary/budget-keys', \App\Livewire\Secretary\BudgetKeys::class)->name('secretary.budget-keys');
             });
 
             // Rutas para administradores (gestin de usuarios y sistema)
@@ -155,9 +162,9 @@ Route::prefix("p/{$slug}")
             // Rutas compartidas: admin Y secretary (gestin de procesos)
             Route::middleware(['role:admin,secretary'])->group(function () {
                 Route::get('/crear-proceso', CrearProceso::class)->name('admin.crear-proceso');
-                Route::get('/definir-pasos', DefinirPasos::class)->name('admin.definir-pasos');
+                Route::get('/definir-pasos/{process_id?}', DefinirPasos::class)->name('admin.definir-pasos');
                 Route::get('/crear-paso', CrearPaso::class)->name('admin.crear-paso');
-                Route::get('/modificar-proceso', ModificarProceso::class)->name('admin.modificar-proceso');
+                Route::get('/modificar-proceso/{process_id?}', ModificarProceso::class)->name('admin.modificar-proceso');
                 Route::get('/gestion-tramites', GestionTramites::class)->name('admin.gestion-tramites');
                 Route::get('/solicitudes', Solicitudes::class)->name('admin.solicitudes');
                 Route::get('/convocatorias-eventos', ConvocatoriasEventos::class)->name('admin.convocatorias-eventos');

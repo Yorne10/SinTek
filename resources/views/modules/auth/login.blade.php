@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Empresa: CETAM
 Proyecto: ST
 Archivo: login.blade.php
@@ -42,7 +42,7 @@ Validado por: Alfonso Angel Garcia Hernandez
                                     </svg></span>
                                 <input wire:model="email" type="email"
                                     class="form-control @error('email') is-invalid @enderror"
-                                    placeholder="correo@institucion.com" id="email" autofocus required>
+                                    placeholder="correo@institucion.com" id="email" autofocus>
                             </div>
                             @error('email') <div class="invalid-feedback d-block"> {{$message}} </div> @enderror
                         </div>
@@ -60,8 +60,7 @@ Validado por: Alfonso Angel Garcia Hernandez
                                                 clip-rule="evenodd"></path>
                                         </svg></span>
                                     <input wire:model.lazy="password" type="password" placeholder="Contraseña"
-                                        class="form-control @error('password') is-invalid @enderror" id="password"
-                                        required>
+                                        class="form-control @error('password') is-invalid @enderror" id="password">
                                 </div>
                                 @error('password') <div class="invalid-feedback d-block"> {{ $message }} </div>
                                 @enderror

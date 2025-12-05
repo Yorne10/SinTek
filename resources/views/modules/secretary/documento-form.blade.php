@@ -18,8 +18,8 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}">
-                            Convocatorias y Documentos
+                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}">
+                            Documentos
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="col-md-12 d-flex justify-content-end gap-2">
-                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}"
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}"
                                     class="btn btn-secondary">
                                     @icon('nav.back', 'icon-xs me-1')
                                     Cancelar

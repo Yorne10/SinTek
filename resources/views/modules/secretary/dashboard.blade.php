@@ -1,10 +1,10 @@
 {{--
-    Company: CETAM
-    Project: ST
-    File: dashboard.blade.php
-    Created on: 01/12/2025
-    Created by: Alfonso Angel Garcia Hernandez
-    Approved by: Alfonso Angel Garcia Hernandez
+Company: CETAM
+Project: ST
+File: dashboard.blade.php
+Created on: 01/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
 <div>
@@ -20,13 +20,14 @@
 
     {{-- Métricas principales --}}
     <div class="row">
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-                                @icon('process.docs', 'icon')
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="me-4 me-sm-0">
+                                @icon('process.docs', 'fa-3x text-primary')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -43,36 +44,14 @@
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
-                                @icon('state.pending', 'icon')
-                            </div>
-                        </div>
-                        <div class="col-12 col-xl-7 px-xl-0">
-                            <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Pendientes</h2>
-                                <h3 class="fw-extrabold mb-1">{{ $pendingRequests }}</h3>
-                            </div>
-                            <small class="text-gray-500">
-                                por validar
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
-                                @icon('state.in_progress', 'icon')
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="me-4 me-sm-0">
+                                @icon('state.in_progress', 'fa-3x text-warning')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -89,13 +68,14 @@
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
-                                @icon('state.success', 'icon')
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                            <div class="me-4 me-sm-0">
+                                @icon('state.success', 'fa-3x text-success')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -133,10 +113,10 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('file.generic', 'fa-2x mb-2')
+                                    @icon('process.document', 'fa-2x mb-2')
                                     <span class="fw-bold">Convocatorias</span>
                                 </div>
                             </a>
@@ -189,32 +169,17 @@
                     <h2 class="fs-5 fw-bold mb-0">Resumen</h2>
                 </div>
                 <div class="card-body">
-                    <div class="mb-4 pb-4 border-bottom">
+                    <div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-gray-600">Convocatorias activas</span>
                             <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
                         </div>
                         <div class="progress" style="height: 8px;">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%"></div>
+                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
+                            </div>
                         </div>
                         <small class="text-gray-500">{{ $totalConvocations }} convocatorias totales</small>
-                    </div>
-
-                    <div>
-                        <h6 class="text-gray-600 mb-3">Estado de Solicitudes</h6>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small text-gray-600">Pendientes</span>
-                            <span class="small fw-bold">{{ $totalRequests > 0 ? round($pendingRequests / $totalRequests * 100) : 0 }}%</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small text-gray-600">En Proceso</span>
-                            <span class="small fw-bold">{{ $totalRequests > 0 ? round($inProgressRequests / $totalRequests * 100) : 0 }}%</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span class="small text-gray-600">Completados</span>
-                            <span class="small fw-bold">{{ $totalRequests > 0 ? round($completedRequests / $totalRequests * 100) : 0 }}%</span>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -18,8 +18,8 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}">
-                            Convocatorias y Documentos
+                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}">
+                            Convocatorias
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
@@ -117,16 +117,15 @@
                                 </div>
                             @endif
 
-                            <div class="col-md-12 d-flex justify-content-end gap-2">
-                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}"
-                                    class="btn btn-secondary">
-                                    @icon('nav.back', 'icon-xs me-1')
-                                    Cancelar
-                                </a>
+                            <div class="col-md-12 d-flex flex-wrap align-items-center gap-2 mt-3">
                                 <button type="submit" class="btn btn-primary" id="saveConvBtn">
                                     @icon('action.save', 'icon-xs me-1')
                                     {{ $convocationId ? 'Actualizar' : 'Crear' }} convocatoria
                                 </button>
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
+                                    class="btn btn-gray-300">
+                                    Cancelar
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -84,6 +84,12 @@
                                             <option value="inactive">Inactivo</option>
                                         </select>
                                     </div>
+                                    <div class="ms-auto">
+                                        <button wire:click="clearFilters" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
+                                            @icon('action.refresh', 'me-2')
+                                            Limpiar filtros
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 

@@ -20,13 +20,13 @@
 
     {{-- Métricas principales --}}
     <div class="row">
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-                                @icon('user.list', 'icon')
+                            <div class="me-4 me-sm-0">
+                                @icon('user.list', 'fa-3x text-primary')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -43,36 +43,13 @@
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
-                                @icon('state.pending', 'icon')
-                            </div>
-                        </div>
-                        <div class="col-12 col-xl-7 px-xl-0">
-                            <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">Pendientes</h2>
-                                <h3 class="fw-extrabold mb-1">{{ $pendingRequests }}</h3>
-                            </div>
-                            <small class="text-gray-500">
-                                requieren atención
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
-                                @icon('state.in_progress', 'icon')
+                            <div class="me-4 me-sm-0">
+                                @icon('state.in_progress', 'fa-3x text-warning')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -89,13 +66,13 @@
             </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-xl-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                            <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
-                                @icon('state.success', 'icon')
+                            <div class="me-4 me-sm-0">
+                                @icon('state.success', 'fa-3x text-success')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -208,46 +185,4 @@
         </div>
     </div>
 
-    {{-- Estadísticas de Trámites --}}
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-0 shadow">
-                <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Estado de Trámites</h2>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mb-3 mb-md-0">
-                            <div class="text-center">
-                                <div class="h6 text-gray-600 mb-2">Total</div>
-                                <div class="h3 fw-bold text-primary mb-1">{{ $totalRequests }}</div>
-                                <small class="text-gray-500">trámites</small>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3 mb-md-0">
-                            <div class="text-center border-start">
-                                <div class="h6 text-gray-600 mb-2">Pendientes</div>
-                                <div class="h3 fw-bold text-warning mb-1">{{ $pendingRequests }}</div>
-                                <small class="text-gray-500">{{ $totalRequests > 0 ? round($pendingRequests / $totalRequests * 100) : 0 }}%</small>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3 mb-md-0">
-                            <div class="text-center border-start">
-                                <div class="h6 text-gray-600 mb-2">En Proceso</div>
-                                <div class="h3 fw-bold text-info mb-1">{{ $inProgressRequests }}</div>
-                                <small class="text-gray-500">{{ $totalRequests > 0 ? round($inProgressRequests / $totalRequests * 100) : 0 }}%</small>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="text-center border-start">
-                                <div class="h6 text-gray-600 mb-2">Completados</div>
-                                <div class="h3 fw-bold text-success mb-1">{{ $completedRequests }}</div>
-                                <small class="text-gray-500">{{ $totalRequests > 0 ? round($completedRequests / $totalRequests * 100) : 0 }}%</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

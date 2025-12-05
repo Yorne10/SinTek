@@ -30,13 +30,19 @@ class DefinirPasos extends Component
     public $selectedProcess;
     public $steps = [];
 
-    public function mount()
+    public function mount($process_id = null)
     {
-        // Seleccionar el primer proceso disponible por defecto
-        $firstProcess = Process::where('active', 1)->first();
-        if ($firstProcess) {
-            $this->selectedProcessId = $firstProcess->process_id;
+        // Si se proporciona un process_id desde la ruta, usarlo
+        if ($process_id) {
+            $this->selectedProcessId = $process_id;
             $this->loadProcess();
+        } else {
+            // Seleccionar el primer proceso disponible por defecto
+            $firstProcess = Process::where('active', 1)->first();
+            if ($firstProcess) {
+                $this->selectedProcessId = $firstProcess->process_id;
+                $this->loadProcess();
+            }
         }
     }
 

@@ -172,21 +172,28 @@
                                                 {{ optional($notification->created_at)->format('d/m/Y H:i') }}
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-secondary view-notification-btn"
-                                                    data-notification-id="{{ $notification->notification_id }}"
-                                                    data-notification-title="{{ $notification->tittle ?? 'Sin título' }}"
-                                                    data-notification-message="{{ $notification->message }}"
-                                                    data-notification-user="{{ $notification->user->name ?? 'Usuario' }}"
-                                                    data-notification-date="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
-                                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                                        <path fill-rule="evenodd"
-                                                            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                                            clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    Ver detalles
-                                                </button>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <svg class="icon icon-xs" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                                        <button type="button" class="dropdown-item d-flex align-items-center view-notification-btn"
+                                                            data-notification-id="{{ $notification->notification_id }}"
+                                                            data-notification-title="{{ $notification->tittle ?? 'Sin título' }}"
+                                                            data-notification-message="{{ $notification->message }}"
+                                                            data-notification-user="{{ $notification->user->name ?? 'Usuario' }}"
+                                                            data-notification-date="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
+                                                            @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                                            Ver detalles
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @empty

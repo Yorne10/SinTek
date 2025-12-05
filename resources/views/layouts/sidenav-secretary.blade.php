@@ -3,8 +3,8 @@ Company: CETAM
 Project: ST
 File: sidenav-secretary.blade.php
 Created on: 04/11/2025
-Created by: Alfonso Angel Garca Hernndez
-Approved by: Alfonso Angel Garca Hernndez
+Created by: Alfonso Angel García Hernández
+Approved by: Alfonso Angel García Hernández
 
 Changelog:
 --}}
@@ -22,7 +22,7 @@ Changelog:
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
               @icon('auth.logout', 'fa-xs me-1')
-              Cerrar sesin
+              Cerrar sesión
             </button>
           </form>
         </div>
@@ -49,7 +49,7 @@ Changelog:
         </a>
       </li>
 
-      {{-- Bsqueda de trabajadores --}}
+      {{-- Búsqueda de trabajadores --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}"
           class="nav-link">
@@ -60,14 +60,23 @@ Changelog:
         </a>
       </li>
 
-      {{-- Gestión de convocatorias y documentos públicos --}}
+      {{-- Gestión de convocatorias --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatorias-documentos') }}"
-          class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}" class="nav-link">
+          <span class="sidebar-icon">
+            @icon('process.document', 'me-2')
+          </span>
+          <span class="sidebar-text">Convocatorias</span>
+        </a>
+      </li>
+
+      {{-- Gestión de documentos --}}
+      <li class="nav-item">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('file.generic', 'me-2')
           </span>
-          <span class="sidebar-text">Convocatorias y Documentos</span>
+          <span class="sidebar-text">Documentos</span>
         </a>
       </li>
 
@@ -91,39 +100,25 @@ Changelog:
         </a>
       </li>
 
-
-
       {{-- Gestión de procesos --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-proceso') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('action.create', 'me-2')
+            @icon('process.flow', 'me-2')
           </span>
-          <span class="sidebar-text">Crear proceso</span>
+          <span class="sidebar-text">Gestionar Procesos</span>
         </a>
       </li>
 
-      {{-- Definir pasos --}}
+      {{-- Gestión de Claves Presupuestales --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.definir-pasos') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('process.step', 'me-2')
+            @icon('finance.budget', 'me-2')
           </span>
-          <span class="sidebar-text">Definir pasos</span>
+          <span class="sidebar-text">Gestionar Claves</span>
         </a>
       </li>
-
-      {{-- Modificar proceso --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.modificar-proceso') }}" class="nav-link">
-          <span class="sidebar-icon">
-            @icon('action.edit', 'me-2')
-          </span>
-          <span class="sidebar-text">Modificar proceso</span>
-        </a>
-      </li>
-
-
 
       {{-- Mi perfil --}}
       <li class="nav-item">

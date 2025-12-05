@@ -27,7 +27,7 @@
                 </ol>
             </nav>
             <h2 class="h4">Preguntas frecuentes (FAQ)</h2>
-            <p class="mb-0">Encuentra respuestas a las preguntas ms comunes sobre el sistema y trmites</p>
+            <p class="mb-0">Encuentra respuestas a las preguntas m&aacute;s comunes sobre el sistema y tr&aacute;mites</p>
         </div>
     </div>
 
@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-md-4">
                             <select wire:model.live="selectedCategoryId" class="form-select">
-                                <option value="">Todas las categoras</option>
+                                <option value="">Todas las categor&iacute;as</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->faq_category_id }}">{{ $category->name }}</option>
                                 @endforeach
@@ -105,7 +105,7 @@
                                     @endforeach
                                 </div>
                             @else
-                                <p class="text-muted text-center mb-0">No hay preguntas frecuentes en esta categora.</p>
+                                <p class="text-muted text-center mb-0">No hay preguntas frecuentes en esta categor&iacute;a.</p>
                             @endif
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
                         </svg>
                         <h3 class="h5">No hay preguntas frecuentes disponibles</h3>
-                        <p class="text-muted">Pronto se agregarn preguntas frecuentes para ayudarte.</p>
+                        <p class="text-muted">Pronto se agregar&aacute;n preguntas frecuentes para ayudarte.</p>
                     </div>
                 </div>
             </div>
@@ -139,25 +139,11 @@
                         </svg>
                         <h3 class="h5">No se encontraron resultados</h3>
                         <p class="text-muted">No se encontraron preguntas frecuentes que coincidan con "{{ $search }}".</p>
-                        <button type="button" class="btn btn-primary btn-sm" wire:click="$set('search', '')">Limpiar bsqueda</button>
+                        <button type="button" class="btn btn-primary btn-sm" wire:click="$set('search', '')">Limpiar b&uacute;squeda</button>
                     </div>
                 </div>
             </div>
         </div>
     @endif
 
-    {{-- Help Section --}}
-    <div class="row">
-        <div class="col-12">
-            <div class="alert alert-info d-flex align-items-center" role="alert">
-                <svg class="icon icon-sm me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <strong>No encontraste tu respuesta?</strong> Contacta al Departamento de Recursos Humanos al correo
-                    <a href="mailto:rh@cetam.gob.mx" class="alert-link">rh@cetam.gob.mx</a> o al telfono 55-1234-5678 ext. 200.
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
