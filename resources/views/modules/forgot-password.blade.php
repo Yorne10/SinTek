@@ -15,7 +15,10 @@
             <div class="col-12 d-flex align-items-center justify-content-center">
                 <div class="signin-inner my-3 my-lg-0 bg-white shadow border-0 rounded p-4 p-lg-5 w-100 fmxw-500">
                     <h1 class="h3">¿Olvidaste tu contraseña?</h1>
-                    <p class="mb-4">Solicita restablecimiento en soporte@cetam.gob.mx o al 55-1234-5678.</p>
+                                        <p class="mb-4">
+                        Solicita restablecimiento en {{ config('app.contact_email', config('mail.from.address', 'contacto@cetam.gob.mx')) }}
+                        o al {{ config('app.contact_phone', '(999) 999-9999') }}.
+                    </p>
                     <div class="d-grid">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj').'.auth.login') }}" class="btn btn-gray-800">Entendido</a>
                     </div>

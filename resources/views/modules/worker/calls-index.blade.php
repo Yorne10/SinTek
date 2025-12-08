@@ -1,4 +1,4 @@
-{{--
+{{-- 
 * Company: CETAM
 * Project: ST
 * File: calls-index.blade.php
@@ -8,7 +8,7 @@
 --}}
 
 <div>
-    {{-- Breadcrumb --}}
+    {{-- Page Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
@@ -26,140 +26,189 @@
         </div>
     </div>
 
-    {{-- Active Convocatorias --}}
-    <div class="row">
-        <div class="col-12 mb-4">
-            <div class="card border-0 shadow">
-                <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                    <h2 class="fs-5 fw-bold mb-0">Convocatorias activas</h2>
-                    <span class="badge bg-success">{{ $convocatorias->count() }} vigentes</span>
-                </div>
-                <div class="card-body">
-                    @forelse($convocatorias as $index => $convocatoria)
-                        <div class="card {{ $index < $convocatorias->count() - 1 ? 'mb-4' : 'mb-0' }} border">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <h3 class="h5 mb-2">{{ $convocatoria->title }}</h3>
-                                        <div class="d-flex align-items-center mb-2">
-                                            @if($convocatoria->status === 'activa')
-                                                <span class="badge bg-success me-2">Vigente</span>
-                                            @elseif($convocatoria->status === 'permanente')
-                                                <span class="badge bg-info me-2">Permanente</span>
-                                            @elseif($convocatoria->status === 'proxima')
-                                                <span class="badge bg-warning me-2">Próximamente</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="text-primary">
-                                        <svg class="icon icon-lg" fill="currentColor" viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z">
-                                            </path>
-                                            <path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <p class="text-gray-700 mb-3">
-                                    {{ $convocatoria->description }}
-                                </p>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <small class="text-gray-600 fw-bold d-block mb-1">
-                                            <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            Fecha de inicio:
-                                        </small>
-                                        <small
-                                            class="text-gray-700">{{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}</small>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small class="text-gray-600 fw-bold d-block mb-1">
-                                            <svg class="icon icon-xxs me-1" fill="currentColor" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            Fecha límite:
-                                        </small>
-                                        @if($convocatoria->end_date)
-                                            <small
-                                                class="text-danger fw-bold">{{ $convocatoria->end_date->format('d/m/Y') }}</small>
-                                        @else
-                                            <small class="text-info fw-bold">Sin fecha límite (Permanente)</small>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                @if($convocatoria->documents->count() > 0)
-                                    <div class="border-top pt-3">
-                                        <small class="text-gray-600 fw-bold d-block mb-2">Documentos disponibles:</small>
-                                        <div class="row">
-                                            @foreach($convocatoria->documents as $documento)
-                                                <div class="col-md-4 mb-2">
-                                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.show', $documento->convocation_document_id) }}"
-                                                        target="_blank"
-                                                        class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                                                        <span class="text-truncate">{{ $documento->title }}</span>
-                                                        <svg class="icon icon-xs ms-1 flex-shrink-0" fill="currentColor"
-                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd"
-                                                                d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </a>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @else
-                                    <div class="border-top pt-3">
-                                        <small class="text-gray-500 fst-italic">No hay documentos disponibles para esta
-                                            convocatoria</small>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    @empty
-                        <div class="text-center py-5">
-                            <svg class="icon icon-xxl text-gray-400 mb-3" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                </path>
-                            </svg>
-                            <h5 class="text-gray-600">No hay convocatorias disponibles</h5>
-                            <p class="text-gray-500">Por el momento no hay convocatorias activas. Consulta próximamente.</p>
-                        </div>
-                    @endforelse
-                </div>
+    {{-- Filtros --}}
+    <div class="table-settings mb-4">
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+            <div class="input-group fmxw-300">
+                <span class="input-group-text">
+                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+                <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
+                    placeholder="Buscar convocatorias">
+            </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <span class="small text-gray-600 me-2">Estado:</span>
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
+                    <option value="">Todos</option>
+                    <option value="activa">Activa</option>
+                    <option value="permanente">Permanente</option>
+                    <option value="proxima">Próxima</option>
+                </select>
+            </div>
+            <div class="ms-auto">
+                <button wire:click="clearFilters" type="button"
+                    class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
+                    @icon('action.refresh', 'me-2')
+                    Limpiar filtros
+                </button>
             </div>
         </div>
     </div>
 
-    {{-- Help Section --}}
-    <div class="row">
-        <div class="col-12">
-            <div class="alert alert-info d-flex align-items-center" role="alert">
-                <svg class="icon icon-sm me-3" fill="currentColor" viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <strong>¿Tienes dudas?</strong> Consulta la sección de <a
-                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.preguntas-frecuentes') }}"
-                        class="alert-link">Preguntas Frecuentes</a> o
-                    contacta al Departamento de Recursos Humanos para más información.
-                </div>
+    {{-- Listado --}}
+    <div class="card card-body border-0 shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 mb-0">Convocatorias</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded user-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0 rounded-start">Título</th>
+                        <th class="border-0">Periodo</th>
+                        <th class="border-0">Estado</th>
+                        <th class="border-0">Documentos</th>
+                        <th class="border-0 rounded-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($convocatorias as $convocatoria)
+                        @php
+                            $isActiva = $convocatoria->status === 'activa';
+                            $isPermanente = $convocatoria->status === 'permanente';
+                            $isProxima = $convocatoria->status === 'proxima';
+                        @endphp
+                        <tr>
+                            <td>
+                                <div class="fw-bold text-gray-900">{{ $convocatoria->title }}</div>
+                                <div class="text-gray-600 small">{{ Str::limit($convocatoria->description, 80) }}</div>
+                            </td>
+                            <td>
+                                <div class="fw-normal">
+                                    {{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}
+                                    @if($convocatoria->end_date)
+                                        <span class="text-gray-500"> - </span>
+                                        {{ $convocatoria->end_date->format('d/m/Y') }}
+                                    @else
+                                        <div class="text-gray-500 small">Sin fecha fin</div>
+                                    @endif
+                                </div>
+                            </td>
+                            <td>
+                                @if($isActiva)
+                                    <span class="fw-bold text-success">Activa</span>
+                                @elseif($isPermanente)
+                                    <span class="fw-bold text-info">Permanente</span>
+                                @elseif($isProxima)
+                                    <span class="fw-bold text-warning">Próxima</span>
+                                @else
+                                    <span class="fw-bold text-secondary">{{ ucfirst($convocatoria->status) }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($convocatoria->documents->count() > 0)
+                                    <span class="small text-gray-700">{{ $convocatoria->documents->count() }} documentos</span>
+                                @else
+                                    <span class="small text-gray-500">Sin documentos</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button
+                                        class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg class="icon icon-xs" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                        <button class="dropdown-item d-flex align-items-center view-convocatoria-detail"
+                                            type="button"
+                                            data-title="{{ $convocatoria->title }}"
+                                            data-description="{{ $convocatoria->description }}"
+                                            data-start="{{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}"
+                                            data-end="{{ $convocatoria->end_date ? $convocatoria->end_date->format('d/m/Y') : 'Sin fecha fin' }}"
+                                            data-status="{{ $convocatoria->status }}"
+                                            data-docs="{{ $convocatoria->documents->count() }}">
+                                            @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                            Ver detalles
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <div class="text-gray-500">
+                                    <div class="mb-3">
+                                        @icon('process.document', 'fa-3x')
+                                    </div>
+                                    <p class="fw-bold">No hay convocatorias disponibles</p>
+                                    <p class="small">Revisa más tarde, pronto habrá nuevas convocatorias.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        <div
+            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            @if($convocatorias->hasPages())
+                <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
+                    {{ $convocatorias->links() }}
+                </nav>
+            @endif
+            <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
+                Mostrando <b>{{ $convocatorias->firstItem() ?? 0 }}</b> a
+                <b>{{ $convocatorias->lastItem() ?? 0 }}</b> de <b>{{ $convocatorias->total() }}</b> convocatorias
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.view-convocatoria-detail');
+            if (!btn) return;
+
+            const title = btn.getAttribute('data-title') || '';
+            const desc = btn.getAttribute('data-description') || '';
+            const start = btn.getAttribute('data-start') || 'N/A';
+            const end = btn.getAttribute('data-end') || 'Sin fecha fin';
+            const status = btn.getAttribute('data-status') || '';
+            const docs = btn.getAttribute('data-docs') || '0';
+
+            const htmlContent = `
+                <div class="text-start">
+                    <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
+                    <p class="mb-2"><span class="fw-bold">Descripción:</span><br>${desc}</p>
+                    <p class="mb-2"><span class="fw-bold">Fecha inicio:</span> ${start}</p>
+                    <p class="mb-2"><span class="fw-bold">Fecha fin:</span> ${end}</p>
+                    <p class="mb-0"><span class="fw-bold">Documentos:</span> ${docs}</p>
+                </div>
+            `;
+
+            if (window.Swal) {
+                Swal.fire({
+                    title: 'Detalle de la convocatoria',
+                    html: htmlContent,
+                    icon: 'info',
+                    confirmButtonText: 'Cerrar'
+                });
+            } else {
+                alert(`Título: ${title}\nDescripción: ${desc}\nInicio: ${start}\nFin: ${end}\nDocumentos: ${docs}`);
+            }
+        });
+    });
+</script>

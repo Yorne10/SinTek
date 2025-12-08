@@ -68,7 +68,7 @@ Validado por: Alfonso Angel Garcia Hernandez
                             <!-- End of Form -->
                             <div class="d-flex justify-content-between align-items-top mb-4">
                                 <div class="form-check">
-                                    <input wire:model="remember_me" class="form-check-input" type="checkbox" value=""
+                                    <input wire:model="remember_me" class="form-check-input" type="checkbox"
                                         id="remember">
                                     <label class="form-check-label mb-0" for="remember">
                                         Recuérdame
