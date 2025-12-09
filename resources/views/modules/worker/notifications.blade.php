@@ -130,9 +130,9 @@
                         <td colspan="5" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
-                                    @icon('notif.bell', 'fa-3x')
+                                    @icon('notif.bell', 'fa-2x')
                                 </div>
-                                <p class="fw-bold">No tienes notificaciones aún.</p>
+                                <p class="fw-bold">No hay notificaciones para mostrar</p>
                                 <p class="small">Aquí aparecerán los mensajes relacionados con tus trámites</p>
                             </div>
                         </td>

@@ -41,8 +41,8 @@
                                 </div>
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.create') }}"
-                                        class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
-                                        @icon('user.add', 'me-2 text-white')
+                                        class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+                                        @icon('user.add', 'me-2')
                                         Nuevo usuario
                                     </a>
                                 </div>
@@ -78,8 +78,8 @@
                                         </select>
                                     </div>
                                     <div class="ms-auto">
-                                        <button wire:click="clearFilters" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-                                            @icon('action.refresh', 'me-2')
+                                        <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                            @icon('action.refresh', 'me-2 text-white')
                                             Limpiar filtros
                                         </button>
                                     </div>

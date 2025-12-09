@@ -1,10 +1,10 @@
 {{--
-Company: CETAM
-Project: ST
-File: dashboard.blade.php
-Created on: 01/12/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+* Company: CETAM
+* Project: ST
+* File: dashboard.blade.php
+* Created on: 01/12/2025
+* Created by: Alfonso Angel Garcia Hernandez
+* Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
 <div>
@@ -13,12 +13,12 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
                 <h1 class="h4">Panel de Secretaría</h1>
-                <p class="mb-0">Bienvenido, {{ Auth::user()->name }}</p>
+                <p class="mb-0">Bienvenido(a), {{ Auth::user()->name }}</p>
             </div>
         </div>
     </div>
 
-    {{-- Métricas principales --}}
+    {{-- Main Metrics --}}
     <div class="row">
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
@@ -36,7 +36,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <h3 class="fw-extrabold mb-1">{{ $totalRequests }}</h3>
                             </div>
                             <small class="text-gray-500">
-                                solicitudes
+                                trámites
                             </small>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
                             <div class="d-none d-sm-block">
-                                <h2 class="h6 text-gray-400 mb-0">En Proceso</h2>
+                                <h2 class="h6 text-gray-400 mb-0">En progreso</h2>
                                 <h3 class="fw-extrabold mb-1">{{ $inProgressRequests }}</h3>
                             </div>
                             <small class="text-gray-500">
@@ -93,22 +93,22 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 
-    {{-- Acciones Rápidas y Resumen --}}
+    {{-- Quick Actions and Summary --}}
     <div class="row">
-        {{-- Acciones Rápidas --}}
+        {{-- Quick Actions --}}
         <div class="col-12 col-lg-8 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Acciones Rápidas</h2>
+                    <h2 class="fs-5 fw-bold mb-0">Acciones rápidas</h2>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('user.list', 'fa-2x mb-2')
-                                    <span class="fw-bold">Buscar Trabajadores</span>
+                                    <span class="fw-bold">Buscar trabajadores</span>
                                 </div>
                             </a>
                         </div>
@@ -117,12 +117,12 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('process.document', 'fa-2x mb-2')
-                                    <span class="fw-bold">Convocatorias</span>
+                                    <span class="fw-bold">Convocations</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notificaciones') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('notif.bell', 'fa-2x mb-2')
@@ -131,29 +131,29 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.gestion-faqs') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.faq-management') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('support.help', 'fa-2x mb-2')
-                                    <span class="fw-bold">Gestión FAQs</span>
+                                    <span class="fw-bold">Preguntas frecuentes</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.crear-proceso') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-process') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('action.create', 'fa-2x mb-2')
-                                    <span class="fw-bold">Crear Proceso</span>
+                                    <span class="fw-bold">Crear proceso</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.definir-pasos') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('process.step', 'fa-2x mb-2')
-                                    <span class="fw-bold">Definir Pasos</span>
+                                    <span class="fw-bold">Definir pasos</span>
                                 </div>
                             </a>
                         </div>
@@ -162,7 +162,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             </div>
         </div>
 
-        {{-- Resumen --}}
+        {{-- Summary --}}
         <div class="col-12 col-lg-4 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-header">
@@ -179,7 +179,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
                             </div>
                         </div>
-                        <small class="text-gray-500">{{ $totalConvocations }} convocatorias totales</small>
+                        <small class="text-gray-500">{{ $totalConvocations }} convocatorias en total</small>
                     </div>
                 </div>
             </div>

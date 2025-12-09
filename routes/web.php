@@ -26,32 +26,33 @@ use App\Livewire\ResetPasswordExample;
 use App\Livewire\UpgradeToPro;
 use App\Livewire\Users;
 use App\Livewire\UserCreate;
-use App\Livewire\PreguntasFrecuentes;
-use App\Livewire\Worker\TramitesDisponibles;
-use App\Livewire\Worker\MisTramites;
-use App\Livewire\Worker\Convocatorias;
-use App\Livewire\Worker\Notificaciones;
-use App\Livewire\Admin\GestionTramites;
-use App\Livewire\Admin\Solicitudes;
-use App\Livewire\Admin\ConvocatoriasEventos;
-use App\Livewire\Admin\PlantillasDocumentos;
-use App\Livewire\Admin\Bitacora;
-use App\Livewire\Admin\Configuracion;
-use App\Livewire\Admin\CrearProceso;
-use App\Livewire\Admin\CrearPaso;
-use App\Livewire\Admin\DefinirPasos;
-use App\Livewire\Admin\ModificarProceso;
-use App\Livewire\Secretary\ValidarPasos;
-use App\Livewire\Secretary\BusquedaTrabajadores;
-use App\Livewire\Secretary\ConvocatoriasDocumentos;
-use App\Livewire\Secretary\CallsIndex;
-use App\Livewire\Secretary\DocumentsIndex;
-use App\Livewire\Secretary\ConvocatoriaForm;
-use App\Livewire\Secretary\DocumentoForm;
-use App\Livewire\Secretary\Reportes as SecretaryReportes;
-use App\Livewire\Secretary\Notificaciones as SecretaryNotificaciones;
-use App\Livewire\Secretary\GestionFaqs;
+use App\Livewire\Faq;
+use App\Livewire\Worker\AvailableProcedures;
+use App\Livewire\Worker\MyProcedures;
+use App\Livewire\Worker\CallsIndex;
+use App\Livewire\Worker\Notifications as WorkerNotifications;
+use App\Livewire\Admin\ProcedureManagement;
+use App\Livewire\Admin\Requests;
+use App\Livewire\Admin\ConvocationEvents;
+use App\Livewire\Admin\DocumentTemplates;
+use App\Livewire\Admin\AuditLog;
+use App\Livewire\Admin\Settings;
+use App\Livewire\Admin\CreateProcess;
+use App\Livewire\Admin\CreateStep;
+use App\Livewire\Admin\DefineSteps;
+use App\Livewire\Admin\EditProcess;
+use App\Livewire\Secretary\ValidateSteps;
+use App\Livewire\Secretary\SearchWorkers;
+use App\Livewire\Secretary\ConvocationsDocuments;
+use App\Livewire\Secretary\CallsIndex as SecretaryCallsIndex;
+use App\Livewire\Secretary\DocumentsIndex as SecretaryDocumentsIndex;
+use App\Livewire\Secretary\ConvocationForm;
+use App\Livewire\Secretary\DocumentForm;
+use App\Livewire\Secretary\Reports as SecretaryReports;
+use App\Livewire\Secretary\Notifications as SecretaryNotifications;
+use App\Livewire\Secretary\FaqManagement;
 use App\Livewire\Secretary\ProcessesIndex;
+use App\Livewire\Secretary\BudgetKeyForm;
 use App\Http\Controllers\Documents\ConvocationDocumentController;
 use App\Http\Controllers\Documents\InstitutionalDocumentController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -121,54 +122,56 @@ Route::prefix("p/{$slug}")
             Route::get('/institutional-document/{id}/download', [InstitutionalDocumentController::class, 'download'])->name('institutional-document.download');
 
             // Preguntas frecuentes (compartido entre todos los roles)
-            Route::get('/preguntas-frecuentes', PreguntasFrecuentes::class)->name('preguntas-frecuentes');
+            Route::get('/faq', Faq::class)->name('faq');
 
             // Rutas para trabajadores (workers)
             Route::middleware(['role:worker'])->group(function () {
-                Route::get('/tramites-disponibles', TramitesDisponibles::class)->name('worker.tramites-disponibles');
-                Route::get('/mis-tramites', MisTramites::class)->name('worker.mis-tramites');
-                Route::get('/detalle-tramite/{id}', \App\Livewire\Worker\DetalleTramite::class)->name('worker.detalle-tramite');
-                Route::get('/calls', \App\Livewire\Worker\CallsIndex::class)->name('worker.calls');
-                Route::get('/convocatorias', \App\Livewire\Worker\CallsIndex::class)->name('worker.convocatorias');
+                Route::get('/available-procedures', AvailableProcedures::class)->name('worker.available-procedures');
+                Route::get('/my-procedures', MyProcedures::class)->name('worker.my-procedures');
+                Route::get('/procedure-detail/{id}', \App\Livewire\Worker\ProcedureDetail::class)->name('worker.procedure-detail');
+                Route::get('/calls', CallsIndex::class)->name('worker.calls');
+                Route::get('/convocations', CallsIndex::class)->name('worker.convocations');
                 Route::get('/documents', \App\Livewire\Worker\DocumentsIndex::class)->name('worker.documents');
-                Route::get('/notificaciones', \App\Livewire\Worker\Notifications::class)->name('worker.notificaciones');
+                Route::get('/worker-notifications', WorkerNotifications::class)->name('worker.notifications');
             });
 
             // Rutas para secretarios/operadores
             Route::middleware(['role:secretary'])->group(function () {
                 // Funciones de secretara
-                Route::get('/validar-pasos', ValidarPasos::class)->name('secretary.validar-pasos');
-                Route::get('/busqueda-trabajadores', BusquedaTrabajadores::class)->name('secretary.busqueda-trabajadores');
-                Route::get('/secretary/calls', CallsIndex::class)->name('secretary.calls');
-                Route::get('/secretary/documents', DocumentsIndex::class)->name('secretary.documents');
-                Route::get('/convocatoria/create', ConvocatoriaForm::class)->name('secretary.convocatoria.create');
-                Route::get('/convocatoria/{id}/edit', ConvocatoriaForm::class)->name('secretary.convocatoria.edit');
-                Route::get('/documento/create', DocumentoForm::class)->name('secretary.documento.create');
-                Route::get('/documento/{id}/edit', DocumentoForm::class)->name('secretary.documento.edit');
-                Route::get('/reportes-secretary', SecretaryReportes::class)->name('secretary.reportes');
-                Route::get('/notificaciones-secretary', SecretaryNotificaciones::class)->name('secretary.notificaciones');
-                Route::get('/gestion-faqs', GestionFaqs::class)->name('secretary.gestion-faqs');
+                Route::get('/validate-steps', ValidateSteps::class)->name('secretary.validate-steps');
+                Route::get('/search-workers', SearchWorkers::class)->name('secretary.search-workers');
+                Route::get('/secretary/calls', SecretaryCallsIndex::class)->name('secretary.calls');
+                Route::get('/secretary/documents', SecretaryDocumentsIndex::class)->name('secretary.documents');
+                Route::get('/convocation/create', ConvocationForm::class)->name('secretary.convocation.create');
+                Route::get('/convocation/{id}/edit', ConvocationForm::class)->name('secretary.convocation.edit');
+                Route::get('/document/create', DocumentForm::class)->name('secretary.document.create');
+                Route::get('/document/{id}/edit', DocumentForm::class)->name('secretary.document.edit');
+                Route::get('/secretary-reports', SecretaryReports::class)->name('secretary.reports');
+                Route::get('/secretary-notifications', SecretaryNotifications::class)->name('secretary.notifications');
+                Route::get('/faq-management', FaqManagement::class)->name('secretary.faq-management');
                 Route::get('/secretary/processes', ProcessesIndex::class)->name('secretary.processes');
                 Route::get('/secretary/budget-keys', \App\Livewire\Secretary\BudgetKeys::class)->name('secretary.budget-keys');
+                Route::get('/budget-key/create', BudgetKeyForm::class)->name('secretary.budget-key.create');
+                Route::get('/budget-key/{id}/edit', BudgetKeyForm::class)->name('secretary.budget-key.edit');
             });
 
             // Rutas para administradores (gestin de usuarios y sistema)
             Route::middleware(['role:admin'])->group(function () {
-                Route::get('/configuracion', Configuracion::class)->name('admin.configuracion');
-                Route::get('/bitacora', Bitacora::class)->name('admin.bitacora');
+                Route::get('/configuration', Settings::class)->name('admin.configuration');
+                Route::get('/activity-log', AuditLog::class)->name('admin.activity-log');
                 Route::view('/alerts-preview', 'modules.admin.alerts-preview')->name('admin.alerts-preview');
             });
 
             // Rutas compartidas: admin Y secretary (gestin de procesos)
             Route::middleware(['role:admin,secretary'])->group(function () {
-                Route::get('/crear-proceso', CrearProceso::class)->name('admin.crear-proceso');
-                Route::get('/definir-pasos/{process_id?}', DefinirPasos::class)->name('admin.definir-pasos');
-                Route::get('/crear-paso', CrearPaso::class)->name('admin.crear-paso');
-                Route::get('/modificar-proceso/{process_id?}', ModificarProceso::class)->name('admin.modificar-proceso');
-                Route::get('/gestion-tramites', GestionTramites::class)->name('admin.gestion-tramites');
-                Route::get('/solicitudes', Solicitudes::class)->name('admin.solicitudes');
-                Route::get('/convocatorias-eventos', ConvocatoriasEventos::class)->name('admin.convocatorias-eventos');
-                Route::get('/plantillas-documentos', PlantillasDocumentos::class)->name('admin.plantillas-documentos');
+                Route::get('/create-process', CreateProcess::class)->name('admin.create-process');
+                Route::get('/define-steps/{process_id?}', DefineSteps::class)->name('admin.define-steps');
+                Route::get('/create-step', CreateStep::class)->name('admin.create-step');
+                Route::get('/modify-process/{process_id?}', EditProcess::class)->name('admin.modify-process');
+                Route::get('/manage-procedures', ProcedureManagement::class)->name('admin.manage-procedures');
+                Route::get('/requests', Requests::class)->name('admin.requests');
+                Route::get('/convocations-events', ConvocationEvents::class)->name('admin.convocations-events');
+                Route::get('/document-templates', DocumentTemplates::class)->name('admin.document-templates');
             });
 
             // Rutas de la plantilla original

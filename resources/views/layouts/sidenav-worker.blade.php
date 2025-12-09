@@ -49,7 +49,7 @@ Validado por: Alfonso Angel Garca Hernndez
 
       {{-- Mis trámites --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.mis-tramites') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('list.checklist', 'me-2')
           </span>
@@ -59,7 +59,7 @@ Validado por: Alfonso Angel Garca Hernndez
 
       {{-- Nuevo trámite --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.tramites-disponibles') }}"
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.available-procedures') }}"
           class="nav-link">
           <span class="sidebar-icon">
             @icon('process.docs', 'me-2')
@@ -70,7 +70,7 @@ Validado por: Alfonso Angel Garca Hernndez
 
       {{-- Convocatorias --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.calls') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocations') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('file.generic', 'me-2')
           </span>
@@ -85,16 +85,6 @@ Validado por: Alfonso Angel Garca Hernndez
             @icon('file.generic', 'me-2')
           </span>
           <span class="sidebar-text">Documentos</span>
-        </a>
-      </li>
-
-      {{-- Preguntas frecuentes (FAQ) --}}
-      <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.preguntas-frecuentes') }}" class="nav-link">
-          <span class="sidebar-icon">
-            @icon('support.help', 'me-2')
-          </span>
-          <span class="sidebar-text">Preguntas frecuentes</span>
         </a>
       </li>
 

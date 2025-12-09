@@ -179,7 +179,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('access.lock', 'fa-xs text-warning me-3')
+                                @icon('access.lock', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Contraseña</h3>
                                     <p class="text-gray-700 small mb-0">

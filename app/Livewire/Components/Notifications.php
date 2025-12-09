@@ -9,6 +9,8 @@ class Notifications extends Component
 {
     public $unreadCount = 0;
     public $notifications;
+    public $notificationRoute = '#';
+    public $isWorker = false;
 
     public function mount()
     {
@@ -18,14 +20,16 @@ class Notifications extends Component
     public function loadNotifications()
     {
         $user = auth()->user();
-        $isWorker = $user && $user->role === 'worker';
+        $this->isWorker = $user && $user->role === 'worker';
 
-        if ($isWorker) {
+        if ($this->isWorker) {
             $this->notifications = $user->notifications()->latest()->limit(5)->get();
             $this->unreadCount = $this->notifications->whereNull('read_at')->count();
+            $this->notificationRoute = route(config('proj.route_name_prefix', 'proj') . '.worker.notifications');
         } else {
             $this->notifications = collect();
             $this->unreadCount = 0;
+            $this->notificationRoute = '#';
         }
     }
 

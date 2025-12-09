@@ -12,18 +12,31 @@ namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Livewire\Component;
-use Livewire\Attributes\Rule;
 
 class Login extends Component
 {
 
-    #[Rule('required|email')]
     public $email = '';
-
-    #[Rule('required|min:6')]
     public $password = '';
-
     public $remember_me = false;
+
+    protected function rules()
+    {
+        return [
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ];
+    }
+
+    protected function messages()
+    {
+        return [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Debe ingresar un correo electrónico válido.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+        ];
+    }
 
     //This mounts the default credentials for the admin. Remove this section if you want to make it public.
     public function mount()

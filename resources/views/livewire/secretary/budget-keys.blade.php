@@ -56,6 +56,13 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     @endif
 
+    @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
         <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
             <thead class="thead-light">
@@ -107,10 +114,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <td colspan="3" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
-                                    @icon('finance.budget', 'fa-3x')
+                                    @icon('finance.budget', 'fa-2x')
                                 </div>
-                                <p class="fw-bold">No se encontraron claves presupuestales</p>
-                                <p class="small">Intenta ajustar los filtros de búsqueda o crea una nueva clave</p>
+                                <p class="fw-bold">No hay claves presupuestales para mostrar</p>
+                                <p class="small">Crea una nueva clave o ajusta los filtros de búsqueda</p>
                             </div>
                         </td>
                     </tr>
@@ -130,58 +137,4 @@ Approved by: Alfonso Angel Garcia Hernandez
             </div>
         </div>
     </div>
-
-    {{-- Modal --}}
-    @if ($isOpen)
-        <div class="modal fade show" style="display: block; background-color: rgba(0,0,0,0.5);" tabindex="-1"
-            role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header border-0">
-                        <h5 class="modal-title">
-                            @icon('finance.budget', 'me-2')
-                            {{ $selected_id ? 'Editar Clave Presupuestal' : 'Nueva Clave Presupuestal' }}
-                        </h5>
-                        <button type="button" class="btn-close" wire:click="closeModal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="budget_key" class="form-label">Clave Presupuestal</label>
-                                <input type="text" class="form-control @error('budget_key') is-invalid @enderror"
-                                    id="budget_key" wire:model="budget_key" placeholder="Ej: 1234-5678">
-                                @error('budget_key')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="position_name" class="form-label">Nombre del Puesto</label>
-                                <input type="text" class="form-control @error('position_name') is-invalid @enderror"
-                                    id="position_name" wire:model="position_name"
-                                    placeholder="Ej: Coordinador de Recursos Humanos">
-                                @error('position_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer border-0">
-                        <button type="button" class="btn btn-link text-gray-600"
-                            wire:click="closeModal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" wire:click="store" wire:loading.attr="disabled">
-                            <span wire:loading.remove wire:target="store">
-                                @icon('action.save', 'me-2')
-                                {{ $selected_id ? 'Actualizar' : 'Guardar' }}
-                            </span>
-                            <span wire:loading wire:target="store">
-                                <span class="spinner-border spinner-border-sm me-2" role="status"
-                                    aria-hidden="true"></span>
-                                Guardando...
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 </div>

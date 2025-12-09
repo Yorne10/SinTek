@@ -66,31 +66,31 @@ Changelog:
             {{-- Administrar usuarios --}}
             <li class="nav-item">
               <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.index') }}" class="nav-link">
-          <span class="sidebar-icon">@icon('user.list', 'me-2')</span>
+                <span class="sidebar-icon">@icon('user.list', 'me-2')</span>
                 <span class="sidebar-text">Administrar usuarios</span>
               </a>
             </li>
 
             {{-- Configuración --}}
             <li class="nav-item">
-              <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.configuracion') }}" class="nav-link">
-          <span class="sidebar-icon">@icon('config.settings', 'me-2')</span>
+              <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.configuration') }}" class="nav-link">
+                <span class="sidebar-icon">@icon('config.settings', 'me-2')</span>
                 <span class="sidebar-text">Configuración</span>
               </a>
             </li>
 
             {{-- Auditoría --}}
             <li class="nav-item">
-              <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.bitacora') }}" class="nav-link">
-          <span class="sidebar-icon">@icon('report.line', 'me-2')</span>
-                <span class="sidebar-text">Auditoría</span>
+              <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.activity-log') }}" class="nav-link">
+                <span class="sidebar-icon">@icon('report.line', 'me-2')</span>
+                <span class="sidebar-text">Registro de auditoría</span>
               </a>
             </li>
 
             {{-- Mi perfil --}}
             <li class="nav-item">
               <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">
-          <span class="sidebar-icon">@icon('user.profile', 'me-2')</span>
+                <span class="sidebar-icon">@icon('user.profile', 'me-2')</span>
                 <span class="sidebar-text">Mi perfil</span>
               </a>
             </li>

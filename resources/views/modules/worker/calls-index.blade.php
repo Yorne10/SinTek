@@ -150,9 +150,9 @@
                             <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
                                     <div class="mb-3">
-                                        @icon('process.document', 'fa-3x')
+                                        @icon('process.document', 'fa-2x')
                                     </div>
-                                    <p class="fw-bold">No hay convocatorias disponibles</p>
+                                    <p class="fw-bold">No hay convocatorias para mostrar</p>
                                     <p class="small">Revisa más tarde, pronto habrá nuevas convocatorias.</p>
                                 </div>
                             </td>

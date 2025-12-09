@@ -25,8 +25,7 @@ Changelog:
                     <div class="col-12 col-md-8 col-xl-6 text-center text-lg-start">
                         <ul class="list-inline list-group-flush list-group-borderless text-md-end mb-0">
                             <li class="list-inline-item px-0 px-sm-2">
-                                <a
-                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.preguntas-frecuentes') }}">Preguntas
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq') }}">Preguntas
                                     frecuentes</a>
                             </li>
                             <li class="list-inline-item px-0 px-sm-2">

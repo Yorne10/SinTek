@@ -51,8 +51,7 @@ Changelog:
 
       {{-- Búsqueda de trabajadores --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.busqueda-trabajadores') }}"
-          class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('user.list', 'me-2')
           </span>
@@ -82,7 +81,7 @@ Changelog:
 
       {{-- Enviar notificación --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notificaciones') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('notif.bell', 'me-2')
           </span>
@@ -92,11 +91,11 @@ Changelog:
 
       {{-- Gestión de FAQs --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.gestion-faqs') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.faq-management') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('support.help', 'me-2')
           </span>
-          <span class="sidebar-text">Gestionar FAQs</span>
+          <span class="sidebar-text">Preguntas frecuentes</span>
         </a>
       </li>
 

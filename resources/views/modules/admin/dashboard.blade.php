@@ -1,10 +1,10 @@
 {{--
-    Company: CETAM
-    Project: ST
-    File: dashboard.blade.php
-    Created on: 01/12/2025
-    Created by: Alfonso Angel Garcia Hernandez
-    Approved by: Alfonso Angel Garcia Hernandez
+Company: CETAM
+Project: ST
+File: dashboard.blade.php
+Created on: 01/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
 <div>
@@ -24,7 +24,8 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('user.list', 'fa-3x text-primary')
                             </div>
@@ -47,7 +48,8 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('state.in_progress', 'fa-3x text-warning')
                             </div>
@@ -70,7 +72,8 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('state.success', 'fa-3x text-success')
                             </div>
@@ -97,7 +100,7 @@
             <div class="card border-0 shadow h-100">
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                     <h2 class="fs-5 fw-bold mb-0">Actividad Reciente</h2>
-                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.bitacora') }}"
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.activity-log') }}"
                         class="btn btn-sm btn-outline-gray-600">
                         Ver todo
                     </a>
@@ -114,7 +117,8 @@
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <div class="fw-bold">{{ $log->user->name ?? 'Sistema' }}</div>
-                                        <div class="text-gray-600 small">{{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
+                                        <div class="text-gray-600 small">
+                                            {{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
                                     </div>
                                     <div class="text-end">
                                         <div class="small text-gray-500">{{ $log->created_at->diffForHumans() }}</div>
@@ -147,7 +151,8 @@
                         </div>
                         <div class="progress" style="height: 8px;">
                             <div class="progress-bar bg-primary" role="progressbar"
-                                style="width: {{ $totalProcesses > 0 ? ($activeProcesses / $totalProcesses * 100) : 0 }}%"></div>
+                                style="width: {{ $totalProcesses > 0 ? ($activeProcesses / $totalProcesses * 100) : 0 }}%">
+                            </div>
                         </div>
                         <small class="text-gray-500">{{ $totalProcesses }} procesos totales</small>
                     </div>
@@ -160,7 +165,8 @@
                         </div>
                         <div class="progress" style="height: 8px;">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%"></div>
+                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
+                            </div>
                         </div>
                         <small class="text-gray-500">{{ $totalConvocations }} convocatorias totales</small>
                     </div>

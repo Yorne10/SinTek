@@ -99,8 +99,8 @@ Approved by: Alfonso Angel Garcia Hernandez
 
                     <div class="mt-3">
                         <button type="button" id="createUserBtn" class="btn btn-primary mt-2 animate-up-2">
-                            <i class="fa-xs text-white me-2 fas fa-user-plus"></i>
-                            Crear usuario
+                            @icon('action.save', 'fa-xs text-white me-2')
+                            Guardar usuario
                         </button>
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.index') }}"
                             class="btn btn-gray-300 mt-2 animate-up-2">
@@ -157,14 +157,14 @@ Approved by: Alfonso Angel Garcia Hernandez
             buttonsStyling: false
         });
 
-        // Botón de crear usuario con confirmación
+        // Botón de guardar usuario con confirmación
         document.getElementById('createUserBtn').addEventListener('click', function () {
             swalWithBootstrapButtons.fire({
-                title: '¿Estás seguro?',
-                text: '¿Deseas crear este nuevo usuario?',
+                title: '¿Guardar usuario?',
+                text: '¿Deseas guardar este usuario?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, crear',
+                confirmButtonText: 'Sí, guardar',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
             }).then((result) => {

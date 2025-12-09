@@ -40,7 +40,7 @@ Validado por: Alfonso Angel Garcia Hernandez
                                         </path>
                                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                                     </svg></span>
-                                <input wire:model="email" type="email"
+                                <input wire:model="email" type="text"
                                     class="form-control @error('email') is-invalid @enderror"
                                     placeholder="correo@institucion.com" id="email" autofocus>
                             </div>

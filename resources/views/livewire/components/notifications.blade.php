@@ -12,12 +12,6 @@
 * Description: Componente Livewire para notificaciones con actualización automática cada 10 segundos
 --}}
 
-@php
-    $user = auth()->user();
-    $isWorker = $user && $user->role === 'worker';
-    $notificationRoute = route(config('proj.route_name_prefix', 'proj') . '.worker.notificaciones');
-@endphp
-
 <div>
     @if($isWorker)
         <div wire:poll.10s="refreshNotifications">
@@ -48,7 +42,8 @@
                                         <div class="col ps-0 ms-2">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="text-truncate" style="max-width: 200px;">
-                                                    <h4 class="h6 mb-0 text-small text-truncate">{{ $notification->tittle ?? 'Notificación' }}
+                                                    <h4 class="h6 mb-0 text-small text-truncate">
+                                                        {{ $notification->tittle ?? 'Notificación' }}
                                                     </h4>
                                                 </div>
                                                 <div class="text-end ms-2">
@@ -57,7 +52,8 @@
                                                     </small>
                                                 </div>
                                             </div>
-                                            <p class="font-small mt-1 mb-0 text-truncate" style="max-width: 280px;">{{ $notification->message }}</p>
+                                            <p class="font-small mt-1 mb-0 text-truncate" style="max-width: 280px;">
+                                                {{ $notification->message }}</p>
                                         </div>
                                     </div>
                                 </a>

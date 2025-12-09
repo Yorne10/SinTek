@@ -25,7 +25,7 @@
             <p class="mb-0">Gestión de convocatorias públicas</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatoria.create') }}"
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.create') }}"
                 class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('action.create', 'me-1')
                 Agregar convocatoria
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    {{-- Filtros y búsqueda --}}
+    {{-- Filters and Search --}}
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
@@ -51,7 +51,7 @@
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Estado:</span>
                 <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
-                    <option value="">Todos</option>
+                    <option value="">Todas</option>
                     <option value="activa">Activa</option>
                     <option value="proxima">Próxima</option>
                     <option value="permanente">Permanente</option>
@@ -68,10 +68,10 @@
         </div>
     </div>
 
-    {{-- Tabla de Convocatorias --}}
+    {{-- Convocations Table --}}
     <div class="card card-body border-0 shadow mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h5 mb-0">Listado de Convocatorias</h2>
+            <h2 class="h5 mb-0">Lista de convocatorias</h2>
         </div>
 
         <div class="table-responsive">
@@ -98,12 +98,12 @@
                             </td>
                             <td>
                                 <span
-                                    class="fw-normal">{{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/A' }}</span>
+                                    class="fw-normal">{{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/D' }}</span>
                                 @if($convocation->end_date)
                                     <span class="text-gray"> - </span>
                                     <span class="fw-normal">{{ $convocation->end_date->format('d/m/Y') }}</span>
                                 @else
-                                    <div class="small text-gray">Sin fecha fin</div>
+                                    <div class="small text-gray">Sin fecha de fin</div>
                                 @endif
                             </td>
                             <td>
@@ -145,8 +145,8 @@
                                 <div class="btn-group">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <svg class="icon icon-xs" fill="currentColor"
-                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
                                             </path>
@@ -157,7 +157,7 @@
                                             type="button" data-conv-id="{{ $convocation->convocation_id }}"
                                             data-conv-title="{{ $convocation->title }}"
                                             data-conv-description="{{ $convocation->description }}"
-                                            data-conv-start="{{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/A' }}"
+                                            data-conv-start="{{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/D' }}"
                                             data-conv-end="{{ $convocation->end_date ? $convocation->end_date->format('d/m/Y') : 'Permanente' }}"
                                             data-conv-status="{{ ucfirst($convocation->status) }}"
                                             data-conv-docs="{{ $convocation->documents->count() }}">
@@ -165,7 +165,7 @@
                                             Ver detalles
                                         </button>
                                         <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocatoria.edit', $convocation->convocation_id) }}">
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.edit', $convocation->convocation_id) }}">
                                             @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>
@@ -177,9 +177,9 @@
                         <tr>
                             <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
-                                    @icon('process.document', 'fa-3x mb-3')
-                                    <p class="fw-bold">No hay convocatorias registradas</p>
-                                    <p class="small">Crea tu primera convocatoria usando el botón superior</p>
+                                    @icon('process.document', 'fa-2x mb-3')
+                                    <p class="fw-bold">No hay convocatorias para mostrar</p>
+                                    <p class="small">Crea tu primera convocatoria con el botón superior</p>
                                 </div>
                             </td>
                         </tr>
@@ -212,7 +212,7 @@
             buttonsStyling: false
         });
 
-        // Event listener para ver detalles de convocatoria
+        // Event listener to view convocation details
         document.addEventListener('click', function (e) {
             if (e.target.closest('.view-convocatoria-detail')) {
                 e.preventDefault();
@@ -225,19 +225,19 @@
                 const docs = button.getAttribute('data-conv-docs');
 
                 swalWithBootstrapButtons.fire({
-                    title: 'Detalle de la Convocatoria',
+                    title: 'Convocation Details',
                     html: `
                         <div class="text-start">
-                            <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
-                            <p class="mb-2"><span class="fw-bold">Descripción:</span><br>${description}</p>
-                            <p class="mb-2"><span class="fw-bold">Fecha inicio:</span> ${start}</p>
-                            <p class="mb-2"><span class="fw-bold">Fecha fin:</span> ${end}</p>
-                            <p class="mb-2"><span class="fw-bold">Estado:</span> ${status}</p>
-                            <p class="mb-0"><span class="fw-bold">Documentos:</span> ${docs}</p>
+                            <p class="mb-2"><span class="fw-bold">Title:</span> ${title}</p>
+                            <p class="mb-2"><span class="fw-bold">Description:</span><br>${description}</p>
+                            <p class="mb-2"><span class="fw-bold">Start Date:</span> ${start}</p>
+                            <p class="mb-2"><span class="fw-bold">End Date:</span> ${end}</p>
+                            <p class="mb-2"><span class="fw-bold">Status:</span> ${status}</p>
+                            <p class="mb-0"><span class="fw-bold">Documents:</span> ${docs}</p>
                         </div>
                     `,
                     icon: 'info',
-                    confirmButtonText: 'Cerrar',
+                    confirmButtonText: 'Close',
                     showConfirmButton: true
                 });
             }
