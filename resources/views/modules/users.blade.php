@@ -41,8 +41,8 @@
                                 </div>
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.create') }}"
-                                        class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                                        @icon('user.add', 'me-2')
+                                        class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                        @icon('user.add', 'me-2 text-white')
                                         Nuevo usuario
                                     </a>
                                 </div>
@@ -51,14 +51,7 @@
                             <div class="table-settings mb-4">
                                 <div class="d-flex flex-wrap gap-3 align-items-center">
                                     <div class="input-group fmxw-300">
-                                        <span class="input-group-text">
-                                            <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                <path fill-rule="evenodd"
-                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                        </span>
+                                        <span class="input-group-text">@icon('action.search', 'icon icon-xs')</span>
                                         <input wire:model.live.debounce.400ms="search" type="text"
                                             class="form-control" placeholder="Buscar usuarios">
                                     </div>
@@ -85,7 +78,7 @@
                                         </select>
                                     </div>
                                     <div class="ms-auto">
-                                        <button wire:click="clearFilters" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
+                                        <button wire:click="clearFilters" class="btn btn-sm btn-secondary d-inline-flex align-items-center">
                                             @icon('action.refresh', 'me-2')
                                             Limpiar filtros
                                         </button>
@@ -131,12 +124,7 @@
                                                             class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
-                                                            <svg class="icon icon-xs" fill="currentColor"
-                                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                                                </path>
-                                                            </svg>
+                                                            @icon('action.more', 'icon icon-xs')
                                                         </button>
                                                         <div
                                                             class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
@@ -185,9 +173,9 @@
                                                 <td colspan="6" class="text-center py-4">
                                                     <div class="text-gray-500">
                                                         <div class="mb-3">
-                                                            @icon('user.list', 'fa-3x')
+                                                            @icon('user.list', 'fa-2x')
                                                         </div>
-                                                        <p class="fw-bold">No se encontraron usuarios</p>
+                                                        <p class="fw-bold">No hay usuarios para mostrar</p>
                                                         <p class="small">Intenta ajustar los filtros de búsqueda</p>
                                                     </div>
                                                 </td>
