@@ -58,6 +58,13 @@ class Login extends Component
         $credentials = $this->validate();
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember_me)) {
             $user = User::where(['email' => $this->email])->first();
+
+            // Bloquear acceso si el usuario está inactivo
+            if (!$user->is_active) {
+                auth()->logout();
+                return $this->addError('email', 'Su cuenta ha sido deshabilitada temporalmente');
+            }
+
             // In local environment, bypass verification/approval to streamline development
             if (!app()->environment('local')) {
                 // Enforce email verification

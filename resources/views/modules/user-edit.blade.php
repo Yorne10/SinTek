@@ -17,7 +17,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                                        @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Administración</li>
@@ -148,7 +148,7 @@ Approved by: Alfonso Angel Garcia Hernandez
 
                     <div class="mt-3">
                         <button type="button" id="updateUserBtn" class="btn btn-primary mt-2 animate-up-2">
-                            @icon('action.save', 'fa-xs text-white me-2')
+                            @icon('save', 'fa-xs text-white me-2')
                             Guardar cambios
                         </button>
                         <button type="button" wire:click="cancel" class="btn btn-gray-300 mt-2 animate-up-2">
@@ -166,7 +166,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('state.info', 'fa-xs text-info me-3')
+                                @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Roles disponibles</h3>
                                     <p class="text-gray-700 small mb-0">
@@ -179,7 +179,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('access.lock', 'fa-xs text-info me-3')
+                                @icon('lock', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Contraseña</h3>
                                     <p class="text-gray-700 small mb-0">
@@ -190,7 +190,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('user.worker', 'fa-xs text-info me-3')
+                                @icon('user', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Información del trabajador</h3>
                                     <p class="text-gray-700 small mb-0">

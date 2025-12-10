@@ -38,7 +38,7 @@ Changelog:
                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
                   <a class="dropdown-item d-flex align-items-center"
                     href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}">
-                    @icon('userCircle', 'dropdown-icon text-gray-400 me-2')
+                    @icon('user', 'dropdown-icon text-gray-400 me-2')
                     Mi perfil
                   </a>
                   <div role="separator" class="dropdown-divider my-1"></div>
