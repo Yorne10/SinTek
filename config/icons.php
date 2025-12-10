@@ -1,126 +1,107 @@
 <?php
 
-// Icon aliases grouped by domain for consistent UI usage
+// Font Awesome icon aliases aligned with section 8.3.2 of the UI manual
 return [
 
-    // Navigation & Interface
-    'nav.home'          => 'fa-solid fa-house',
-    'nav.dashboard'     => 'fa-solid fa-gauge-high',
-    'nav.menu'          => 'fa-solid fa-bars',
-    'nav.back'          => 'fa-solid fa-arrow-left',
-    'nav.forward'       => 'fa-solid fa-arrow-right',
-    'nav.up'            => 'fa-solid fa-arrow-up',
-    'nav.down'          => 'fa-solid fa-arrow-down',
-    'nav.close'         => 'fa-solid fa-xmark',
-    'nav.external_link' => 'fa-solid fa-arrow-up-right-from-square',
+    // User & Role Icons
+    'user'        => 'fa-solid fa-user',
+    'userCircle'  => 'fa-solid fa-circle-user',
+    'userAdd'     => 'fa-solid fa-user-plus',
+    'userRemove'  => 'fa-solid fa-user-minus',
+    'userGroup'   => 'fa-solid fa-users',
+    'userTie'     => 'fa-solid fa-user-tie',
 
-    // User & Authentication
-    'user.profile'      => 'fa-solid fa-user',
-    'user.avatar'       => 'fa-solid fa-circle-user',
-    'user.add'          => 'fa-solid fa-user-plus',
-    'user.remove'       => 'fa-solid fa-user-minus',
-    'user.list'         => 'fa-solid fa-users',
-    'user.admin'        => 'fa-solid fa-user-tie',
-    'auth.login'        => 'fa-solid fa-right-to-bracket',
-    'auth.logout'       => 'fa-solid fa-right-from-bracket',
+    // Action Icons (CRUD & common)
+    'add'         => 'fa-solid fa-plus',
+    'edit'        => 'fa-solid fa-pen-to-square',
+    'delete'      => 'fa-solid fa-trash',
+    'view'        => 'fa-solid fa-eye',
+    'save'        => 'fa-solid fa-floppy-disk',
+    'cancel'      => 'fa-solid fa-xmark',
+    'send'        => 'fa-solid fa-paper-plane',
+    'download'    => 'fa-solid fa-download',
+    'upload'      => 'fa-solid fa-upload',
+    'search'      => 'fa-solid fa-magnifying-glass',
+    'refresh'     => 'fa-solid fa-arrows-rotate',
 
-    // Common Actions
-    'action.create'     => 'fa-solid fa-plus',
-    'action.edit'       => 'fa-solid fa-pen-to-square',
-    'action.delete'     => 'fa-solid fa-trash',
-    'action.view'       => 'fa-solid fa-eye',
-    'action.save'       => 'fa-solid fa-floppy-disk',
-    'action.cancel'     => 'fa-solid fa-xmark',
-    'action.send'       => 'fa-solid fa-paper-plane',
-    'action.download'   => 'fa-solid fa-download',
-    'action.upload'     => 'fa-solid fa-upload',
-    'action.search'     => 'fa-solid fa-magnifying-glass',
-    'action.refresh'    => 'fa-solid fa-arrows-rotate',
-    'action.filter'     => 'fa-solid fa-filter',
-    'action.sort'       => 'fa-solid fa-sort',
-    'action.sort_up'    => 'fa-solid fa-sort-up',
-    'action.sort_down'  => 'fa-solid fa-sort-down',
-    'action.more'       => 'fa-solid fa-ellipsis-vertical',
+    // State, Alert & Notification Icons
+    'success'         => 'fa-solid fa-circle-check',
+    'error'           => 'fa-solid fa-circle-xmark',
+    'warning'         => 'fa-solid fa-triangle-exclamation',
+    'info'            => 'fa-solid fa-circle-info',
+    'pending'         => 'fa-solid fa-clock',
+    'notification'    => 'fa-solid fa-bell',
+    'notificationOff' => 'fa-solid fa-bell-slash',
+    'star'            => 'fa-solid fa-star',
 
-    // States, Alerts & Notifications
-    'state.success'         => 'fa-solid fa-circle-check',
-    'state.error'           => 'fa-solid fa-circle-xmark',
-    'state.warning'         => 'fa-solid fa-triangle-exclamation',
-    'state.info'            => 'fa-solid fa-circle-info',
-    'state.pending'         => 'fa-solid fa-clock',
-    'state.in_progress'     => 'fa-solid fa-spinner',
-    'state.sync'            => 'fa-solid fa-sync',
-    'state.approved'        => 'fa-solid fa-thumbs-up',
-    'state.rejected'        => 'fa-solid fa-thumbs-down',
-    'state.canceled'        => 'fa-solid fa-ban',
-    'state.finished'        => 'fa-solid fa-flag-checkered',
-    'state.started'         => 'fa-solid fa-play',
-    'state.favorite'        => 'fa-solid fa-star',
-    'state.notification'    => 'fa-solid fa-bell',
-    'state.notification_off'=> 'fa-solid fa-bell-slash',
+    // File & Directory Icons
+    'file'        => 'fa-solid fa-file',
+    'filePdf'     => 'fa-solid fa-file-pdf',
+    'fileWord'    => 'fa-solid fa-file-word',
+    'fileExcel'   => 'fa-solid fa-file-excel',
+    'fileImage'   => 'fa-solid fa-file-image',
+    'folder'      => 'fa-solid fa-folder',
+    'folderOpen'  => 'fa-solid fa-folder-open',
+    'attachment'  => 'fa-solid fa-paperclip',
 
-    // Files & Documents
-    'file.generic'      => 'fa-solid fa-file',
-    'file.pdf'          => 'fa-solid fa-file-pdf',
-    'file.word'         => 'fa-solid fa-file-word',
-    'file.excel'        => 'fa-solid fa-file-excel',
-    'file.image'        => 'fa-solid fa-file-image',
-    'file.csv'          => 'fa-solid fa-file-alt',
-    'file.attachment'   => 'fa-solid fa-paperclip',
-    'file.upload'       => 'fa-solid fa-upload',
-    'file.download'     => 'fa-solid fa-download',
-    'folder.closed'     => 'fa-solid fa-folder',
-    'folder.open'       => 'fa-solid fa-folder-open',
+    // Process, Configuration & Loading Icons
+    'loading'     => 'fa-solid fa-spinner',
+    'settings'    => 'fa-solid fa-cog',
+    'process'     => 'fa-solid fa-gears',
+    'sync'        => 'fa-solid fa-sync',
 
-    // Processes & Settings
-    'process.generic'   => 'fa-solid fa-gears',
-    'process.approval'  => 'fa-solid fa-clipboard-check',
-    'process.step'      => 'fa-solid fa-shoe-prints',
-    'process.docs'      => 'fa-solid fa-file-signature',
-    'process.branch'    => 'fa-solid fa-code-branch',
-    'process.refresh'   => 'fa-solid fa-arrows-rotate',
-    'process.loading'   => 'fa-solid fa-spinner',
-    'process.sync'      => 'fa-solid fa-sync',
-    'config.settings'   => 'fa-solid fa-cog',
+    // Navigation & Interface Icons
+    'home'         => 'fa-solid fa-house',
+    'dashboard'    => 'fa-solid fa-gauge-high',
+    'menu'         => 'fa-solid fa-bars',
+    'back'         => 'fa-solid fa-arrow-left',
+    'forward'      => 'fa-solid fa-arrow-right',
+    'up'           => 'fa-solid fa-arrow-up',
+    'down'         => 'fa-solid fa-arrow-down',
+    'close'        => 'fa-solid fa-xmark',
+    'externalLink' => 'fa-solid fa-arrow-up-right-from-square',
 
-    // Notifications & Communication
-    'notif.bell'        => 'fa-solid fa-bell',
-    'notif.off'         => 'fa-solid fa-bell-slash',
-    'msg.inbox'         => 'fa-solid fa-inbox',
-    'msg.chat'          => 'fa-solid fa-comments',
-    'msg.email'         => 'fa-solid fa-envelope',
-    'msg.phone'         => 'fa-solid fa-phone',
-    'support.help'      => 'fa-solid fa-circle-question',
-    'support.contact'   => 'fa-solid fa-life-ring',
+    // Finance & Transaction Icons
+    'money'     => 'fa-solid fa-dollar-sign',
+    'coins'     => 'fa-solid fa-coins',
+    'card'      => 'fa-solid fa-credit-card',
+    'invoice'   => 'fa-solid fa-file-invoice-dollar',
+    'chartUp'   => 'fa-solid fa-chart-line',
+    'chartDown' => 'fa-solid fa-chart-bar',
 
-    // Reports & Analytics
-    'report.line'       => 'fa-solid fa-chart-line',
-    'report.bar'        => 'fa-solid fa-chart-bar',
-    'report.pie'        => 'fa-solid fa-chart-pie',
-    'report.print'      => 'fa-solid fa-print',
-    'report.download'   => 'fa-solid fa-file-arrow-down',
+    // Communication Icons
+    'email'   => 'fa-solid fa-envelope',
+    'phone'   => 'fa-solid fa-phone',
+    'chat'    => 'fa-solid fa-comments',
+    'support' => 'fa-solid fa-life-ring',
+    'help'    => 'fa-solid fa-circle-question',
 
-    // Security & Access
-    'access.lock'       => 'fa-solid fa-lock',
-    'access.unlock'     => 'fa-solid fa-lock-open',
-    'access.key'        => 'fa-solid fa-key',
-    'access.shield'     => 'fa-solid fa-shield-halved',
+    // List, Sorting & Filter Icons
+    'list'        => 'fa-solid fa-list-ul',
+    'listOrdered' => 'fa-solid fa-list-ol',
+    'filter'      => 'fa-solid fa-filter',
+    'sort'        => 'fa-solid fa-sort',
+    'sortUp'      => 'fa-solid fa-sort-up',
+    'sortDown'    => 'fa-solid fa-sort-down',
+    'checkList'   => 'fa-solid fa-list-check',
 
-    // Lists & Filters
-    'list.unordered'    => 'fa-solid fa-list-ul',
-    'list.ordered'      => 'fa-solid fa-list-ol',
-    'list.checklist'    => 'fa-solid fa-list-check',
+    // Access & Security Icons
+    'login'  => 'fa-solid fa-right-to-bracket',
+    'logout' => 'fa-solid fa-right-from-bracket',
+    'lock'   => 'fa-solid fa-lock',
+    'unlock' => 'fa-solid fa-lock-open',
+    'key'    => 'fa-solid fa-key',
+    'shield' => 'fa-solid fa-shield-halved',
 
-    // Frequent Domains
-    'geo.location'      => 'fa-solid fa-map-marker-alt',
-    'money.currency'    => 'fa-solid fa-dollar-sign',
-    'money.coins'       => 'fa-solid fa-coins',
-    'money.card'        => 'fa-solid fa-credit-card',
-    'money.invoice'     => 'fa-solid fa-file-invoice-dollar',
-    'store.inventory'   => 'fa-solid fa-boxes',
+    // Report & Analysis Icons
+    'report'         => 'fa-solid fa-chart-line',
+    'reportBar'      => 'fa-solid fa-chart-bar',
+    'reportPie'      => 'fa-solid fa-chart-pie',
+    'print'          => 'fa-solid fa-print',
+    'downloadReport' => 'fa-solid fa-file-arrow-down',
 
-    // Administrative Icons
-    'admin.record_list'   => 'fa-solid fa-clipboard-list',
-    'admin.document_sign' => 'fa-solid fa-file-signature',
-    'admin.announcement'  => 'fa-solid fa-bullhorn',
+    // Administrative Icons (Records, Procedures, Calls)
+    'recordList'   => 'fa-solid fa-clipboard-list',
+    'documentSign' => 'fa-solid fa-file-signature',
+    'announcement' => 'fa-solid fa-bullhorn',
 ];

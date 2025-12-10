@@ -28,7 +28,7 @@
                                             <li class="breadcrumb-item">
                                                 <a
                                                     href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                                    @icon('nav.home', 'fa-xs')
+                                                    @icon('home', 'fa-xs')
                                                 </a>
                                             </li>
                                             <li class="breadcrumb-item">Administración</li>
@@ -68,8 +68,8 @@
                                         </select>
                                     </div>
                                     <div class="ms-auto">
-                                        <button wire:click="clearFilters" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                                            @icon('action.refresh', 'me-2')
+                                        <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                            @icon('refresh', 'me-2 text-white')
                                             Limpiar filtros
                                         </button>
                                     </div>
@@ -114,12 +114,7 @@
                                                             class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
-                                                            <svg class="icon icon-xs" fill="currentColor"
-                                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                                                </path>
-                                                            </svg>
+                                                            @icon('menu', 'icon icon-xs')
                                                         </button>
                                                         <div
                                                             class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
@@ -130,7 +125,7 @@
                                                                 data-log-action="{{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}"
                                                                 data-log-description="{{ $log->description ?? '—' }}"
                                                                 data-log-date="{{ optional($log->date ?? $log->created_at)->format('d/m/Y H:i') }}">
-                                                                @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                                                @icon('view', 'dropdown-icon text-gray-400 me-2')
                                                                 Ver detalles
                                                             </button>
                                                         </div>
@@ -141,7 +136,7 @@
                                             <tr>
                                                 <td colspan="6" class="text-center py-4">
                                                     <div class="text-gray-500">
-                                                        <i class="fa-solid fa-table-list fa-2x mb-3"></i>
+                                                        @icon('report', 'fa-2x mb-3')
                                                         <p class="fw-bold">No hay registros para mostrar</p>
                                                         <p class="small">Intenta ajustar los filtros de búsqueda</p>
                                                     </div>

@@ -19,7 +19,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Trámites</li>
@@ -34,14 +34,7 @@
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
-                <span class="input-group-text">
-                    <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </span>
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.400ms="search" type="text"
                     class="form-control" placeholder="Buscar notificaciones">
             </div>
@@ -103,7 +96,7 @@
                                         data-notification-folio="{{ $notification->request_id ?? 'N/D' }}"
                                         data-notification-status="{{ $notification->read_at ? 'Leída' : 'No leída' }}"
                                         data-notification-created="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
-                                        @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
                                     </button>
                                     @if (!$notification->read_at)
@@ -117,7 +110,7 @@
                                             <span class="spinner-border spinner-border-sm me-2"
                                                 role="status" aria-hidden="true" wire:loading
                                                 wire:target="markAsRead"></span>
-                                            @icon('state.success', 'dropdown-icon text-primary me-2')
+                                            @icon('success', 'dropdown-icon text-primary me-2')
                                             Marcar como leída
                                         </button>
                                     @endif
@@ -130,7 +123,7 @@
                         <td colspan="5" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
-                                    @icon('notif.bell', 'fa-2x')
+                                    @icon('notification', 'fa-2x')
                                 </div>
                                 <p class="fw-bold">No hay notificaciones para mostrar</p>
                                 <p class="small">Aquí aparecerán los mensajes relacionados con tus trámites</p>

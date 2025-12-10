@@ -19,7 +19,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -110,7 +110,7 @@
 
                     <div class="mt-3">
                         <button type="button" id="saveDocBtn" class="btn btn-primary mt-2 animate-up-2">
-                            @icon('action.save', 'fa-xs text-white me-2')
+                            @icon('save', 'fa-xs text-white me-2')
                             {{ $documentId ? 'Actualizar' : 'Guardar' }} Documento
                         </button>
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}"
@@ -129,7 +129,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('file.generic', 'fa-xs text-info me-3')
+                                @icon('file', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Formato de Archivo</h3>
                                     <p class="text-gray-700 small mb-0">
@@ -140,7 +140,7 @@
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('state.info', 'fa-xs text-info me-3')
+                                @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Categorías</h3>
                                     <p class="text-gray-700 small mb-0">
@@ -154,7 +154,7 @@
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('notif.bell', 'fa-xs text-info me-3')
+                                @icon('notification', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Versionado</h3>
                                     <p class="text-gray-700 small mb-0">

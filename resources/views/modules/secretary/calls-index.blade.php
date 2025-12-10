@@ -14,7 +14,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -27,7 +27,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.create') }}"
                 class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                @icon('action.create', 'me-1')
+                @icon('add', 'me-1')
                 Agregar convocatoria
             </a>
         </div>
@@ -61,7 +61,7 @@
             <div class="ms-auto">
                 <button wire:click="clearFilters" type="button"
                     class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                    @icon('action.refresh', 'me-2')
+                    @icon('refresh', 'me-2')
                     Limpiar filtros
                 </button>
             </div>
@@ -129,7 +129,7 @@
                                         @foreach($docsToShow as $doc)
                                             <a class="small d-inline-flex align-items-center"
                                                 href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_document_id) }}">
-                                                @icon('file.download', 'icon-xs text-primary me-1')
+                                                @icon('download', 'icon-xs text-primary me-1')
                                                 <span class="fw-normal text-primary">{{ $doc->title }}</span>
                                             </a>
                                         @endforeach
@@ -161,12 +161,12 @@
                                             data-conv-end="{{ $convocation->end_date ? $convocation->end_date->format('d/m/Y') : 'Permanente' }}"
                                             data-conv-status="{{ ucfirst($convocation->status) }}"
                                             data-conv-docs="{{ $convocation->documents->count() }}">
-                                            @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver detalles
                                         </button>
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.edit', $convocation->convocation_id) }}">
-                                            @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                            @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>
                                     </div>
@@ -177,7 +177,7 @@
                         <tr>
                             <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
-                                    @icon('process.document', 'fa-2x mb-3')
+                                    @icon('documentSign', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
                                     <p class="small">Crea tu primera convocatoria con el botón superior</p>
                                 </div>

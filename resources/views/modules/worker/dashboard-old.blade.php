@@ -19,7 +19,7 @@ Changelog:
                         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                             <li class="breadcrumb-item">
                                 <a href="#">
-                                    @icon('nav.home', 'fa-xs')
+                                    @icon('home', 'fa-xs')
                                 </a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
@@ -42,7 +42,7 @@ Changelog:
                                 <div class="row d-block d-xl-flex align-items-center">
                                     <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                         <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-                                            @icon('process.docs', 'icon')
+                                            @icon('documentSign', 'icon')
                                         </div>
                                     </div>
                                     <div class="col-12 col-xl-7 px-xl-0">
@@ -66,7 +66,7 @@ Changelog:
                                 <div class="row d-block d-xl-flex align-items-center">
                                     <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                         <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
-                                            @icon('state.pending', 'icon')
+                                            @icon('pending', 'icon')
                                         </div>
                                     </div>
                                     <div class="col-12 col-xl-7 px-xl-0">
@@ -90,7 +90,7 @@ Changelog:
                                 <div class="row d-block d-xl-flex align-items-center">
                                     <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                         <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
-                                            @icon('state.in_progress', 'icon')
+                                            @icon('pending', 'icon')
                                         </div>
                                     </div>
                                     <div class="col-12 col-xl-7 px-xl-0">
@@ -114,7 +114,7 @@ Changelog:
                                 <div class="row d-block d-xl-flex align-items-center">
                                     <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                         <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
-                                            @icon('state.success', 'icon')
+                                            @icon('success', 'icon')
                                         </div>
                                     </div>
                                     <div class="col-12 col-xl-7 px-xl-0">

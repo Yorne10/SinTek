@@ -27,15 +27,17 @@ class UserCreate extends Component
     }
 
     protected $messages = [
-        'name.required' => 'El nombre completo es obligatorio.',
-        'email.required' => 'El correo electronico es obligatorio.',
-        'email.email' => 'El correo electronico debe ser valido.',
-        'email.unique' => 'Este correo electronico ya esta registrado.',
-        'role.required' => 'El rol es obligatorio.',
-        'role.in' => 'El rol seleccionado no es valido.',
-        'password.required' => 'La contrasena es obligatoria.',
-        'password.confirmed' => 'Las contrasenas no coinciden.',
-        'password.min' => 'La contrasena debe tener al menos 8 caracteres.',
+        'name.required' => 'El campo nombre es obligatorio',
+        'name.max' => 'El nombre no debe exceder los 150 caracteres',
+        'email.required' => 'El campo correo electrónico es obligatorio',
+        'email.email' => 'El correo electrónico debe ser válido',
+        'email.unique' => 'El correo electrónico ya está registrado',
+        'email.max' => 'El correo electrónico no debe exceder los 150 caracteres',
+        'role.required' => 'El campo rol es obligatorio',
+        'role.in' => 'La opción seleccionada en rol no es válida',
+        'password.required' => 'El campo contraseña es obligatorio',
+        'password.confirmed' => 'Los campos contraseña y confirmar contraseña deben coincidir',
+        'password.min' => 'El campo contraseña debe tener al menos 8 caracteres',
     ];
 
     public function save()

@@ -14,7 +14,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Administración</li>
@@ -27,7 +27,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step') }}"
                 class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                @icon('action.create', 'me-2')
+                @icon('add', 'me-2')
                 Agregar paso
             </a>
         </div>
@@ -46,7 +46,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         @if($selectedProcess)
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
-                                    @icon('process.docs', 'fa-lg text-primary me-3')
+                                    @icon('documentSign', 'fa-lg text-primary me-3')
                                     <div>
                                         <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
                                         <p class="small text-gray mb-0">
@@ -62,7 +62,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 @if(request()->route('process_id'))
                                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}"
                                         class="btn btn-sm btn-outline-secondary">
-                                        @icon('action.edit', 'me-1')
+                                        @icon('edit', 'me-1')
                                         Cambiar proceso
                                     </a>
                                 @endif
@@ -100,7 +100,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                 <td>
                                                     @if($step->condition_type === 'final')
                                                         <div class="d-flex align-items-center justify-content-center">
-                                                            @icon('state.success', 'text-success')
+                                                            @icon('success', 'text-success')
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center justify-content-center">
@@ -140,7 +140,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                         <ul class="list-unstyled mb-0 small">
                                                             @foreach($step->requiredDocuments as $doc)
                                                                 <li>
-                                                                    @icon('action.upload', 'fa-xs text-secondary me-1')
+                                                                    @icon('upload', 'fa-xs text-secondary me-1')
                                                                     {{ $doc->title }}
                                                                 </li>
                                                             @endforeach
@@ -166,13 +166,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                             class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                                             <a class="dropdown-item d-flex align-items-center"
                                                                 href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step', ['step_id' => $step->step_id]) }}">
-                                                                @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                                                @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                                                 Editar
                                                             </a>
                                                             <div role="separator" class="dropdown-divider my-1"></div>
                                                             <a class="dropdown-item text-danger d-flex align-items-center"
                                                                 href="#" wire:click.prevent="deleteStep({{ $step->step_id }})">
-                                                                @icon('action.delete', 'dropdown-icon text-danger me-2')
+                                                                @icon('delete', 'dropdown-icon text-danger me-2')
                                                                 Eliminar
                                                             </a>
                                                         </div>
@@ -185,13 +185,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
                         @else
                             <div class="text-center py-5">
-                                @icon('process.docs', 'fa-2x text-gray-400 mb-3')
+                                @icon('documentSign', 'fa-2x text-gray-400 mb-3')
                                 <h5 class="text-gray-700 mb-2">No hay pasos registrados</h5>
                                 <p class="text-gray-600 mb-3">Este proceso aún no tiene pasos configurados.</p>
                                 @if($selectedProcessId)
                                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step', ['process_id' => $selectedProcessId]) }}"
                                         class="btn btn-sm btn-gray-800">
-                                        @icon('action.create', 'me-2')
+                                        @icon('add', 'me-2')
                                         Agregar primer paso
                                     </a>
                                 @endif
@@ -212,7 +212,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item px-0 border-bottom pb-3">
                                 <div class="d-flex align-items-start">
-                                    @icon('process.docs', 'text-info me-3')
+                                    @icon('documentSign', 'text-info me-3')
                                     <div>
                                         <h3 class="h6 mb-1">Formulario</h3>
                                         <p class="small text-gray-600 mb-0">El usuario completa campos de información
@@ -222,7 +222,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </li>
                             <li class="list-group-item px-0 border-bottom pb-3">
                                 <div class="d-flex align-items-start">
-                                    @icon('state.success', 'text-warning me-3')
+                                    @icon('success', 'text-warning me-3')
                                     <div>
                                         <h3 class="h6 mb-1">Aprobación</h3>
                                         <p class="small text-gray-600 mb-0">Requiere una decisión de aprobación</p>
@@ -231,7 +231,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </li>
                             <li class="list-group-item px-0 border-bottom pb-3">
                                 <div class="d-flex align-items-start">
-                                    @icon('action.upload', 'text-secondary me-3')
+                                    @icon('upload', 'text-secondary me-3')
                                     <div>
                                         <h3 class="h6 mb-1">Carga de archivos</h3>
                                         <p class="small text-gray-600 mb-0">Subir documentos requeridos</p>
@@ -240,7 +240,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </li>
                             <li class="list-group-item px-0 pb-0">
                                 <div class="d-flex align-items-start">
-                                    @icon('state.success', 'text-success me-3')
+                                    @icon('success', 'text-success me-3')
                                     <div>
                                         <h3 class="h6 mb-1">Final</h3>
                                         <p class="small text-gray-600 mb-0">Cierra y completa el proceso</p>
@@ -256,13 +256,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <div class="card-body">
                         <h2 class="h6 mb-3">Ayuda</h2>
                         <div class="d-flex mb-3">
-                            @icon('state.info', 'fa-xs text-primary me-2 mt-1 flex-shrink-0')
+                            @icon('info', 'fa-xs text-primary me-2 mt-1 flex-shrink-0')
                             <p class="small text-gray-700 mb-0">
                                 Cada paso debe tener un orden secuencial. Los pasos se ejecutan en el orden definido.
                             </p>
                         </div>
                         <div class="d-flex">
-                            @icon('state.info', 'fa-xs text-primary me-2 mt-1 flex-shrink-0')
+                            @icon('info', 'fa-xs text-primary me-2 mt-1 flex-shrink-0')
                             <p class="small text-gray-700 mb-0">
                                 El paso de tipo "Final" debe ser el último paso del proceso.
                             </p>

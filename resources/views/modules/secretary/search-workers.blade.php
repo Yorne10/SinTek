@@ -14,7 +14,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -29,7 +29,7 @@
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
-                <span class="input-group-text">@icon('action.search', 'icon icon-xs')</span>
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
                     placeholder="Buscar trabajadores">
             </div>
@@ -108,16 +108,16 @@
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                        @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver perfil completo
                                     </a>
                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                        @icon('process.docs', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('documentSign', 'dropdown-icon text-gray-400 me-2')
                                         Ver historial de trámites
                                     </a>
                                     <div role="separator" class="dropdown-divider my-1"></div>
                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                        @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                         Editar información
                                     </a>
                                 </div>

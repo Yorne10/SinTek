@@ -14,7 +14,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -27,7 +27,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-process') }}"
                 class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                @icon('action.create', 'me-2')
+                @icon('add', 'me-2')
                 Nuevo proceso
             </a>
         </div>
@@ -58,7 +58,7 @@
             </div>
             <div class="ms-auto">
                 <button wire:click="clearFilters" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                    @icon('action.refresh', 'me-2')
+                    @icon('refresh', 'me-2')
                     Limpiar filtros
                 </button>
             </div>
@@ -111,17 +111,17 @@
                                         data-process-description="{{ $process->description }}"
                                         data-process-active="{{ $process->active ? '1' : '0' }}"
                                         data-process-created="{{ $process->created_at->format('d/m/Y H:i') }}">
-                                        @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
                                     </button>
                                     <a class="dropdown-item d-flex align-items-center"
                                         href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.modify-process', ['process_id' => $process->process_id]) }}">
-                                        @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                         Editar proceso
                                     </a>
                                     <a class="dropdown-item d-flex align-items-center"
                                         href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps', ['process_id' => $process->process_id]) }}">
-                                        @icon('process.step', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('checkList', 'dropdown-icon text-gray-400 me-2')
                                         Definir pasos
                                     </a>
                                     <div role="separator" class="dropdown-divider my-1"></div>
@@ -133,7 +133,7 @@
                                         wire:loading.attr="disabled" wire:target="toggleProcessStatus">
                                         <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
                                             wire:loading wire:target="toggleProcessStatus"></span>
-                                        @icon($process->active ? 'state.warning' : 'state.success', "dropdown-icon {{ $process->active ? 'text-warning' : 'text-success' }} me-2")
+                                        @icon($process->active ? 'warning' : 'success', "dropdown-icon {{ $process->active ? 'text-warning' : 'text-success' }} me-2")
                                         {{ $process->active ? 'Desactivar' : 'Activar' }}
                                     </button>
                                 </div>
@@ -145,7 +145,7 @@
                         <td colspan="5" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
-                                    @icon('process.flow', 'fa-2x')
+                                    @icon('process', 'fa-2x')
                                 </div>
                                 <p class="fw-bold">No hay procesos para mostrar</p>
                                 <p class="small">Intenta ajustar los filtros de búsqueda</p>

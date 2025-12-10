@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <label for="name">Nombre completo <span class="text-danger">*</span></label>
                                 <input wire:model="name" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" type="text" placeholder="Nombre completo" readonly>
+                                    id="name" type="text" placeholder="Nombre completo" disabled>
                                 @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 <small class="form-text text-muted">El nombre no es editable</small>
                             </div>
@@ -110,7 +110,7 @@
 
                     <div class="mt-3">
                         <button type="button" id="saveProfileBtn" class="btn btn-primary mt-2 animate-up-2">
-                            <span class="fas fa-save me-2"></span>
+                            @icon('save', 'fa-xs text-white me-2')
                             Guardar cambios
                         </button>
                     </div>

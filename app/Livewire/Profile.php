@@ -41,8 +41,8 @@ class Profile extends Component
 
         // Add worker-specific rules if user is a worker
         if ($this->user->role === 'worker') {
-            $rules['curp'] = 'nullable|string|max:20';
-            $rules['rfc'] = 'nullable|string|max:20';
+            $rules['curp'] = 'nullable|string|max:18';
+            $rules['rfc'] = 'nullable|string|max:13';
             $rules['phone'] = 'nullable|string|max:20';
             $rules['adress'] = 'nullable|string|max:255';
             $rules['sex'] = ['nullable', Rule::in(['M', 'F'])];
@@ -52,11 +52,17 @@ class Profile extends Component
     }
 
     protected $messages = [
-        'name.required' => 'El nombre es obligatorio.',
-        'email.required' => 'El correo electrónico es obligatorio.',
-        'email.email' => 'El correo electrónico debe ser válido.',
-        'email.unique' => 'Este correo electrónico ya está registrado.',
-        'sex.in' => 'El sexo debe ser Masculino (M) o Femenino (F).',
+        'name.required' => 'El campo nombre es obligatorio',
+        'name.max' => 'El nombre no debe exceder los 150 caracteres',
+        'email.required' => 'El campo correo electronico es obligatorio',
+        'email.email' => 'El correo electronico debe ser valido',
+        'email.unique' => 'El correo electronico ya esta registrado',
+        'email.max' => 'El correo electronico no debe exceder los 150 caracteres',
+        'curp.max' => 'El curp no debe exceder los 18 caracteres',
+        'rfc.max' => 'El rfc no debe exceder los 13 caracteres',
+        'phone.max' => 'El telefono no debe exceder los 20 caracteres',
+        'adress.max' => 'La direccion no debe exceder los 255 caracteres',
+        'sex.in' => 'La opcion seleccionada en sexo no es valida',
     ];
 
     public function mount()

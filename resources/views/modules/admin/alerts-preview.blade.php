@@ -11,7 +11,7 @@
   <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
     <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
       <li class="breadcrumb-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">@icon('nav.home', 'fa-xs')</a>
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">@icon('home', 'fa-xs')</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">Alerts preview</li>
     </ol>

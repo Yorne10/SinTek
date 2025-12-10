@@ -27,7 +27,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('user.list', 'fa-3x text-primary')
+                                @icon('userGroup', 'fa-3x text-primary')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -51,7 +51,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('state.in_progress', 'fa-3x text-warning')
+                                @icon('pending', 'fa-3x text-warning')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -75,7 +75,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('state.success', 'fa-3x text-success')
+                                @icon('success', 'fa-3x text-success')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -110,7 +110,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="d-flex align-items-start mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
                             <div class="me-3">
                                 <div class="icon-shape icon-sm bg-light rounded">
-                                    @icon('state.info', 'text-gray-600')
+                                    @icon('info', 'text-gray-600')
                                 </div>
                             </div>
                             <div class="flex-grow-1">
@@ -128,7 +128,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                     @empty
                         <div class="text-center text-gray-500 py-4">
-                            @icon('state.info', 'fa-2x text-gray-400 mb-2')
+                            @icon('info', 'fa-2x text-gray-400 mb-2')
                             <p class="small mb-0">No hay actividad reciente</p>
                         </div>
                     @endforelse

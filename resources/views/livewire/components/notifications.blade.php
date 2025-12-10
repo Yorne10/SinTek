@@ -20,7 +20,7 @@
                     data-unread-notifications="{{ $unreadCount > 0 ? 'true' : 'false' }}" href="#" role="button"
                     data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                     <i
-                        class="{{ icon('notif.bell') }} fa-2x {{ $unreadCount > 0 ? 'text-secondary' : 'text-primary' }}"></i>
+                        class="{{ icon('notification') }} fa-2x {{ $unreadCount > 0 ? 'text-secondary' : 'text-primary' }}"></i>
                     @if($unreadCount > 0)
                         <span class="text-secondary fw-bold ms-1">{{ $unreadCount }}</span>
                     @endif
@@ -36,7 +36,7 @@
                                         <div class="col-auto">
                                             <div
                                                 class="icon-shape icon-sm {{ $notification->read_at ? 'icon-shape-secondary' : 'icon-shape-primary' }} rounded">
-                                                @icon('state.info', 'fa-xs text-white')
+                                                @icon('info', 'fa-xs text-white')
                                             </div>
                                         </div>
                                         <div class="col ps-0 ms-2">
@@ -62,7 +62,7 @@
                             @endforelse
                         </div>
                         <a href="{{ $notificationRoute }}" class="dropdown-item text-center fw-bold rounded-bottom py-3">
-                            @icon('action.view', 'fa-xs text-gray-400 me-1')
+                            @icon('view', 'fa-xs text-gray-400 me-1')
                             Ver todas
                         </a>
                     </div>

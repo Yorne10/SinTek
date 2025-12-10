@@ -21,8 +21,8 @@ Changelog:
                 <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                     <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                         <li class="breadcrumb-item">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                @icon('nav.home', 'fa-xs')
+                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
+                            @icon('home', 'fa-xs')
                             </a>
                         </li>
                         <li class="breadcrumb-item">Administración</li>
@@ -121,7 +121,7 @@ Changelog:
                         <div class="row align-items-center mt-4">
                             <div class="col">
                                 <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">
-                                    @icon('state.success', 'me-2')
+                                    @icon('success', 'me-2')
                                     Guardar proceso
                                 </button>
                                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.manage-procedures') }}"
@@ -137,7 +137,7 @@ Changelog:
                     <h2 class="h5 mb-4">Ayuda</h2>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'fa-xs me-1 text-primary')
+                            @icon('help', 'fa-xs me-1 text-primary')
                             ¿Qué es un proceso?
                         </h3>
                         <p class="small text-gray-700">Un proceso es un flujo de trabajo que define los pasos necesarios
@@ -145,7 +145,7 @@ Changelog:
                     </div>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'fa-xs me-1 text-primary')
+                            @icon('help', 'fa-xs me-1 text-primary')
                             Código del proceso
                         </h3>
                         <p class="small text-gray-700">Usa nombres claros y únicos para identificar fácilmente el
@@ -154,7 +154,7 @@ Changelog:
                     </div>
                     <div>
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'fa-xs me-1 text-primary')
+                            @icon('help', 'fa-xs me-1 text-primary')
                             Siguiente paso
                         </h3>
                         <p class="small text-gray-700">Después de crear el proceso, define los pasos específicos en la

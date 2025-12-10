@@ -27,7 +27,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('process.docs', 'fa-3x text-primary')
+                                @icon('documentSign', 'fa-3x text-primary')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -51,7 +51,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('state.in_progress', 'fa-3x text-warning')
+                                @icon('pending', 'fa-3x text-warning')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -75,7 +75,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('state.success', 'fa-3x text-success')
+                                @icon('success', 'fa-3x text-success')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">

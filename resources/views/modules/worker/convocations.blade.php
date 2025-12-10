@@ -20,7 +20,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="#">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Convocatorias y documentos</li>
@@ -68,7 +68,7 @@
                         {{-- Column 1: Reglamentos (desde BD) --}}
                         <div class="col-md-6 mb-4">
                             <h3 class="h6 fw-bold mb-3">
-                                <span class="me-2">@icon('file.generic', 'icon icon-xs')</span>
+                                <span class="me-2">@icon('file', 'icon icon-xs')</span>
                                 Reglamentos
                             </h3>
                             @if($regulations->count() > 0)
@@ -82,7 +82,7 @@
                                                     {{ $doc->effective_date ? 'Vigencia: ' . \Illuminate\Support\Carbon::parse($doc->effective_date)->format('m/Y') : 'Actualizado: ' . $doc->created_at->format('m/Y') }}
                                                 </small>
                                             </div>
-                                            @icon('file.download', 'icon icon-xs text-gray-500')
+                                            @icon('download', 'icon icon-xs text-gray-500')
                                         </a>
                                     @endforeach
                                 </div>
@@ -94,7 +94,7 @@
                         {{-- Column 2: Manuales y Formatos (desde BD) --}}
                         <div class="col-md-6 mb-4">
                             <h3 class="h6 fw-bold mb-3">
-                                <span class="me-2">@icon('file.generic', 'icon icon-xs')</span>
+                                <span class="me-2">@icon('file', 'icon icon-xs')</span>
                                 Manuales y Formatos
                             </h3>
                             @if($manuals->count() > 0)
@@ -108,7 +108,7 @@
                                                     {{ $doc->version ? 'Version ' . $doc->version : '' }}{{ $doc->effective_date ? ' - ' . \Illuminate\Support\Carbon::parse($doc->effective_date)->format('m/Y') : '' }}
                                                 </small>
                                             </div>
-                                            @icon('file.download', 'icon icon-xs text-gray-500')
+                                            @icon('download', 'icon icon-xs text-gray-500')
                                         </a>
                                     @endforeach
                                 </div>

@@ -28,7 +28,7 @@
                                             <li class="breadcrumb-item">
                                                 <a
                                                     href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                                    @icon('nav.home', 'fa-xs')
+                                                    @icon('home', 'fa-xs')
                                                 </a>
                                             </li>
                                             <li class="breadcrumb-item">Administración</li>
@@ -42,7 +42,7 @@
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.create') }}"
                                         class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                                        @icon('user.add', 'me-2')
+                                        @icon('userAdd', 'me-2')
                                         Nuevo usuario
                                     </a>
                                 </div>
@@ -51,7 +51,7 @@
                             <div class="table-settings mb-4">
                                 <div class="d-flex flex-wrap gap-3 align-items-center">
                                     <div class="input-group fmxw-300">
-                                        <span class="input-group-text">@icon('action.search', 'icon icon-xs')</span>
+                                        <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                                         <input wire:model.live.debounce.400ms="search" type="text"
                                             class="form-control" placeholder="Buscar usuarios">
                                     </div>
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="ms-auto">
                                         <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
-                                            @icon('action.refresh', 'me-2 text-white')
+                                            @icon('refresh', 'me-2 text-white')
                                             Limpiar filtros
                                         </button>
                                     </div>
@@ -124,7 +124,7 @@
                                                             class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                                             data-bs-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
-                                                            @icon('action.more', 'icon icon-xs')
+                                                            @icon('menu', 'icon icon-xs')
                                                         </button>
                                                         <div
                                                             class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
@@ -143,12 +143,12 @@
                                                                 data-user-position="{{ $user->role === 'worker' && $user->worker ? ($user->worker->position ?? '') : '' }}"
                                                                 data-user-address="{{ $user->role === 'worker' && $user->worker ? ($user->worker->address ?? '') : '' }}"
                                                                 data-is-worker="{{ $user->role === 'worker' ? '1' : '0' }}">
-                                                                @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                                                @icon('view', 'dropdown-icon text-gray-400 me-2')
                                                                 Ver detalles
                                                             </button>
                                                             <a class="dropdown-item d-flex align-items-center"
                                                                 href="{{ route(config('proj.route_name_prefix', 'proj') . '.users.edit', $user->users_id) }}">
-                                                                @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                                                @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                                                 Editar
                                                             </a>
                                                             <div role="separator" class="dropdown-divider my-1"></div>
@@ -161,7 +161,7 @@
                                                                 <span class="spinner-border spinner-border-sm me-2"
                                                                     role="status" aria-hidden="true" wire:loading
                                                                     wire:target="toggleUserStatus"></span>
-                                                                @icon($user->is_active ? 'state.warning' : 'state.success', "dropdown-icon {{ $user->is_active ? 'text-warning' : 'text-success' }} me-2")
+                                                                @icon($user->is_active ? 'warning' : 'success', "dropdown-icon {{ $user->is_active ? 'text-warning' : 'text-success' }} me-2")
                                                                 {{ $user->is_active ? 'Desactivar' : 'Activar' }}
                                                             </button>
                                                         </div>
@@ -173,7 +173,7 @@
                                                 <td colspan="6" class="text-center py-4">
                                                     <div class="text-gray-500">
                                                         <div class="mb-3">
-                                                            @icon('user.list', 'fa-2x')
+                                                            @icon('userGroup', 'fa-2x')
                                                         </div>
                                                         <p class="fw-bold">No hay usuarios para mostrar</p>
                                                         <p class="small">Intenta ajustar los filtros de búsqueda</p>

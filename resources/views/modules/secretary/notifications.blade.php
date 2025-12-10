@@ -19,7 +19,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -37,7 +37,7 @@
             <div class="card border-0 shadow">
                 <div class="card-header border-bottom">
                     <h3 class="h5 mb-0">
-                        @icon('action.create', 'me-2')
+                        @icon('add', 'me-2')
                         Nueva Notificación
                     </h3>
                 </div>
@@ -147,7 +147,7 @@
                                 class="btn btn-gray-800 d-inline-flex align-items-center justify-content-center"
                                 wire:loading.attr="disabled">
                                 <span wire:loading.remove>
-                                    @icon('action.send', 'me-2')
+                                    @icon('send', 'me-2')
                                     Enviar Notificación
                                 </span>
                                 <span wire:loading>
@@ -167,12 +167,12 @@
                 <div class="card-header border-bottom">
                     <div class="d-flex justify-content-between align-items-center">
                         <h3 class="h5 mb-0">
-                            @icon('notif.bell', 'me-2')
+                            @icon('notification', 'me-2')
                             Historial de Notificaciones
                         </h3>
                         <div class="input-group" style="max-width: 300px;">
                             <span class="input-group-text">
-                                @icon('action.search', 'fa-xs')
+                                @icon('search', 'fa-xs')
                             </span>
                             <input type="text"
                                 class="form-control form-control-sm"
@@ -224,7 +224,7 @@
                                                     data-notification-message="{{ $notification->message }}"
                                                     data-notification-user="{{ $notification->user->name ?? 'N/A' }}"
                                                     data-notification-date="{{ $notification->created_at->format('d/m/Y H:i') }}">
-                                                    @icon('action.view', 'fa-sm')
+                                                    @icon('view', 'fa-sm')
                                                 </button>
                                             </td>
                                         </tr>
@@ -235,7 +235,7 @@
                     @else
                         <div class="text-center py-5">
                             <div class="mb-3">
-                                @icon('notif.bell', 'fa-3x text-gray-400')
+                                @icon('notification', 'fa-3x text-gray-400')
                             </div>
                             <h5 class="text-gray-600">No hay notificaciones</h5>
                             <p class="text-gray-500 small mb-0">

@@ -14,7 +14,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">{{ Auth::user()->role === 'admin' ? 'Administración' : 'Secretaría' }}
@@ -35,7 +35,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <h2 class="h5 mb-0">Información del proceso</h2>
                         @if (!request()->route('process_id'))
                             <button wire:click="$set('selectedProcessId', null)" class="btn btn-sm btn-outline-secondary">
-                                @icon('action.edit', 'me-1')
+                                @icon('edit', 'me-1')
                                 Cambiar proceso
                             </button>
                         @endif
@@ -113,7 +113,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit"
                                     wire:loading.attr="disabled">
                                     <span wire:loading.remove wire:target="updateProcess">
-                                        @icon('action.save', 'me-2')
+                                        @icon('save', 'me-2')
                                         Guardar cambios
                                     </span>
                                     <span wire:loading wire:target="updateProcess">
@@ -128,7 +128,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="col-auto">
                                 <button class="btn btn-danger mt-2" type="button" data-bs-toggle="modal"
                                     data-bs-target="#deleteProcessModal">
-                                    @icon('action.delete', 'me-2')
+                                    @icon('delete', 'me-2')
                                     Eliminar proceso
                                 </button>
                             </div>
@@ -140,7 +140,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             <div class="col-12 col-xl-4">
                 <div class="card card-body shadow border-0 mb-4">
                     <h2 class="h5 mb-4">
-                        @icon('state.warning', 'me-2 text-warning')
+                        @icon('warning', 'me-2 text-warning')
                         Advertencia
                     </h2>
                     <div class="alert alert-warning" role="alert">
@@ -161,7 +161,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <h2 class="h5 mb-4">Ayuda</h2>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'me-1 text-gray-500')
+                            @icon('help', 'me-1 text-gray-500')
                             Modificar información
                         </h3>
                         <p class="small text-gray-700">Puedes cambiar cualquier campo del proceso excepto el código, que
@@ -169,7 +169,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </div>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'me-1 text-gray-500')
+                            @icon('help', 'me-1 text-gray-500')
                             Desactivar vs Eliminar
                         </h3>
                         <p class="small text-gray-700">Si solo deseas pausar temporalmente el proceso, desmarca la opción
@@ -177,7 +177,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </div>
                     <div>
                         <h3 class="h6 mb-2">
-                            @icon('support.help', 'me-1 text-gray-500')
+                            @icon('help', 'me-1 text-gray-500')
                             Modificar pasos
                         </h3>
                         <p class="small text-gray-700">Para modificar los pasos del proceso, dirígete a la sección
@@ -263,7 +263,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             <div class="modal-content">
                 <div class="modal-header border-0">
                     <h5 class="modal-title" id="deleteProcessModalLabel">
-                        @icon('state.warning', 'me-2 text-danger')
+                        @icon('warning', 'me-2 text-danger')
                         Confirmar eliminación
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -292,7 +292,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <button wire:click="deleteProcess" type="button" class="btn btn-danger"
                         wire:loading.attr="disabled">
                         <span wire:loading.remove wire:target="deleteProcess">
-                            @icon('action.delete', 'me-2')
+                            @icon('delete', 'me-2')
                             Eliminar proceso
                         </span>
                         <span wire:loading wire:target="deleteProcess">

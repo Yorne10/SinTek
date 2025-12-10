@@ -21,7 +21,7 @@ Changelog:
           <form method="POST" action="{{ route(config('proj.route_name_prefix', 'proj') . '.auth.logout') }}">
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
-              @icon('auth.logout', 'fa-xs me-1')
+              @icon('logout', 'fa-xs me-1')
               Cerrar sesión
             </button>
           </form>
@@ -30,7 +30,7 @@ Changelog:
       <div class="collapse-close d-md-none">
         <a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
           aria-expanded="true" aria-label="Toggle navigation">
-          @icon('nav.close', 'fa-xs')
+          @icon('close', 'fa-xs')
         </a>
       </div>
     </div>
@@ -53,7 +53,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('user.list', 'me-2')
+            @icon('userGroup', 'me-2')
           </span>
           <span class="sidebar-text">Buscar trabajadores</span>
         </a>
@@ -63,7 +63,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('process.document', 'me-2')
+            @icon('documentSign', 'me-2')
           </span>
           <span class="sidebar-text">Convocatorias</span>
         </a>
@@ -73,7 +73,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('file.generic', 'me-2')
+            @icon('file', 'me-2')
           </span>
           <span class="sidebar-text">Documentos</span>
         </a>
@@ -83,7 +83,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('notif.bell', 'me-2')
+            @icon('notification', 'me-2')
           </span>
           <span class="sidebar-text">Enviar notificación</span>
         </a>
@@ -93,7 +93,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.faq-management') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('support.help', 'me-2')
+            @icon('help', 'me-2')
           </span>
           <span class="sidebar-text">Preguntas frecuentes</span>
         </a>
@@ -103,7 +103,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('process.flow', 'me-2')
+            @icon('process', 'me-2')
           </span>
           <span class="sidebar-text">Gestionar Procesos</span>
         </a>
@@ -113,7 +113,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('finance.budget', 'me-2')
+            @icon('money', 'me-2')
           </span>
           <span class="sidebar-text">Gestionar Claves</span>
         </a>
@@ -123,7 +123,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('user.profile', 'me-2')
+            @icon('user', 'me-2')
           </span>
           <span class="sidebar-text">Mi perfil</span>
         </a>

@@ -15,7 +15,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Convocatorias</li>
@@ -53,7 +53,7 @@
             <div class="ms-auto">
                 <button wire:click="clearFilters" type="button"
                     class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                    @icon('action.refresh', 'me-2')
+                    @icon('refresh', 'me-2')
                     Limpiar filtros
                 </button>
             </div>
@@ -138,7 +138,7 @@
                                             data-end="{{ $convocatoria->end_date ? $convocatoria->end_date->format('d/m/Y') : 'Sin fecha fin' }}"
                                             data-status="{{ $convocatoria->status }}"
                                             data-docs="{{ $convocatoria->documents->count() }}">
-                                            @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver detalles
                                         </button>
                                     </div>
@@ -150,7 +150,7 @@
                             <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
                                     <div class="mb-3">
-                                        @icon('process.document', 'fa-2x')
+                                        @icon('documentSign', 'fa-2x')
                                     </div>
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
                                     <p class="small">Revisa más tarde, pronto habrá nuevas convocatorias.</p>

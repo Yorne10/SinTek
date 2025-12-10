@@ -23,7 +23,7 @@ Changelog:
                                 <li class="breadcrumb-item">
                                     <a
                                         href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                        @icon('nav.home', 'fa-xs')
+                                        @icon('home', 'fa-xs')
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item">

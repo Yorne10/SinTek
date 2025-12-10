@@ -27,7 +27,7 @@
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('process.docs', 'fa-3x text-primary')
+                                @icon('documentSign', 'fa-3x text-primary')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -51,7 +51,7 @@
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('state.in_progress', 'fa-3x text-warning')
+                                @icon('pending', 'fa-3x text-warning')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -75,7 +75,7 @@
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('state.success', 'fa-3x text-success')
+                                @icon('success', 'fa-3x text-success')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -107,7 +107,7 @@
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('user.list', 'fa-2x mb-2')
+                                    @icon('userGroup', 'fa-2x mb-2')
                                     <span class="fw-bold">Buscar trabajadores</span>
                                 </div>
                             </a>
@@ -116,7 +116,7 @@
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('process.document', 'fa-2x mb-2')
+                                    @icon('documentSign', 'fa-2x mb-2')
                                     <span class="fw-bold">Convocations</span>
                                 </div>
                             </a>
@@ -125,7 +125,7 @@
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('notif.bell', 'fa-2x mb-2')
+                                    @icon('notification', 'fa-2x mb-2')
                                     <span class="fw-bold">Notificaciones</span>
                                 </div>
                             </a>
@@ -134,7 +134,7 @@
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.faq-management') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('support.help', 'fa-2x mb-2')
+                                    @icon('help', 'fa-2x mb-2')
                                     <span class="fw-bold">Preguntas frecuentes</span>
                                 </div>
                             </a>
@@ -143,7 +143,7 @@
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-process') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('action.create', 'fa-2x mb-2')
+                                    @icon('add', 'fa-2x mb-2')
                                     <span class="fw-bold">Crear proceso</span>
                                 </div>
                             </a>
@@ -152,7 +152,7 @@
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
-                                    @icon('process.step', 'fa-2x mb-2')
+                                    @icon('checkList', 'fa-2x mb-2')
                                     <span class="fw-bold">Definir pasos</span>
                                 </div>
                             </a>

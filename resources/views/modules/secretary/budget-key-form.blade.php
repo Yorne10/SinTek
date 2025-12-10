@@ -14,7 +14,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">
@@ -36,7 +36,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
                 <h2 class="h5 mb-4">
-                    @icon('finance.budget', 'me-2')
+                    @icon('money', 'me-2')
                     Información de la Clave
                 </h2>
 
@@ -86,7 +86,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     class="btn btn-gray-800 d-inline-flex align-items-center"
                                     wire:loading.attr="disabled">
                                     <span wire:loading.remove wire:target="save">
-                                        @icon('action.save', 'me-2')
+                                        @icon('save', 'me-2')
                                         {{ $budget_key_id ? 'Actualizar' : 'Guardar' }} Clave
                                     </span>
                                     <span wire:loading wire:target="save">
@@ -110,7 +110,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <h3 class="h6 mb-3">
-                        @icon('state.info', 'me-2')
+                        @icon('info', 'me-2')
                         Información
                     </h3>
                     <p class="small text-gray-600 mb-2">

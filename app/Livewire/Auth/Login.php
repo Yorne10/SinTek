@@ -31,10 +31,10 @@ class Login extends Component
     protected function messages()
     {
         return [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'Debe ingresar un correo electrónico válido.',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'email.required' => 'El campo correo electrónico es obligatorio',
+            'email.email' => 'El correo electrónico debe ser válido',
+            'password.required' => 'El campo contraseña es obligatorio',
+            'password.min' => 'El campo contraseña debe tener al menos 8 caracteres',
         ];
     }
 
@@ -63,12 +63,12 @@ class Login extends Component
                 // Enforce email verification
                 if (is_null($user->email_verified_at)) {
                     auth()->logout();
-                    return $this->addError('email', __('Debes verificar tu correo electrónico antes de iniciar sesión.'));
+                    return $this->addError('email', __('Debes verificar tu correo electrónico antes de iniciar sesión'));
                 }
                 // Enforce secretary approval
                 if (is_null($user->approved_at)) {
                     auth()->logout();
-                    return $this->addError('email', __('Tu cuenta aún no ha sido aprobada por un secretario.'));
+                    return $this->addError('email', __('Tu cuenta aún no ha sido aprobada por un secretario'));
                 }
             }
             // Ya estamos autenticados por attempt(); redirigir al dashboard

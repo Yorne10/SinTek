@@ -5,7 +5,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Nuevo trámite</li>
@@ -75,7 +75,7 @@
         <div class="ms-auto">
             <button type="button" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center"
                 wire:click="clearFilters">
-                @icon('action.refresh', 'me-2')
+                @icon('refresh', 'me-2')
                 Limpiar filtros
             </button>
         </div>
@@ -89,7 +89,7 @@
             <div class="card border-0 shadow h-100">
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
-                        @icon('process.docs', 'text-primary me-2')
+                        @icon('documentSign', 'text-primary me-2')
                         <h3 class="h6 mb-0">{{ $process->name }}</h3>
                     </div>
                     <span class="small fw-bold text-success">Disponible</span>
@@ -119,7 +119,7 @@
                     <button wire:click="startProcedure({{ $process->process_id }})" class="btn btn-gray-800"
                         wire:loading.attr="disabled">
                         <span wire:loading.remove wire:target="startProcedure({{ $process->process_id }})">
-                            @icon('action.create', 'me-2')
+                            @icon('add', 'me-2')
                             Iniciar trámite
                         </span>
                         <span wire:loading wire:target="startProcedure({{ $process->process_id }})">
@@ -135,7 +135,7 @@
             <div class="card border-0 shadow">
                 <div class="card-body text-center py-5">
                     <div class="mb-3">
-                        @icon('process.docs', 'fa-3x text-gray-400')
+                        @icon('documentSign', 'fa-3x text-gray-400')
                     </div>
                     <h4 class="h5 text-gray-600 mb-2">No hay trámites disponibles</h4>
                     <p class="text-gray-500 mb-0">En este momento no hay trámites que coincidan con tu búsqueda.</p>

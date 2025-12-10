@@ -14,7 +14,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">
@@ -106,13 +106,13 @@
                                             <div class="col-md-1">
                                                 <button type="button" wire:click="removeDocumento({{ $index }})"
                                                     class="btn btn-sm btn-danger">
-                                                    @icon('action.delete', 'icon-xs')
+                                                    @icon('delete', 'icon-xs')
                                                 </button>
                                             </div>
                                         </div>
                                     @endforeach
                                     <button type="button" wire:click="addDocumento" class="btn btn-sm btn-outline-primary">
-                                        @icon('action.create', 'icon-xs me-1')
+                                        @icon('add', 'icon-xs me-1')
                                         Agregar documento
                                     </button>
                                 </div>
@@ -120,7 +120,7 @@
 
                             <div class="col-md-12 d-flex flex-wrap align-items-center gap-2 mt-3">
                                 <button type="submit" class="btn btn-primary" id="saveConvBtn">
-                                    @icon('action.save', 'icon-xs me-1')
+                                    @icon('save', 'icon-xs me-1')
                                     {{ $convocationId ? 'Update' : 'Create' }} convocation
                                 </button>
                                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"

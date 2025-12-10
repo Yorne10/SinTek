@@ -18,7 +18,7 @@
                         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                             <li class="breadcrumb-item">
                                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                    @icon('nav.home', 'fa-xs')
+                                    @icon('home', 'fa-xs')
                                 </a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Mis trámites</li>
@@ -72,7 +72,7 @@
                         <div class="ms-auto">
                             <button wire:click="$set('search', ''); $set('statusFilter', '')" type="button"
                                 class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                                @icon('action.refresh', 'me-2')
+                                @icon('refresh', 'me-2')
                                 Limpiar filtros
                             </button>
                         </div>
@@ -165,7 +165,7 @@
                                                         class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                                         <a class="dropdown-item d-flex align-items-center"
                                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $req->request_id]) }}">
-                                                            @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
                                                             Ver detalle
                                                         </a>
                                                     </div>

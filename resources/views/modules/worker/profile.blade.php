@@ -18,7 +18,7 @@
                         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                             <li class="breadcrumb-item">
                                 <a href="#">
-                                    @icon('nav.home', 'fa-xs')
+                                    @icon('home', 'fa-xs')
                                 </a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Mis datos</li>

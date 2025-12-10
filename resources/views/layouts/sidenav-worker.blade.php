@@ -19,7 +19,7 @@ Validado por: Alfonso Angel Garca Hernndez
           <form method="POST" action="{{ route(config('proj.route_name_prefix', 'proj') . '.auth.logout') }}">
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
-              @icon('auth.logout', 'fa-xs me-1')
+            @icon('logout', 'fa-xs me-1')
               Cerrar sesin
             </button>
           </form>
@@ -28,7 +28,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <div class="collapse-close d-md-none">
         <a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
           aria-expanded="true" aria-label="Toggle navigation">
-          @icon('nav.close', 'fa-xs')
+          @icon('close', 'fa-xs')
         </a>
       </div>
     </div>
@@ -51,7 +51,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('list.checklist', 'me-2')
+            @icon('checkList', 'me-2')
           </span>
           <span class="sidebar-text">Mis trámites</span>
         </a>
@@ -62,7 +62,7 @@ Validado por: Alfonso Angel Garca Hernndez
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.available-procedures') }}"
           class="nav-link">
           <span class="sidebar-icon">
-            @icon('process.docs', 'me-2')
+            @icon('documentSign', 'me-2')
           </span>
           <span class="sidebar-text">Nuevo trámite</span>
         </a>
@@ -72,7 +72,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocations') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('file.generic', 'me-2')
+            @icon('file', 'me-2')
           </span>
           <span class="sidebar-text">Convocatorias</span>
         </a>
@@ -82,7 +82,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.documents') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('file.generic', 'me-2')
+            @icon('file', 'me-2')
           </span>
           <span class="sidebar-text">Documentos</span>
         </a>
@@ -92,7 +92,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.profile.index') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('user.profile', 'me-2')
+            @icon('user', 'me-2')
           </span>
           <span class="sidebar-text">Mi perfil</span>
         </a>

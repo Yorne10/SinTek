@@ -19,7 +19,7 @@
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                 <li class="breadcrumb-item">
                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                        @icon('nav.home', 'fa-xs')
+                        @icon('home', 'fa-xs')
                     </a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
@@ -42,7 +42,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
-                                @icon('user.list', 'icon')
+                                @icon('userGroup', 'icon')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -66,7 +66,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
-                                @icon('process.docs', 'icon')
+                                @icon('documentSign', 'icon')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -90,7 +90,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
-                                @icon('state.in_progress', 'icon')
+                                @icon('pending', 'icon')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -114,7 +114,7 @@
                     <div class="row d-block d-xl-flex align-items-center">
                         <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
-                                @icon('process.document', 'icon')
+                                @icon('documentSign', 'icon')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -239,7 +239,7 @@
                     @forelse($recentLogs as $log)
                         <div class="d-flex align-items-start mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
                             <div class="me-3">
-                                @icon('state.info', 'text-gray-400')
+                                @icon('info', 'text-gray-400')
                             </div>
                             <div class="flex-grow-1">
                                 <div class="small fw-bold">{{ $log->user->name ?? 'Sistema' }}</div>
@@ -250,7 +250,7 @@
                     @empty
                         <div class="text-center text-gray-500 py-3">
                             <div class="mb-2">
-                                @icon('state.info', 'fa-2x text-gray-400')
+                                @icon('info', 'fa-2x text-gray-400')
                             </div>
                             <p class="small mb-0">No hay actividad reciente</p>
                         </div>
@@ -260,7 +260,7 @@
                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.bitacora') }}"
                         class="btn btn-sm btn-link d-flex align-items-center justify-content-center">
                         Ver toda la bitácora
-                        @icon('nav.forward', 'ms-2 fa-xs')
+                        @icon('forward', 'ms-2 fa-xs')
                     </a>
                 </div>
             </div>

@@ -14,7 +14,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -27,7 +27,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.document.create') }}"
                 class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                @icon('action.create', 'me-2')
+                @icon('add', 'me-2')
                 Agregar Documento
             </a>
         </div>
@@ -53,7 +53,7 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    @icon('file.generic', 'text-danger me-2')
+                                    @icon('file', 'text-danger me-2')
                                     <span class="fw-bold">{{ $document->title }}</span>
                                 </div>
                             </td>
@@ -76,23 +76,23 @@
                                 <div class="btn-group">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @icon('action.more', 'icon-xs')
+                                        @icon('menu', 'icon-xs')
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.show', $document->institutional_document_id) }}"
                                             target="_blank">
-                                            @icon('action.view', 'dropdown-icon text-gray-400 me-2')
+                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver documento
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institutional_document_id) }}">
-                                            @icon('file.download', 'dropdown-icon text-gray-400 me-2')
+                                            @icon('download', 'dropdown-icon text-gray-400 me-2')
                                             Descargar
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.document.edit', $document->institutional_document_id) }}">
-                                            @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                            @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>
                                     </div>
@@ -103,7 +103,7 @@
                         <tr>
                             <td colspan="6" class="text-center py-4">
                                 <div class="text-gray-500">
-                                    @icon('file.generic', 'fa-2x mb-3')
+                                    @icon('file', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay documentos institucionales para mostrar</p>
                                     <p class="small">Sube tu primer documento con el botón superior</p>
                                 </div>

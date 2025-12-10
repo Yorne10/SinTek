@@ -28,13 +28,17 @@ class Settings extends Component
     ];
 
     protected $messages = [
-        'institution_name.required' => 'El nombre de la institución es obligatorio.',
-        'system_name.required' => 'El nombre del sistema es obligatorio.',
-        'contact_email.required' => 'El correo de contacto es obligatorio.',
-        'contact_email.email' => 'El correo debe ser válido.',
-        'session_timeout.required' => 'El tiempo de sesión es obligatorio.',
-        'session_timeout.min' => 'El tiempo de sesión debe ser al menos 1 minuto.',
-        'session_timeout.max' => 'El tiempo de sesión no puede exceder 1440 minutos (24 horas).',
+        'institution_name.required' => 'El campo nombre de la institución es obligatorio',
+        'institution_name.max' => 'El nombre de la institución no debe exceder los 255 caracteres',
+        'system_name.required' => 'El campo nombre del sistema es obligatorio',
+        'system_name.max' => 'El nombre del sistema no debe exceder los 255 caracteres',
+        'contact_email.required' => 'El campo correo de contacto es obligatorio',
+        'contact_email.email' => 'El correo de contacto debe ser válido',
+        'contact_email.max' => 'El correo de contacto no debe exceder los 255 caracteres',
+        'contact_phone.max' => 'El teléfono de contacto no debe exceder los 20 caracteres',
+        'session_timeout.required' => 'El campo tiempo de sesión es obligatorio',
+        'session_timeout.min' => 'El tiempo de sesión debe ser mayor que 0',
+        'session_timeout.max' => 'El tiempo de sesión debe ser menor o igual que 1440',
     ];
 
     public function mount()

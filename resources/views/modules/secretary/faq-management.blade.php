@@ -13,7 +13,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -40,12 +40,12 @@
                     <div>
                         @if($activeTab == 'categories')
                             <button wire:click="toggleCategoryForm" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                                @icon('action.create', 'me-1')
+                                @icon('add', 'me-1')
                                 Nueva categoría
                             </button>
                         @else
                             <button wire:click="toggleFaqForm" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                                @icon('action.create', 'me-1')
+                                @icon('add', 'me-1')
                                 Nueva pregunta
                             </button>
                         @endif
@@ -112,10 +112,10 @@
                                             <td>
                                                 <div class="btn-group">
                                                     <button wire:click="editCategory({{ $category->faq_category_id }})" class="btn btn-sm btn-link text-dark">
-                                                        @icon('action.edit', 'icon-xs')
+                                                        @icon('edit', 'icon-xs')
                                                     </button>
                                                     <button onclick="confirmDeleteCategory({{ $category->faq_category_id }})" class="btn btn-sm btn-link text-danger">
-                                                        @icon('action.delete', 'icon-xs')
+                                                        @icon('delete', 'icon-xs')
                                                     </button>
                                                 </div>
                                             </td>
@@ -124,7 +124,7 @@
                                         <tr>
                                             <td colspan="6" class="text-center py-4">
                                                 <div class="text-gray-500">
-                                                    @icon('support.help', 'fa-2x mb-2')
+                                                    @icon('help', 'fa-2x mb-2')
                                                     <p class="fw-bold mb-1">No hay categorías para mostrar</p>
                                                     <p class="small mb-0">Crea una nueva categoría para empezar</p>
                                                 </div>
@@ -207,10 +207,10 @@
                                             <td>
                                                 <div class="btn-group">
                                                     <button wire:click="editFaq({{ $faq->faq_id }})" class="btn btn-sm btn-link text-dark">
-                                                        @icon('action.edit', 'icon-xs')
+                                                        @icon('edit', 'icon-xs')
                                                     </button>
                                                     <button onclick="confirmDeleteFaq({{ $faq->faq_id }})" class="btn btn-sm btn-link text-danger">
-                                                        @icon('action.delete', 'icon-xs')
+                                                        @icon('delete', 'icon-xs')
                                                     </button>
                                                 </div>
                                             </td>
@@ -219,7 +219,7 @@
                                         <tr>
                                             <td colspan="5" class="text-center py-4">
                                                 <div class="text-gray-500">
-                                                    @icon('support.help', 'fa-2x mb-2')
+                                                    @icon('help', 'fa-2x mb-2')
                                                     <p class="fw-bold mb-1">No hay preguntas para mostrar</p>
                                                     <p class="small mb-0">Agrega tu primera pregunta frecuente</p>
                                                 </div>
