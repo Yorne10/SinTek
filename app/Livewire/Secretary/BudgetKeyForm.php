@@ -4,6 +4,8 @@ namespace App\Livewire\Secretary;
 
 use Livewire\Component;
 use App\Models\Position;
+use App\Services\ActivityLogger;
+use Illuminate\Support\Facades\Auth;
 
 class BudgetKeyForm extends Component
 {
@@ -29,6 +31,9 @@ class BudgetKeyForm extends Component
     public function save()
     {
         $this->validate();
+        $user = Auth::user();
+
+        $isEditing = !empty($this->budget_key_id);
 
         Position::updateOrCreate(
             ['positions_id' => $this->budget_key_id],
@@ -38,13 +43,55 @@ class BudgetKeyForm extends Component
             ]
         );
 
-        session()->flash('success', $this->budget_key_id ? 'Clave presupuestal actualizada correctamente.' : 'Clave presupuestal creada correctamente.');
+        // Registrar en bitácora
+        if ($isEditing) {
+            ActivityLogger::log(
+                'clave.editar',
+                "Clave presupuestal editada: '{$this->budget_key}' - {$this->position_name}",
+                $user?->users_id
+            );
+            session()->flash('success', 'Clave presupuestal actualizada correctamente.');
+        } else {
+            ActivityLogger::log(
+                'clave.crear',
+                "Clave presupuestal creada: '{$this->budget_key}' - {$this->position_name}",
+                $user?->users_id
+            );
+            session()->flash('success', 'Clave presupuestal creada correctamente.');
+        }
 
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
     }
 
     public function cancel()
     {
+        return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
+    }
+
+    public function deleteKey()
+    {
+        if (!$this->budget_key_id) {
+            return;
+        }
+
+        $user = Auth::user();
+        $position = Position::find($this->budget_key_id);
+
+        if ($position) {
+            $budgetKey = $position->budget_key;
+            $positionName = $position->position_name;
+
+            $position->delete();
+
+            ActivityLogger::log(
+                'clave.eliminar',
+                "Clave presupuestal eliminada: '{$budgetKey}' - {$positionName}",
+                $user?->users_id
+            );
+
+            session()->flash('success', 'Clave presupuestal eliminada correctamente.');
+        }
+
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
     }
 

@@ -26,17 +26,10 @@ class FaqManagement extends Component
     public $categoryOrder = 0;
     public $editingCategoryId = null;
 
-    // FAQ properties
-    public $selectedCategoryId = null;
-    public $faqQuestion = '';
-    public $faqAnswer = '';
-    public $faqOrder = 0;
-    public $editingFaqId = null;
-
     // UI State
     public $showCategoryForm = false;
-    public $showFaqForm = false;
-    public $activeTab = 'categories'; // 'categories' or 'faqs'
+    public $search = '';
+    public $statusFilter = '';
 
     protected $paginationTheme = 'bootstrap';
 
@@ -44,21 +37,31 @@ class FaqManagement extends Component
         'categoryName' => 'required|string|max:100',
         'categoryDescription' => 'nullable|string',
         'categoryOrder' => 'integer|min:0',
-        'selectedCategoryId' => 'required|exists:faq_categories,faq_category_id',
-        'faqQuestion' => 'required|string|max:255',
-        'faqAnswer' => 'required|string',
-        'faqOrder' => 'integer|min:0',
     ];
 
     protected $messages = [
         'categoryName.required' => 'El nombre de la categoría es obligatorio.',
         'categoryName.max' => 'El nombre no debe exceder 100 caracteres.',
-        'selectedCategoryId.required' => 'Debes seleccionar una categoría.',
-        'selectedCategoryId.exists' => 'La categoría seleccionada no existe.',
-        'faqQuestion.required' => 'La pregunta es obligatoria.',
-        'faqQuestion.max' => 'La pregunta no debe exceder 255 caracteres.',
-        'faqAnswer.required' => 'La respuesta es obligatoria.',
     ];
+
+    protected $listeners = ['refreshCategories' => '$refresh'];
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function clearFilters()
+    {
+        $this->search = '';
+        $this->statusFilter = '';
+        $this->resetPage();
+    }
 
     public function toggleCategoryForm()
     {
@@ -68,13 +71,6 @@ class FaqManagement extends Component
         }
     }
 
-    public function toggleFaqForm()
-    {
-        $this->showFaqForm = !$this->showFaqForm;
-        if (!$this->showFaqForm) {
-            $this->resetFaqForm();
-        }
-    }
 
     public function saveCategory()
     {
@@ -169,95 +165,6 @@ class FaqManagement extends Component
         }
     }
 
-    public function saveFaq()
-    {
-        $this->validate([
-            'selectedCategoryId' => 'required|exists:faq_categories,faq_category_id',
-            'faqQuestion' => 'required|string|max:255',
-            'faqAnswer' => 'required|string',
-            'faqOrder' => 'integer|min:0',
-        ]);
-
-        try {
-            if ($this->editingFaqId) {
-                $faq = Faq::findOrFail($this->editingFaqId);
-                $faq->update([
-                    'faq_category_id' => $this->selectedCategoryId,
-                    'question' => $this->faqQuestion,
-                    'answer' => $this->faqAnswer,
-                    'order' => $this->faqOrder,
-                ]);
-                $message = 'FAQ actualizada exitosamente.';
-            } else {
-                Faq::create([
-                    'faq_category_id' => $this->selectedCategoryId,
-                    'question' => $this->faqQuestion,
-                    'answer' => $this->faqAnswer,
-                    'order' => $this->faqOrder,
-                    'is_active' => true,
-                ]);
-                $message = 'FAQ creada exitosamente.';
-            }
-
-            $user = auth()->user();
-            $action = $this->editingFaqId ? 'actualizada' : 'creada';
-            ActivityLogger::log(
-                $this->editingFaqId ? 'faq.editar' : 'faq.crear',
-                "FAQ '{$this->faqQuestion}' {$action}",
-                $user?->users_id
-            );
-
-            $this->resetFaqForm();
-            $this->showFaqForm = false;
-
-            $this->dispatch('faq-notify', type: 'success', title: '?xito!', message: $message);
-        } catch (\Exception $e) {
-            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo guardar la FAQ.');
-        }
-    }
-
-    public function editFaq($faqId)
-    {
-        $faq = Faq::findOrFail($faqId);
-        $this->editingFaqId = $faqId;
-        $this->selectedCategoryId = $faq->faq_category_id;
-        $this->faqQuestion = $faq->question;
-        $this->faqAnswer = $faq->answer;
-        $this->faqOrder = $faq->order;
-        $this->showFaqForm = true;
-    }
-
-    public function toggleFaqStatus($faqId)
-    {
-        try {
-            $faq = Faq::findOrFail($faqId);
-            $faq->is_active = !$faq->is_active;
-            $faq->save();
-
-            $status = $faq->is_active ? 'activada' : 'desactivada';
-            $this->dispatch('faq-notify', type: 'success', title: 'Estado actualizado', message: "FAQ {$status} exitosamente.");
-        } catch (\Exception $e) {
-            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo cambiar el estado.');
-        }
-    }
-
-    public function deleteFaq($faqId)
-    {
-        try {
-            $faq = Faq::findOrFail($faqId);
-            $faq->delete();
-            $user = auth()->user();
-            ActivityLogger::log(
-                'faq.eliminar',
-                "FAQ '{$faq->question}' eliminada",
-                $user?->users_id
-            );
-
-            $this->dispatch('faq-notify', type: 'success', title: '¡Eliminada!', message: 'FAQ eliminada exitosamente.');
-        } catch (\Exception $e) {
-            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo eliminar la FAQ.');
-        }
-    }
 
     private function resetCategoryForm()
     {
@@ -265,28 +172,30 @@ class FaqManagement extends Component
         $this->resetValidation();
     }
 
-    private function resetFaqForm()
-    {
-        $this->reset(['selectedCategoryId', 'faqQuestion', 'faqAnswer', 'faqOrder', 'editingFaqId']);
-        $this->resetValidation();
-    }
 
     public function render()
     {
-        $categories = FaqCategory::withCount('faqs')
-            ->orderBy('order')
-            ->paginate(10, ['*'], 'categories_page');
+        $query = FaqCategory::withCount('faqs');
 
-        $faqs = Faq::with('category')
-            ->orderBy('order')
-            ->paginate(15, ['*'], 'faqs_page');
+        // Apply search filter
+        if ($this->search) {
+            $query->where(function($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                  ->orWhere('description', 'like', '%' . $this->search . '%');
+            });
+        }
 
-        $allCategories = FaqCategory::active()->ordered()->get();
+        // Apply status filter
+        if ($this->statusFilter === 'active') {
+            $query->where('is_active', true);
+        } elseif ($this->statusFilter === 'inactive') {
+            $query->where('is_active', false);
+        }
+
+        $categories = $query->orderBy('order')->paginate(10);
 
         return view('modules.secretary.faq-management', [
             'categories' => $categories,
-            'faqs' => $faqs,
-            'allCategories' => $allCategories,
         ])->layout('layouts.app');
     }
 }

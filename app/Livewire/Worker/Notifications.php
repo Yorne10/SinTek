@@ -24,16 +24,20 @@ class Notifications extends Component
 
     public function markAsRead(int $notificationId): void
     {
-        $updated = Notification::where('user_id', auth()->id())
+        $notification = Notification::where('user_id', auth()->id())
             ->whereNull('read_at')
             ->where('notification_id', $notificationId)
-            ->update(['read_at' => now()]);
+            ->first();
 
-        if ($updated) {
+        if ($notification) {
+            $notification->update(['read_at' => now()]);
+
             $user = auth()->user();
+
+            // Log activity - SAME MESSAGE AS API
             ActivityLogger::log(
-                'notification.mark_as_read',
-                "Notification #{$notificationId} marked as read",
+                'notificacion.marcar_leida',
+                "Notificación marcada como leída: '{$notification->tittle}'",
                 $user->users_id
             );
 

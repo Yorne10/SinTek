@@ -91,7 +91,7 @@ Changelog:
 
       {{-- Gestión de FAQs --}}
       <li class="nav-item">
-        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.faq-management') }}" class="nav-link">
+        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('help', 'me-2')
           </span>

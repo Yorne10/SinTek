@@ -70,11 +70,16 @@ class DefineSteps extends Component
     {
         $step = Step::find($stepId);
         if ($step) {
+            $stepTitle = $step->tittle;
+            $process = Process::find($step->process_id);
+            $processName = $process ? $process->name : 'Proceso';
+
             $step->delete();
+
             $user = auth()->user();
             ActivityLogger::log(
                 'paso.eliminar',
-                "Paso '{$step->tittle}' eliminado del proceso ID {$step->process_id}",
+                "Paso eliminado: '{$stepTitle}' del proceso '{$processName}'",
                 $user?->users_id
             );
             $this->loadProcess();

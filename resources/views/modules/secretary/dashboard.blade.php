@@ -131,7 +131,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.faq-management') }}"
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}"
                                 class="btn btn-outline-primary w-100 py-3">
                                 <div class="d-flex flex-column align-items-center">
                                     @icon('help', 'fa-2x mb-2')

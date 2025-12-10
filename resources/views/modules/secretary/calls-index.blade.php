@@ -1,10 +1,10 @@
-{{--
+﻿{{--
 * Company: CETAM
 * Project: ST
 * File: calls-index.blade.php
 * Created on: 04/12/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
+* Created by: Alfonso Angel GarcÃ­a HernÃ¡ndez
+* Approved by: Alfonso Angel GarcÃ­a HernÃ¡ndez
 --}}
 <div>
     {{-- Page Header --}}
@@ -17,12 +17,12 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Secretaría</li>
+                    <li class="breadcrumb-item">SecretarÃ­a</li>
                     <li class="breadcrumb-item active" aria-current="page">Convocatorias</li>
                 </ol>
             </nav>
             <h2 class="h4">Convocatorias</h2>
-            <p class="mb-0">Gestión de convocatorias públicas</p>
+            <p class="mb-0">GestiÃ³n de convocatorias pÃºblicas</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.create') }}"
@@ -37,31 +37,24 @@
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
-                <span class="input-group-text">
-                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </span>
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
-                    placeholder="Buscar por título o descripción">
+                    placeholder="Buscar por tÃ­tulo o descripciÃ³n">
             </div>
             <div class="d-flex align-items-center text-nowrap">
-                <span class="small text-gray-600 me-2">Estado:</span>
-                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
-                    <option value="">Todas</option>
+                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;" aria-label="Filtrar por estado">
+                    <option value="">Todos</option>
                     <option value="activa">Activa</option>
-                    <option value="proxima">Próxima</option>
+                    <option value="proxima">PrÃ³xima</option>
                     <option value="permanente">Permanente</option>
                     <option value="cerrada">Cerrada</option>
                 </select>
             </div>
             <div class="ms-auto">
                 <button wire:click="clearFilters" type="button"
-                    class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                    @icon('refresh', 'me-2')
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
             </div>
@@ -75,10 +68,17 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-centered table-nowrap mb-0 rounded user-table">
+            <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
+                <colgroup>
+                    <col style="width: 30%">
+                    <col style="width: 22%">
+                    <col style="width: 16%">
+                    <col style="width: 20%">
+                    <col style="width: 12%">
+                </colgroup>
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0 rounded-start">Título</th>
+                        <th class="border-0 rounded-start">TÃ­tulo</th>
                         <th class="border-0">Periodo</th>
                         <th class="border-0">Estado</th>
                         <th class="border-0">Documentos</th>
@@ -89,30 +89,26 @@
                     @forelse($convocations as $convocation)
                         <tr>
                             <td>
-                                <div class="d-block">
-                                    <span class="fw-bold">{{ $convocation->title }}</span>
-                                    <div class="small text-gray">
-                                        {{ Str::limit($convocation->description, 60) }}
-                                    </div>
-                                </div>
+                                <span class="fw-bold">{{ $convocation->title }}</span>
                             </td>
                             <td>
-                                <span
-                                    class="fw-normal">{{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/D' }}</span>
+                                <span class="fw-normal">
+                                    {{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/D' }}
+                                </span>
+                                <span class="text-gray"> - </span>
                                 @if($convocation->end_date)
-                                    <span class="text-gray"> - </span>
                                     <span class="fw-normal">{{ $convocation->end_date->format('d/m/Y') }}</span>
                                 @else
-                                    <div class="small text-gray">Sin fecha de fin</div>
+                                    <span class="fw-normal text-gray-500">â€”</span>
                                 @endif
                             </td>
                             <td>
                                 @if($convocation->status === 'activa')
                                     <span class="fw-bold text-success">Activa</span>
                                 @elseif($convocation->status === 'cerrada')
-                                    <span class="fw-bold text-secondary">Cerrada</span>
+                                    <span class="fw-bold text-danger">Cerrada</span>
                                 @elseif($convocation->status === 'proxima')
-                                    <span class="fw-bold text-warning">Próxima</span>
+                                    <span class="fw-bold text-warning">PrÃ³xima</span>
                                 @elseif($convocation->status === 'permanente')
                                     <span class="fw-bold text-info">Permanente</span>
                                 @else
@@ -121,21 +117,19 @@
                             </td>
                             <td>
                                 @if($convocation->documents->count() > 0)
-                                    @php
-                                        $docsToShow = $convocation->documents->take(2);
-                                        $extraDocs = $convocation->documents->count() - $docsToShow->count();
-                                    @endphp
-                                    <div class="d-flex flex-column gap-1">
-                                        @foreach($docsToShow as $doc)
-                                            <a class="small d-inline-flex align-items-center"
-                                                href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_document_id) }}">
-                                                @icon('download', 'icon-xs text-primary me-1')
-                                                <span class="fw-normal text-primary">{{ $doc->title }}</span>
-                                            </a>
-                                        @endforeach
-                                        @if($extraDocs > 0)
-                                            <span class="small text-gray-500">+{{ $extraDocs }} documentos más</span>
-                                        @endif
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Documentos ({{ $convocation->documents->count() }})
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-start">
+                                            @foreach($convocation->documents as $doc)
+                                                <a class="dropdown-item d-flex align-items-center"
+                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_document_id) }}">
+                                                    @icon('download', 'dropdown-icon text-gray-400 me-2')
+                                                    <span class="small">{{ Str::limit($doc->title, 40) }}</span>
+                                                </a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 @else
                                     <span class="small text-gray-500">Sin documentos</span>
@@ -145,12 +139,7 @@
                                 <div class="btn-group">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                            </path>
-                                        </svg>
+                                        @icon('menu', 'icon icon-xs')
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                         <button class="dropdown-item d-flex align-items-center view-convocatoria-detail"
@@ -179,7 +168,7 @@
                                 <div class="text-gray-500">
                                     @icon('documentSign', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
-                                    <p class="small">Crea tu primera convocatoria con el botón superior</p>
+                                    <p class="small">Crea tu primera convocatoria con el botÃ³n superior</p>
                                 </div>
                             </td>
                         </tr>
@@ -197,10 +186,7 @@
             <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
                 Mostrando <b>{{ $convocations->firstItem() ?? 0 }}</b> a
                 <b>{{ $convocations->lastItem() ?? 0 }}</b> de <b>{{ $convocations->total() }}</b> convocatorias
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -212,7 +198,7 @@
             buttonsStyling: false
         });
 
-        // Event listener to view convocation details
+        // Event listener para ver detalles de la convocatoria
         document.addEventListener('click', function (e) {
             if (e.target.closest('.view-convocatoria-detail')) {
                 e.preventDefault();
@@ -225,22 +211,23 @@
                 const docs = button.getAttribute('data-conv-docs');
 
                 swalWithBootstrapButtons.fire({
-                    title: 'Convocation Details',
+                    title: 'Detalles de la Convocatoria',
                     html: `
                         <div class="text-start">
-                            <p class="mb-2"><span class="fw-bold">Title:</span> ${title}</p>
-                            <p class="mb-2"><span class="fw-bold">Description:</span><br>${description}</p>
-                            <p class="mb-2"><span class="fw-bold">Start Date:</span> ${start}</p>
-                            <p class="mb-2"><span class="fw-bold">End Date:</span> ${end}</p>
-                            <p class="mb-2"><span class="fw-bold">Status:</span> ${status}</p>
-                            <p class="mb-0"><span class="fw-bold">Documents:</span> ${docs}</p>
+                            <p class="mb-2"><span class="fw-bold">TÃ­tulo:</span> ${title}</p>
+                            <p class="mb-2"><span class="fw-bold">DescripciÃ³n:</span><br>${description}</p>
+                            <p class="mb-2"><span class="fw-bold">Fecha de inicio:</span> ${start}</p>
+                            <p class="mb-2"><span class="fw-bold">Fecha de fin:</span> ${end}</p>
+                            <p class="mb-2"><span class="fw-bold">Estado:</span> ${status}</p>
+                            <p class="mb-0"><span class="fw-bold">Documentos:</span> ${docs}</p>
                         </div>
                     `,
                     icon: 'info',
-                    confirmButtonText: 'Close',
+                    confirmButtonText: 'Cerrar',
                     showConfirmButton: true
                 });
             }
         });
     });
 </script>
+

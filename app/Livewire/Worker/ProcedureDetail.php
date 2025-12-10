@@ -83,9 +83,10 @@ class ProcedureDetail extends Component
                 ]);
             }
 
+            // Log activity - SAME MESSAGE AS API
             ActivityLogger::log(
                 'tramite.paso.completado',
-                "Paso completado: '{$stepName}' del trámite '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                "Paso completado: '{$stepName}' del trámite '{$this->request->process->name}'",
                 Auth::id()
             );
 
@@ -96,9 +97,10 @@ class ProcedureDetail extends Component
                 'end_date' => Carbon::now(),
             ]);
 
+            // Log activity - SAME MESSAGE AS API
             ActivityLogger::log(
                 'tramite.completado',
-                "Trámite completado: '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                "Trámite completado: '{$this->request->process->name}'",
                 Auth::id()
             );
 
@@ -138,9 +140,11 @@ class ProcedureDetail extends Component
         ]);
 
         $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
+
+        // Log activity - SAME MESSAGE AS API
         ActivityLogger::log(
             'tramite.documento.subido',
-            "Documento '{$this->file->getClientOriginalName()}' subido para el paso '{$stepName}' del trámite '" . ($this->request->process->name ?? 'Proceso') . "'.",
+            "Documento '{$this->file->getClientOriginalName()}' subido para el paso '{$stepName}' del trámite '{$this->request->process->name}'",
             Auth::id()
         );
 
@@ -189,9 +193,10 @@ class ProcedureDetail extends Component
                     ]);
                 }
 
+                // Log activity - SAME MESSAGE AS API
                 ActivityLogger::log(
                     'tramite.decision',
-                    "Decisión '{$decisionLabel}' en el paso '{$stepName}' del trámite '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                    "Decisión '{$decisionLabel}' en el paso '{$stepName}' del trámite '{$this->request->process->name}'",
                     Auth::id()
                 );
 
@@ -203,9 +208,10 @@ class ProcedureDetail extends Component
                 'end_date' => Carbon::now(),
             ]);
 
+            // Log activity - SAME MESSAGE AS API
             ActivityLogger::log(
                 'tramite.completado',
-                "Trámite completado: '" . ($this->request->process->name ?? 'Proceso') . "'.",
+                "Trámite completado: '{$this->request->process->name}'",
                 Auth::id()
             );
 

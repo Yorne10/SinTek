@@ -22,6 +22,8 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Process;
 use Illuminate\Support\Facades\Log;
+use App\Services\ActivityLogger;
+use Illuminate\Support\Facades\Auth;
 
 class EditProcess extends Component
 {
@@ -89,6 +91,14 @@ class EditProcess extends Component
                 'active' => $this->active ?? false,
             ]);
 
+            // Registrar en bitácora
+            $user = Auth::user();
+            ActivityLogger::log(
+                'proceso.editar',
+                "Proceso editado: '{$this->name}'" . ($this->category ? " - Categoría: {$this->category}" : ''),
+                $user?->users_id
+            );
+
             $this->dispatch('process-updated',
                 title: 'Proceso actualizado',
                 message: 'El proceso se actualizó correctamente.'
@@ -114,7 +124,18 @@ class EditProcess extends Component
         try {
             $process = Process::find($this->selectedProcessId);
             if ($process) {
+                $processName = $process->name;
+                $processCategory = $process->category;
+
                 $process->delete();
+
+                // Registrar en bitácora
+                $user = Auth::user();
+                ActivityLogger::log(
+                    'proceso.eliminar',
+                    "Proceso eliminado: '{$processName}'" . ($processCategory ? " - Categoría: {$processCategory}" : ''),
+                    $user?->users_id
+                );
 
                 $this->dispatch('process-deleted',
                     title: 'Proceso eliminado',

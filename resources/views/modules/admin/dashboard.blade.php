@@ -101,7 +101,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                     <h2 class="fs-5 fw-bold mb-0">Actividad Reciente</h2>
                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.activity-log') }}"
-                        class="btn btn-sm btn-outline-gray-600">
+                        class="btn btn-sm btn-secondary text-white">
                         Ver todo
                     </a>
                 </div>
@@ -109,8 +109,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                     @forelse($recentLogs as $log)
                         <div class="d-flex align-items-start mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
                             <div class="me-3">
-                                <div class="icon-shape icon-sm bg-light rounded">
-                                    @icon('info', 'text-gray-600')
+                                <div class="icon-shape icon-sm">
+                                    @icon('info', 'text-info')
                                 </div>
                             </div>
                             <div class="flex-grow-1">
@@ -118,7 +118,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     <div>
                                         <div class="fw-bold">{{ $log->user->name ?? 'Sistema' }}</div>
                                         <div class="text-gray-600 small">
-                                            {{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
+                                            {{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}
+                                        </div>
                                     </div>
                                     <div class="text-end">
                                         <div class="small text-gray-500">{{ $log->created_at->diffForHumans() }}</div>

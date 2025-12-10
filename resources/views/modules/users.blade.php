@@ -61,7 +61,7 @@
                                             class="form-select"
                                             style="min-width: 200px;"
                                             aria-label="Filtrar por rol">
-                                            <option value="">Todos los roles</option>
+                                            <option value="">Todos</option>
                                             <option value="admin">Administrador</option>
                                             <option value="secretary">Secretario</option>
                                             <option value="worker">Trabajador</option>
@@ -87,7 +87,15 @@
                             </div>
 
                             <div class="card card-body shadow border-0 table-wrapper table-responsive">
-                                <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
+                                <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+                                    <colgroup>
+                                        <col style="width: 22%">
+                                        <col style="width: 22%">
+                                        <col style="width: 14%">
+                                        <col style="width: 12%">
+                                        <col style="width: 18%">
+                                        <col style="width: 12%">
+                                    </colgroup>
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="border-0 rounded-start">Nombre</th>
@@ -102,9 +110,9 @@
                                         @forelse($users as $user)
                                             <tr>
                                                 <td>
-                                                    <span class="fw-bold text-gray-900">{{ $user->name }}</span>
+                                                    <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $user->name }}</span>
                                                 </td>
-                                                <td><span class="fw-normal">{{ $user->email }}</span></td>
+                                                <td><span class="fw-normal text-truncate d-inline-block w-100">{{ $user->email }}</span></td>
                                                 <td>
                                                     <span
                                                         class="fw-normal text-dark">{{ $this->getRoleLabel($user->role) }}</span>

@@ -1,8 +1,8 @@
 {{--
 * Company: CETAM
 * Project: ST
-* File: faq-management.blade.php
-* Created on: 24/11/2025
+* File: faq-questions.blade.php
+* Created on: 09/12/2025
 * Created by: Codex
 * Approved by: Alfonso Angel García Hernández
 --}}
@@ -16,46 +16,54 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Secretaría</li>
-                    <li class="breadcrumb-item active" aria-current="page">Categorías de FAQ</li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}">
+                            Categorías de FAQ
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
                 </ol>
             </nav>
-            <h2 class="h4">Categorías de preguntas frecuentes</h2>
-            <p class="mb-0">Gestiona las categorías y sus preguntas frecuentes.</p>
+            <h2 class="h4">Preguntas: {{ $category->name }}</h2>
+            <p class="mb-0">{{ $category->description ?? 'Gestiona las preguntas frecuentes de esta categoría.' }}</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button wire:click="toggleCategoryForm" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}" class="btn btn-sm btn-gray-200 d-inline-flex align-items-center me-2">
+                @icon('arrowLeft', 'me-2')
+                Volver
+            </a>
+            <button wire:click="toggleFaqForm" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('add', 'me-2')
-                Nueva categoría
+                Nueva pregunta
             </button>
         </div>
     </div>
 
-    @if($showCategoryForm)
+    @if($showFaqForm)
         <div class="card border-0 shadow mb-4">
             <div class="card-body">
-                <h5 class="mb-3">{{ $editingCategoryId ? 'Editar' : 'Nueva' }} categoría</h5>
-                <form wire:submit.prevent="saveCategory">
+                <h5 class="mb-3">{{ $editingFaqId ? 'Editar' : 'Nueva' }} pregunta</h5>
+                <form wire:submit.prevent="saveFaq">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nombre *</label>
-                            <input type="text" class="form-control @error('categoryName') is-invalid @enderror" wire:model="categoryName">
-                            @error('categoryName') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <div class="col-md-9 mb-3">
+                            <label class="form-label">Pregunta *</label>
+                            <input type="text" class="form-control @error('faqQuestion') is-invalid @enderror" wire:model="faqQuestion">
+                            @error('faqQuestion') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Orden</label>
-                            <input type="number" class="form-control @error('categoryOrder') is-invalid @enderror" wire:model="categoryOrder">
-                            @error('categoryOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <input type="number" class="form-control @error('faqOrder') is-invalid @enderror" wire:model="faqOrder">
+                            @error('faqOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label class="form-label">Descripción</label>
-                            <textarea class="form-control @error('categoryDescription') is-invalid @enderror" wire:model="categoryDescription" rows="2"></textarea>
-                            @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <label class="form-label">Respuesta *</label>
+                            <textarea class="form-control @error('faqAnswer') is-invalid @enderror" wire:model="faqAnswer" rows="5"></textarea>
+                            @error('faqAnswer') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-gray-200" wire:click="toggleCategoryForm">Cancelar</button>
+                        <button type="button" class="btn btn-gray-200" wire:click="toggleFaqForm">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -67,7 +75,7 @@
             <div class="input-group fmxw-300">
                 <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.400ms="search" type="text"
-                    class="form-control" placeholder="Buscar categorías">
+                    class="form-control" placeholder="Buscar preguntas">
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
@@ -91,36 +99,30 @@
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
         <table class="table table-centered table-nowrap mb-0 rounded" style="table-layout: fixed;">
             <colgroup>
-                <col style="width: 25%">
-                <col style="width: 35%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
+                <col style="width: 40%">
+                <col style="width: 40%">
+                <col style="width: 8%">
+                <col style="width: 12%">
             </colgroup>
             <thead class="thead-light">
                 <tr>
-                    <th class="border-0 rounded-start">Nombre</th>
-                    <th class="border-0">Descripción</th>
-                    <th class="border-0">Orden</th>
-                    <th class="border-0">Preguntas</th>
+                    <th class="border-0 rounded-start">Pregunta</th>
+                    <th class="border-0">Respuesta</th>
                     <th class="border-0">Estado</th>
                     <th class="border-0 rounded-end">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($categories as $category)
+                @forelse($faqs as $faq)
                     <tr>
                         <td>
-                            <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $category->name }}</span>
+                            <span class="fw-bold text-gray-900">{{ $faq->question }}</span>
                         </td>
                         <td>
-                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $category->description ?? 'Sin descripción' }}</span>
+                            <span class="fw-normal text-truncate d-inline-block w-100">{{ Str::limit($faq->answer, 100) }}</span>
                         </td>
-                        <td><span class="fw-normal">{{ $category->order }}</span></td>
-                        <td><span class="badge bg-info">{{ $category->faqs_count }}</span></td>
                         <td>
-                            @if($category->is_active)
+                            @if($faq->is_active)
                                 <span class="fw-bold text-success">Activa</span>
                             @else
                                 <span class="fw-bold text-warning">Inactiva</span>
@@ -135,29 +137,33 @@
                                     @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                    <a class="dropdown-item d-flex align-items-center"
-                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $category->faq_category_id) }}">
-                                        @icon('help', 'dropdown-icon text-gray-400 me-2')
-                                        Ver preguntas
-                                    </a>
+                                    <button class="dropdown-item d-flex align-items-center view-faq-detail"
+                                        type="button"
+                                        data-faq-question="{{ $faq->question }}"
+                                        data-faq-answer="{{ $faq->answer }}"
+                                        data-faq-order="{{ $faq->order }}"
+                                        data-faq-active="{{ $faq->is_active ? '1' : '0' }}">
+                                        @icon('view', 'dropdown-icon text-gray-400 me-2')
+                                        Ver detalles
+                                    </button>
                                     <button class="dropdown-item d-flex align-items-center"
                                         type="button"
-                                        wire:click="editCategory({{ $category->faq_category_id }})">
+                                        wire:click="editFaq({{ $faq->faq_id }})">
                                         @icon('edit', 'dropdown-icon text-gray-400 me-2')
-                                        Editar categoría
+                                        Editar
                                     </button>
                                     <div role="separator" class="dropdown-divider my-1"></div>
                                     <button
-                                        class="dropdown-item {{ $category->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center"
+                                        class="dropdown-item {{ $faq->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center"
                                         type="button"
-                                        wire:click="toggleCategoryStatus({{ $category->faq_category_id }})">
-                                        @icon($category->is_active ? 'warning' : 'success', "dropdown-icon {{ $category->is_active ? 'text-warning' : 'text-success' }} me-2")
-                                        {{ $category->is_active ? 'Desactivar' : 'Activar' }}
+                                        wire:click="toggleFaqStatus({{ $faq->faq_id }})">
+                                        @icon($faq->is_active ? 'warning' : 'success', "dropdown-icon {{ $faq->is_active ? 'text-warning' : 'text-success' }} me-2")
+                                        {{ $faq->is_active ? 'Desactivar' : 'Activar' }}
                                     </button>
                                     <button
                                         class="dropdown-item text-danger d-flex align-items-center"
                                         type="button"
-                                        onclick="confirmDeleteCategory({{ $category->faq_category_id }})">
+                                        onclick="confirmDeleteFaq({{ $faq->faq_id }})">
                                         @icon('delete', 'dropdown-icon text-danger me-2')
                                         Eliminar
                                     </button>
@@ -167,13 +173,13 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center py-4">
+                        <td colspan="4" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
                                     @icon('help', 'fa-2x')
                                 </div>
-                                <p class="fw-bold">No hay categorías para mostrar</p>
-                                <p class="small">Crea una nueva categoría para empezar</p>
+                                <p class="fw-bold">No hay preguntas para mostrar</p>
+                                <p class="small">Agrega tu primera pregunta frecuente</p>
                             </div>
                         </td>
                     </tr>
@@ -181,14 +187,14 @@
             </tbody>
         </table>
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($categories->hasPages())
+            @if($faqs->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                    {{ $categories->onEachSide(1)->links('components.pagination-users') }}
+                    {{ $faqs->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
             @endif
             <div class="fw-normal small mt-0 mt-lg-0 ms-lg-auto">
-                Mostrando <b>{{ $categories->firstItem() ?? 0 }}</b> a
-                <b>{{ $categories->lastItem() ?? 0 }}</b> de <b>{{ $categories->total() }}</b> categorías
+                Mostrando <b>{{ $faqs->firstItem() ?? 0 }}</b> a
+                <b>{{ $faqs->lastItem() ?? 0 }}</b> de <b>{{ $faqs->total() }}</b> preguntas
             </div>
         </div>
     </div>
@@ -208,9 +214,39 @@
         });
     });
 
-    function confirmDeleteCategory(id) {
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.view-faq-detail')) {
+            e.preventDefault();
+            const button = e.target.closest('.view-faq-detail');
+            const faqQuestion = button.getAttribute('data-faq-question');
+            const faqAnswer = button.getAttribute('data-faq-answer');
+            const faqOrder = button.getAttribute('data-faq-order');
+            const faqActive = button.getAttribute('data-faq-active') === '1';
+
+            const htmlContent = `
+                <div class="text-start">
+                    <p class="mb-2"><span class="fw-bold">Pregunta:</span> ${faqQuestion}</p>
+                    <p class="mb-2"><span class="fw-bold">Respuesta:</span></p>
+                    <div class="p-3 bg-light rounded mb-2">${faqAnswer}</div>
+                    <p class="mb-2"><span class="fw-bold">Orden:</span> ${faqOrder}</p>
+                    <p class="mb-0"><span class="fw-bold">Estado:</span> <span class="fw-bold text-${faqActive ? 'success' : 'warning'}">${faqActive ? 'Activa' : 'Inactiva'}</span></p>
+                </div>
+            `;
+
+            Swal.fire({
+                title: 'Detalles de la pregunta',
+                html: htmlContent,
+                icon: 'info',
+                confirmButtonText: 'Cerrar',
+                showConfirmButton: true,
+                width: '600px'
+            });
+        }
+    });
+
+    function confirmDeleteFaq(id) {
         Swal.fire({
-            title: '¿Eliminar categoría?',
+            title: '¿Eliminar pregunta?',
             text: "Esta acción no se puede revertir",
             icon: 'warning',
             showCancelButton: true,
@@ -220,7 +256,7 @@
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                @this.call('deleteCategory', id);
+                @this.call('deleteFaq', id);
             }
         })
     }

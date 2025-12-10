@@ -46,7 +46,7 @@ Changelog:
                                             <label for="institution_name">Nombre de la institución</label>
                                             <input wire:model="institution_name"
                                                 class="form-control @error('institution_name') is-invalid @enderror"
-                                                id="institution_name" type="text" placeholder="CETAM">
+                                                id="institution_name" type="text" placeholder="Nombre de la institución">
                                             @error('institution_name') <div class="invalid-feedback">{{ $message }}
                                             </div> @enderror
                                         </div>
@@ -56,7 +56,7 @@ Changelog:
                                             <label for="system_name">Nombre del sistema</label>
                                             <input wire:model="system_name"
                                                 class="form-control @error('system_name') is-invalid @enderror"
-                                                id="system_name" type="text" placeholder="SinTek">
+                                                id="system_name" type="text" placeholder="Nombre del sistema">
                                             @error('system_name') <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -68,7 +68,7 @@ Changelog:
                                             <label for="contact_email">Correo de contacto</label>
                                             <input wire:model="contact_email"
                                                 class="form-control @error('contact_email') is-invalid @enderror"
-                                                id="contact_email" type="email" placeholder="contacto@cetam.gob.mx">
+                                                id="contact_email" type="email" placeholder="correo@institucion.com">
                                             @error('contact_email') <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>

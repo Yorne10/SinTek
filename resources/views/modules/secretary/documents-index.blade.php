@@ -33,11 +33,45 @@
         </div>
     </div>
 
-    {{-- Institutional Documents Table --}}
-    <div class="card card-body border-0 shadow">
+    {{-- Filters and Table --}}
+    <div class="table-settings mb-4">
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+            <div class="input-group fmxw-300">
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
+                <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
+                    placeholder="Buscar documentos">
+            </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;" aria-label="Filtrar por estado">
+                    <option value="">Todos</option>
+                    <option value="active">Activo</option>
+                    <option value="inactive">Inactivo</option>
+                    <option value="published">Publicado</option>
+                    <option value="draft">Borrador</option>
+                </select>
+            </div>
+            <div class="ms-auto">
+                <button wire:click="clearFilters" type="button"
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh', 'me-2 text-white')
+                    Limpiar filtros
+                </button>
+            </div>
+        </div>
+    </div>
 
+    <div class="card card-body border-0 shadow">
         <div class="table-responsive">
-            <table class="table table-centered table-nowrap mb-0 rounded user-table">
+            <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
+                <colgroup>
+                    <col style="width: 32%">
+                    <col style="width: 18%">
+                    <col style="width: 10%">
+                    <col style="width: 12%">
+                    <col style="width: 14%">
+                    <col style="width: 14%">
+                </colgroup>
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0 rounded-start">Título</th>

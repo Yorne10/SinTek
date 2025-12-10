@@ -153,7 +153,7 @@
                                             <label for="email_personal" class="form-label fw-bold">Correo electrónico
                                                 personal</label>
                                             <input type="email" class="form-control" id="email_personal"
-                                                value="jcperez@gmail.com" placeholder="correo@ejemplo.com">
+                                                value="jcperez@gmail.com" placeholder="correo@institucion.com">
                                         </div>
                                     </div>
                                 </form>

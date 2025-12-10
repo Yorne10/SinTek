@@ -17,9 +17,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
+                    <li class="breadcrumb-item">Secretaría</li>
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys') }}">
-                            Claves Presupuestales
+                            Gestionar Claves
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
@@ -50,14 +51,11 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 class="form-control @error('budget_key') is-invalid @enderror"
                                 id="budget_key"
                                 wire:model="budget_key"
-                                placeholder="Ej: 1234-5678"
+                                placeholder="Clave presupuestal"
                                 required>
                             @error('budget_key')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">
-                                Ingresa la clave presupuestal única
-                            </small>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -68,39 +66,44 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 class="form-control @error('position_name') is-invalid @enderror"
                                 id="position_name"
                                 wire:model="position_name"
-                                placeholder="Ej: Coordinador de Recursos Humanos"
+                                placeholder="Nombre del puesto"
                                 required>
                             @error('position_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <small class="form-text text-muted">
-                                Nombre descriptivo del puesto asociado
-                            </small>
                         </div>
                     </div>
 
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="d-flex gap-2">
-                                <button type="submit"
-                                    class="btn btn-gray-800 d-inline-flex align-items-center"
-                                    wire:loading.attr="disabled">
-                                    <span wire:loading.remove wire:target="save">
-                                        @icon('save', 'me-2')
-                                        {{ $budget_key_id ? 'Actualizar' : 'Guardar' }} Clave
-                                    </span>
-                                    <span wire:loading wire:target="save">
-                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                        Guardando...
-                                    </span>
-                                </button>
+                    <div class="mt-3 d-flex justify-content-between">
+                        <div>
+                            <button type="submit"
+                                class="btn btn-primary mt-2 animate-up-2"
+                                wire:loading.attr="disabled">
+                                <span wire:loading.remove wire:target="save">
+                                    @icon('save', 'fa-xs text-white me-2')
+                                    {{ $budget_key_id ? 'Actualizar' : 'Guardar' }} Clave
+                                </span>
+                                <span wire:loading wire:target="save">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Guardando...
+                                </span>
+                            </button>
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys') }}"
+                                class="btn btn-gray-300 mt-2 animate-up-2">
+                                Cancelar
+                            </a>
+                        </div>
+                        @if($budget_key_id)
+                            <div>
                                 <button type="button"
-                                    class="btn btn-link text-gray-600"
-                                    wire:click="cancel">
-                                    Cancelar
+                                    class="btn btn-danger mt-2 animate-up-2"
+                                    wire:click="deleteKey"
+                                    onclick="confirm('¿Estás seguro de eliminar esta clave?') || event.stopImmediatePropagation()">
+                                    @icon('delete', 'fa-xs text-white me-2')
+                                    Eliminar clave
                                 </button>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -109,21 +112,34 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
-                    <h3 class="h6 mb-3">
-                        @icon('info', 'me-2')
-                        Información
-                    </h3>
-                    <p class="small text-gray-600 mb-2">
-                        <strong>Campos requeridos:</strong> Todos los campos marcados con <span class="text-danger">*</span> son obligatorios.
-                    </p>
-                    <p class="small text-gray-600 mb-2">
-                        <strong>Clave presupuestal:</strong> Debe ser única en el sistema.
-                    </p>
-                    <p class="small text-gray-600 mb-0">
-                        <strong>Nombre del puesto:</strong> Será utilizado para identificar las plazas disponibles en el sistema.
-                    </p>
+                    <h2 class="h6 mb-3">Información importante</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-0">
+                            <div class="d-flex align-items-start">
+                                @icon('info', 'fa-xs text-info me-3')
+                                <div>
+                                    <h3 class="h6">Clave única</h3>
+                                    <p class="text-gray-700 small mb-0">
+                                        La clave presupuestal debe ser única en el sistema y no puede duplicarse.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item px-0">
+                            <div class="d-flex align-items-start">
+                                @icon('info', 'fa-xs text-info me-3')
+                                <div>
+                                    <h3 class="h6">Nombre del puesto</h3>
+                                    <p class="text-gray-700 small mb-0">
+                                        Será utilizado para identificar las plazas disponibles en el sistema de convocatorias.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

@@ -213,9 +213,12 @@ class CreateStep extends Component
             }
         }
 
+        $process = Process::find($this->process_id);
+        $processName = $process ? $process->name : 'Proceso';
+
         ActivityLogger::log(
             $actionKey === 'paso.creado' ? 'paso.crear' : 'paso.editar',
-            "Paso '{$this->tittle}' {$actionVerb} en proceso ID {$this->process_id}",
+            "Paso {$actionVerb}: '{$this->tittle}' del proceso '{$processName}'",
             $user?->users_id
         );
 

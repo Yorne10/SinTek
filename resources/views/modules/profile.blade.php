@@ -17,7 +17,7 @@
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Mi perfil</li>
@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" type="email" placeholder="correo@ejemplo.com" required>
+                                    id="email" type="email" placeholder="correo@institucion.com" required>
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -285,15 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                @this.call('save').then(() => {
-                    swalWithBootstrapButtons.fire({
-                        icon: 'success',
-                        title: '¡Guardado!',
-                        text: 'Tu información ha sido actualizada correctamente.',
-                        showConfirmButton: true,
-                        timer: 2000
-                    });
-                });
+                @this.call('save');
             }
         });
     });
@@ -308,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     @endif
 
-    if (window.Livewire) {
+        if (window.Livewire) {
         Livewire.on('profile-notify', (event) => {
             const detail = event || {};
             swalWithBootstrapButtons.fire({
@@ -319,6 +311,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 showConfirmButton: true
             });
         });
+
+        Livewire.on('profile-saved', () => {
+            swalWithBootstrapButtons.fire({
+                icon: 'success',
+                title: 'Guardado!',
+                text: 'Tu informacion ha sido actualizada correctamente.',
+                showConfirmButton: true,
+                timer: 2000
+            });
+        });
     }
 });
 </script>
+
+
+

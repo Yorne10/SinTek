@@ -117,8 +117,8 @@ class ConvocationForm extends Component
                 ]);
 
                 ActivityLogger::log(
-                    'convocatoria.editada',
-                    "Edición de convocatoria '{$convocatoria->title}' (ID: {$convocatoria->convocation_id})",
+                    'convocatoria.editar',
+                    "Convocatoria editada: '{$convocatoria->title}'",
                     $user?->users_id
                 );
 
@@ -134,8 +134,8 @@ class ConvocationForm extends Component
                 ]);
 
                 ActivityLogger::log(
-                    'convocatoria.creada',
-                    "Creación de convocatoria '{$convocatoria->title}' (ID: {$convocatoria->convocation_id})",
+                    'convocatoria.crear',
+                    "Convocatoria creada: '{$convocatoria->title}'",
                     $user?->users_id
                 );
 

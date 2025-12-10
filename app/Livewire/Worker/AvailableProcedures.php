@@ -10,6 +10,7 @@ use App\Models\RequestStep;
 use App\Models\Worker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\ActivityLogger;
 
 class AvailableProcedures extends Component
 {
@@ -88,15 +89,19 @@ class AvailableProcedures extends Component
         try {
             DB::beginTransaction();
 
-            // Crear la solicitud
+            // Generate unique request code
+            $requestCode = 'REQ-' . strtoupper(uniqid());
+
+            // Create request
             $request = WorkerRequest::create([
                 'worker_id' => $worker->workers_id,
                 'process_id' => $process->process_id,
+                'request_code' => $requestCode,
                 'status' => 'in_progress',
                 'start_date' => now(),
             ]);
 
-            // Crear los pasos de la solicitud
+            // Create request steps
             foreach ($process->steps as $step) {
                 RequestStep::create([
                     'request_id' => $request->request_id,
@@ -106,6 +111,13 @@ class AvailableProcedures extends Component
             }
 
             DB::commit();
+
+            // Log activity - SAME MESSAGE AS API
+            ActivityLogger::log(
+                'tramite.iniciar',
+                "Trámite iniciado: '{$process->name}' - Código: {$requestCode}",
+                $user->users_id
+            );
 
             session()->flash('success', 'Trámite iniciado exitosamente.');
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $request->request_id]);

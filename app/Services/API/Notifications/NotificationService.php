@@ -5,6 +5,7 @@ namespace App\Services\API\Notifications;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Services\ActivityLogger;
 
 class NotificationService
 {
@@ -46,9 +47,25 @@ class NotificationService
 
         $userId = $request->user()->users_id;
 
+        // Get notifications before updating to log them
+        $notifications = Notification::where('user_id', $userId)
+            ->whereIn('notification_id', $validated['ids'])
+            ->whereNull('read_at')
+            ->get();
+
+        // Update notifications
         Notification::where('user_id', $userId)
             ->whereIn('notification_id', $validated['ids'])
             ->update(['read_at' => now()]);
+
+        // Log activity for each notification - SAME MESSAGE AS WEB
+        foreach ($notifications as $notification) {
+            ActivityLogger::log(
+                'notificacion.marcar_leida',
+                "Notificación marcada como leída: '{$notification->tittle}'",
+                $userId
+            );
+        }
 
         return response()->json([
             'success' => true,

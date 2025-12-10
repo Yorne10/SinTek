@@ -5,6 +5,8 @@ namespace App\Livewire\Secretary;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Position;
+use App\Services\ActivityLogger;
+use Illuminate\Support\Facades\Auth;
 
 class BudgetKeys extends Component
 {
@@ -37,7 +39,22 @@ class BudgetKeys extends Component
 
     public function delete($id)
     {
-        Position::find($id)->delete();
-        session()->flash('message', 'Clave Presupuestal eliminada correctamente.');
+        $user = Auth::user();
+        $position = Position::find($id);
+
+        if ($position) {
+            $budgetKey = $position->budget_key;
+            $positionName = $position->position_name;
+
+            $position->delete();
+
+            ActivityLogger::log(
+                'clave.eliminar',
+                "Clave presupuestal eliminada: '{$budgetKey}' - {$positionName}",
+                $user?->users_id
+            );
+
+            session()->flash('message', 'Clave Presupuestal eliminada correctamente.');
+        }
     }
 }

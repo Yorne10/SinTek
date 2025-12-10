@@ -96,8 +96,8 @@ class DocumentForm extends Component
                 $document->update($data);
 
                 ActivityLogger::log(
-                    'documento.editado',
-                    "Edición de documento institucional '{$document->title}' (ID: {$document->institutional_document_id})",
+                    'documento.editar',
+                    "Documento institucional editado: '{$document->title}' - Categoría: {$document->category}",
                     $user?->users_id
                 );
 
@@ -107,8 +107,8 @@ class DocumentForm extends Component
                 $document = InstitutionalDocument::create($data);
 
                 ActivityLogger::log(
-                    'documento.creado',
-                    "Creación de documento institucional '{$document->title}' (ID: {$document->institutional_document_id})",
+                    'documento.crear',
+                    "Documento institucional creado: '{$document->title}' - Categoría: {$document->category}",
                     $user?->users_id
                 );
 

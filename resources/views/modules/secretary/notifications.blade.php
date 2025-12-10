@@ -1,16 +1,12 @@
-{{--
-* Company: CETAM
-* Project: ST
-* File: notifications.blade.php
-* Created on: 04/11/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
-*
-* Changelog:
-* - ID: 001 | Modified on: 08/12/2025 |
-*   Modified by: Claude Code |
-*   Description: Restaurada vista completa de notificaciones con formulario y tabla
+{{-- 
+Company: CETAM
+Project: ST
+File: notifications.blade.php
+Created on: 04/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 --}}
+
 <div>
     {{-- Page Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -110,7 +106,7 @@
                                                     <div class="fw-bold small">{{ $worker->name }}</div>
                                                     <div class="text-muted small">{{ $worker->email }}</div>
                                                 </div>
-                                                <i class="fa-solid fa-plus text-primary"></i>
+                                                @icon('add', 'text-primary')
                                             </button>
                                         @endforeach
                                     </div>
@@ -184,48 +180,65 @@
                 <div class="card-body p-0">
                     @if($notifications->count() > 0)
                         <div class="table-responsive">
-                            <table class="table table-hover mb-0">
+                            <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col style="width: 30%">
+                                    <col style="width: 25%">
+                                    <col style="width: 16%">
+                                    <col style="width: 15%">
+                                    <col style="width: 14%">
+                                </colgroup>
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="border-0">Título</th>
+                                        <th class="border-0 rounded-start">Título</th>
                                         <th class="border-0">Destinatario</th>
                                         <th class="border-0">Fecha</th>
-                                        <th class="border-0 text-center">Estado</th>
-                                        <th class="border-0">Acciones</th>
+                                        <th class="border-0">Estado</th>
+                                        <th class="border-0 rounded-end">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($notifications as $notification)
                                         <tr>
                                             <td>
-                                                <div class="fw-bold">{{ $notification->tittle }}</div>
-                                                <div class="small text-muted text-truncate" style="max-width: 200px;">
+                                                <div class="fw-bold text-truncate d-inline-block w-100">{{ $notification->tittle }}</div>
+                                                <div class="small text-muted text-truncate d-inline-block w-100">
                                                     {{ $notification->message }}
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="small">{{ $notification->user->name ?? 'N/A' }}</div>
-                                                <div class="small text-muted">{{ $notification->user->email ?? 'N/A' }}</div>
+                                                <div class="small text-truncate d-inline-block w-100">{{ $notification->user->name ?? 'N/A' }}</div>
+                                                <div class="small text-muted text-truncate d-inline-block w-100">{{ $notification->user->email ?? 'N/A' }}</div>
                                             </td>
                                             <td class="small text-muted">
                                                 {{ $notification->created_at->format('d/m/Y H:i') }}
                                             </td>
-                                            <td class="text-center">
+                                            <td>
                                                 @if($notification->read_at)
-                                                    <span class="badge bg-success small">Leída</span>
+                                                    <span class="fw-bold text-success">Leída</span>
                                                 @else
-                                                    <span class="badge bg-warning small">Pendiente</span>
+                                                    <span class="fw-bold text-warning">Pendiente</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                <button type="button"
-                                                    class="btn btn-sm btn-link view-notification-btn"
-                                                    data-notification-title="{{ $notification->tittle }}"
-                                                    data-notification-message="{{ $notification->message }}"
-                                                    data-notification-user="{{ $notification->user->name ?? 'N/A' }}"
-                                                    data-notification-date="{{ $notification->created_at->format('d/m/Y H:i') }}">
-                                                    @icon('view', 'fa-sm')
-                                                </button>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        @icon('menu', 'icon icon-xs')
+                                                    </button>
+                                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                                        <button class="dropdown-item d-flex align-items-center"
+                                                            wire:click="markAsRead({{ $notification->notification_id }})">
+                                                            @icon('state.success', 'dropdown-icon text-gray-400 me-2')
+                                                            Marcar como leída
+                                                        </button>
+                                                        <button class="dropdown-item d-flex align-items-center text-danger"
+                                                            wire:click="deleteNotification({{ $notification->notification_id }})">
+                                                            @icon('delete', 'dropdown-icon text-danger me-2')
+                                                            Eliminar
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

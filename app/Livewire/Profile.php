@@ -127,6 +127,8 @@ class Profile extends Component
                 ]);
             }
         }
+
+        $this->dispatch('profile-saved');
     }
 
     public function addBudgetKey(): void

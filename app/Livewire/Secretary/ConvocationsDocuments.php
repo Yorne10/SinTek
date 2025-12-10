@@ -120,8 +120,8 @@ class ConvocationsDocuments extends Component
             ]);
 
             ActivityLogger::log(
-                'convocatoria.creada',
-                "Creación de convocatoria '{$convocatoria->title}' (ID: {$convocatoria->convocation_id})",
+                'convocatoria.crear',
+                "Convocatoria creada: '{$convocatoria->title}'",
                 $user?->users_id
             );
 
@@ -191,8 +191,8 @@ class ConvocationsDocuments extends Component
             ]);
 
             ActivityLogger::log(
-                'documento.institucional.crear',
-                "Documento institucional '{$this->doc_titulo}' creado (ID: {$institutional->institutional_document_id})",
+                'documento.crear',
+                "Documento institucional creado: '{$this->doc_titulo}' - Categoría: {$this->doc_categoria}",
                 $user?->users_id
             );
 
@@ -233,8 +233,8 @@ class ConvocationsDocuments extends Component
             $document->save();
 
             ActivityLogger::log(
-                'documento.institucional.archivar',
-                "Documento institucional '{$document->title}' archivado (ID: {$document->institutional_document_id})",
+                'documento.archivar',
+                "Documento institucional archivado: '{$document->title}' - Categoría: {$document->category}",
                 $user?->users_id
             );
 

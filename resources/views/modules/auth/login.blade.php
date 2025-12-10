@@ -1,4 +1,4 @@
-﻿{{--
+{{--
 Empresa: CETAM
 Proyecto: ST
 Archivo: login.blade.php
@@ -6,9 +6,6 @@ Fecha de creacion: 02/11/25
 Realizado por: Alfonso Angel Garcia Hernandez
 Validado por: Alfonso Angel Garcia Hernandez
 --}}
-
-{{-- Nota Livewire: esta vista debe tener UN unico elemento raiz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 @section('title', 'Iniciar sesión - ' . config('app.name'))
 
@@ -59,7 +56,7 @@ Validado por: Alfonso Angel Garcia Hernandez
                                                 d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
                                                 clip-rule="evenodd"></path>
                                         </svg></span>
-                                    <input wire:model.lazy="password" type="password" placeholder="Contraseña"
+                                    <input wire:model.lazy="password" type="password" placeholder="Contrase&ntilde;a"
                                         class="form-control @error('password') is-invalid @enderror" id="password">
                                 </div>
                                 @error('password') <div class="invalid-feedback d-block"> {{ $message }} </div>
@@ -82,22 +79,8 @@ Validado por: Alfonso Angel Garcia Hernandez
                             <button type="submit" class="btn btn-gray-800">Iniciar sesión</button>
                         </div>
                     </form>
-                    {{-- Solo acceso institucional: se remueven opciones sociales y registro --}}
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-@if(session('idle_alert'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                title: 'Sesión Cerrada',
-                text: '{{ session('idle_alert') }}',
-                icon: 'warning',
-                confirmButtonText: 'Entendido'
-            });
-        });
-    </script>
-@endif

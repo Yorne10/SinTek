@@ -125,7 +125,7 @@ class RequestService
 
             ActivityLogger::log(
                 'tramite.iniciar',
-                "Inicio de tramite '{$process->name}' (Solicitud #{$newRequest->request_id}).",
+                "Trámite iniciado: '{$process->name}' - Código: {$newRequest->request_code}",
                 $user->users_id
             );
 
@@ -252,15 +252,18 @@ class RequestService
             DB::commit();
 
             $stepName = $currentStep->step?->tittle ?? 'Paso';
+
+            // Log activity - SAME MESSAGE AS WEB
             ActivityLogger::log(
                 'tramite.paso.completado',
-                "Paso completado: '{$stepName}' del tramite '{$req->process->name}'.",
+                "Paso completado: '{$stepName}' del trámite '{$req->process->name}'",
                 $user->users_id
             );
+
             if (!$nextStep) {
                 ActivityLogger::log(
                     'tramite.completado',
-                    "Tramite completado: '{$req->process->name}'.",
+                    "Trámite completado: '{$req->process->name}'",
                     $user->users_id
                 );
             }
@@ -351,17 +354,19 @@ class RequestService
             DB::commit();
 
             $stepName = $currentStep->step?->tittle ?? 'Paso';
-            $decisionLabel = $validated['condition_type'] === 'aprobado' ? 'aprobado' : 'rechazado';
+            $decisionLabel = $validated['condition_type'] === 'aprobado' ? 'sí' : 'no';
+
+            // Log activity - SAME MESSAGE AS WEB
             ActivityLogger::log(
                 'tramite.decision',
-                "Decision '{$decisionLabel}' en el paso '{$stepName}' del tramite '{$req->process->name}'.",
+                "Decisión '{$decisionLabel}' en el paso '{$stepName}' del trámite '{$req->process->name}'",
                 $user->users_id
             );
 
             if ($req->status === 'completado') {
                 ActivityLogger::log(
                     'tramite.completado',
-                    "Tramite completado: '{$req->process->name}'.",
+                    "Trámite completado: '{$req->process->name}'",
                     $user->users_id
                 );
             }
@@ -435,10 +440,10 @@ class RequestService
                 'type' => 'user_upload',
             ]);
 
-            // Log activity
+            // Log activity - SAME MESSAGE AS WEB
             ActivityLogger::log(
                 'tramite.documento.subido',
-                "Documento '{$document->name}' subido para el paso '{$step->tittle}' del tramite '{$req->process->name}'.",
+                "Documento '{$document->name}' subido para el paso '{$step->tittle}' del trámite '{$req->process->name}'",
                 $user->users_id
             );
 

@@ -52,7 +52,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="form-group">
                                 <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" type="email" placeholder="correo@ejemplo.com">
+                                    id="email" type="email" placeholder="correo@institucion.com">
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -89,7 +89,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <label for="password">Nueva contraseña</label>
                                 <input wire:model="password"
                                     class="form-control @error('password') is-invalid @enderror" id="password"
-                                    type="password" placeholder="Nueva contraseña">
+                                    type="password" placeholder="Contrase&ntilde;a">
                                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 <small class="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
@@ -99,7 +99,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <label for="password_confirmation">Confirmar contraseña</label>
                                 <input wire:model="password_confirmation"
                                     class="form-control @error('password_confirmation') is-invalid @enderror"
-                                    id="password_confirmation" type="password" placeholder="Confirma la contraseña">
+                                    id="password_confirmation" type="password" placeholder="Contrase&ntilde;a">
                                 @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

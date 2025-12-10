@@ -51,6 +51,7 @@ use App\Livewire\Secretary\DocumentForm;
 use App\Livewire\Secretary\Reports as SecretaryReports;
 use App\Livewire\Secretary\Notifications as SecretaryNotifications;
 use App\Livewire\Secretary\FaqManagement;
+use App\Livewire\Secretary\FaqQuestions;
 use App\Livewire\Secretary\ProcessesIndex;
 use App\Livewire\Secretary\BudgetKeyForm;
 use App\Http\Controllers\Documents\ConvocationDocumentController;
@@ -148,11 +149,13 @@ Route::prefix("p/{$slug}")
                 Route::get('/document/{id}/edit', DocumentForm::class)->name('secretary.document.edit');
                 Route::get('/secretary-reports', SecretaryReports::class)->name('secretary.reports');
                 Route::get('/secretary-notifications', SecretaryNotifications::class)->name('secretary.notifications');
-                Route::get('/faq-management', FaqManagement::class)->name('secretary.faq-management');
+                Route::get('/faq/categories', FaqManagement::class)->name('faq.categories');
+                Route::get('/faq/questions/{categoryId}', FaqQuestions::class)->name('faq.questions');
                 Route::get('/secretary/processes', ProcessesIndex::class)->name('secretary.processes');
                 Route::get('/secretary/budget-keys', \App\Livewire\Secretary\BudgetKeys::class)->name('secretary.budget-keys');
                 Route::get('/budget-key/create', BudgetKeyForm::class)->name('secretary.budget-key.create');
                 Route::get('/budget-key/{id}/edit', BudgetKeyForm::class)->name('secretary.budget-key.edit');
+                Route::get('/worker/{id}/procedures', \App\Livewire\Secretary\WorkerProceduresHistory::class)->name('secretary.worker-procedures');
             });
 
             // Rutas para administradores (gestin de usuarios y sistema)

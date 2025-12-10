@@ -1,5 +1,7 @@
 {{--
 * Company: CETAM
+{{--
+* Company: CETAM
 * Project: ST
 * File: convocation-form.blade.php
 * Created on: 01/12/2025
@@ -17,41 +19,46 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
+                    <li class="breadcrumb-item">Secretaría</li>
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}">
-                            Convocations
+                            Convocatorias
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        {{ $convocationId ? 'Edit' : 'New' }} Convocation
+                        {{ $convocationId ? 'Editar' : 'Nueva' }} convocatoria
                     </li>
                 </ol>
             </nav>
-            <h2 class="h4">{{ $convocationId ? 'Edit' : 'New' }} Convocation</h2>
-            <p class="mb-0">{{ $convocationId ? 'Update details of the' : 'Create a new' }} convocation</p>
+            <h2 class="h4">{{ $convocationId ? 'Editar' : 'Nueva' }} Convocatoria</h2>
+            <p class="mb-0">{{ $convocationId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} convocatoria en el
+                sistema.</p>
         </div>
     </div>
 
-    {{-- Form --}}
     <div class="row">
-        <div class="col-12">
-            <div class="card border-0 shadow">
+        {{-- Form --}}
+        <div class="col-12 col-xl-8">
+            <div class="card border-0 shadow mb-4">
                 <div class="card-body">
+                    <h2 class="h5 mb-4">Información de la convocatoria</h2>
                     <form wire:submit.prevent="save">
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="titulo" class="form-label">Convocation Title *</label>
+                                <label for="titulo" class="form-label">Título de la convocatoria <span
+                                        class="text-danger">*</span></label>
                                 <input wire:model="titulo" type="text"
                                     class="form-control @error('titulo') is-invalid @enderror" id="titulo"
-                                    placeholder="Ex: Convocation for administrative coordinator position">
+                                    placeholder="Ej: Convocatoria para coordinador administrativo">
                                 @error('titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label for="descripcion" class="form-label">Description *</label>
+                                <label for="descripcion" class="form-label">Descripción <span
+                                        class="text-danger">*</span></label>
                                 <textarea wire:model="descripcion"
                                     class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
-                                    rows="4" placeholder="Detailed description of the convocation..."></textarea>
+                                    rows="4" placeholder="Descripción detallada de la convocatoria..."></textarea>
                                 @error('descripcion') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
@@ -60,37 +67,38 @@
                                     <input wire:model.live="convocatoria_permanente" class="form-check-input"
                                         type="checkbox" id="convocatoria_permanente">
                                     <label class="form-check-label" for="convocatoria_permanente">
-                                        Permanent convocation (no closing date)
+                                        Convocatoria permanente (sin fecha de cierre)
                                     </label>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="fecha_inicio" class="form-label">Start Date *</label>
+                                <label for="fecha_inicio" class="form-label">Fecha de inicio <span
+                                        class="text-danger">*</span></label>
                                 <input wire:model="fecha_inicio" type="date"
                                     class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio">
                                 @error('fecha_inicio') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="fecha_fin" class="form-label">End Date</label>
+                                <label for="fecha_fin" class="form-label">Fecha de fin</label>
                                 <input wire:model="fecha_fin" type="date"
                                     class="form-control @error('fecha_fin') is-invalid @enderror" id="fecha_fin"
                                     @if($convocatoria_permanente) disabled @endif>
-                                <small class="form-text text-muted">Leave empty if permanent</small>
+                                <small class="form-text text-muted">Dejar vacío si es permanente</small>
                                 @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             @if(!$convocationId)
                                 <div class="col-md-12 mb-3">
-                                    <label class="form-label">Documents (PDF) <span
-                                            class="text-muted small">(Optional)</span></label>
+                                    <label class="form-label">Documentos (PDF) <span
+                                            class="text-muted small">(Opcional)</span></label>
                                     @foreach($documentos as $index => $documento)
                                         <div class="row mb-2" wire:key="doc-{{ $index }}">
                                             <div class="col-md-5">
                                                 <input type="text" wire:model="documentos.{{ $index }}.titulo"
                                                     class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
-                                                    placeholder="Document Title">
+                                                    placeholder="Título del documento">
                                                 @error('documentos.' . $index . '.titulo') <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div> @enderror
@@ -111,7 +119,8 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <button type="button" wire:click="addDocumento" class="btn btn-sm btn-outline-primary">
+                                    <button type="button" wire:click="addDocumento"
+                                        class="btn btn-sm btn-outline-primary mt-2">
                                         @icon('add', 'icon-xs me-1')
                                         Agregar documento
                                     </button>
@@ -121,7 +130,7 @@
                             <div class="col-md-12 d-flex flex-wrap align-items-center gap-2 mt-3">
                                 <button type="submit" class="btn btn-primary" id="saveConvBtn">
                                     @icon('save', 'icon-xs me-1')
-                                    {{ $convocationId ? 'Update' : 'Create' }} convocation
+                                    {{ $convocationId ? 'Actualizar' : 'Guardar' }} convocatoria
                                 </button>
                                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
                                     class="btn btn-gray-300">
@@ -130,6 +139,41 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        {{-- Info Sidebar --}}
+        <div class="col-12 col-xl-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <h2 class="h6 mb-3">Información importante</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item px-0">
+                            <div class="d-flex align-items-start">
+                                @icon('info', 'fa-xs text-info me-3')
+                                <div>
+                                    <h3 class="h6">Tipos de convocatoria</h3>
+                                    <p class="text-gray-700 small mb-0">
+                                        <strong>Permanente:</strong> No tiene fecha de cierre.<br>
+                                        <strong>Temporal:</strong> Tiene fecha de inicio y fin definidas.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item px-0">
+                            <div class="d-flex align-items-start">
+                                @icon('documentSign', 'fa-xs text-info me-3')
+                                <div>
+                                    <h3 class="h6">Documentación</h3>
+                                    <p class="text-gray-700 small mb-0">
+                                        Sube los archivos PDF necesarios para la convocatoria. Asegúrate de que no
+                                        superen los 5MB.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -151,11 +195,11 @@
             e.preventDefault();
             const isEdit = {{ $convocationId ? 'true' : 'false' }};
             swalWithBootstrapButtons.fire({
-                title: isEdit ? 'Update convocation?' : 'Create convocation?',
-                text: isEdit ? 'Do you want to update the details of this convocation?' : 'Do you want to publish this convocation?',
+                title: isEdit ? '¿Actualizar convocatoria?' : '¿Guardar convocatoria?',
+                text: isEdit ? '¿Deseas actualizar los detalles de esta convocatoria?' : '¿Deseas publicar esta convocatoria?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: isEdit ? 'Yes, update' : 'Yes, publish',
+                confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
             }).then((result) => {

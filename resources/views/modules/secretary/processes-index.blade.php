@@ -36,29 +36,22 @@
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
-                <span class="input-group-text">
-                    <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                        aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </span>
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
                     placeholder="Buscar procesos">
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
                 <select wire:model.live="statusFilter" class="form-select" style="min-width: 140px;"
-                    aria-label="Filter by status">
+                    aria-label="Filtrar por estado">
                     <option value="">Todos</option>
                     <option value="active">Activo</option>
                     <option value="inactive">Inactivo</option>
                 </select>
             </div>
             <div class="ms-auto">
-                <button wire:click="clearFilters" class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                    @icon('refresh', 'me-2')
+                <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
             </div>
@@ -97,12 +90,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                        </path>
-                                    </svg>
+                                    @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <button class="dropdown-item d-flex align-items-center view-process-detail"

@@ -66,7 +66,7 @@ Changelog:
                                         <div class="form-group">
                                             <label for="email">Correo electrónico</label>
                                             <input wire:model="user.email" class="form-control" id="email" type="email"
-                                                placeholder="correo@empresa.com" disabled>
+                                                placeholder="correo@institucion.com" disabled>
                                             <small class="form-text text-muted">El correo no puede ser
                                                 modificado</small>
                                         </div>

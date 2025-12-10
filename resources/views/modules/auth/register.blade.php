@@ -52,7 +52,7 @@ Validado por: Alfonso Angel Garca Hernndez
                                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                                     </svg></span>
                                 <input wire:model="email" id="email" type="email" class="form-control"
-                                    placeholder="nombre@institucion.mx" required>
+                                    placeholder="correo@institucion.com" required>
                             </div>
                             @error('email') <div class="invalid-feedback"> {{ $message }} </div> @enderror
                         </div>
@@ -89,7 +89,7 @@ Validado por: Alfonso Angel Garca Hernndez
                                 clip-rule="evenodd"></path>
                                 </svg></span>
                                 <input name="password_confirmation" wire:model.lazy="passwordConfirmation"
-                                    type="password" placeholder="Repite la contraseña" class="form-control"
+                                    type="password" placeholder="Contrase&ntilde;a" class="form-control"
                                     id="confirm_password" required>
                             </div>
                         </div>

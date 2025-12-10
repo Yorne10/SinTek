@@ -14,7 +14,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('nav.home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
@@ -26,7 +26,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <button wire:click="create" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-                @icon('action.create', 'me-2')
+                @icon('add', 'me-2')
                 Nueva Clave
             </button>
         </div>
@@ -35,16 +35,15 @@ Approved by: Alfonso Angel Garcia Hernandez
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
-                <span class="input-group-text">
-                    <svg class="icon icon-xs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                        fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </span>
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
                     placeholder="Buscar clave o puesto...">
+            </div>
+            <div class="ms-auto">
+                <button wire:click="$set('search','')" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh','me-2 text-white')
+                    Limpiar filtros
+                </button>
             </div>
         </div>
     </div>
@@ -64,7 +63,12 @@ Approved by: Alfonso Angel Garcia Hernandez
     @endif
 
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
+        <table class="table table-centered mb-0 rounded user-table align-items-center w-100" style="table-layout: fixed;">
+            <colgroup>
+                <col style="width: 35%">
+                <col style="width: 45%">
+                <col style="width: 20%">
+            </colgroup>
             <thead class="thead-light">
                 <tr>
                     <th class="border-0 rounded-start">Clave Presupuestal</th>
@@ -85,25 +89,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="btn-group">
                                 <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                        </path>
-                                    </svg>
+                                    @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <button wire:click="edit({{ $position->positions_id }})"
                                         class="dropdown-item d-flex align-items-center" type="button">
-                                        @icon('action.edit', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                         Editar
-                                    </button>
-                                    <div role="separator" class="dropdown-divider my-1"></div>
-                                    <button wire:click="delete({{ $position->positions_id }})"
-                                        class="dropdown-item text-danger d-flex align-items-center" type="button"
-                                        onclick="confirm('¿Estás seguro de eliminar esta clave?') || event.stopImmediatePropagation()">
-                                        @icon('action.delete', 'dropdown-icon text-danger me-2')
-                                        Eliminar
                                     </button>
                                 </div>
                             </div>
@@ -138,3 +130,5 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 </div>
+
+
