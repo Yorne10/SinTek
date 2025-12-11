@@ -27,7 +27,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div
                             class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('userGroup', 'fa-3x text-primary')
+                                @icon('userGroup', 'fa-3x text-info')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -148,10 +148,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-gray-600">Procesos activos</span>
-                            <span class="h5 mb-0 fw-bold text-primary">{{ $activeProcesses }}</span>
+                            <span class="h5 mb-0 fw-bold text-success">{{ $activeProcesses }}</span>
                         </div>
                         <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-primary" role="progressbar"
+                            <div class="progress-bar bg-success" role="progressbar"
                                 style="width: {{ $totalProcesses > 0 ? ($activeProcesses / $totalProcesses * 100) : 0 }}%">
                             </div>
                         </div>

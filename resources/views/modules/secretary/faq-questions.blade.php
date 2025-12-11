@@ -16,9 +16,10 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
+                    <li class="breadcrumb-item">Secretaría</li>
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}">
-                            Categorías de FAQ
+                            Preguntas frecuentes
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
@@ -32,43 +33,12 @@
                 @icon('arrowLeft', 'me-2')
                 Volver
             </a>
-            <button wire:click="toggleFaqForm" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.question.create', $categoryId) }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('add', 'me-2')
                 Nueva pregunta
-            </button>
+            </a>
         </div>
     </div>
-
-    @if($showFaqForm)
-        <div class="card border-0 shadow mb-4">
-            <div class="card-body">
-                <h5 class="mb-3">{{ $editingFaqId ? 'Editar' : 'Nueva' }} pregunta</h5>
-                <form wire:submit.prevent="saveFaq">
-                    <div class="row">
-                        <div class="col-md-9 mb-3">
-                            <label class="form-label">Pregunta *</label>
-                            <input type="text" class="form-control @error('faqQuestion') is-invalid @enderror" wire:model="faqQuestion">
-                            @error('faqQuestion') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="form-label">Orden</label>
-                            <input type="number" class="form-control @error('faqOrder') is-invalid @enderror" wire:model="faqOrder">
-                            @error('faqOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label">Respuesta *</label>
-                            <textarea class="form-control @error('faqAnswer') is-invalid @enderror" wire:model="faqAnswer" rows="5"></textarea>
-                            @error('faqAnswer') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-gray-200" wire:click="toggleFaqForm">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    @endif
 
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
@@ -146,12 +116,11 @@
                                         @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
                                     </button>
-                                    <button class="dropdown-item d-flex align-items-center"
-                                        type="button"
-                                        wire:click="editFaq({{ $faq->faq_id }})">
+                                    <a class="dropdown-item d-flex align-items-center"
+                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.question.edit', [$categoryId, $faq->faq_id]) }}">
                                         @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                         Editar
-                                    </button>
+                                    </a>
                                     <div role="separator" class="dropdown-divider my-1"></div>
                                     <button
                                         class="dropdown-item {{ $faq->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center"
@@ -159,13 +128,6 @@
                                         wire:click="toggleFaqStatus({{ $faq->faq_id }})">
                                         @icon($faq->is_active ? 'warning' : 'success', "dropdown-icon {{ $faq->is_active ? 'text-warning' : 'text-success' }} me-2")
                                         {{ $faq->is_active ? 'Desactivar' : 'Activar' }}
-                                    </button>
-                                    <button
-                                        class="dropdown-item text-danger d-flex align-items-center"
-                                        type="button"
-                                        onclick="confirmDeleteFaq({{ $faq->faq_id }})">
-                                        @icon('delete', 'dropdown-icon text-danger me-2')
-                                        Eliminar
                                     </button>
                                 </div>
                             </div>

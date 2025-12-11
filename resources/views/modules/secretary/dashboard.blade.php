@@ -1,4 +1,4 @@
-{{--
+{{-- 
 * Company: CETAM
 * Project: ST
 * File: dashboard.blade.php
@@ -18,16 +18,15 @@
         </div>
     </div>
 
-    {{-- Main Metrics --}}
+    {{-- Métricas principales --}}
     <div class="row">
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div
-                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
-                                @icon('documentSign', 'fa-3x text-primary')
+                                @icon('documentSign', 'fa-3x text-info')
                             </div>
                         </div>
                         <div class="col-12 col-xl-7 px-xl-0">
@@ -48,8 +47,7 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div
-                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('pending', 'fa-3x text-warning')
                             </div>
@@ -72,8 +70,7 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div
-                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('success', 'fa-3x text-success')
                             </div>
@@ -93,94 +90,56 @@
         </div>
     </div>
 
-    {{-- Quick Actions and Summary --}}
+    {{-- Resumen y detalle --}}
     <div class="row">
-        {{-- Quick Actions --}}
-        <div class="col-12 col-lg-8 mb-4">
-            <div class="card border-0 shadow">
-                <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Acciones rápidas</h2>
+        <div class="col-12 col-lg-6 mb-4">
+            <div class="card border-0 shadow h-100">
+                <div class="card-header border-bottom">
+                    <h2 class="fs-5 fw-bold mb-0">Estado de trámites</h2>
                 </div>
                 <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}"
-                                class="btn btn-outline-primary w-100 py-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    @icon('userGroup', 'fa-2x mb-2')
-                                    <span class="fw-bold">Buscar trabajadores</span>
-                                </div>
-                            </a>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-gray-600">Total de trámites</span>
+                        <span class="h5 mb-0 fw-bold text-info">{{ $totalRequests }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-gray-600">En progreso</span>
+                        <span class="h5 mb-0 fw-bold text-warning">{{ $inProgressRequests }}</span>
+                    </div>
+                    <div class="progress mb-3" style="height: 8px;">
+                        <div class="progress-bar bg-warning" role="progressbar"
+                            style="width: {{ $totalRequests > 0 ? ($inProgressRequests / $totalRequests * 100) : 0 }}%">
                         </div>
-                        <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
-                                class="btn btn-outline-primary w-100 py-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    @icon('documentSign', 'fa-2x mb-2')
-                                    <span class="fw-bold">Convocations</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications') }}"
-                                class="btn btn-outline-primary w-100 py-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    @icon('notification', 'fa-2x mb-2')
-                                    <span class="fw-bold">Notificaciones</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}"
-                                class="btn btn-outline-primary w-100 py-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    @icon('help', 'fa-2x mb-2')
-                                    <span class="fw-bold">Preguntas frecuentes</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-process') }}"
-                                class="btn btn-outline-primary w-100 py-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    @icon('add', 'fa-2x mb-2')
-                                    <span class="fw-bold">Crear proceso</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}"
-                                class="btn btn-outline-primary w-100 py-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    @icon('checkList', 'fa-2x mb-2')
-                                    <span class="fw-bold">Definir pasos</span>
-                                </div>
-                            </a>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-gray-600">Completados</span>
+                        <span class="h5 mb-0 fw-bold text-success">{{ $completedRequests }}</span>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-success" role="progressbar"
+                            style="width: {{ $totalRequests > 0 ? ($completedRequests / $totalRequests * 100) : 0 }}%">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Summary --}}
-        <div class="col-12 col-lg-4 mb-4">
+        <div class="col-12 col-lg-6 mb-4">
             <div class="card border-0 shadow h-100">
-                <div class="card-header">
-                    <h2 class="fs-5 fw-bold mb-0">Resumen</h2>
+                <div class="card-header border-bottom">
+                    <h2 class="fs-5 fw-bold mb-0">Convocatorias</h2>
                 </div>
                 <div class="card-body">
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-gray-600">Convocatorias activas</span>
-                            <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
-                            </div>
-                        </div>
-                        <small class="text-gray-500">{{ $totalConvocations }} convocatorias en total</small>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-gray-600">Convocatorias activas</span>
+                        <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
                     </div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-success" role="progressbar"
+                            style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
+                        </div>
+                    </div>
+                    <small class="text-gray-500">{{ $totalConvocations }} convocatorias en total</small>
                 </div>
             </div>
         </div>

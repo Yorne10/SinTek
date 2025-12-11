@@ -1,18 +1,13 @@
-{{--
-* Company: CETAM
-* Project: ST
-* File: document-form.blade.php
-* Created on: 01/12/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
-*
-* Changelog:
-* - ID: 001 | Modified on: 08/12/2025 |
-*   Modified by: Claude Code |
-*   Description: Reestructurado para seguir patrón de user-create
+{{-- 
+Company: CETAM
+Project: ST
+File: document-form.blade.php
+Created on: 01/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 --}}
 <div>
-    {{-- Page Header --}}
+    {{-- Encabezado --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
@@ -96,19 +91,19 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="archivo" class="form-label">
-                                Archivo PDF {{ $documentId ? '' : '*' }}
+                                Archivo PDF {{ $documentId ? '(opcional para mantener el actual)' : '*' }}
                             </label>
                             <input wire:model="archivo" type="file"
                                 class="form-control @error('archivo') is-invalid @enderror" id="archivo"
                                 accept=".pdf">
                             @error('archivo') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <small class="form-text text-muted">
-                                Máximo 10MB. {{ $documentId ? 'Dejar vacío para mantener el archivo actual.' : '' }}
+                                Máximo 10MB.
                             </small>
                         </div>
                     </div>
 
-                    <div class="mt-3">
+                    <div class="mt-3 d-flex justify-content-start gap-2">
                         <button type="button" id="saveDocBtn" class="btn btn-primary mt-2 animate-up-2">
                             @icon('save', 'fa-xs text-white me-2')
                             {{ $documentId ? 'Actualizar' : 'Guardar' }} Documento
@@ -125,15 +120,15 @@
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
-                    <h2 class="h6 mb-3">Información Importante</h2>
+                    <h2 class="h6 mb-3">Información importante</h2>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
                                 @icon('file', 'fa-xs text-info me-3')
                                 <div>
-                                    <h3 class="h6">Formato de Archivo</h3>
+                                    <h3 class="h6">Formato de archivo</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Solo se aceptan archivos en formato PDF con un tamaño máximo de 10MB.
+                                        Solo PDF, máximo 10MB. En edición, deja vacío para conservar el archivo actual.
                                     </p>
                                 </div>
                             </div>
@@ -144,10 +139,8 @@
                                 <div>
                                     <h3 class="h6">Categorías</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        <strong>Reglamento:</strong> Normas internas de la institución.<br>
-                                        <strong>Manual:</strong> Guías y procedimientos.<br>
-                                        <strong>Lineamiento:</strong> Directrices generales.<br>
-                                        <strong>Código:</strong> Códigos de ética o conducta.
+                                        <strong>Reglamento</strong>, <strong>Manual</strong>, <strong>Lineamiento</strong>,
+                                        <strong>Código</strong> u <strong>Otro</strong> según corresponda.
                                     </p>
                                 </div>
                             </div>
@@ -158,7 +151,7 @@
                                 <div>
                                     <h3 class="h6">Versionado</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Se recomienda usar el formato semántico de versiones (ej: 1.0, 1.1, 2.0) para llevar un control adecuado de las actualizaciones.
+                                        Usa un formato semántico (1.0, 1.1, 2.0) para controlar actualizaciones.
                                     </p>
                                 </div>
                             </div>

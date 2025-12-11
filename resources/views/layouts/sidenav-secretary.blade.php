@@ -79,13 +79,13 @@ Changelog:
         </a>
       </li>
 
-      {{-- Enviar notificación --}}
+      {{-- Notificaciones --}}
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications') }}" class="nav-link">
           <span class="sidebar-icon">
             @icon('notification', 'me-2')
           </span>
-          <span class="sidebar-text">Enviar notificación</span>
+          <span class="sidebar-text">Notificaciones</span>
         </a>
       </li>
 

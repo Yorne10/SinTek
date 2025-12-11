@@ -93,15 +93,11 @@
                                     @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                    <button class="dropdown-item d-flex align-items-center view-process-detail"
-                                        type="button" data-process-id="{{ $process->process_id }}"
-                                        data-process-name="{{ $process->name }}"
-                                        data-process-description="{{ $process->description }}"
-                                        data-process-active="{{ $process->active ? '1' : '0' }}"
-                                        data-process-created="{{ $process->created_at->format('d/m/Y H:i') }}">
+                                    <a class="dropdown-item d-flex align-items-center"
+                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.process.detail', ['processId' => $process->process_id]) }}">
                                         @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
-                                    </button>
+                                    </a>
                                     <a class="dropdown-item d-flex align-items-center"
                                         href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.modify-process', ['process_id' => $process->process_id]) }}">
                                         @icon('edit', 'dropdown-icon text-gray-400 me-2')
@@ -165,36 +161,6 @@
                     cancelButton: 'btn btn-gray'
                 },
                 buttonsStyling: false
-            });
-
-            // Event listener to view details
-            document.addEventListener('click', function (e) {
-                if (e.target.closest('.view-process-detail')) {
-                    e.preventDefault();
-                    const button = e.target.closest('.view-process-detail');
-                    const processName = button.getAttribute('data-process-name');
-                    const processDescription = button.getAttribute('data-process-description');
-                    const processActive = button.getAttribute('data-process-active') === '1';
-                    const processCreated = button.getAttribute('data-process-created');
-
-                    let htmlContent = `
-                        <div class="text-start">
-                            <p class="mb-2"><span class="fw-bold">Nombre:</span> ${processName}</p>
-                            <p class="mb-2"><span class="fw-bold">Descripción:</span> ${processDescription}</p>
-                            <p class="mb-2"><span class="fw-bold">Estado:</span> <span class="fw-bold text-${processActive ? 'success' : 'warning'}">${processActive ? 'Activo' : 'Inactivo'}</span></p>
-                            <p class="mb-2"><span class="fw-bold">Fecha de creación:</span> ${processCreated}</p>
-                        </div>
-                    `;
-
-                    swalWithBootstrapButtons.fire({
-                        title: 'Process Details',
-                        html: htmlContent,
-                        icon: 'info',
-                        confirmButtonText: 'Close',
-                        showConfirmButton: true,
-                        width: '600px'
-                    });
-                }
             });
 
             // Event listener for toggle status buttons

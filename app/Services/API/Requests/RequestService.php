@@ -467,4 +467,78 @@ class RequestService
             ], 500);
         }
     }
+
+    public function cancel(Request $request, $id)
+    {
+        $user = $request->user();
+        $worker = Worker::where('user_id', $user->users_id)->first();
+
+        if (!$worker) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró perfil de trabajador para este usuario',
+            ], 404);
+        }
+
+        $req = WorkerRequest::with(['process'])
+            ->where('worker_id', $worker->workers_id)
+            ->find($id);
+
+        if (!$req) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trámite no encontrado',
+            ], 404);
+        }
+
+        // Validar que el trámite pueda ser cancelado
+        if (in_array($req->status, ['completado', 'cancelado', 'rechazado'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El trámite no puede ser cancelado porque ya está ' . $req->status,
+            ], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            // Actualizar el estado del trámite
+            $req->status = 'cancelado';
+            $req->save();
+
+            // Cancelar todos los pasos pendientes o en progreso
+            RequestStep::where('request_id', $req->request_id)
+                ->whereIn('request_step_status', ['pendiente', 'en_progreso'])
+                ->update([
+                    'request_step_status' => 'cancelado',
+                    'step_date' => Carbon::now(),
+                ]);
+
+            DB::commit();
+
+            // Log activity
+            ActivityLogger::log(
+                'tramite.cancelado',
+                "Trámite cancelado: '{$req->process->name}' - Código: {$req->request_code}",
+                $user->users_id
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Trámite cancelado exitosamente',
+                'data' => [
+                    'request_id' => $req->request_id,
+                    'request_code' => $req->request_code,
+                    'status' => $req->status,
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al cancelar el trámite',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

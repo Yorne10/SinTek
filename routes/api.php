@@ -54,6 +54,7 @@ Route::middleware(['auth:sanctum', 'role:worker', 'log.api'])->group(function ()
     Route::post('/my-requests/{id}/next-step', [RequestController::class, 'nextStep']);
     Route::post('/my-requests/{id}/conditional-step', [RequestController::class, 'conditionalStep']);
     Route::post('/my-requests/{id}/upload-document', [RequestController::class, 'uploadDocument']);
+    Route::post('/my-requests/{id}/cancel', [RequestController::class, 'cancel']);
 
     // Notificaciones (mvil)
     Route::get('/my-notifications', [NotificationController::class, 'index']);

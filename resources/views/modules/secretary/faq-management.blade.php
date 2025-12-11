@@ -17,50 +17,19 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item">Secretaría</li>
-                    <li class="breadcrumb-item active" aria-current="page">Categorías de FAQ</li>
+                    <li class="breadcrumb-item active" aria-current="page">Preguntas frecuentes</li>
                 </ol>
             </nav>
             <h2 class="h4">Categorías de preguntas frecuentes</h2>
             <p class="mb-0">Gestiona las categorías y sus preguntas frecuentes.</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <button wire:click="toggleCategoryForm" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.category.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('add', 'me-2')
                 Nueva categoría
-            </button>
+            </a>
         </div>
     </div>
-
-    @if($showCategoryForm)
-        <div class="card border-0 shadow mb-4">
-            <div class="card-body">
-                <h5 class="mb-3">{{ $editingCategoryId ? 'Editar' : 'Nueva' }} categoría</h5>
-                <form wire:submit.prevent="saveCategory">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nombre *</label>
-                            <input type="text" class="form-control @error('categoryName') is-invalid @enderror" wire:model="categoryName">
-                            @error('categoryName') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="form-label">Orden</label>
-                            <input type="number" class="form-control @error('categoryOrder') is-invalid @enderror" wire:model="categoryOrder">
-                            @error('categoryOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label">Descripción</label>
-                            <textarea class="form-control @error('categoryDescription') is-invalid @enderror" wire:model="categoryDescription" rows="2"></textarea>
-                            @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="button" class="btn btn-gray-200" wire:click="toggleCategoryForm">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    @endif
 
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
@@ -140,12 +109,11 @@
                                         @icon('help', 'dropdown-icon text-gray-400 me-2')
                                         Ver preguntas
                                     </a>
-                                    <button class="dropdown-item d-flex align-items-center"
-                                        type="button"
-                                        wire:click="editCategory({{ $category->faq_category_id }})">
+                                    <a class="dropdown-item d-flex align-items-center"
+                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.category.edit', $category->faq_category_id) }}">
                                         @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                         Editar categoría
-                                    </button>
+                                    </a>
                                     <div role="separator" class="dropdown-divider my-1"></div>
                                     <button
                                         class="dropdown-item {{ $category->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center"
@@ -153,13 +121,6 @@
                                         wire:click="toggleCategoryStatus({{ $category->faq_category_id }})">
                                         @icon($category->is_active ? 'warning' : 'success', "dropdown-icon {{ $category->is_active ? 'text-warning' : 'text-success' }} me-2")
                                         {{ $category->is_active ? 'Desactivar' : 'Activar' }}
-                                    </button>
-                                    <button
-                                        class="dropdown-item text-danger d-flex align-items-center"
-                                        type="button"
-                                        onclick="confirmDeleteCategory({{ $category->faq_category_id }})">
-                                        @icon('delete', 'dropdown-icon text-danger me-2')
-                                        Eliminar
                                     </button>
                                 </div>
                             </div>
@@ -207,21 +168,4 @@
             });
         });
     });
-
-    function confirmDeleteCategory(id) {
-        Swal.fire({
-            title: '¿Eliminar categoría?',
-            text: "Esta acción no se puede revertir",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                @this.call('deleteCategory', id);
-            }
-        })
-    }
 </script>

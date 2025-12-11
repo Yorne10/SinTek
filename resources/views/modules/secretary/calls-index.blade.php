@@ -1,10 +1,10 @@
-﻿{{--
+{{-- 
 * Company: CETAM
 * Project: ST
 * File: calls-index.blade.php
 * Created on: 04/12/2025
-* Created by: Alfonso Angel GarcÃ­a HernÃ¡ndez
-* Approved by: Alfonso Angel GarcÃ­a HernÃ¡ndez
+* Created by: Alfonso Angel Garcia Hernandez
+* Approved by: Alfonso Angel Garcia Hernandez
 --}}
 <div>
     {{-- Page Header --}}
@@ -17,12 +17,12 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">SecretarÃ­a</li>
+                    <li class="breadcrumb-item">Secretaría</li>
                     <li class="breadcrumb-item active" aria-current="page">Convocatorias</li>
                 </ol>
             </nav>
             <h2 class="h4">Convocatorias</h2>
-            <p class="mb-0">GestiÃ³n de convocatorias pÃºblicas</p>
+            <p class="mb-0">Gestión de convocatorias públicas</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.create') }}"
@@ -39,14 +39,14 @@
             <div class="input-group fmxw-300">
                 <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
-                    placeholder="Buscar por tÃ­tulo o descripciÃ³n">
+                    placeholder="Buscar por título o descripción">
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
                 <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;" aria-label="Filtrar por estado">
                     <option value="">Todos</option>
                     <option value="activa">Activa</option>
-                    <option value="proxima">PrÃ³xima</option>
+                    <option value="proxima">Próxima</option>
                     <option value="permanente">Permanente</option>
                     <option value="cerrada">Cerrada</option>
                 </select>
@@ -78,7 +78,7 @@
                 </colgroup>
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0 rounded-start">TÃ­tulo</th>
+                        <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Periodo</th>
                         <th class="border-0">Estado</th>
                         <th class="border-0">Documentos</th>
@@ -99,7 +99,7 @@
                                 @if($convocation->end_date)
                                     <span class="fw-normal">{{ $convocation->end_date->format('d/m/Y') }}</span>
                                 @else
-                                    <span class="fw-normal text-gray-500">â€”</span>
+                                    <span class="fw-normal text-gray-500">—</span>
                                 @endif
                             </td>
                             <td>
@@ -108,7 +108,7 @@
                                 @elseif($convocation->status === 'cerrada')
                                     <span class="fw-bold text-danger">Cerrada</span>
                                 @elseif($convocation->status === 'proxima')
-                                    <span class="fw-bold text-warning">PrÃ³xima</span>
+                                    <span class="fw-bold text-warning">Próxima</span>
                                 @elseif($convocation->status === 'permanente')
                                     <span class="fw-bold text-info">Permanente</span>
                                 @else
@@ -168,7 +168,7 @@
                                 <div class="text-gray-500">
                                     @icon('documentSign', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
-                                    <p class="small">Crea tu primera convocatoria con el botÃ³n superior</p>
+                                    <p class="small">Crea tu primera convocatoria con el botón superior</p>
                                 </div>
                             </td>
                         </tr>
@@ -186,7 +186,10 @@
             <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
                 Mostrando <b>{{ $convocations->firstItem() ?? 0 }}</b> a
                 <b>{{ $convocations->lastItem() ?? 0 }}</b> de <b>{{ $convocations->total() }}</b> convocatorias
-
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -214,8 +217,8 @@
                     title: 'Detalles de la Convocatoria',
                     html: `
                         <div class="text-start">
-                            <p class="mb-2"><span class="fw-bold">TÃ­tulo:</span> ${title}</p>
-                            <p class="mb-2"><span class="fw-bold">DescripciÃ³n:</span><br>${description}</p>
+                            <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
+                            <p class="mb-2"><span class="fw-bold">Descripción:</span><br>${description}</p>
                             <p class="mb-2"><span class="fw-bold">Fecha de inicio:</span> ${start}</p>
                             <p class="mb-2"><span class="fw-bold">Fecha de fin:</span> ${end}</p>
                             <p class="mb-2"><span class="fw-bold">Estado:</span> ${status}</p>
@@ -230,4 +233,3 @@
         });
     });
 </script>
-

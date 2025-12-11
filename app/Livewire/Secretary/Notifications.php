@@ -33,6 +33,7 @@ class Notifications extends Component
     public $message = '';
     public $search = '';
     public $perPage = 8;
+    public $notificationId = null;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -47,6 +48,16 @@ class Notifications extends Component
     ];
 
     protected $queryString = ['search'];
+
+    public function mount($notificationId = null): void
+    {
+        if ($notificationId) {
+            $this->notificationId = $notificationId;
+            $notification = Notification::findOrFail($notificationId);
+            $this->title = $notification->tittle;
+            $this->message = $notification->message;
+        }
+    }
 
     public function updatingSearch(): void
     {
@@ -81,6 +92,43 @@ class Notifications extends Component
             $this->selectedUsers,
             fn($id) => (int) $id !== $userId
         ));
+    }
+
+    public function save(): void
+    {
+        if ($this->notificationId) {
+            $this->updateNotification();
+        } else {
+            $this->sendNotification();
+        }
+    }
+
+    public function updateNotification(): void
+    {
+        $this->validate([
+            'title' => 'required|string|max:200',
+            'message' => 'required|string|max:1000',
+        ], $this->messages);
+
+        $notification = Notification::findOrFail($this->notificationId);
+        $notification->tittle = $this->title;
+        $notification->message = $this->message;
+        $notification->save();
+
+        ActivityLogger::log(
+            'notificacion.editar',
+            "Notificación '{$this->title}' actualizada",
+            auth()->user()?->users_id
+        );
+
+        $this->dispatch(
+            'notification-updated',
+            type: 'success',
+            title: '¡Notificación actualizada!',
+            message: 'La notificación ha sido actualizada exitosamente.'
+        );
+
+        $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications'));
     }
 
     public function sendNotification(): void
@@ -134,6 +182,32 @@ class Notifications extends Component
             title: '¡Notificación enviada!',
             message: "La notificación ha sido enviada a {$count} " . ($count === 1 ? 'usuario' : 'usuarios') . " exitosamente."
         );
+    }
+
+    public function deleteNotification(): void
+    {
+        if (!$this->notificationId) {
+            return;
+        }
+
+        $notification = Notification::findOrFail($this->notificationId);
+        $title = $notification->tittle;
+        $notification->delete();
+
+        ActivityLogger::log(
+            'notificacion.eliminar',
+            "Notificación '{$title}' eliminada",
+            auth()->user()?->users_id
+        );
+
+        $this->dispatch(
+            'notification-deleted',
+            type: 'success',
+            title: '¡Notificación eliminada!',
+            message: 'La notificación ha sido eliminada exitosamente.'
+        );
+
+        $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications'));
     }
 
     public function getFilteredWorkersProperty()

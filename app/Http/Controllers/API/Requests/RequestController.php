@@ -44,4 +44,9 @@ class RequestController extends RestfulController
     {
         return $this->requestService->uploadDocument($request, $id);
     }
+
+    public function cancel(Request $request, $id)
+    {
+        return $this->requestService->cancel($request, $id);
+    }
 }
