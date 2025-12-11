@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('step_required_documents_id');
             $table->foreignId('step_id')->constrained('steps', 'step_id')->onDelete('cascade');
             $table->string('title');
+            $table->timestamps();
 
             $table->index('step_id');
         });
