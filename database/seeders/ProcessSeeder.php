@@ -3,7 +3,7 @@
  * Company: CETAM
  * Project: ST
  * File: ProcessSeeder.php
- * Created on: 24/11/2025
+ * Created on: 11/12/2025
  * Created by: Claude Code
  * Approved by: Alfonso Angel García Hernández
  *
@@ -15,6 +15,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Process;
 use App\Models\Step;
+use App\Models\StepRequiredDocument;
 use App\Models\User;
 
 class ProcessSeeder extends Seeder
@@ -36,50 +37,47 @@ class ProcessSeeder extends Seeder
             'category' => 'Documentación',
             'department' => 'Recursos Humanos',
             'active' => true,
-            'created_by' => $admin->users_id ?? null,
+            'created_by' => $admin->users_id ?? 1,
         ]);
 
-        Step::create([
+        $step1_1 = Step::create([
             'process_id' => $process1->process_id,
             'order' => 1,
-            'tittle' => 'Llenar solicitud',
-            'description' => 'El trabajador debe llenar el formulario de solicitud de constancia',
-            'instructions' => 'Ingrese sus datos personales y especifique el tipo de constancia requerida',
-            'condition_type' => 'normal',
-            'responsible' => 'Trabajador',
-            'deadline_days' => 1,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => 'Llenar solicitud',
+            'instruction' => 'Ingrese sus datos personales y especifique el tipo de constancia requerida',
+            'step_type' => 'normal',
+            'responsible_role' => 'worker',
             'requires_documents' => false,
+            'is_initial_step' => true,
+            'active' => true,
         ]);
 
-        Step::create([
+        $step1_2 = Step::create([
             'process_id' => $process1->process_id,
             'order' => 2,
-            'tittle' => 'Revisión de documentos',
-            'description' => 'Recursos Humanos revisa la solicitud',
-            'instructions' => 'Verificar que los datos sean correctos y que el trabajador esté activo',
-            'condition_type' => 'normal',
-            'responsible' => 'Recursos Humanos',
-            'deadline_days' => 2,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => 'Revisión de documentos',
+            'instruction' => 'Verificar que los datos sean correctos y que el trabajador esté activo',
+            'step_type' => 'normal',
+            'responsible_role' => 'secretary',
             'requires_documents' => false,
+            'active' => true,
         ]);
 
-        Step::create([
+        $step1_3 = Step::create([
             'process_id' => $process1->process_id,
             'order' => 3,
-            'tittle' => 'Emisión de constancia',
-            'description' => 'Se genera y firma la constancia laboral',
-            'instructions' => 'Generar el documento oficial con sello y firma autorizada',
-            'condition_type' => 'normal',
-            'responsible' => 'Dirección',
-            'deadline_days' => 2,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => 'Emisión de constancia',
+            'instruction' => 'Generar el documento oficial con sello y firma autorizada',
+            'step_type' => 'finalization',
+            'responsible_role' => 'admin',
             'requires_documents' => false,
+            'finalization_message' => 'Su constancia laboral ha sido generada exitosamente. Puede descargarla desde la sección de documentos.',
+            'active' => true,
         ]);
+
+        // Configurar flujo lineal
+        $step1_1->update(['next_step_id' => $step1_2->step_id]);
+        $step1_2->update(['next_step_id' => $step1_3->step_id]);
 
         // ============================================
         // PROCESO 2: Solicitud de Vacaciones
@@ -91,50 +89,47 @@ class ProcessSeeder extends Seeder
             'category' => 'Recursos Humanos',
             'department' => 'Recursos Humanos',
             'active' => true,
-            'created_by' => $admin->users_id ?? null,
+            'created_by' => $admin->users_id ?? 1,
         ]);
 
-        Step::create([
+        $step2_1 = Step::create([
             'process_id' => $process2->process_id,
             'order' => 1,
-            'tittle' => 'Solicitar vacaciones',
-            'description' => 'El trabajador solicita sus vacaciones',
-            'instructions' => 'Seleccione las fechas deseadas para su período vacacional (mínimo 15 días de anticipación)',
-            'condition_type' => 'normal',
-            'responsible' => 'Trabajador',
-            'deadline_days' => 1,
-            'priority' => 'alta',
-            'send_notification' => true,
+            'title' => 'Solicitar vacaciones',
+            'instruction' => 'Seleccione las fechas deseadas para su período vacacional (mínimo 15 días de anticipación)',
+            'step_type' => 'normal',
+            'responsible_role' => 'worker',
             'requires_documents' => false,
+            'is_initial_step' => true,
+            'active' => true,
         ]);
 
-        Step::create([
+        $step2_2 = Step::create([
             'process_id' => $process2->process_id,
             'order' => 2,
-            'tittle' => 'Aprobación del coordinador',
-            'description' => 'El coordinador del área revisa y aprueba',
-            'instructions' => 'Verificar que no haya conflictos de calendario y que el trabajador tenga días disponibles',
-            'condition_type' => 'normal',
-            'responsible' => 'Coordinador',
-            'deadline_days' => 3,
-            'priority' => 'alta',
-            'send_notification' => true,
+            'title' => 'Aprobación del coordinador',
+            'instruction' => 'Verificar que no haya conflictos de calendario y que el trabajador tenga días disponibles',
+            'step_type' => 'normal',
+            'responsible_role' => 'secretary',
             'requires_documents' => false,
+            'active' => true,
         ]);
 
-        Step::create([
+        $step2_3 = Step::create([
             'process_id' => $process2->process_id,
             'order' => 3,
-            'tittle' => 'Autorización final',
-            'description' => 'Recursos Humanos autoriza las vacaciones',
-            'instructions' => 'Registrar el período vacacional en el sistema y notificar al trabajador',
-            'condition_type' => 'normal',
-            'responsible' => 'Recursos Humanos',
-            'deadline_days' => 2,
-            'priority' => 'alta',
-            'send_notification' => true,
+            'title' => 'Autorización final',
+            'instruction' => 'Registrar el período vacacional en el sistema y notificar al trabajador',
+            'step_type' => 'finalization',
+            'responsible_role' => 'admin',
             'requires_documents' => false,
+            'finalization_message' => 'Su solicitud de vacaciones ha sido aprobada. Consulte su correo para más detalles.',
+            'active' => true,
         ]);
+
+        // Configurar flujo
+        $step2_1->update(['next_step_id' => $step2_2->step_id]);
+        $step2_2->update(['next_step_id' => $step2_3->step_id]);
 
         // ============================================
         // PROCESO 3: Reporte de Mantenimiento
@@ -146,50 +141,58 @@ class ProcessSeeder extends Seeder
             'category' => 'Mantenimiento',
             'department' => 'Mantenimiento',
             'active' => true,
-            'created_by' => $admin->users_id ?? null,
+            'created_by' => $admin->users_id ?? 1,
         ]);
 
-        Step::create([
+        $step3_1 = Step::create([
             'process_id' => $process3->process_id,
             'order' => 1,
-            'tittle' => 'Crear reporte',
-            'description' => 'Describir el problema de mantenimiento',
-            'instructions' => 'Detalle el problema, ubicación y urgencia. Adjunte fotos si es posible',
-            'condition_type' => 'normal',
-            'responsible' => 'Trabajador',
-            'deadline_days' => 1,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => 'Crear reporte',
+            'instruction' => 'Detalle el problema, ubicación y urgencia. Adjunte fotos si es posible',
+            'step_type' => 'normal',
+            'responsible_role' => 'worker',
             'requires_documents' => true,
+            'is_initial_step' => true,
+            'active' => true,
         ]);
 
-        Step::create([
+        // Documentos requeridos
+        StepRequiredDocument::create([
+            'step_id' => $step3_1->step_id,
+            'title' => 'Fotografía del problema'
+        ]);
+
+        StepRequiredDocument::create([
+            'step_id' => $step3_1->step_id,
+            'title' => 'Descripción detallada'
+        ]);
+
+        $step3_2 = Step::create([
             'process_id' => $process3->process_id,
             'order' => 2,
-            'tittle' => 'Evaluación técnica',
-            'description' => 'Mantenimiento evalúa el reporte',
-            'instructions' => 'Evaluar la gravedad y determinar prioridad de atención',
-            'condition_type' => 'normal',
-            'responsible' => 'Jefe de Mantenimiento',
-            'deadline_days' => 2,
-            'priority' => 'alta',
-            'send_notification' => true,
+            'title' => 'Evaluación técnica',
+            'instruction' => 'Evaluar la gravedad y determinar prioridad de atención',
+            'step_type' => 'normal',
+            'responsible_role' => 'secretary',
             'requires_documents' => false,
+            'active' => true,
         ]);
 
-        Step::create([
+        $step3_3 = Step::create([
             'process_id' => $process3->process_id,
             'order' => 3,
-            'tittle' => 'Ejecución de mantenimiento',
-            'description' => 'Se realiza el trabajo de mantenimiento',
-            'instructions' => 'Realizar el mantenimiento correctivo o preventivo según sea el caso',
-            'condition_type' => 'normal',
-            'responsible' => 'Personal de Mantenimiento',
-            'deadline_days' => 4,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => 'Ejecución de mantenimiento',
+            'instruction' => 'Realizar el mantenimiento correctivo o preventivo según sea el caso',
+            'step_type' => 'finalization',
+            'responsible_role' => 'secretary',
             'requires_documents' => false,
+            'finalization_message' => 'El mantenimiento ha sido completado. Gracias por su reporte.',
+            'active' => true,
         ]);
+
+        // Configurar flujo
+        $step3_1->update(['next_step_id' => $step3_2->step_id]);
+        $step3_2->update(['next_step_id' => $step3_3->step_id]);
 
         // ============================================
         // PROCESO 4: Cambio de Horario (Condicional)
@@ -201,75 +204,78 @@ class ProcessSeeder extends Seeder
             'category' => 'Recursos Humanos',
             'department' => 'Recursos Humanos',
             'active' => true,
-            'created_by' => $admin->users_id ?? null,
+            'created_by' => $admin->users_id ?? 1,
         ]);
 
         $step4_1 = Step::create([
             'process_id' => $process4->process_id,
             'order' => 1,
-            'tittle' => 'Solicitud de cambio',
-            'description' => 'El trabajador solicita el cambio de horario',
-            'instructions' => 'Indique su horario actual, horario deseado y justificación',
-            'condition_type' => 'normal',
-            'responsible' => 'Trabajador',
-            'deadline_days' => 1,
-            'priority' => 'baja',
-            'send_notification' => true,
+            'title' => 'Solicitud de cambio',
+            'instruction' => 'Indique su horario actual, horario deseado y justificación',
+            'step_type' => 'normal',
+            'responsible_role' => 'worker',
             'requires_documents' => true,
+            'is_initial_step' => true,
+            'active' => true,
+        ]);
+
+        StepRequiredDocument::create([
+            'step_id' => $step4_1->step_id,
+            'title' => 'Justificación escrita'
+        ]);
+
+        StepRequiredDocument::create([
+            'step_id' => $step4_1->step_id,
+            'title' => 'Documentación médica (si aplica)'
         ]);
 
         $step4_2 = Step::create([
             'process_id' => $process4->process_id,
             'order' => 2,
-            'tittle' => '¿Es por motivos médicos?',
-            'description' => 'Determinar si el cambio es por razones médicas',
-            'instructions' => 'Revisar la documentación médica adjunta',
-            'condition_type' => 'conditional',
-            'responsible' => 'Recursos Humanos',
-            'deadline_days' => 3,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => '¿Es por motivos médicos?',
+            'instruction' => 'Revisar la documentación médica adjunta',
+            'step_type' => 'conditional',
+            'condition_question' => '¿La solicitud está justificada por motivos médicos?',
+            'responsible_role' => 'secretary',
             'requires_documents' => false,
+            'active' => true,
         ]);
 
         $step4_3_yes = Step::create([
             'process_id' => $process4->process_id,
             'order' => 3,
-            'tittle' => 'Aprobación inmediata',
-            'description' => 'Se aprueba el cambio por motivos médicos',
-            'instructions' => 'Aprobar el cambio y notificar al coordinador del área',
-            'condition_type' => 'normal',
-            'responsible' => 'Recursos Humanos',
-            'deadline_days' => 2,
-            'priority' => 'alta',
-            'send_notification' => true,
+            'title' => 'Aprobación inmediata',
+            'instruction' => 'Aprobar el cambio y notificar al coordinador del área',
+            'step_type' => 'finalization',
+            'responsible_role' => 'admin',
             'requires_documents' => false,
+            'finalization_message' => 'Su cambio de horario ha sido aprobado por motivos médicos.',
+            'active' => true,
         ]);
 
         $step4_3_no = Step::create([
             'process_id' => $process4->process_id,
             'order' => 4,
-            'tittle' => 'Evaluación del coordinador',
-            'description' => 'El coordinador evalúa la solicitud',
-            'instructions' => 'Evaluar si el cambio es viable sin afectar operaciones',
-            'condition_type' => 'normal',
-            'responsible' => 'Coordinador',
-            'deadline_days' => 5,
-            'priority' => 'media',
-            'send_notification' => true,
+            'title' => 'Evaluación del coordinador',
+            'instruction' => 'Evaluar si el cambio es viable sin afectar operaciones',
+            'step_type' => 'finalization',
+            'responsible_role' => 'admin',
             'requires_documents' => false,
+            'finalization_message' => 'Su solicitud de cambio de horario ha sido evaluada y procesada.',
+            'active' => true,
         ]);
 
         // Configurar flujo condicional
+        $step4_1->update(['next_step_id' => $step4_2->step_id]);
         $step4_2->update([
             'next_yes' => $step4_3_yes->step_id,
             'next_no' => $step4_3_no->step_id,
         ]);
 
         $this->command->info('✅ Procesos creados: 4');
-        $this->command->info('   - Constancia Laboral (3 pasos)');
-        $this->command->info('   - Solicitud de Vacaciones (3 pasos)');
-        $this->command->info('   - Reporte de Mantenimiento (3 pasos)');
-        $this->command->info('   - Cambio de Horario (4 pasos, con condicional)');
+        $this->command->info('   - Constancia Laboral (3 pasos lineales)');
+        $this->command->info('   - Solicitud de Vacaciones (3 pasos lineales)');
+        $this->command->info('   - Reporte de Mantenimiento (3 pasos + documentos)');
+        $this->command->info('   - Cambio de Horario (4 pasos condicionales)');
     }
 }

@@ -27,7 +27,6 @@ class ConvocationSeeder extends Seeder
         Convocation::create([
             'title' => 'Convocatoria de Plaza Docente 2025-1',
             'description' => 'Se convoca a participar en el proceso de selección para cubrir una plaza de docente en el área de Ingeniería Industrial. Requisitos: Maestría en área afín, experiencia mínima de 2 años en docencia.',
-            'file_path' => null,
             'start_date' => Carbon::now()->subDays(5),
             'end_date' => Carbon::now()->addDays(25),
             'status' => 'activa',
@@ -37,7 +36,6 @@ class ConvocationSeeder extends Seeder
         Convocation::create([
             'title' => 'Convocatoria Personal Administrativo',
             'description' => 'Próximamente se publicará convocatoria para personal administrativo en el área de servicios escolares. Mantente atento a futuras actualizaciones.',
-            'file_path' => null,
             'start_date' => Carbon::now()->addDays(10),
             'end_date' => Carbon::now()->addDays(40),
             'status' => 'proxima',
@@ -47,9 +45,8 @@ class ConvocationSeeder extends Seeder
         Convocation::create([
             'title' => 'Programa de Becas CETAM',
             'description' => 'Convocatoria permanente para el programa de becas institucionales. Los trabajadores y sus dependientes pueden solicitar apoyo para estudios de nivel superior.',
-            'file_path' => null,
             'start_date' => Carbon::now()->startOfYear(),
-            'end_date' => null,
+            'end_date' => Carbon::now()->endOfYear(),
             'status' => 'permanente',
         ]);
 
@@ -57,7 +54,6 @@ class ConvocationSeeder extends Seeder
         Convocation::create([
             'title' => 'Convocatoria Plaza Mantenimiento 2024',
             'description' => 'Convocatoria para plaza de jefe de mantenimiento. Proceso cerrado.',
-            'file_path' => null,
             'start_date' => Carbon::now()->subMonths(3),
             'end_date' => Carbon::now()->subMonths(2),
             'status' => 'cerrada',
@@ -67,7 +63,6 @@ class ConvocationSeeder extends Seeder
         Convocation::create([
             'title' => 'Curso de Capacitación Docente',
             'description' => 'Se invita a todos los docentes a participar en el curso de actualización pedagógica. Incluye temas de innovación educativa y uso de tecnologías en el aula.',
-            'file_path' => null,
             'start_date' => Carbon::now()->subDays(2),
             'end_date' => Carbon::now()->addDays(15),
             'status' => 'activa',

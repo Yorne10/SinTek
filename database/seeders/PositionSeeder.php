@@ -63,49 +63,43 @@ class PositionSeeder extends Seeder
             // Worker 1 (Juan) - Docente Titular
             DB::table('positions_workers')->insert([
                 'positions_id' => 1,
-                'worker_id' => $workers[0]->workers_id,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'workers_id' => $workers[0]->workers_id,
+                'assigned_at' => now(),
             ]);
 
             // Worker 2 (María) - Administrativo
             DB::table('positions_workers')->insert([
                 'positions_id' => 4,
-                'worker_id' => $workers[1]->workers_id,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'workers_id' => $workers[1]->workers_id,
+                'assigned_at' => now(),
             ]);
 
             // Worker 3 (Carlos) - Jefe de Mantenimiento
             DB::table('positions_workers')->insert([
                 'positions_id' => 5,
-                'worker_id' => $workers[2]->workers_id,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'workers_id' => $workers[2]->workers_id,
+                'assigned_at' => now(),
             ]);
 
             // Worker 4 (Ana) - Docente Asociado
             DB::table('positions_workers')->insert([
                 'positions_id' => 2,
-                'worker_id' => $workers[3]->workers_id,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'workers_id' => $workers[3]->workers_id,
+                'assigned_at' => now(),
             ]);
 
             // Worker 5 (Roberto) - Coordinador Académico
             DB::table('positions_workers')->insert([
                 'positions_id' => 3,
-                'worker_id' => $workers[4]->workers_id,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'workers_id' => $workers[4]->workers_id,
+                'assigned_at' => now(),
             ]);
 
             // Worker 6 (Pedro Test) - Técnico Auxiliar
             DB::table('positions_workers')->insert([
                 'positions_id' => 6,
-                'worker_id' => $workers[5]->workers_id,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'workers_id' => $workers[5]->workers_id,
+                'assigned_at' => now(),
             ]);
         }
 

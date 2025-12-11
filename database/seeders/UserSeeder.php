@@ -38,7 +38,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'admin',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         // ============================================
@@ -50,7 +49,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'secretary',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         // ============================================
@@ -64,7 +62,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'worker',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         $worker1 = Worker::create([
@@ -73,7 +70,7 @@ class UserSeeder extends Seeder
             'rfc' => 'PEGJ850615AB1',
             'sex' => 'M',
             'phone' => '6141234567',
-            'adress' => 'Calle Revolución 123, Chihuahua, Chih.',
+            'address' => 'Calle Revolución 123, Chihuahua, Chih.',
         ]);
 
         // Worker 2 - Administrativo
@@ -83,7 +80,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'worker',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         $worker2 = Worker::create([
@@ -92,7 +88,7 @@ class UserSeeder extends Seeder
             'rfc' => 'GOLM900320CD2',
             'sex' => 'F',
             'phone' => '6149876543',
-            'adress' => 'Av. Universidad 456, Chihuahua, Chih.',
+            'address' => 'Av. Universidad 456, Chihuahua, Chih.',
         ]);
 
         // Worker 3 - Mantenimiento
@@ -102,7 +98,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'worker',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         $worker3 = Worker::create([
@@ -111,7 +106,7 @@ class UserSeeder extends Seeder
             'rfc' => 'RASC880710EF3',
             'sex' => 'M',
             'phone' => '6145551234',
-            'adress' => 'Blvd. Tecnológico 789, Chihuahua, Chih.',
+            'address' => 'Blvd. Tecnológico 789, Chihuahua, Chih.',
         ]);
 
         // Worker 4 - Docente
@@ -121,7 +116,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'worker',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         $worker4 = Worker::create([
@@ -130,7 +124,7 @@ class UserSeeder extends Seeder
             'rfc' => 'MAHA920815GH4',
             'sex' => 'F',
             'phone' => '6143334455',
-            'adress' => 'Calle Libertad 321, Chihuahua, Chih.',
+            'address' => 'Calle Libertad 321, Chihuahua, Chih.',
         ]);
 
         // Worker 5 - Coordinador
@@ -140,7 +134,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'worker',
             'is_active' => true,
-            'email_verified_at' => now(),
         ]);
 
         $worker5 = Worker::create([
@@ -149,7 +142,7 @@ class UserSeeder extends Seeder
             'rfc' => 'LOMR870925IJ5',
             'sex' => 'M',
             'phone' => '6147778899',
-            'adress' => 'Av. Industrial 654, Chihuahua, Chih.',
+            'address' => 'Av. Industrial 654, Chihuahua, Chih.',
         ]);
 
         // Worker 6 - Test inactivo
@@ -159,7 +152,6 @@ class UserSeeder extends Seeder
             'password' => $password,
             'role' => 'worker',
             'is_active' => false, // Usuario inactivo para testing
-            'email_verified_at' => now(),
         ]);
 
         $worker6 = Worker::create([
@@ -168,7 +160,7 @@ class UserSeeder extends Seeder
             'rfc' => 'TESP950101KL6',
             'sex' => 'M',
             'phone' => '6140000000',
-            'adress' => 'Calle Test 999, Chihuahua, Chih.',
+            'address' => 'Calle Test 999, Chihuahua, Chih.',
         ]);
 
         $this->command->info('✅ Usuarios creados: 2 administrativos + 6 workers');
