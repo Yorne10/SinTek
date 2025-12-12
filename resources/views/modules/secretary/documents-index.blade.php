@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 * Company: CETAM
 * Project: ST
 * File: documents-index.blade.php
@@ -67,17 +67,17 @@
         <div class="table-responsive">
             <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
                 <colgroup>
-                    <col style="width: 40%">
-                    <col style="width: 25%">
+                    <col style="width: 42%">
+                    <col style="width: 26%">
                     <col style="width: 20%">
-                    <col style="width: 15%">
+                    <col style="width: 12%">
                 </colgroup>
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Categoría</th>
                         <th class="border-0">Fecha Vigencia</th>
-                        <th class="border-0 rounded-end">Acciones</th>
+                        <th class="border-0 rounded-end text-start">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,8 +92,8 @@
                             <td><span
                                     class="fw-normal">{{ $document->effective_date ? $document->effective_date->format('d/m/Y') : 'N/A' }}</span>
                             </td>
-                            <td>
-                                <div class="btn-group">
+                            <td class="text-start" style="width: 12%; min-width: 72px;">
+                                <div class="btn-group position-static">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @icon('menu', 'icon-xs')
@@ -133,17 +133,18 @@
                 </tbody>
             </table>
         </div>
-        @if($documents->hasPages())
-            <div
-                class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-                <nav aria-label="Page navigation">
+        <div
+            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            @if($documents->hasPages())
+                <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $documents->links() }}
                 </nav>
-                <div class="fw-normal small mt-4 mt-lg-0">
-                    Mostrando <b>{{ $documents->firstItem() ?? 0 }}</b> a
-                    <b>{{ $documents->lastItem() ?? 0 }}</b> de <b>{{ $documents->total() }}</b> registros
-                </div>
+            @endif
+            <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
+                Mostrando <b>{{ $documents->firstItem() ?? 0 }}</b> a
+                <b>{{ $documents->lastItem() ?? 0 }}</b> de <b>{{ $documents->total() }}</b> registros
             </div>
-        @endif
+        </div>
     </div>
 </div>
+

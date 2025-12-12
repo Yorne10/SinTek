@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Company: CETAM
 Project: ST
 File: budget-keys.blade.php
@@ -65,15 +65,15 @@ Approved by: Alfonso Angel Garcia Hernandez
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
         <table class="table table-centered mb-0 rounded user-table align-items-center w-100" style="table-layout: fixed;">
             <colgroup>
-                <col style="width: 35%">
                 <col style="width: 45%">
+                <col style="width: 35%">
                 <col style="width: 20%">
             </colgroup>
             <thead class="thead-light">
                 <tr>
                     <th class="border-0 rounded-start">Clave Presupuestal</th>
                     <th class="border-0">Nombre del Puesto</th>
-                    <th class="border-0 rounded-end">Acciones</th>
+                    <th class="border-0 rounded-end text-start">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,8 +85,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <td>
                             <span class="fw-normal">{{ $position->position_name }}</span>
                         </td>
-                        <td>
-                            <div class="btn-group">
+                        <td class="text-start" style="width: 20%; min-width: 72px;">
+                            <div class="btn-group position-static">
                                 <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @icon('menu', 'icon icon-xs')
@@ -103,13 +103,11 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center py-4">
-                            <div class="text-gray-500">
-                                <div class="mb-3">
-                                    @icon('jobCredential', 'fa-2x')
-                                </div>
-                                <p class="fw-bold">No hay claves presupuestales para mostrar</p>
-                                <p class="small">Crea una nueva clave o ajusta los filtros de búsqueda</p>
+                        <td colspan="3" class="text-center align-middle py-4">
+                            <div class="text-gray-500 d-flex flex-column align-items-center justify-content-center">
+                                @icon('jobCredential', 'fa-2x mb-3 text-gray-400')
+                                <p class="fw-bold mb-1">No hay claves presupuestales para mostrar</p>
+                                <p class="small mb-0">Crea una nueva clave o ajusta los filtros de búsqueda</p>
                             </div>
                         </td>
                     </tr>
@@ -130,5 +128,6 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 </div>
+
 
 

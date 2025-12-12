@@ -115,33 +115,33 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <span class="fw-bold text-warning">Inactivo</span>
                             @endif
                         </td>
-                        <td class="text-start">
-                            <div class="btn-group">
-                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @icon('menu', 'icon icon-xs')
-                                </button>
-                                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                    <button class="dropdown-item d-flex align-items-center view-worker-detail" type="button"
-                                        data-worker-name="{{ $worker->user->name }}"
-                                        data-worker-email="{{ $worker->user->email }}"
-                                        data-worker-active="{{ $worker->user->is_active ? '1' : '0' }}"
-                                        data-worker-curp="{{ $worker->curp ?? 'N/A' }}"
-                                        data-worker-rfc="{{ $worker->rfc ?? 'N/A' }}"
-                                        data-worker-phone="{{ $worker->phone ?? 'N/A' }}"
-                                        data-worker-budget-keys="{{ $worker->positions->pluck('budget_key')->filter()->implode(', ') ?? 'S/D' }}"
-                                        data-worker-address="{{ $worker->address ?? 'N/A' }}">
-                                        @icon('view', 'dropdown-icon text-gray-400 me-2')
-                                        Ver detalles
+                            <td class="text-start" style="width: 12%; min-width: 72px;">
+                                <div class="btn-group position-static">
+                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @icon('menu', 'icon icon-xs')
                                     </button>
-                                    <a class="dropdown-item d-flex align-items-center"
-                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}">
-                                        @icon('documentSign', 'dropdown-icon text-gray-400 me-2')
-                                        Ver historial de trámites
-                                    </a>
+                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                        <button class="dropdown-item d-flex align-items-center view-worker-detail" type="button"
+                                            data-worker-name="{{ $worker->user->name }}"
+                                            data-worker-email="{{ $worker->user->email }}"
+                                            data-worker-active="{{ $worker->user->is_active ? '1' : '0' }}"
+                                            data-worker-curp="{{ $worker->curp ?? 'N/A' }}"
+                                            data-worker-rfc="{{ $worker->rfc ?? 'N/A' }}"
+                                            data-worker-phone="{{ $worker->phone ?? 'N/A' }}"
+                                            data-worker-budget-keys="{{ $worker->positions->pluck('budget_key')->filter()->implode(', ') ?? 'S/D' }}"
+                                            data-worker-address="{{ $worker->address ?? 'N/A' }}">
+                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
+                                            Ver detalles
+                                        </button>
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}">
+                                            @icon('documentSign', 'dropdown-icon text-gray-400 me-2')
+                                            Ver historial de trámites
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
+                            </td>
                     </tr>
                 @empty
                     <tr>
@@ -159,11 +159,11 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
             @if($workers->hasPages())
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $workers->links() }}
                 </nav>
             @endif
-            <div class="fw-normal small mt-4 mt-lg-0">
+            <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
                 Mostrando <b>{{ $workers->firstItem() ?? 0 }}</b> a <b>{{ $workers->lastItem() ?? 0 }}</b> de
                 <b>{{ $workers->total() }}</b> trabajadores
             </div>

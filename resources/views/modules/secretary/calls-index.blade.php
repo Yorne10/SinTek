@@ -1,4 +1,4 @@
-{{-- 
+﻿{{-- 
 * Company: CETAM
 * Project: ST
 * File: calls-index.blade.php
@@ -63,24 +63,20 @@
 
     {{-- Convocations Table --}}
     <div class="card card-body border-0 shadow mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h5 mb-0">Lista de convocatorias</h2>
-        </div>
-
         <div class="table-responsive">
             <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
                 <colgroup>
-                    <col style="width: 34%">
-                    <col style="width: 24%">
+                    <col style="width: 40%">
+                    <col style="width: 30%">
                     <col style="width: 18%">
-                    <col style="width: 24%">
+                    <col style="width: 12%">
                 </colgroup>
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Periodo</th>
                         <th class="border-0">Estado</th>
-                        <th class="border-0 rounded-end">Acciones</th>
+                        <th class="border-0 rounded-end text-start">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,8 +109,8 @@
                                     <span class="fw-bold text-gray-600">{{ ucfirst($convocation->status) }}</span>
                                 @endif
                             </td>
-                            <td>
-                                <div class="btn-group">
+                            <td class="text-start" style="width: 12%; min-width: 72px;">
+                                <div class="btn-group position-static">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @icon('menu', 'icon icon-xs')
@@ -155,7 +151,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-4">
+                            <td colspan="4" class="text-center py-4">
                                 <div class="text-gray-500">
                                     @icon('announcement', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
@@ -224,3 +220,4 @@
         });
     });
 </script>
+

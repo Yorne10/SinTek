@@ -1,4 +1,4 @@
-{{-- 
+﻿{{-- 
 * Company: CETAM
 * Project: ST
 * File: faq-questions.blade.php
@@ -60,8 +60,8 @@
         <table class="table table-centered table-nowrap mb-0 rounded" style="table-layout: fixed;">
             <colgroup>
                 <col style="width: 42%">
-                <col style="width: 38%">
-                <col style="width: 8%">
+                <col style="width: 34%">
+                <col style="width: 12%">
                 <col style="width: 12%">
             </colgroup>
             <thead class="thead-light">
@@ -69,7 +69,7 @@
                     <th class="border-0 rounded-start">Pregunta</th>
                     <th class="border-0">Respuesta</th>
                     <th class="border-0">Orden</th>
-                    <th class="border-0 rounded-end">Acciones</th>
+                    <th class="border-0 rounded-end text-start">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,8 +82,8 @@
                             <span class="fw-normal text-truncate d-inline-block w-100">{{ Str::limit($faq->answer, 100) }}</span>
                         </td>
                         <td><span class="fw-bold text-gray-900">{{ $faq->order }}</span></td>
-                        <td>
-                            <div class="btn-group">
+                        <td class="text-start" style="width: 12%; min-width: 72px;">
+                            <div class="btn-group position-static">
                                 <button
                                     class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                     data-bs-toggle="dropdown" aria-haspopup="true"
@@ -110,13 +110,11 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center py-4">
-                            <div class="text-gray-500">
-                                <div class="mb-3">
-                                    @icon('help', 'fa-2x')
-                                </div>
-                                <p class="fw-bold">No hay preguntas para mostrar</p>
-                                <p class="small">Agrega tu primera pregunta frecuente</p>
+                        <td colspan="4" class="text-center align-middle py-4">
+                            <div class="text-gray-500 d-flex flex-column align-items-center justify-content-center">
+                                @icon('help', 'fa-2x mb-3 text-gray-400')
+                                <p class="fw-bold mb-1">No hay preguntas para mostrar</p>
+                                <p class="small mb-0">Agrega tu primera pregunta frecuente</p>
                             </div>
                         </td>
                     </tr>
@@ -179,3 +177,5 @@
         }
     });
 </script>
+
+

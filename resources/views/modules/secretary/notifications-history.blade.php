@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Company: CETAM
 Project: ST
 File: notifications-history.blade.php
@@ -68,19 +68,15 @@ Approved by: Alfonso Angel Garcia Hernandez
 
     {{-- Notifications Table --}}
     <div class="card card-body border-0 shadow mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h5 mb-0">Lista de notificaciones</h2>
-        </div>
-
         <div class="table-responsive">
             <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
                 <colgroup>
-                    <col style="width: 25%">
+                    <col style="width: 28%">
                     <col style="width: 20%">
-                    <col style="width: 20%">
-                    <col style="width: 15%">
-                    <col style="width: 10%">
-                    <col style="width: 10%">
+                    <col style="width: 22%">
+                    <col style="width: 14%">
+                    <col style="width: 8%">
+                    <col style="width: 8%">
                 </colgroup>
                 <thead class="thead-light">
                     <tr>
@@ -89,42 +85,42 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <th class="border-0">Correo</th>
                         <th class="border-0">Fecha</th>
                         <th class="border-0">Estado</th>
-                        <th class="border-0 rounded-end">Acciones</th>
+                        <th class="border-0 rounded-end text-start">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($notifications as $notification)
+                    @forelse( as )
                         <tr>
                             <td>
-                                <span class="fw-bold">{{ $notification->title }}</span>
+                                <span class="fw-bold">{{ ->title }}</span>
                             </td>
                             <td>
-                                <span class="fw-normal">{{ $notification->user->name ?? 'N/A' }}</span>
+                                <span class="fw-normal">{{ ->user->name ?? 'N/A' }}</span>
                             </td>
                             <td>
-                                <span class="fw-normal">{{ $notification->user->email ?? 'N/A' }}</span>
+                                <span class="fw-normal">{{ ->user->email ?? 'N/A' }}</span>
                             </td>
                             <td>
-                                <span class="fw-normal">{{ $notification->created_at->format('d/m/Y') }}</span>
+                                <span class="fw-normal">{{ ->created_at->format('d/m/Y') }}</span>
                                 <span class="text-gray"> - </span>
-                                <span class="fw-normal">{{ $notification->created_at->format('H:i') }}</span>
+                                <span class="fw-normal">{{ ->created_at->format('H:i') }}</span>
                             </td>
                             <td>
-                                @if($notification->read_at)
+                                @if(->read_at)
                                     <span class="fw-bold text-success">Leída</span>
                                 @else
                                     <span class="fw-bold text-warning">Pendiente</span>
                                 @endif
                             </td>
-                            <td>
-                                <div class="btn-group">
+                            <td class="text-start" style="width: 8%; min-width: 72px;">
+                                <div class="btn-group position-static">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @icon('menu', 'icon icon-xs')
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                         <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications.edit', $notification->notification_id) }}">
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications.edit', ->notification_id) }}">
                                             @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>
@@ -148,17 +144,17 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </tbody>
             </table>
         </div>
-    </div>
 
-    @if($notifications->hasPages())
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <div class="small text-muted">
-                Mostrando {{ $notifications->firstItem() ?? 0 }} - {{ $notifications->lastItem() ?? 0 }}
-                de {{ $notifications->total() }} notificaciones
+        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            @if(->hasPages())
+                <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
+                    {{ ->links() }}
+                </nav>
+            @endif
+            <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
+                Mostrando <b>{{ ->firstItem() ?? 0 }}</b> a
+                <b>{{ ->lastItem() ?? 0 }}</b> de <b>{{ ->total() }}</b> notificaciones
             </div>
-            <nav aria-label="Page navigation">
-                {{ $notifications->links() }}
-            </nav>
         </div>
-    @endif
+    </div>
 </div>

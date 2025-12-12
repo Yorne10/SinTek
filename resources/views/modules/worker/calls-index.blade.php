@@ -92,24 +92,24 @@
                             <div class="small text-gray-700 fw-bold">Periodo</div>
                             <div class="small text-gray-700">{{ $start }} <span class="text-gray">-</span> {{ $end }}</div>
                         </div>
-                        <div class="mt-auto d-flex justify-content-between align-items-center">
-                            <div class="small text-gray-600 mb-0">
-                                <div class="fw-bold text-gray-700">Documentos</div>
-                                @if($convocatoria->documents->count() > 0)
-                                    <ul class="list-unstyled mb-0">
-                                        @foreach($convocatoria->documents as $doc)
-                                            <li class="mb-1 small">
-                                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}"
-                                                   class="text-decoration-none">
-                                                    {{ $doc->file_name ?? 'Documento' }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <span class="text-gray-500">Sin documentos</span>
-                                @endif
-                            </div>
+                        <div class="mt-auto">
+                            <div class="fw-bold text-gray-700 small mb-2">Documentos</div>
+                            @if($convocatoria->documents->count() > 0)
+                                <div class="row g-2">
+                                    @foreach($convocatoria->documents as $doc)
+                                        <div class="col-4">
+                                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}"
+                                               class="btn btn-tertiary btn-sm w-100 d-flex flex-column align-items-center text-center p-2"
+                                               style="min-height: 60px;">
+                                                @icon('download', 'mb-1')
+                                                <span class="small text-truncate w-100">{{ $doc->file_name ?? 'Documento' }}</span>
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="text-gray-500 small">Sin documentos</span>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -124,24 +124,5 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-6 mb-4">
-            <div class="card border-0 shadow h-100">
-                <div class="card-header border-bottom">
-                    <h2 class="fs-5 fw-bold mb-0">Convocatorias</h2>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="text-gray-600">Convocatorias activas</span>
-                        <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
-                    </div>
-                    <div class="progress" style="height: 8px;">
-                        <div class="progress-bar bg-success" role="progressbar"
-                            style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
-                        </div>
-                    </div>
-                    <small class="text-gray-500">{{ $totalConvocations }} convocatorias en total</small>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
