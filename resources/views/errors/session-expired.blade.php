@@ -21,12 +21,19 @@
                                 </svg>
                             </div>
                             <h1 class="h3 text-center">Tu sesión ha expirado</h1>
-                            <p class="mb-4 text-center">
-                                Por seguridad, tu sesión se ha cerrado debido a inactividad. Por favor, inicia sesión nuevamente para continuar.
+                            <p class="mb-3 text-center">
+                                Por seguridad, tu sesión se ha cerrado debido a inactividad.
+                            </p>
+                            <p class="mb-4 text-center text-muted small">
+                                Todos tus cambios guardados están seguros. Simplemente inicia sesión nuevamente para continuar trabajando.
                             </p>
                             <div class="d-grid">
-                                <a href="{{ route(config('proj.route_name_prefix', 'proj').'.auth.login') }}" class="btn btn-gray-800 mb-3">Volver al inicio de sesión</a>
-                                <a href="{{ route(config('proj.route_name_prefix', 'proj').'.auth.login') }}" class="btn btn-outline-gray-500">Entendido</a>
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj').'.auth.login') }}" class="btn btn-gray-800">
+                                    <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Iniciar sesión nuevamente
+                                </a>
                             </div>
                         </div>
                     </div>

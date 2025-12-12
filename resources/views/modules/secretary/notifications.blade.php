@@ -71,19 +71,6 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
 
                             @if(!$notificationId)
-                                {{-- Enviar a todos --}}
-                                <div class="col-md-12 mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input"
-                                            type="checkbox"
-                                            id="sendToAll"
-                                            wire:model.live="sendToAll">
-                                        <label class="form-check-label" for="sendToAll">
-                                            Enviar a todos los trabajadores
-                                        </label>
-                                    </div>
-                                </div>
-
                                 {{-- Búsqueda de trabajadores --}}
                                 @if(!$sendToAll)
                                 <div class="col-md-12 mb-3">
@@ -121,12 +108,12 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         <label class="form-label">Destinatarios seleccionados:</label>
                                         <div class="d-flex flex-wrap gap-2">
                                             @foreach($selectedWorkers as $worker)
-                                                <span class="badge bg-primary d-flex align-items-center gap-2">
-                                                    {{ $worker->name }}
+                                                <span class="badge bg-secondary d-flex align-items-center gap-2">
                                                     <button type="button"
                                                         class="btn-close btn-close-white btn-sm"
                                                         wire:click="removeUser({{ $worker->users_id }})"
                                                         aria-label="Remove"></button>
+                                                    {{ $worker->name }}
                                                 </span>
                                             @endforeach
                                         </div>
@@ -139,6 +126,19 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         </div>
                                     @enderror
                                 @endif
+
+                                {{-- Enviar a todos (al final) --}}
+                                <div class="col-md-12 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input"
+                                            type="checkbox"
+                                            id="sendToAll"
+                                            wire:model.live="sendToAll">
+                                        <label class="form-check-label" for="sendToAll">
+                                            Enviar a todos los trabajadores
+                                        </label>
+                                    </div>
+                                </div>
                             @endif
 
                             {{-- Botones de envío/actualizar y cancelar/eliminar --}}

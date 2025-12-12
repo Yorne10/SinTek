@@ -42,13 +42,15 @@
                     placeholder="Buscar documentos">
             </div>
             <div class="d-flex align-items-center text-nowrap">
-                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
-                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;" aria-label="Filtrar por estado">
-                    <option value="">Todos</option>
-                    <option value="active">Activo</option>
-                    <option value="inactive">Inactivo</option>
-                    <option value="published">Publicado</option>
-                    <option value="draft">Borrador</option>
+                <span class="small text-gray-600 me-2">Filtrar por categoría:</span>
+                <select wire:model.live="categoryFilter" class="form-select" style="min-width: 200px;"
+                    aria-label="Filtrar por categoría">
+                    <option value="">Todas</option>
+                    <option value="Reglamento">Reglamento</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Lineamiento">Lineamiento</option>
+                    <option value="Código">Código</option>
+                    <option value="Otro">Otro</option>
                 </select>
             </div>
             <div class="ms-auto">
@@ -65,20 +67,16 @@
         <div class="table-responsive">
             <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
                 <colgroup>
-                    <col style="width: 32%">
-                    <col style="width: 18%">
-                    <col style="width: 10%">
-                    <col style="width: 12%">
-                    <col style="width: 14%">
-                    <col style="width: 14%">
+                    <col style="width: 40%">
+                    <col style="width: 25%">
+                    <col style="width: 20%">
+                    <col style="width: 15%">
                 </colgroup>
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Categoría</th>
-                        <th class="border-0">Versión</th>
-                        <th class="border-0">Fecha</th>
-                        <th class="border-0">Estado</th>
+                        <th class="border-0">Fecha Vigencia</th>
                         <th class="border-0 rounded-end">Acciones</th>
                     </tr>
                 </thead>
@@ -87,24 +85,12 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    @icon('file', 'text-danger me-2')
                                     <span class="fw-bold">{{ $document->title }}</span>
                                 </div>
                             </td>
                             <td><span class="fw-normal">{{ ucfirst($document->category ?? 'N/A') }}</span></td>
-                            <td><span class="fw-normal">v{{ $document->version }}</span></td>
-                            <td><span class="fw-normal">{{ $document->created_at->format('d/m/Y') }}</span></td>
-                            <td>
-                                @php
-                                    $statusText = match($document->status) {
-                                        'active' => 'Activo',
-                                        'inactive' => 'Inactivo',
-                                        'published' => 'Publicado',
-                                        'draft' => 'Borrador',
-                                        default => ucfirst($document->status),
-                                    };
-                                @endphp
-                                <span class="fw-bold text-success">{{ $statusText }}</span>
+                            <td><span
+                                    class="fw-normal">{{ $document->effective_date ? $document->effective_date->format('d/m/Y') : 'N/A' }}</span>
                             </td>
                             <td>
                                 <div class="btn-group">
@@ -114,18 +100,18 @@
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                         <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.show', $document->institutional_document_id) }}"
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.show', $document->institucional_document_id) }}"
                                             target="_blank">
                                             @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver documento
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institutional_document_id) }}">
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institucional_document_id) }}">
                                             @icon('download', 'dropdown-icon text-gray-400 me-2')
                                             Descargar
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.document.edit', $document->institutional_document_id) }}">
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.document.edit', $document->institucional_document_id) }}">
                                             @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>
@@ -135,7 +121,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-4">
+                            <td colspan="4" class="text-center py-4">
                                 <div class="text-gray-500">
                                     @icon('file', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay documentos institucionales para mostrar</p>

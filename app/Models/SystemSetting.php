@@ -1,4 +1,12 @@
 <?php
+/**
+ * Empresa: CETAM
+ * Proyecto: ST
+ * Archivo: SystemSetting.php
+ * Fecha de creación: 02/11/25
+ * Realizado por: Alfonso Angel García Hernández
+ * Validado por: Alfonso Angel García Hernández
+ */
 
 namespace App\Models;
 
@@ -7,7 +15,13 @@ use Illuminate\Support\Facades\Cache;
 
 class SystemSetting extends Model
 {
-    protected $fillable = ['key', 'value'];
+    protected $primaryKey = 'system_setting_id';
+
+    protected $fillable = ['key', 'value', 'category', 'status'];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 
     /**
      * Get a setting value by key.
@@ -30,13 +44,14 @@ class SystemSetting extends Model
      *
      * @param string $key
      * @param mixed $value
+     * @param string $category
      * @return void
      */
-    public static function setValue($key, $value)
+    public static function setValue($key, $value, $category = 'general')
     {
         self::updateOrCreate(
             ['key' => $key],
-            ['value' => $value]
+            ['value' => $value, 'category' => $category, 'status' => true]
         );
 
         // Clear cache for this key

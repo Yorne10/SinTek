@@ -10,56 +10,62 @@ Changelog:
 - ID: <ID> | Date: dd/mm/yyyy
     Modified by: Codex
     Description: Formulario funcional para creación de procesos.
-    --}}
+--}}
 
-    {{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
-    {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
-
-    <div>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-            <div class="d-block mb-4 mb-md-0">
-                <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                    <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                        <li class="breadcrumb-item">
+<div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                    <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
                             @icon('home', 'fa-xs')
+                        </a>
+                    </li>
+                    @if(auth()->user()->role === 'secretary')
+                        <li class="breadcrumb-item">Secretaría</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
+                                Gestionar procesos
                             </a>
                         </li>
+                    @else
                         <li class="breadcrumb-item">Administración</li>
-                        <li class="breadcrumb-item active" aria-current="page">Crear proceso</li>
-                    </ol>
-                </nav>
-                <h2 class="h4">Crear proceso</h2>
-                <p class="mb-0">Define un nuevo proceso de trámite para el sistema.</p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 col-xl-8">
-                <div class="card card-body shadow border-0 mb-4">
-                    <h2 class="h5 mb-4">Información del proceso</h2>
-
-                    @if ($successMessage)
-                        <div class="alert alert-success d-flex align-items-center" role="alert">
-                            <span class="fa-xs text-success me-2 fas fa-check-circle"></span>
-                            <div>{{ $successMessage }}</div>
-                        </div>
                     @endif
+                    <li class="breadcrumb-item active" aria-current="page">Crear proceso</li>
+                </ol>
+            </nav>
+            <h2 class="h4">Crear proceso</h2>
+            <p class="mb-0">Define un nuevo proceso de trámite para el sistema.</p>
+        </div>
+    </div>
 
-                    <form wire:submit.prevent="save">
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="process_name">Nombre del proceso <span class="text-danger">*</span></label>
-                                <input wire:model.defer="name" class="form-control @error('name') is-invalid @enderror"
-                                    id="process_name" type="text" placeholder="Ej: Solicitud de vacaciones" required>
-                                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
+    <div class="row">
+        <div class="col-12 col-xl-8">
+            <div class="card card-body shadow border-0 mb-4">
+                <h2 class="h5 mb-4">Información del proceso</h2>
+
+                @if ($successMessage)
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <span class="fa-xs text-success me-2 fas fa-check-circle"></span>
+                        <div>{{ $successMessage }}</div>
+                    </div>
+                @endif
+
+                <form wire:submit.prevent="save">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="process_name">Nombre del proceso <span class="text-danger">*</span></label>
+                            <input wire:model.defer="name" class="form-control @error('name') is-invalid @enderror"
+                                id="process_name" type="text" placeholder="Ej: Solicitud de vacaciones" required>
+                            @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="process_code">Código del proceso</label>
-                                <input wire:model.defer="process_code"
-                                    class="form-control @error('process_code') is-invalid @enderror" id="process_code"
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="process_code">Código del proceso</label>
+                            <input wire:model.defer="process_code"
+                                class="form-control @error('process_code') is-invalid @enderror" id="process_code"
                                     type="text" placeholder="Ej: SOL-VAC-001">
                                 <small class="form-text text-muted">Código único para identificar el proceso.</small>
                                 @error('process_code') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -121,7 +127,7 @@ Changelog:
                         <div class="row align-items-center mt-4">
                             <div class="col">
                                 <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">
-                                    @icon('success', 'me-2')
+                                    @icon('save', 'me-2')
                                     Guardar proceso
                                 </button>
                                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.manage-procedures') }}"

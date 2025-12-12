@@ -1,43 +1,58 @@
 <?php
+/**
+ * Empresa: CETAM
+ * Proyecto: ST
+ * Archivo: Step.php
+ * Fecha de creación: 02/11/25
+ * Realizado por: Alfonso Angel García Hernández
+ * Validado por: Alfonso Angel García Hernández
+ */
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Step extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $primaryKey = 'step_id';
 
     protected $fillable = [
         'process_id',
         'order',
-        'tittle',
-        'description',
-        'instructions',
-        'condition_type',
-        'responsible',
-        'deadline_days',
-        'priority',
-        'send_notification',
+        'title',              // Corrected from 'tittle'
+        'instruction',        // Corrected from 'instructions' (singular)
+        'step_type',          // Corrected from 'condition_type'
+        'condition_question',
+        'responsible_role',   // Corrected from 'responsible'
         'requires_documents',
+        'next_step_id',
         'next_yes',
         'next_no',
+        'finalization_message',
+        'is_initial_step',
+        'is_linked',
+        'active',
     ];
 
     protected $casts = [
         'order' => 'integer',
-        'deadline_days' => 'integer',
-        'send_notification' => 'boolean',
         'requires_documents' => 'boolean',
+        'is_initial_step' => 'boolean',
+        'is_linked' => 'boolean',
+        'active' => 'boolean',
     ];
 
     public function process()
     {
         return $this->belongsTo(Process::class, 'process_id', 'process_id');
+    }
+
+    public function nextStep()
+    {
+        return $this->belongsTo(Step::class, 'next_step_id', 'step_id');
     }
 
     public function nextYesStep()
@@ -63,10 +78,5 @@ class Step extends Model
     public function requiredDocuments()
     {
         return $this->hasMany(StepRequiredDocument::class, 'step_id', 'step_id');
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class, 'steps_id', 'step_id');
     }
 }

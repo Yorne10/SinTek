@@ -150,7 +150,7 @@
                             <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
                                     <div class="mb-3">
-                                        @icon('documentSign', 'fa-2x')
+                                    @icon('announcement', 'fa-2x')
                                     </div>
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
                                     <p class="small">Revisa más tarde, pronto habrá nuevas convocatorias.</p>

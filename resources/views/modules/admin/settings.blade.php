@@ -128,21 +128,6 @@ Changelog:
                     </div>
 
                     <div class="col-12 col-xl-4">
-                        <div class="card card-body shadow border-0 mb-4">
-                            <h2 class="h5 mb-4">Mantenimiento</h2>
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <div>
-                                    <h3 class="h6 mb-1">Modo mantenimiento</h3>
-                                    <p class="small mb-0">Desactiva el acceso al sistema</p>
-                                </div>
-                                <div class="form-check form-switch">
-                                    <input wire:model.live="maintenanceMode" wire:change="toggleMaintenanceMode"
-                                        class="form-check-input" type="checkbox" id="maintenance_mode">
-                                    <label class="form-check-label" for="maintenance_mode"></label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="card card-body shadow border-0">
                             <h2 class="h5 mb-4">Información del sistema</h2>
                             <ul class="list-group list-group-flush">

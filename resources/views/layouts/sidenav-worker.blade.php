@@ -51,7 +51,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('checkList', 'me-2')
+            @icon('recordList', 'me-2')
           </span>
           <span class="sidebar-text">Mis trámites</span>
         </a>
@@ -72,7 +72,7 @@ Validado por: Alfonso Angel Garca Hernndez
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.convocations') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('file', 'me-2')
+            @icon('announcement', 'me-2')
           </span>
           <span class="sidebar-text">Convocatorias</span>
         </a>

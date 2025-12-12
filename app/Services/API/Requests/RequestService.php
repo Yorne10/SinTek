@@ -186,7 +186,7 @@ class RequestService
                     return [
                         'request_step_id' => $reqStep->request_step_id,
                         'step_id' => $reqStep->step_id,
-                        'title' => $reqStep->step?->tittle,
+                        'title' => $reqStep->step?->title,
                         'description' => $reqStep->step?->description,
                         'status' => $reqStep->request_step_status,
                         'order' => $reqStep->step?->order,
@@ -251,7 +251,7 @@ class RequestService
 
             DB::commit();
 
-            $stepName = $currentStep->step?->tittle ?? 'Paso';
+            $stepName = $currentStep->step?->title ?? 'Paso';
 
             // Log activity - SAME MESSAGE AS WEB
             ActivityLogger::log(
@@ -353,7 +353,7 @@ class RequestService
 
             DB::commit();
 
-            $stepName = $currentStep->step?->tittle ?? 'Paso';
+            $stepName = $currentStep->step?->title ?? 'Paso';
             $decisionLabel = $validated['condition_type'] === 'aprobado' ? 'sí' : 'no';
 
             // Log activity - SAME MESSAGE AS WEB
@@ -437,13 +437,12 @@ class RequestService
                 'name' => $file->getClientOriginalName(),
                 'mime_type' => $file->getMimeType(),
                 'file_content' => $content,
-                'type' => 'user_upload',
             ]);
 
             // Log activity - SAME MESSAGE AS WEB
             ActivityLogger::log(
                 'tramite.documento.subido',
-                "Documento '{$document->name}' subido para el paso '{$step->tittle}' del trámite '{$req->process->name}'",
+                "Documento '{$document->name}' subido para el paso '{$step->title}' del trámite '{$req->process->name}'",
                 $user->users_id
             );
 

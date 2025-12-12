@@ -111,23 +111,30 @@ class FallbackAuthService
     public function logout(Request $request)
     {
         try {
-            $isIdle = $request->has('idle');
-
             Auth::logout();
 
             $request->session()->invalidate();
 
             $request->session()->regenerateToken();
 
-            if ($isIdle) {
-                return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+            // Si es una petición JSON/Ajax (por ejemplo, desde el timer de inactividad),
+            // retornar JSON en lugar de redirección HTML
+            if ($request->expectsJson() || $request->wantsJson()) {
+                return response()->json(['success' => true, 'message' => 'Sesión cerrada']);
             }
 
+            // Si es un logout manual desde el botón del sidebar, redirigir al login
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         } catch (\Throwable $e) {
             Log::error('Logout error: ' . $e->getMessage());
-            // Force redirect even on error
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+
+            // Si es una petición JSON, retornar JSON incluso en error
+            if ($request->expectsJson() || $request->wantsJson()) {
+                return response()->json(['success' => true, 'message' => 'Sesión cerrada'], 200);
+            }
+
+            // Si es HTML, redirigir al login en caso de error
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         }
     }
 }

@@ -24,7 +24,7 @@ class Worker extends Model
         'curp',
         'sex',
         'phone',
-        'adress',
+        'address',  // Corrected from 'adress'
         'rfc',
     ];
 
@@ -35,7 +35,12 @@ class Worker extends Model
 
     public function positions()
     {
-        return $this->belongsToMany(Position::class, 'positions_workers', 'worker_id', 'positions_id', 'workers_id', 'positions_id');
+        return $this->belongsToMany(
+            Position::class,
+            'positions_workers',
+            'workers_id',  // FK in pivot table
+            'positions_id' // Related key in pivot table
+        )->withPivot('assigned_at');
     }
 
     public function requests()

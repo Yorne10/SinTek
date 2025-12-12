@@ -147,8 +147,7 @@
                                                                 data-user-curp="{{ $user->role === 'worker' && $user->worker ? ($user->worker->curp ?? '') : '' }}"
                                                                 data-user-rfc="{{ $user->role === 'worker' && $user->worker ? ($user->worker->rfc ?? '') : '' }}"
                                                                 data-user-phone="{{ $user->role === 'worker' && $user->worker ? ($user->worker->phone ?? '') : '' }}"
-                                                                data-user-department="{{ $user->role === 'worker' && $user->worker ? ($user->worker->department ?? '') : '' }}"
-                                                                data-user-position="{{ $user->role === 'worker' && $user->worker ? ($user->worker->position ?? '') : '' }}"
+                                                                data-user-budget-keys="{{ $user->role === 'worker' && $user->worker ? ($user->worker->positions->pluck('budget_key')->filter()->implode(', ') ?? '') : '' }}"
                                                                 data-user-address="{{ $user->role === 'worker' && $user->worker ? ($user->worker->address ?? '') : '' }}"
                                                                 data-is-worker="{{ $user->role === 'worker' ? '1' : '0' }}">
                                                                 @icon('view', 'dropdown-icon text-gray-400 me-2')
@@ -238,8 +237,7 @@
                                                 const curp = button.getAttribute('data-user-curp') || 'N/A';
                                                 const rfc = button.getAttribute('data-user-rfc') || 'N/A';
                                                 const phone = button.getAttribute('data-user-phone') || 'N/A';
-                                                const department = button.getAttribute('data-user-department') || 'N/A';
-                                                const position = button.getAttribute('data-user-position') || 'N/A';
+                                                const budgetKeys = button.getAttribute('data-user-budget-keys') || 'S/D';
                                                 const address = button.getAttribute('data-user-address') || 'N/A';
 
                                                 htmlContent += `
@@ -248,8 +246,7 @@
                                                     <p class="mb-2"><span class="fw-bold">CURP:</span> ${curp}</p>
                                                     <p class="mb-2"><span class="fw-bold">RFC:</span> ${rfc}</p>
                                                     <p class="mb-2"><span class="fw-bold">Teléfono:</span> ${phone}</p>
-                                                    <p class="mb-2"><span class="fw-bold">Departamento:</span> ${department}</p>
-                                                    <p class="mb-2"><span class="fw-bold">Puesto:</span> ${position}</p>
+                                                    <p class="mb-2"><span class="fw-bold">Claves presupuestales:</span> ${budgetKeys}</p>
                                                     <p class="mb-0"><span class="fw-bold">Dirección:</span> ${address}</p>
                                                 `;
                                             }

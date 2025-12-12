@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,14 +15,16 @@ return new class extends Migration
         Schema::create('institucional_documents', function (Blueprint $table) {
             $table->id('institucional_document_id');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('category');
-            $table->longText('file_content');
             $table->string('file_name');
             $table->string('mime_type');
-            $table->date('effective_date');
+            $table->date('effective_date')->nullable();
             $table->timestamps();
         });
+
+        // Agregar columna LONGBLOB después de crear la tabla
+        DB::statement('ALTER TABLE institucional_documents ADD file_content LONGBLOB AFTER category');
     }
 
     /**

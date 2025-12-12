@@ -32,10 +32,9 @@ class NotificationCreated implements ShouldBroadcastNow
     {
         return [
             'id' => $this->notification->notification_id,
-            'title' => $this->notification->tittle,
+            'title' => $this->notification->title,
             'message' => $this->notification->message,
-            'type' => $this->notification->type,
-            'request_id' => $this->notification->request_id,
+            'convocation_id' => $this->notification->convocation_id,
             'created_at' => optional($this->notification->created_at)->toIso8601String(),
         ];
     }

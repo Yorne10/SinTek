@@ -17,7 +17,16 @@ Approved by: Alfonso Angel Garcia Hernandez
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Administración</li>
+                    @if(auth()->user()->role === 'secretary')
+                        <li class="breadcrumb-item">Secretaría</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
+                                Gestionar procesos
+                            </a>
+                        </li>
+                    @else
+                        <li class="breadcrumb-item">Administración</li>
+                    @endif
                     <li class="breadcrumb-item active" aria-current="page">Definir pasos</li>
                 </ol>
             </nav>
@@ -111,7 +120,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                 </td>
                                                 <td>
                                                     <div class="d-block">
-                                                        <span class="fw-bold">{{ $step->tittle }}</span>
+                                                        <span class="fw-bold">{{ $step->title }}</span>
                                                         @if($step->description)
                                                             <div class="small text-gray">{{ Str::limit($step->description, 60) }}
                                                             </div>

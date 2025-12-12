@@ -1,4 +1,4 @@
-{{-- 
+{{--
 Company: CETAM
 Project: ST
 File: notifications-history.blade.php
@@ -49,7 +49,8 @@ Approved by: Alfonso Angel Garcia Hernandez
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
-                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;" aria-label="Filtrar por estado">
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;"
+                    aria-label="Filtrar por estado">
                     <option value="">Todas</option>
                     <option value="leida">Leída</option>
                     <option value="pendiente">Pendiente</option>
@@ -95,7 +96,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     @forelse($notifications as $notification)
                         <tr>
                             <td>
-                                <span class="fw-bold">{{ $notification->tittle }}</span>
+                                <span class="fw-bold">{{ $notification->title }}</span>
                             </td>
                             <td>
                                 <span class="fw-normal">{{ $notification->user->name ?? 'N/A' }}</span>

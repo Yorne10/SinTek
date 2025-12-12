@@ -18,6 +18,14 @@ class BudgetKeyForm extends Component
         'position_name' => 'required|string|max:150',
     ];
 
+    protected $messages = [
+        'budget_key.required' => 'El campo clave presupuestal es obligatorio',
+        'budget_key.max' => 'La clave presupuestal no debe exceder los 100 caracteres',
+        'budget_key.unique' => 'La clave presupuestal ya existe',
+        'position_name.required' => 'El campo nombre del puesto es obligatorio',
+        'position_name.max' => 'El nombre del puesto no debe exceder los 150 caracteres',
+    ];
+
     public function mount($id = null)
     {
         if ($id) {
@@ -30,10 +38,20 @@ class BudgetKeyForm extends Component
 
     public function save()
     {
-        $this->validate();
+        // Validaciones dinámicas (único por clave)
         $user = Auth::user();
 
         $isEditing = !empty($this->budget_key_id);
+
+        $uniqueRule = 'unique:positions,budget_key';
+        if ($isEditing && $this->budget_key_id) {
+            $uniqueRule = $uniqueRule . ',' . $this->budget_key_id . ',positions_id';
+        }
+
+        $this->validate([
+            'budget_key' => 'required|string|max:100|' . $uniqueRule,
+            'position_name' => 'required|string|max:150',
+        ], $this->messages);
 
         Position::updateOrCreate(
             ['positions_id' => $this->budget_key_id],
@@ -44,23 +62,25 @@ class BudgetKeyForm extends Component
         );
 
         // Registrar en bitácora
+        $successMessage = '';
         if ($isEditing) {
             ActivityLogger::log(
                 'clave.editar',
                 "Clave presupuestal editada: '{$this->budget_key}' - {$this->position_name}",
                 $user?->users_id
             );
-            session()->flash('success', 'Clave presupuestal actualizada correctamente.');
+            $successMessage = 'Clave presupuestal actualizada correctamente.';
         } else {
             ActivityLogger::log(
                 'clave.crear',
                 "Clave presupuestal creada: '{$this->budget_key}' - {$this->position_name}",
                 $user?->users_id
             );
-            session()->flash('success', 'Clave presupuestal creada correctamente.');
+            $successMessage = 'Clave presupuestal creada correctamente.';
         }
 
-        return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
+        $redirect = route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
+        $this->dispatch('budget-key-saved', message: $successMessage, redirect: $redirect);
     }
 
     public function cancel()

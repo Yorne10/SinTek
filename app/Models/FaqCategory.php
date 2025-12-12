@@ -4,32 +4,27 @@
  * Project: ST
  * File: FaqCategory.php
  * Created on: 24/11/2025
- * Created by: Codex
+ * Created by: Alfonso Angel García Hernández
  * Approved by: Alfonso Angel García Hernández
  */
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FaqCategory extends Model
 {
-    use SoftDeletes;
-
-    protected $table = 'faq_categories';
+    protected $table = 'faqs_categories';
     protected $primaryKey = 'faq_category_id';
 
     protected $fillable = [
         'name',
         'description',
         'order',
-        'is_active',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
         'order' => 'integer',
     ];
 
@@ -39,24 +34,6 @@ class FaqCategory extends Model
     public function faqs(): HasMany
     {
         return $this->hasMany(Faq::class, 'faq_category_id', 'faq_category_id');
-    }
-
-    /**
-     * Get only active FAQs for this category
-     */
-    public function activeFaqs(): HasMany
-    {
-        return $this->hasMany(Faq::class, 'faq_category_id', 'faq_category_id')
-                    ->where('is_active', true)
-                    ->orderBy('order');
-    }
-
-    /**
-     * Scope to get only active categories
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
     }
 
     /**

@@ -54,7 +54,7 @@ class Notifications extends Component
         if ($notificationId) {
             $this->notificationId = $notificationId;
             $notification = Notification::findOrFail($notificationId);
-            $this->title = $notification->tittle;
+            $this->title = $notification->title;
             $this->message = $notification->message;
         }
     }
@@ -68,6 +68,15 @@ class Notifications extends Component
     {
         // keep pagination consistent on search change
         $this->resetPage();
+    }
+
+    public function updatedSendToAll($value): void
+    {
+        // Si se activa "enviar a todos", limpiar selección individual
+        if ($value) {
+            $this->selectedUsers = [];
+            $this->workerSearch = '';
+        }
     }
 
     public function addUser(int $userId): void
@@ -111,7 +120,7 @@ class Notifications extends Component
         ], $this->messages);
 
         $notification = Notification::findOrFail($this->notificationId);
-        $notification->tittle = $this->title;
+        $notification->title = $this->title;
         $notification->message = $this->message;
         $notification->save();
 
@@ -156,11 +165,9 @@ class Notifications extends Component
 
         foreach ($recipients as $recipient) {
             Notification::create([
-                'request_id' => null,
                 'user_id' => $recipient->users_id,
-                'tittle' => $this->title,
+                'title' => $this->title,
                 'message' => $this->message,
-                'type' => 'general',
             ]);
         }
 
@@ -191,7 +198,7 @@ class Notifications extends Component
         }
 
         $notification = Notification::findOrFail($this->notificationId);
-        $title = $notification->tittle;
+        $title = $notification->title;
         $notification->delete();
 
         ActivityLogger::log(
@@ -234,7 +241,7 @@ class Notifications extends Component
         return Notification::with(['user'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('tittle', 'like', '%' . $this->search . '%')
+                    $q->where('title', 'like', '%' . $this->search . '%')
                         ->orWhere('message', 'like', '%' . $this->search . '%');
                 });
             })

@@ -53,20 +53,24 @@ class CreateProcess extends Component
 
     protected $rules = [
         'name' => 'required|string|max:255',
-        'description' => 'nullable|string|max:2000',
+        'description' => 'required|string|max:2000',
         'active' => 'boolean',
-        'process_code' => 'nullable|string|max:50',
-        'category' => 'nullable|string|in:Administrativo,Operativo,Finanzas,Recursos Humanos,Tecnologia',
-        'department' => 'nullable|string|in:Administracion,Finanzas,Recursos Humanos,Sistemas,Juridico',
+        'process_code' => 'required|string|max:50',
+        'category' => 'required|string|in:Administrativo,Operativo,Finanzas,Recursos Humanos,Tecnologia',
+        'department' => 'required|string|in:Administracion,Finanzas,Recursos Humanos,Sistemas,Juridico',
     ];
 
     protected $messages = [
-        'name.required' => 'El nombre es obligatorio.',
-        'name.max' => 'El nombre no debe exceder 255 caracteres.',
-        'description.max' => 'La descripcion es demasiado larga.',
-        'process_code.max' => 'El codigo no debe exceder 50 caracteres.',
-        'category.in' => 'Selecciona una categoria valida.',
-        'department.in' => 'Selecciona un area responsable valida.',
+        'name.required' => 'El campo nombre del proceso es obligatorio',
+        'name.max' => 'El nombre no debe exceder 255 caracteres',
+        'description.required' => 'El campo descripción es obligatorio',
+        'description.max' => 'La descripción no debe exceder 2000 caracteres',
+        'process_code.required' => 'El campo código del proceso es obligatorio',
+        'process_code.max' => 'El código del proceso no debe exceder 50 caracteres',
+        'category.required' => 'El campo categoría es obligatorio',
+        'category.in' => 'La opción seleccionada en categoría no es válida',
+        'department.required' => 'El campo área responsable es obligatorio',
+        'department.in' => 'La opción seleccionada en área responsable no es válida',
     ];
 
     public function save()

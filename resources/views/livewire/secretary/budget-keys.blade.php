@@ -106,7 +106,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <td colspan="3" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
-                                    @icon('finance.budget', 'fa-2x')
+                                    @icon('jobCredential', 'fa-2x')
                                 </div>
                                 <p class="fw-bold">No hay claves presupuestales para mostrar</p>
                                 <p class="small">Crea una nueva clave o ajusta los filtros de búsqueda</p>

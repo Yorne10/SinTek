@@ -70,7 +70,7 @@ class DefineSteps extends Component
     {
         $step = Step::find($stepId);
         if ($step) {
-            $stepTitle = $step->tittle;
+            $stepTitle = $step->title;
             $process = Process::find($step->process_id);
             $processName = $process ? $process->name : 'Proceso';
 

@@ -129,7 +129,7 @@
                         <td colspan="5" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
-                                    @icon('process', 'fa-2x')
+                                    @icon('documentSign', 'fa-2x')
                                 </div>
                                 <p class="fw-bold">No hay procesos para mostrar</p>
                                 <p class="small">Intenta ajustar los filtros de búsqueda</p>

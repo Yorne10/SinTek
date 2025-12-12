@@ -17,8 +17,16 @@ Approved by: Alfonso Angel Garcia Hernandez
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">{{ Auth::user()->role === 'admin' ? 'Administración' : 'Secretaría' }}
-                    </li>
+                    @if(auth()->user()->role === 'secretary')
+                        <li class="breadcrumb-item">Secretaría</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
+                                Gestionar procesos
+                            </a>
+                        </li>
+                    @else
+                        <li class="breadcrumb-item">Administración</li>
+                    @endif
                     <li class="breadcrumb-item active" aria-current="page">Modificar proceso</li>
                 </ol>
             </nav>

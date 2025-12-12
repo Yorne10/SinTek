@@ -26,6 +26,11 @@ class Position extends Model
 
     public function workers()
     {
-        return $this->belongsToMany(Worker::class, 'positions_workers', 'positions_id', 'worker_id', 'positions_id', 'workers_id');
+        return $this->belongsToMany(
+            Worker::class,
+            'positions_workers',
+            'positions_id',  // FK in pivot table
+            'workers_id'     // Related key in pivot table
+        )->withPivot('assigned_at');
     }
 }

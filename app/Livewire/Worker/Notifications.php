@@ -37,7 +37,7 @@ class Notifications extends Component
             // Log activity - SAME MESSAGE AS API
             ActivityLogger::log(
                 'notificacion.marcar_leida',
-                "Notificación marcada como leída: '{$notification->tittle}'",
+                "Notificación marcada como leída: '{$notification->title}'",
                 $user->users_id
             );
 
@@ -48,11 +48,11 @@ class Notifications extends Component
 
     public function getNotificationsProperty()
     {
-        return Notification::with(['request.process'])
+        return Notification::with(['convocation'])
             ->where('user_id', auth()->id())
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('tittle', 'like', '%' . $this->search . '%')
+                    $q->where('title', 'like', '%' . $this->search . '%')
                         ->orWhere('message', 'like', '%' . $this->search . '%');
                 });
             })

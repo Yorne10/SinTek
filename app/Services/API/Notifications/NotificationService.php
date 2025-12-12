@@ -62,7 +62,7 @@ class NotificationService
         foreach ($notifications as $notification) {
             ActivityLogger::log(
                 'notificacion.marcar_leida',
-                "Notificación marcada como leída: '{$notification->tittle}'",
+                "Notificación marcada como leída: '{$notification->title}',",
                 $userId
             );
         }

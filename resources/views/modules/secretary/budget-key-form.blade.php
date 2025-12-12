@@ -1,4 +1,4 @@
-{{--
+{{-- 
 Company: CETAM
 Project: ST
 File: budget-key-form.blade.php
@@ -31,15 +31,70 @@ Approved by: Alfonso Angel Garcia Hernandez
             <h2 class="h4">{{ $budget_key_id ? 'Editar' : 'Nueva' }} Clave Presupuestal</h2>
             <p class="mb-0">{{ $budget_key_id ? 'Modifica los datos de la clave presupuestal' : 'Completa el formulario para crear una nueva clave presupuestal' }}</p>
         </div>
-    </div>
+</div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary me-2',
+                cancelButton: 'btn btn-gray'
+            },
+            buttonsStyling: false
+        });
+
+        // Confirmación antes de guardar
+        document.getElementById('saveKeyBtn')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            const isEdit = {{ $budget_key_id ? 'true' : 'false' }};
+            swalWithBootstrapButtons.fire({
+                icon: 'question',
+                title: isEdit ? '¿Actualizar clave presupuestal?' : '¿Guardar clave presupuestal?',
+                text: isEdit ? '¿Deseas actualizar esta clave?' : '¿Deseas guardar esta nueva clave?',
+                showCancelButton: true,
+                confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('save');
+                }
+            });
+        });
+
+        // Mostrar alerta de éxito desde Livewire y redirigir
+        if (window.Livewire) {
+            Livewire.on('budget-key-saved', (detail = {}) => {
+                swalWithBootstrapButtons.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: detail.message || 'Operación realizada correctamente.',
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    if (detail.redirect) {
+                        window.location.href = detail.redirect;
+                    }
+                });
+            });
+        }
+    });
+</script>
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">
-                    @icon('money', 'me-2')
-                    Información de la Clave
-                </h2>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                <h2 class="h5 mb-4">Información de la Clave</h2>
 
                 <form wire:submit.prevent="save">
                     <div class="row">
@@ -76,7 +131,8 @@ Approved by: Alfonso Angel Garcia Hernandez
 
                     <div class="mt-3 d-flex justify-content-between">
                         <div>
-                            <button type="submit"
+                            <button type="button"
+                                id="saveKeyBtn"
                                 class="btn btn-primary mt-2 animate-up-2"
                                 wire:loading.attr="disabled">
                                 <span wire:loading.remove wire:target="save">
@@ -142,4 +198,3 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 </div>
-

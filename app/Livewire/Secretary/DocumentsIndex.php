@@ -20,18 +20,42 @@ class DocumentsIndex extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $search = '';
+    public $categoryFilter = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingCategoryFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function clearFilters()
+    {
+        $this->search = '';
+        $this->categoryFilter = '';
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $documents = InstitutionalDocument::where('status', '!=', 'archivado') // Assuming we want active/vigente ones, or all except archived. Original code had 'activo' or 'vigente' in different places. Let's check the original index.
-            // Original Index used: InstitutionalDocument::where('status', 'activo')
-            // But the view used: $institutionalDocuments (which was passed from index).
-            // Let's stick to what was in ConvocatoriasDocumentosIndex.php: where('status', 'activo')
-            // Wait, ConvocatoriasDocumentos.php (the other one) used where('status', 'vigente').
-            // The user wants to split the "Convocatorias y Documentos" page.
-            // The file `ConvocatoriasDocumentosIndex.php` had `where('status', 'activo')`.
-            // I will use `where('status', 'activo')` to match the file I am replacing.
-            ->orderByDesc('created_at')
-            ->paginate(10);
+        $query = InstitutionalDocument::query();
+
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        if ($this->categoryFilter) {
+            $query->where('category', $this->categoryFilter);
+        }
+
+        $documents = $query->orderByDesc('created_at')->paginate(10);
 
         return view('modules.secretary.documents-index', [
             'documents' => $documents,

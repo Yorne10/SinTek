@@ -31,7 +31,7 @@
 
             Swal.fire({
                 title: '¿Sigues ahí?',
-                text: 'Tu sesión está a punto de expirar debido a la inactividad.',
+                html: '<p>Tu sesión está a punto de expirar debido a la inactividad.</p><p class="text-muted small mb-0">Si no respondes, serás redirigido automáticamente.</p>',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Continuar sesión',
@@ -55,8 +55,25 @@
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         }
-                    }).then(() => {
-                        startIdleTimer();
+                    }).then(response => {
+                        if (response.status === 401 || response.status === 419) {
+                            // Sesión expirada en el servidor
+                            logout();
+                        } else {
+                            // Sesión válida, reiniciar timer
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sesión extendida',
+                                text: 'Tu sesión ha sido extendida exitosamente',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            startIdleTimer();
+                        }
+                    }).catch(error => {
+                        console.error('Error al verificar sesión:', error);
+                        // En caso de error de red, intentar logout
+                        logout();
                     });
                 } else {
                     // El usuario canceló o el tiempo se agotó (result.dismiss === Swal.DismissReason.timer)
@@ -66,20 +83,37 @@
         }
 
         function logout() {
-            // Crear un formulario para hacer logout POST
-            const form = document.createElement('form');
-            form.method = 'POST';
-            // Append ?idle=1 to indicate idle logout
-            form.action = '{{ route(config('proj.route_name_prefix', 'proj') . '.auth.logout') }}?idle=1';
+            // Mostrar mensaje de cierre de sesión
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Cerrando sesión...',
+                    text: 'Por favor espera',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            }
 
-            const csrfToken = document.createElement('input');
-            csrfToken.type = 'hidden';
-            csrfToken.name = '_token';
-            csrfToken.value = '{{ csrf_token() }}';
-
-            form.appendChild(csrfToken);
-            document.body.appendChild(form);
-            form.submit();
+            // Hacer el logout en segundo plano mediante fetch
+            fetch('{{ route(config('proj.route_name_prefix', 'proj') . '.auth.logout') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(() => {
+                // Después del logout, redirigir DIRECTAMENTE a session-expired
+                window.location.href = '{{ route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired') }}';
+            }).catch(error => {
+                console.error('Error al cerrar sesión:', error);
+                // Incluso si falla el logout, redirigir a session-expired
+                window.location.href = '{{ route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired') }}';
+            });
         }
 
         // Reiniciar temporizador en eventos de usuario

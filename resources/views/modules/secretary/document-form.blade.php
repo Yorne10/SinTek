@@ -1,4 +1,4 @@
-{{-- 
+{{--
 Company: CETAM
 Project: ST
 File: document-form.blade.php
@@ -37,11 +37,24 @@ Approved by: Alfonso Angel Garcia Hernandez
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <h2 class="h5 mb-4">Información del Documento</h2>
                 <form wire:submit.prevent="save">
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="titulo" class="form-label">Título del Documento <span class="text-danger">*</span></label>
+                            <label for="titulo" class="form-label">Título del Documento <span
+                                    class="text-danger">*</span></label>
                             <input wire:model="titulo" type="text"
                                 class="form-control @error('titulo') is-invalid @enderror" id="titulo"
                                 placeholder="Ej: Reglamento Interior de Trabajo">
@@ -49,18 +62,20 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
 
                         <div class="col-md-12 mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea wire:model="descripcion" class="form-control @error('descripcion') is-invalid @enderror"
-                                id="descripcion" rows="3" placeholder="Breve descripción del documento..."></textarea>
+                            <label for="descripcion" class="form-label">Descripción (opcional)</label>
+                            <textarea wire:model="descripcion"
+                                class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
+                                rows="3" placeholder="Breve descripción del documento..."></textarea>
                             @error('descripcion') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="categoria" class="form-label">Categoría <span class="text-danger">*</span></label>
-                            <select wire:model="categoria"
-                                class="form-select @error('categoria') is-invalid @enderror" id="categoria">
+                            <label for="categoria" class="form-label">Categoría <span
+                                    class="text-danger">*</span></label>
+                            <select wire:model="categoria" class="form-select @error('categoria') is-invalid @enderror"
+                                id="categoria">
                                 <option value="">Seleccionar...</option>
                                 <option value="reglamento">Reglamento</option>
                                 <option value="manual">Manual</option>
@@ -79,11 +94,19 @@ Approved by: Alfonso Angel Garcia Hernandez
                             @error('version') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 mb-3" x-data="{ sinFecha: false }">
                             <label for="fecha_vigencia" class="form-label">Fecha de Vigencia</label>
                             <input wire:model="fecha_vigencia" type="date"
-                                class="form-control @error('fecha_vigencia') is-invalid @enderror" id="fecha_vigencia">
+                                class="form-control @error('fecha_vigencia') is-invalid @enderror" id="fecha_vigencia"
+                                :disabled="sinFecha">
                             @error('fecha_vigencia') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="sin_fecha_vigencia"
+                                    @change="if($el.checked) { $wire.set('fecha_vigencia', null); sinFecha = true; } else { sinFecha = false; }">
+                                <label class="form-check-label small" for="sin_fecha_vigencia">
+                                    Sin fecha de vigencia
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -94,11 +117,18 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 Archivo PDF {{ $documentId ? '(opcional para mantener el actual)' : '*' }}
                             </label>
                             <input wire:model="archivo" type="file"
-                                class="form-control @error('archivo') is-invalid @enderror" id="archivo"
-                                accept=".pdf">
+                                class="form-control @error('archivo') is-invalid @enderror" id="archivo" accept=".pdf"
+                                x-data
+                                x-on:livewire-upload-start="window.dispatchEvent(new CustomEvent('file-uploading'))"
+                                x-on:livewire-upload-finish="window.dispatchEvent(new CustomEvent('file-uploaded'))"
+                                x-on:livewire-upload-error="window.dispatchEvent(new CustomEvent('file-uploaded'))">
                             @error('archivo') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            <small class="form-text text-muted">
-                                Máximo 10MB.
+                            <div wire:loading wire:target="archivo" class="text-primary small mt-1">
+                                <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                                Cargando archivo...
+                            </div>
+                            <small class="form-text text-muted d-block mt-1">
+                                Máximo 10MB. Espera a que termine de cargar antes de guardar.
                             </small>
                         </div>
                     </div>
@@ -139,7 +169,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <div>
                                     <h3 class="h6">Categorías</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        <strong>Reglamento</strong>, <strong>Manual</strong>, <strong>Lineamiento</strong>,
+                                        <strong>Reglamento</strong>, <strong>Manual</strong>,
+                                        <strong>Lineamiento</strong>,
                                         <strong>Código</strong> u <strong>Otro</strong> según corresponda.
                                     </p>
                                 </div>
@@ -173,23 +204,79 @@ Approved by: Alfonso Angel Garcia Hernandez
             buttonsStyling: false
         });
 
+        let fileUploading = false;
+        let fileUploaded = {{ $documentId ? 'true' : 'false' }};
+
+        // Escuchar eventos de carga de archivo
+        window.addEventListener('file-uploading', () => {
+            fileUploading = true;
+            fileUploaded = false;
+        });
+
+        window.addEventListener('file-uploaded', () => {
+            fileUploading = false;
+            fileUploaded = true;
+        });
+
         // Confirmación antes de guardar
         document.getElementById('saveDocBtn')?.addEventListener('click', function (e) {
             e.preventDefault();
             const isEdit = {{ $documentId ? 'true' : 'false' }};
-            swalWithBootstrapButtons.fire({
-                title: isEdit ? '¿Actualizar documento?' : '¿Guardar documento?',
-                text: isEdit ? '¿Deseas actualizar los datos de este documento?' : '¿Deseas subir este documento institucional?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('save');
-                }
-            });
+
+            // Si el archivo se está cargando, mostrar mensaje de espera
+            if (fileUploading) {
+                Swal.fire({
+                    title: 'Cargando archivo...',
+                    text: 'Por favor espera a que termine de cargar el archivo PDF',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+
+                        // Esperar a que termine de cargar
+                        const checkInterval = setInterval(() => {
+                            if (!fileUploading && fileUploaded) {
+                                clearInterval(checkInterval);
+                                Swal.close();
+                                // Mostrar confirmación después de que cargue
+                                showConfirmation();
+                            }
+                        }, 100);
+                    }
+                });
+                return;
+            }
+
+            // Si no hay archivo en creación, mostrar error
+            if (!isEdit && !fileUploaded) {
+                Swal.fire({
+                    title: 'Archivo requerido',
+                    text: 'Debes seleccionar un archivo PDF antes de guardar',
+                    icon: 'warning',
+                    confirmButtonText: 'Entendido'
+                });
+                return;
+            }
+
+            // Si todo está bien, mostrar confirmación
+            showConfirmation();
+
+            function showConfirmation() {
+                swalWithBootstrapButtons.fire({
+                    title: isEdit ? '¿Actualizar documento?' : '¿Guardar documento?',
+                    text: isEdit ? '¿Deseas actualizar los datos de este documento?' : '¿Deseas subir este documento institucional?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('save');
+                    }
+                });
+            }
         });
     });
 </script>

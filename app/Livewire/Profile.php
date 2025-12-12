@@ -23,7 +23,7 @@ class Profile extends Component
     public $curp;
     public $rfc;
     public $phone;
-    public $adress;
+    public $address;  // Corrected from 'adress'
 
     // Worker fields (non-editable)
     public $sex;
@@ -44,7 +44,7 @@ class Profile extends Component
             $rules['curp'] = 'nullable|string|max:18';
             $rules['rfc'] = 'nullable|string|max:13';
             $rules['phone'] = 'nullable|string|max:20';
-            $rules['adress'] = 'nullable|string|max:255';
+            $rules['address'] = 'nullable|string|max:255';
             $rules['sex'] = ['nullable', Rule::in(['M', 'F'])];
         }
 
@@ -61,7 +61,7 @@ class Profile extends Component
         'curp.max' => 'El curp no debe exceder los 18 caracteres',
         'rfc.max' => 'El rfc no debe exceder los 13 caracteres',
         'phone.max' => 'El telefono no debe exceder los 20 caracteres',
-        'adress.max' => 'La direccion no debe exceder los 255 caracteres',
+        'address.max' => 'La direccion no debe exceder los 255 caracteres',
         'sex.in' => 'La opcion seleccionada en sexo no es valida',
     ];
 
@@ -78,7 +78,7 @@ class Profile extends Component
                 $this->curp = $this->worker->curp;
                 $this->rfc = $this->worker->rfc;
                 $this->phone = $this->worker->phone;
-                $this->adress = $this->worker->adress;
+                $this->address = $this->worker->address;
                 $this->sex = $this->worker->sex;
             }
             $this->availablePositions = Position::orderBy('budget_key')->get([
@@ -113,7 +113,7 @@ class Profile extends Component
                     'curp' => $this->curp,
                     'rfc' => $this->rfc,
                     'phone' => $this->phone,
-                    'adress' => $this->adress,
+                    'address' => $this->address,
                     'sex' => $this->sex,
                 ]);
             } else {
@@ -122,7 +122,7 @@ class Profile extends Component
                     'curp' => $this->curp,
                     'rfc' => $this->rfc,
                     'phone' => $this->phone,
-                    'adress' => $this->adress,
+                    'address' => $this->address,
                     'sex' => $this->sex,
                 ]);
             }
@@ -162,7 +162,7 @@ class Profile extends Component
                 'curp' => $this->curp,
                 'rfc' => $this->rfc,
                 'phone' => $this->phone,
-                'adress' => $this->adress,
+                'address' => $this->address,
                 'sex' => $this->sex,
             ]);
         }
@@ -197,4 +197,3 @@ class Profile extends Component
         return view('modules.profile')->layout('layouts.app');
     }
 }
-

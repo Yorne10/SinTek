@@ -26,11 +26,26 @@ Changelog:
                                         @icon('home', 'fa-xs')
                                     </a>
                                 </li>
-                                <li class="breadcrumb-item">
-                                    <a
-                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}">Definir
-                                        pasos</a>
-                                </li>
+                                @if(auth()->user()->role === 'secretary')
+                                    <li class="breadcrumb-item">Secretaría</li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
+                                            Gestionar procesos
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}">
+                                            Definir pasos
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="breadcrumb-item">Administración</li>
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps') }}">
+                                            Definir pasos
+                                        </a>
+                                    </li>
+                                @endif
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ $isEditing ? 'Editar paso' : 'Crear paso' }}
                                 </li>
@@ -81,8 +96,8 @@ Changelog:
                                     <div class="col-md-8 mb-3">
                                         <label for="nombre_paso">Nombre del paso</label>
                                         <input class="form-control" id="nombre_paso" type="text"
-                                            placeholder="Ej: Revisión de supervisor" wire:model="tittle">
-                                        @error('tittle') <span class="text-danger small">{{ $message }}</span> @enderror
+                                            placeholder="Ej: Revisión de supervisor" wire:model="title">
+                                        @error('title') <span class="text-danger small">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="orden">Orden</label>
@@ -105,21 +120,21 @@ Changelog:
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="tipo_paso">Tipo de paso</label>
-                                        <select class="form-select" id="tipo_paso" wire:model.live="condition_type">
+                                        <select class="form-select" id="tipo_paso" wire:model.live="step_type">
                                             <option value="">Seleccionar tipo...</option>
                                             <option value="form">Formulario</option>
                                             <option value="approval">Aprobación</option>
                                             <option value="upload">Carga de archivos</option>
                                             <option value="final">Final</option>
                                         </select>
-                                        @error('condition_type') <span class="text-danger small">{{ $message }}</span>
+                                        @error('step_type') <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="responsable">Responsable</label>
                                         <input class="form-control" id="responsable" type="text"
-                                            placeholder="Ej: Recursos Humanos" wire:model="responsible">
-                                        @error('responsible') <span class="text-danger small">{{ $message }}</span>
+                                            placeholder="Ej: Recursos Humanos" wire:model="responsible_role">
+                                        @error('responsible_role') <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -128,8 +143,8 @@ Changelog:
                                         <label for="instrucciones">Instrucciones</label>
                                         <textarea class="form-control" id="instrucciones" rows="4"
                                             placeholder="Instrucciones detalladas para completar este paso..."
-                                            wire:model="instructions"></textarea>
-                                        @error('instructions') <span class="text-danger small">{{ $message }}</span>
+                                            wire:model="instruction"></textarea>
+                                        @error('instruction') <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                         <small class="form-text text-muted">Estas instrucciones serán mostradas al
                                             usuario responsable.</small>
@@ -153,7 +168,7 @@ Changelog:
                                     </div>
                                 </div>
 
-                                @if($activarRamificacion && $condition_type === 'approval')
+                                @if($activarRamificacion && $step_type === 'approval')
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
                                             <div class="card border-light shadow-sm">
@@ -179,7 +194,7 @@ Changelog:
                                                                     @foreach($availableSteps as $availableStep)
                                                                         <option value="{{ $availableStep->step_id }}">
                                                                             {{ $availableStep->order }}.
-                                                                            {{ $availableStep->tittle }}
+                                                                            {{ $availableStep->title }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -196,7 +211,7 @@ Changelog:
                                                                     @foreach($availableSteps as $availableStep)
                                                                         <option value="{{ $availableStep->step_id }}">
                                                                             {{ $availableStep->order }}.
-                                                                            {{ $availableStep->tittle }}
+                                                                            {{ $availableStep->title }}
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
@@ -279,7 +294,7 @@ Changelog:
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="requiere_documentos"
                                                 wire:model.live="requires_documents"
-                                                @if($condition_type === 'upload') checked disabled @endif>
+                                                @if($step_type === 'upload') checked disabled @endif>
                                             <label class="form-check-label" for="requiere_documentos">
                                                 Requiere documentos adjuntos
                                             </label>

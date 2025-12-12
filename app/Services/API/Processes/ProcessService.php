@@ -15,7 +15,7 @@ class ProcessService
         if ($request->has('search') && $request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -37,9 +37,9 @@ class ProcessService
                         return [
                             'step_id' => $step->step_id,
                             'order' => $step->order,
-                            'title' => $step->tittle,
-                            'description' => $step->description,
-                            'condition_type' => $step->condition_type,
+                            'title' => $step->title,
+                            'instruction' => $step->instruction,
+                            'step_type' => $step->step_type,
                         ];
                     }),
                     'created_at' => $proceso->created_at->format('Y-m-d H:i:s'),
@@ -84,9 +84,9 @@ class ProcessService
                     return [
                         'step_id' => $step->step_id,
                         'order' => $step->order,
-                        'title' => $step->tittle,
-                        'description' => $step->description,
-                        'condition_type' => $step->condition_type,
+                        'title' => $step->title,
+                        'instruction' => $step->instruction,
+                        'step_type' => $step->step_type,
                     ];
                 }),
                 'created_at' => $proceso->created_at->format('Y-m-d H:i:s'),

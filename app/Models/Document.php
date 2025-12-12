@@ -1,4 +1,12 @@
 <?php
+/**
+ * Empresa: CETAM
+ * Proyecto: ST
+ * Archivo: Document.php
+ * Fecha de creación: 02/11/25
+ * Realizado por: Alfonso Angel García Hernández
+ * Validado por: Alfonso Angel García Hernández
+ */
 
 namespace App\Models;
 
@@ -14,11 +22,9 @@ class Document extends Model
     protected $fillable = [
         'request_id',
         'step_id',
-        'type',
-        'file_path',
+        'file_content',
         'name',
         'mime_type',
-        'file_content',
     ];
 
     protected $hidden = [

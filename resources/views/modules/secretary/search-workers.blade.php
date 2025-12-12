@@ -129,8 +129,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         data-worker-curp="{{ $worker->curp ?? 'N/A' }}"
                                         data-worker-rfc="{{ $worker->rfc ?? 'N/A' }}"
                                         data-worker-phone="{{ $worker->phone ?? 'N/A' }}"
-                                        data-worker-department="{{ $worker->department ?? 'N/A' }}"
-                                        data-worker-position="{{ $worker->position ?? 'N/A' }}"
+                                        data-worker-budget-keys="{{ $worker->positions->pluck('budget_key')->filter()->implode(', ') ?? 'S/D' }}"
                                         data-worker-address="{{ $worker->address ?? 'N/A' }}">
                                         @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
@@ -193,8 +192,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     const curp = button.getAttribute('data-worker-curp');
                     const rfc = button.getAttribute('data-worker-rfc');
                     const phone = button.getAttribute('data-worker-phone');
-                    const department = button.getAttribute('data-worker-department');
-                    const position = button.getAttribute('data-worker-position');
+                    const budgetKeys = button.getAttribute('data-worker-budget-keys') || 'S/D';
                     const address = button.getAttribute('data-worker-address');
 
                     const htmlContent = `
@@ -208,8 +206,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <p class="mb-2"><span class="fw-bold">CURP:</span> ${curp}</p>
                             <p class="mb-2"><span class="fw-bold">RFC:</span> ${rfc}</p>
                             <p class="mb-2"><span class="fw-bold">Teléfono:</span> ${phone}</p>
-                            <p class="mb-2"><span class="fw-bold">Departamento:</span> ${department}</p>
-                            <p class="mb-2"><span class="fw-bold">Puesto:</span> ${position}</p>
+                            <p class="mb-2"><span class="fw-bold">Claves presupuestales:</span> ${budgetKeys}</p>
                             <p class="mb-0"><span class="fw-bold">Dirección:</span> ${address}</p>
                         </div>
                     `;

@@ -166,7 +166,7 @@
                         <tr>
                             <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
-                                    @icon('documentSign', 'fa-2x mb-3')
+                                    @icon('announcement', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay convocatorias para mostrar</p>
                                     <p class="small">Crea tu primera convocatoria con el botón superior</p>
                                 </div>

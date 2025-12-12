@@ -21,19 +21,21 @@ class CreateStep extends Component
     // Campos del paso
     public $step_id;
     public $process_id;
-    public $tittle;
+    public $title;  // Corrected from 'tittle'
     public $order;
-    public $description;
-    public $instructions;
-    public $condition_type = 'form';
-    public $responsible;
-    public $deadline_days;
-    public $priority = 'media';
-    public $send_notification = false;
+    public $instruction;  // Corrected from 'instructions' (singular)
+    public $step_type = 'normal';  // Corrected from 'condition_type'
+    public $condition_question;
+    public $responsible_role;  // Corrected from 'responsible'
     public $requires_documents = false;
     public $documents = [];
+    public $next_step_id;
     public $next_yes;
     public $next_no;
+    public $finalization_message;
+    public $is_initial_step = false;
+    public $is_linked = false;
+    public $active = true;
 
     // Control de UI
     public $activarRamificacion = false;
@@ -63,21 +65,23 @@ class CreateStep extends Component
         $step = Step::with('requiredDocuments')->find($this->step_id);
         if ($step) {
             $this->process_id = $step->process_id;
-            $this->tittle = $step->tittle;
+            $this->title = $step->title;
             $this->order = $step->order;
-            $this->description = $step->description;
-            $this->instructions = $step->instructions;
-            $this->condition_type = $step->condition_type ?? 'form';
-            $this->responsible = $step->responsible;
-            $this->deadline_days = $step->deadline_days;
-            $this->priority = $step->priority ?? 'media';
-            $this->send_notification = $step->send_notification ?? false;
+            $this->instruction = $step->instruction;
+            $this->step_type = $step->step_type ?? 'normal';
+            $this->condition_question = $step->condition_question;
+            $this->responsible_role = $step->responsible_role;
             $this->requires_documents = $step->requires_documents ?? false;
+            $this->next_step_id = $step->next_step_id;
             $this->next_yes = $step->next_yes;
             $this->next_no = $step->next_no;
+            $this->finalization_message = $step->finalization_message;
+            $this->is_initial_step = $step->is_initial_step ?? false;
+            $this->is_linked = $step->is_linked ?? false;
+            $this->active = $step->active ?? true;
             $this->documents = $step->requiredDocuments->map(fn($doc) => ['title' => $doc->title])->toArray();
 
-            $this->activarRamificacion = ($this->condition_type === 'approval');
+            $this->activarRamificacion = ($this->step_type === 'conditional');
             $this->loadAvailableSteps();
         }
     }
@@ -90,16 +94,9 @@ class CreateStep extends Component
         }
     }
 
-    public function updatedConditionType()
+    public function updatedStepType()
     {
-        $this->activarRamificacion = $this->condition_type === 'approval';
-
-        if ($this->condition_type === 'upload') {
-            $this->requires_documents = true;
-            if (empty($this->documents)) {
-                $this->documents = [['title' => '']];
-            }
-        }
+        $this->activarRamificacion = $this->step_type === 'conditional';
     }
 
     public function addDocument()
@@ -112,7 +109,7 @@ class CreateStep extends Component
     {
         unset($this->documents[$index]);
         $this->documents = array_values($this->documents);
-        if (empty($this->documents) && $this->condition_type !== 'upload') {
+        if (empty($this->documents)) {
             $this->requires_documents = false;
         }
     }
@@ -143,48 +140,51 @@ class CreateStep extends Component
     {
         $rules = [
             'process_id' => 'required|exists:processes,process_id',
-            'tittle' => 'required|string|max:200',
+            'title' => 'required|string|max:200',
             'order' => 'required|integer|min:1',
-            'description' => 'nullable|string',
-            'instructions' => 'nullable|string',
-            'condition_type' => 'required|string|max:50',
-            'responsible' => 'nullable|string|max:100',
-            'deadline_days' => 'nullable|integer|min:1',
-            'priority' => 'required|string|in:baja,media,alta,urgente',
-            'send_notification' => 'boolean',
+            'instruction' => 'nullable|string',
+            'step_type' => 'required|string|in:normal,conditional,finalization',
+            'condition_question' => 'nullable|string',
+            'responsible_role' => 'nullable|string|max:100',
             'requires_documents' => 'boolean',
+            'next_step_id' => 'nullable|exists:steps,step_id',
             'next_yes' => 'nullable|exists:steps,step_id',
             'next_no' => 'nullable|exists:steps,step_id',
+            'finalization_message' => 'nullable|string',
+            'is_initial_step' => 'boolean',
+            'is_linked' => 'boolean',
+            'active' => 'boolean',
         ];
 
-        if ($this->requires_documents || $this->condition_type === 'upload') {
+        if ($this->requires_documents) {
             $rules['documents'] = 'required|array|min:1';
             $rules['documents.*.title'] = 'required|string|max:150';
         }
 
         $this->validate($rules, [
             'process_id.required' => 'Debes seleccionar un proceso',
-            'tittle.required' => 'El nombre del paso es obligatorio',
+            'title.required' => 'El nombre del paso es obligatorio',
             'order.required' => 'El orden es obligatorio',
-            'condition_type.required' => 'Debes seleccionar un tipo de paso',
-            'priority.required' => 'Debes seleccionar una prioridad',
+            'step_type.required' => 'Debes seleccionar un tipo de paso',
             'documents.*.title.required' => 'Indica el título del documento requerido',
         ]);
 
         $data = [
             'process_id' => $this->process_id,
-            'tittle' => $this->tittle,
+            'title' => $this->title,
             'order' => $this->order,
-            'description' => $this->description,
-            'instructions' => $this->instructions,
-            'condition_type' => $this->condition_type,
-            'responsible' => $this->responsible,
-            'deadline_days' => $this->deadline_days,
-            'priority' => $this->priority,
-            'send_notification' => $this->send_notification,
-            'requires_documents' => ($this->condition_type === 'upload') ? true : $this->requires_documents,
-            'next_yes' => $this->condition_type === 'approval' ? $this->next_yes : null,
-            'next_no' => $this->condition_type === 'approval' ? $this->next_no : null,
+            'instruction' => $this->instruction,
+            'step_type' => $this->step_type,
+            'condition_question' => $this->condition_question,
+            'responsible_role' => $this->responsible_role,
+            'requires_documents' => $this->requires_documents,
+            'next_step_id' => $this->next_step_id,
+            'next_yes' => $this->step_type === 'conditional' ? $this->next_yes : null,
+            'next_no' => $this->step_type === 'conditional' ? $this->next_no : null,
+            'finalization_message' => $this->finalization_message,
+            'is_initial_step' => $this->is_initial_step,
+            'is_linked' => $this->is_linked,
+            'active' => $this->active,
         ];
 
         $user = auth()->user();
@@ -204,7 +204,7 @@ class CreateStep extends Component
 
         // Sincronizar documentos requeridos
         StepRequiredDocument::where('step_id', $step->step_id)->delete();
-        if ($this->requires_documents || $this->condition_type === 'upload') {
+        if ($this->requires_documents) {
             foreach ($this->documents as $doc) {
                 StepRequiredDocument::create([
                     'step_id' => $step->step_id,
@@ -218,7 +218,7 @@ class CreateStep extends Component
 
         ActivityLogger::log(
             $actionKey === 'paso.creado' ? 'paso.crear' : 'paso.editar',
-            "Paso {$actionVerb}: '{$this->tittle}' del proceso '{$processName}'",
+            "Paso {$actionVerb}: '{$this->title}' del proceso '{$processName}'",
             $user?->users_id
         );
 

@@ -1,14 +1,21 @@
 <?php
+/**
+ * Empresa: CETAM
+ * Proyecto: ST
+ * Archivo: Process.php
+ * Fecha de creación: 02/11/25
+ * Realizado por: Alfonso Angel García Hernández
+ * Validado por: Alfonso Angel García Hernández
+ */
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Process extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $primaryKey = 'process_id';
 

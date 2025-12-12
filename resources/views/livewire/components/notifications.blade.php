@@ -43,7 +43,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="text-truncate" style="max-width: 200px;">
                                                     <h4 class="h6 mb-0 text-small text-truncate">
-                                                        {{ $notification->tittle ?? 'Notificación' }}
+                                                        {{ $notification->title ?? 'Notificación' }}
                                                     </h4>
                                                 </div>
                                                 <div class="text-end ms-2">
@@ -53,7 +53,8 @@
                                                 </div>
                                             </div>
                                             <p class="font-small mt-1 mb-0 text-truncate" style="max-width: 280px;">
-                                                {{ $notification->message }}</p>
+                                                {{ $notification->message }}
+                                            </p>
                                         </div>
                                     </div>
                                 </a>

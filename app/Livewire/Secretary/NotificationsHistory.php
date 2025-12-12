@@ -53,7 +53,7 @@ class NotificationsHistory extends Component
     {
         return Notification::with(['user'])
             ->when($this->searchTitle, function ($query) {
-                $query->where('tittle', 'like', '%' . $this->searchTitle . '%');
+                $query->where('title', 'like', '%' . $this->searchTitle . '%');
             })
             ->when($this->searchUser, function ($query) {
                 $query->whereHas('user', function ($userQuery) {

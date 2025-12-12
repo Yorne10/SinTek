@@ -44,6 +44,7 @@ class Users extends Component
     public function render()
     {
         $users = User::query()
+            ->with(['worker.positions'])
             ->select(['users_id', 'name', 'email', 'role', 'is_active', 'created_at'])
             ->when($this->search, function ($query) {
                 $search = '%' . $this->search . '%';

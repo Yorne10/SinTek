@@ -59,7 +59,7 @@ class UserCreate extends Component
                     'curp' => null,
                     'sex' => null,
                     'phone' => null,
-                    'adress' => null,
+                    'address' => null,
                     'rfc' => null,
                 ]);
             }

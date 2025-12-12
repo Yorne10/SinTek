@@ -103,17 +103,20 @@
                 </div>
                 <div class="card-body">
                     @if($process->steps->count() > 0)
-                        <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
+                        <div class="timeline timeline-one-side" data-timeline-content="axis"
+                            data-timeline-axis-style="dashed">
                             @foreach($process->steps as $index => $step)
                                 <div class="timeline-block mb-3">
-                                    <span class="timeline-step badge-{{ $loop->first ? 'success' : ($loop->last ? 'primary' : 'info') }}">
+                                    <span
+                                        class="timeline-step badge-{{ $loop->first ? 'success' : ($loop->last ? 'primary' : 'info') }}">
                                         <span class="fw-bold">{{ $step->order }}</span>
                                     </span>
                                     <div class="timeline-content">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h6 class="text-sm font-weight-bold mb-1">{{ $step->tittle }}</h6>
-                                                <p class="text-sm text-gray-600 mb-0">{{ $step->description ?? 'Sin descripción' }}</p>
+                                                <h6 class="text-sm font-weight-bold mb-1">{{ $step->title }}</h6>
+                                                <p class="text-sm text-gray-600 mb-0">
+                                                    {{ $step->description ?? 'Sin descripción' }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -194,52 +197,52 @@
 </div>
 
 <style>
-.timeline {
-    position: relative;
-    padding: 0;
-    list-style: none;
-}
+    .timeline {
+        position: relative;
+        padding: 0;
+        list-style: none;
+    }
 
-.timeline:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #e9ecef;
-    left: 18px;
-}
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #e9ecef;
+        left: 18px;
+    }
 
-.timeline-block {
-    position: relative;
-    padding-left: 50px;
-}
+    .timeline-block {
+        position: relative;
+        padding-left: 50px;
+    }
 
-.timeline-step {
-    position: absolute;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 14px;
-    z-index: 1;
-}
+    .timeline-step {
+        position: absolute;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 14px;
+        z-index: 1;
+    }
 
-.badge-success {
-    background-color: #10b981;
-    color: white;
-}
+    .badge-success {
+        background-color: #10b981;
+        color: white;
+    }
 
-.badge-info {
-    background-color: #3b82f6;
-    color: white;
-}
+    .badge-info {
+        background-color: #3b82f6;
+        color: white;
+    }
 
-.badge-primary {
-    background-color: #6366f1;
-    color: white;
-}
+    .badge-primary {
+        background-color: #6366f1;
+        color: white;
+    }
 </style>

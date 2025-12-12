@@ -63,7 +63,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('documentSign', 'me-2')
+            @icon('announcement', 'me-2')
           </span>
           <span class="sidebar-text">Convocatorias</span>
         </a>
@@ -103,7 +103,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('process', 'me-2')
+            @icon('documentSign', 'me-2')
           </span>
           <span class="sidebar-text">Gestionar Procesos</span>
         </a>
@@ -113,7 +113,7 @@ Changelog:
       <li class="nav-item">
         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys') }}" class="nav-link">
           <span class="sidebar-icon">
-            @icon('money', 'me-2')
+            @icon('jobCredential', 'me-2')
           </span>
           <span class="sidebar-text">Gestionar Claves</span>
         </a>

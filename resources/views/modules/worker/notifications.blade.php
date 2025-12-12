@@ -8,8 +8,8 @@
 *
 * Changelog:
 * - ID: 001 | Modified on: 04/12/2025 |
-*   Modified by: Claude Code |
-*   Description: Refactored notifications table to match users table design with actions menu
+* Modified by: Claude Code |
+* Description: Refactored notifications table to match users table design with actions menu
 --}}
 
 <div wire:poll.10s="refreshList">
@@ -35,8 +35,8 @@
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
                 <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
-                <input wire:model.live.debounce.400ms="search" type="text"
-                    class="form-control" placeholder="Buscar notificaciones">
+                <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
+                    placeholder="Buscar notificaciones">
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
                 @forelse ($notifications as $notification)
                     <tr wire:key="notification-{{ $notification->notification_id }}">
                         <td>
-                            <span class="fw-bold text-gray-900">{{ $notification->tittle ?? 'Sin título' }}</span>
+                            <span class="fw-bold text-gray-900">{{ $notification->title ?? 'Sin título' }}</span>
                         </td>
                         <td>
                             <span class="fw-normal text-truncate d-inline-block" style="max-width: 400px;">
@@ -75,12 +75,10 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button
-                                    class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <svg class="icon icon-xs" fill="currentColor"
-                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
                                         </path>
@@ -88,28 +86,23 @@
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <button class="dropdown-item d-flex align-items-center view-notification-detail"
-                                        type="button"
-                                        data-notification-id="{{ $notification->notification_id }}"
-                                        data-notification-title="{{ $notification->tittle ?? 'Sin título' }}"
+                                        type="button" data-notification-id="{{ $notification->notification_id }}"
+                                        data-notification-title="{{ $notification->title ?? 'Sin título' }}"
                                         data-notification-message="{{ $notification->message }}"
                                         data-notification-process="{{ $notification->request->process->name ?? 'N/D' }}"
                                         data-notification-folio="{{ $notification->request_id ?? 'N/D' }}"
                                         data-notification-status="{{ $notification->read_at ? 'Leída' : 'No leída' }}"
                                         data-notification-created="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
-                                @icon('view', 'dropdown-icon text-gray-400 me-2')
+                                        @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
                                     </button>
                                     @if (!$notification->read_at)
                                         <div role="separator" class="dropdown-divider my-1"></div>
-                                        <button
-                                            class="dropdown-item text-primary d-flex align-items-center"
-                                            type="button"
+                                        <button class="dropdown-item text-primary d-flex align-items-center" type="button"
                                             wire:click="markAsRead({{ $notification->notification_id }})"
-                                            wire:loading.attr="disabled"
-                                            wire:target="markAsRead">
-                                            <span class="spinner-border spinner-border-sm me-2"
-                                                role="status" aria-hidden="true" wire:loading
-                                                wire:target="markAsRead"></span>
+                                            wire:loading.attr="disabled" wire:target="markAsRead">
+                                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
+                                                wire:loading wire:target="markAsRead"></span>
                                             @icon('success', 'dropdown-icon text-primary me-2')
                                             Marcar como leída
                                         </button>
@@ -133,7 +126,8 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+        <div
+            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
             @if($notifications->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $notifications->links() }}

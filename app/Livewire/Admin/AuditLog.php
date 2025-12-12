@@ -71,7 +71,6 @@ class AuditLog extends Component
                     $q->where('role', $this->roleFilter);
                 });
             })
-            ->orderByDesc('date')
             ->orderByDesc('created_at')
             ->paginate(10);
 

@@ -101,7 +101,8 @@ return [
     'downloadReport' => 'fa-solid fa-file-arrow-down',
 
     // Administrative Icons (Records, Procedures, Calls)
-    'recordList'   => 'fa-solid fa-clipboard-list',
-    'documentSign' => 'fa-solid fa-file-signature',
-    'announcement' => 'fa-solid fa-bullhorn',
+    'recordList'    => 'fa-solid fa-clipboard-list',
+    'documentSign'  => 'fa-solid fa-file-signature',
+    'announcement'  => 'fa-solid fa-bullhorn',
+    'jobCredential' => 'fa-solid fa-id-badge',
 ];

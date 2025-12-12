@@ -1,29 +1,37 @@
 <?php
+/**
+ * Empresa: CETAM
+ * Proyecto: ST
+ * Archivo: InstitutionalDocument.php
+ * Fecha de creación: 02/11/25
+ * Realizado por: Alfonso Angel García Hernández
+ * Validado por: Alfonso Angel García Hernández
+ */
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InstitutionalDocument extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    protected $primaryKey = 'institutional_document_id';
+    protected $table = 'institucional_documents';
+    protected $primaryKey = 'institucional_document_id';
 
     protected $fillable = [
         'title',
         'description',
         'category',
+        'version',
+        'status',
+        'uploaded_by',
+        'file_size',
         'file_content',
         'file_name',
         'mime_type',
-        'file_size',
-        'version',
-        'status',
         'effective_date',
-        'uploaded_by',
     ];
 
     protected $hidden = [
@@ -33,45 +41,12 @@ class InstitutionalDocument extends Model
     protected $casts = [
         'effective_date' => 'date',
         'file_size' => 'integer',
+        'uploaded_by' => 'integer',
     ];
 
     /**
-     * Relación con el usuario que subió el documento
+     * Scope by category
      */
-    public function uploader()
-    {
-        return $this->belongsTo(User::class, 'uploaded_by', 'users_id');
-    }
-
-    /**
-     * Obtener el tamaño del archivo en formato legible
-     */
-    public function getFileSizeHumanAttribute()
-    {
-        if (!$this->file_size) {
-            return 'N/A';
-        }
-
-        $bytes = $this->file_size;
-        if ($bytes >= 1073741824) {
-            return number_format($bytes / 1073741824, 2) . ' GB';
-        } elseif ($bytes >= 1048576) {
-            return number_format($bytes / 1048576, 2) . ' MB';
-        } elseif ($bytes >= 1024) {
-            return number_format($bytes / 1024, 2) . ' KB';
-        } else {
-            return $bytes . ' bytes';
-        }
-    }
-
-    /**
-     * Scopes
-     */
-    public function scopeVigente($query)
-    {
-        return $query->where('status', 'vigente');
-    }
-
     public function scopeByCategory($query, $category)
     {
         return $query->where('category', $category);

@@ -58,7 +58,7 @@ class ProcedureDetail extends Component
         }
 
         $currentStepModel = $this->currentStep->step;
-        $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
+        $stepName = $currentStepModel->title ?? $currentStepModel->name ?? 'Paso';
 
         $this->currentStep->update([
             'request_step_status' => 'completed',
@@ -123,7 +123,7 @@ class ProcedureDetail extends Component
 
         $currentStepModel = $this->currentStep->step;
 
-        if ($currentStepModel->condition_type !== 'upload') {
+        if ($currentStepModel->step_type !== 'upload') {
             session()->flash('error', 'Este paso no requiere carga de archivos');
             return;
         }
@@ -136,10 +136,9 @@ class ProcedureDetail extends Component
             'name' => $this->file->getClientOriginalName(),
             'mime_type' => $this->file->getMimeType(),
             'file_content' => $content,
-            'type' => 'user_upload',
         ]);
 
-        $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
+        $stepName = $currentStepModel->title ?? $currentStepModel->name ?? 'Paso';
 
         // Log activity - SAME MESSAGE AS API
         ActivityLogger::log(
@@ -160,7 +159,7 @@ class ProcedureDetail extends Component
         }
 
         $currentStepModel = $this->currentStep->step;
-        $stepName = $currentStepModel->tittle ?? $currentStepModel->name ?? 'Paso';
+        $stepName = $currentStepModel->title ?? $currentStepModel->name ?? 'Paso';
         $decisionLabel = $decision === 'yes' ? 'sí' : 'no';
 
         $this->currentStep->update([

@@ -4,7 +4,7 @@
  * Project: ST
  * File: Faq.php
  * Created on: 24/11/2025
- * Created by: Codex
+ * Created by: Alfonso Angel García Hernández
  * Approved by: Alfonso Angel García Hernández
  */
 
@@ -12,12 +12,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Faq extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'faqs';
     protected $primaryKey = 'faq_id';
@@ -27,11 +26,9 @@ class Faq extends Model
         'question',
         'answer',
         'order',
-        'is_active',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
         'order' => 'integer',
     ];
 
@@ -41,14 +38,6 @@ class Faq extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(FaqCategory::class, 'faq_category_id', 'faq_category_id');
-    }
-
-    /**
-     * Scope to get only active FAQs
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
     }
 
     /**

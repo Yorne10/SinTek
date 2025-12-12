@@ -26,69 +26,91 @@
         </div>
     </div>
 
-    {{-- Public Documents Section --}}
-    <div class="row">
-        <div class="col-12 mb-4">
-            <div class="card border-0 shadow">
-                <div class="card-header border-bottom">
-                    <h2 class="fs-5 fw-bold mb-0">Documentos institucionales</h2>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        {{-- Column 1: Reglamentos (desde BD) --}}
-                        <div class="col-md-6 mb-4">
-                            <h3 class="h6 fw-bold mb-3">
-                                <span class="me-2">@icon('file', 'icon icon-xs')</span>
-                                Reglamentos
-                            </h3>
-                            @if($reglamentos->count() > 0)
-                                <div class="list-group list-group-flush">
-                                    @foreach($reglamentos as $doc)
-                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $doc->institutional_document_id) }}"
-                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="fw-bold">{{ $doc->title }}</div>
-                                                <small class="text-gray-600">
-                                                    {{ $doc->effective_date ? 'Vigencia: ' . \Illuminate\Support\Carbon::parse($doc->effective_date)->format('m/Y') : 'Actualizado: ' . $doc->created_at->format('m/Y') }}
-                                                </small>
-                                            </div>
-                                            @icon('download', 'icon icon-xs text-gray-500')
-                                        </a>
-                                    @endforeach
-                                </div>
-                            @else
-                                <div class="text-gray-500 small">No hay reglamentos disponibles.</div>
-                            @endif
-                        </div>
-
-                        {{-- Column 2: Manuales y Formatos (desde BD) --}}
-                        <div class="col-md-6 mb-4">
-                            <h3 class="h6 fw-bold mb-3">
-                                <span class="me-2">@icon('file', 'icon icon-xs')</span>
-                                Manuales y Formatos
-                            </h3>
-                            @if($manuales->count() > 0)
-                                <div class="list-group list-group-flush">
-                                    @foreach($manuales as $doc)
-                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $doc->institutional_document_id) }}"
-                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <div class="fw-bold">{{ $doc->title }}</div>
-                                                <small class="text-gray-600">
-                                                    {{ $doc->version ? 'Version ' . $doc->version : '' }}{{ $doc->effective_date ? ' - ' . \Illuminate\Support\Carbon::parse($doc->effective_date)->format('m/Y') : '' }}
-                                                </small>
-                                            </div>
-                                            @icon('download', 'icon icon-xs text-gray-500')
-                                        </a>
-                                    @endforeach
-                                </div>
-                            @else
-                                <div class="text-gray-500 small">No hay manuales ni formatos disponibles.</div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+    {{-- Filtros y tabla --}}
+    <div class="table-settings mb-4">
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+            <div class="input-group fmxw-300">
+                <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
+                <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
+                    placeholder="Buscar documentos">
             </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <span class="small text-gray-600 me-2">Filtrar por categoría:</span>
+                <select wire:model.live="categoryFilter" class="form-select" style="min-width: 180px;"
+                    aria-label="Filtrar por categoría">
+                    <option value="">Todas</option>
+                    <option value="Reglamento">Reglamento</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Lineamiento">Lineamiento</option>
+                    <option value="CÓdigo">Código</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-body border-0 shadow">
+        <div class="table-responsive">
+            <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
+                <colgroup>
+                    <col style="width: 40%">
+                    <col style="width: 25%">
+                    <col style="width: 20%">
+                    <col style="width: 15%">
+                </colgroup>
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0 rounded-start">Título</th>
+                        <th class="border-0">Categoría</th>
+                        <th class="border-0">Fecha vigencia</th>
+                        <th class="border-0 rounded-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($documents as $document)
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $document->title }}</span>
+                                </div>
+                            </td>
+                            <td><span class="fw-normal">{{ ucfirst($document->category ?? 'N/A') }}</span></td>
+                            <td><span class="fw-normal">{{ $document->effective_date ? \Illuminate\Support\Carbon::parse($document->effective_date)->format('d/m/Y') : 'N/A' }}</span></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @icon('menu', 'icon icon-xs')
+                                    </button>
+                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.show', $document->institucional_document_id) }}"
+                                            target="_blank">
+                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
+                                            Ver documento
+                                        </a>
+                                        <a class="dropdown-item d-flex align-items-center"
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institucional_document_id) }}">
+                                            @icon('download', 'dropdown-icon text-gray-400 me-2')
+                                            Descargar
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center py-4">
+                                <div class="text-gray-500">
+                                    @icon('file', 'fa-2x mb-3')
+                                    <p class="fw-bold">No hay documentos institucionales para mostrar</p>
+                                    <p class="small">Ajusta tu búsqueda o categoría</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

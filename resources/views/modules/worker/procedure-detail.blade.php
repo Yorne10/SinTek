@@ -126,7 +126,7 @@
                                             {{-- Contenido del paso --}}
                                             <div class="flex-grow-1">
                                                 <div class="mb-2">
-                                                    <h6 class="mb-1 fw-bold">{{ $step->tittle }}</h6>
+                                                    <h6 class="mb-1 fw-bold">{{ $step->title }}</h6>
                                                     @if($step->description)
                                                         <p class="text-gray-600 mb-2">{{ $step->description }}</p>
                                                     @endif
