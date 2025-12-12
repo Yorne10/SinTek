@@ -60,7 +60,61 @@ class ProcessesIndex extends Component
     public function toggleProcessStatus(int $processId): void
     {
         try {
-            $process = Process::findOrFail($processId);
+            $process = Process::with('steps')->findOrFail($processId);
+
+            // Si se está intentando activar, validar el flujo
+            if (!$process->active) {
+                $steps = $process->steps;
+
+                // Verificar que haya al menos un paso
+                if ($steps->count() === 0) {
+                    $this->dispatch(
+                        'processes-notify',
+                        type: 'error',
+                        title: 'No se puede activar',
+                        message: 'El proceso no tiene pasos definidos. Define al menos un paso inicial y uno final.'
+                    );
+                    return;
+                }
+
+                // Verificar paso inicial
+                $initialSteps = $steps->where('is_initial_step', true);
+                if ($initialSteps->count() === 0) {
+                    $this->dispatch(
+                        'processes-notify',
+                        type: 'error',
+                        title: 'No se puede activar',
+                        message: 'No hay un paso inicial definido. Ve a "Configurar flujo" y selecciona el paso inicial.'
+                    );
+                    return;
+                }
+
+                // Verificar paso final
+                $finalSteps = $steps->where('step_type', 'final');
+                if ($finalSteps->count() === 0) {
+                    $this->dispatch(
+                        'processes-notify',
+                        type: 'error',
+                        title: 'No se puede activar',
+                        message: 'No hay un paso de tipo "Final". Crea al menos un paso de tipo finalización.'
+                    );
+                    return;
+                }
+
+                // Verificar que todos los pasos estén vinculados
+                $unlinkedSteps = $steps->where('is_linked', false);
+                if ($unlinkedSteps->count() > 0) {
+                    $unlinkedNames = $unlinkedSteps->pluck('title')->take(3)->implode(', ');
+                    $this->dispatch(
+                        'processes-notify',
+                        type: 'error',
+                        title: 'No se puede activar',
+                        message: "Hay pasos sin vincular: {$unlinkedNames}. Ve a \"Configurar flujo\" para conectar todos los pasos."
+                    );
+                    return;
+                }
+            }
+
             $process->active = !$process->active;
             $process->save();
 

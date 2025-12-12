@@ -32,29 +32,19 @@
                         <div style="max-height: 350px; overflow-y: auto;">
                             @forelse($notifications as $notification)
                                 <a href="{{ $notificationRoute }}" class="list-group-item list-group-item-action border-bottom">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <div
-                                                class="icon-shape icon-sm {{ $notification->read_at ? 'icon-shape-secondary' : 'icon-shape-primary' }} rounded">
-                                                @icon('info', 'fa-xs text-white')
-                                            </div>
-                                        </div>
-                                        <div class="col ps-0 ms-2">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="text-truncate" style="max-width: 200px;">
-                                                    <h4 class="h6 mb-0 text-small text-truncate">
-                                                        {{ $notification->title ?? 'Notificación' }}
-                                                    </h4>
-                                                </div>
-                                                <div class="text-end ms-2">
-                                                    <small class="{{ $notification->read_at ? 'text-muted' : 'text-danger' }}">
-                                                        {{ $notification->created_at?->diffForHumans() }}
-                                                    </small>
-                                                </div>
-                                            </div>
-                                            <p class="font-small mt-1 mb-0 text-truncate" style="max-width: 280px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="flex-grow-1">
+                                            <h4 class="h6 mb-0 text-small text-truncate">
+                                                {{ $notification->title ?? 'Notificación' }}
+                                            </h4>
+                                            <p class="font-small mt-1 mb-0 text-truncate">
                                                 {{ $notification->message }}
                                             </p>
+                                        </div>
+                                        <div class="text-end ms-2">
+                                            <small class="{{ $notification->read_at ? 'text-muted' : 'text-danger' }}">
+                                                {{ $notification->created_at?->diffForHumans() }}
+                                            </small>
                                         </div>
                                     </div>
                                 </a>

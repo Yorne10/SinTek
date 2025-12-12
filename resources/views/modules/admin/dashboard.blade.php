@@ -139,7 +139,7 @@ Approved by: Alfonso Angel Garcia Hernandez
 
         {{-- Resumen --}}
         <div class="col-12 col-lg-5 mb-4">
-            <div class="card border-0 shadow h-100">
+            <div class="card border-0 shadow">
                 <div class="card-header border-bottom">
                     <h2 class="fs-5 fw-bold mb-0">Resumen General</h2>
                 </div>
@@ -156,20 +156,6 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
                         </div>
                         <small class="text-gray-500">{{ $totalProcesses }} procesos totales</small>
-                    </div>
-
-                    {{-- Convocatorias --}}
-                    <div class="mb-4 pb-4 border-bottom">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-gray-600">Convocatorias activas</span>
-                            <span class="h5 mb-0 fw-bold text-success">{{ $activeConvocations }}</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $totalConvocations > 0 ? ($activeConvocations / $totalConvocations * 100) : 0 }}%">
-                            </div>
-                        </div>
-                        <small class="text-gray-500">{{ $totalConvocations }} convocatorias totales</small>
                     </div>
 
                     {{-- Usuarios por Rol --}}

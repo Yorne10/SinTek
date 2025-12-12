@@ -23,7 +23,7 @@ class Settings extends Component
         'institution_name' => 'required|string|max:255',
         'system_name' => 'required|string|max:255',
         'contact_email' => 'required|email|max:255',
-        'contact_phone' => ['nullable', 'string', 'max:20', 'regex:/^[0-9\\-\\(\\)\\s]+$/'],
+        'contact_phone' => ['required', 'string', 'max:20', 'regex:/^[0-9\\-\\(\\)\\s]+$/'],
         'session_timeout' => 'required|integer|min:1|max:1440',
     ];
 
@@ -35,8 +35,9 @@ class Settings extends Component
         'contact_email.required' => 'El campo correo de contacto es obligatorio',
         'contact_email.email' => 'El correo de contacto debe ser válido',
         'contact_email.max' => 'El correo de contacto no debe exceder los 255 caracteres',
-        'contact_phone.max' => 'El telefono de contacto no debe exceder los 20 caracteres',
-        'contact_phone.regex' => 'El telefono de contacto solo puede incluir numeros, guiones y parentesis',
+        'contact_phone.required' => 'El campo teléfono de contacto es obligatorio',
+        'contact_phone.max' => 'El teléfono de contacto no debe exceder los 20 caracteres',
+        'contact_phone.regex' => 'El teléfono de contacto solo puede incluir números, guiones y paréntesis',
         'session_timeout.required' => 'El campo tiempo de sesión es obligatorio',
         'session_timeout.min' => 'El tiempo de sesión debe ser mayor que 0',
         'session_timeout.max' => 'El tiempo de sesión debe ser menor o igual que 1440',

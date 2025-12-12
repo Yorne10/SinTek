@@ -82,7 +82,57 @@ class EditProcess extends Component
         $this->validate();
 
         try {
-            $process = Process::find($this->selectedProcessId);
+            $process = Process::with('steps')->find($this->selectedProcessId);
+
+            // Si se está intentando activar, validar el flujo
+            if ($this->active && !$process->active) {
+                $steps = $process->steps;
+
+                // Verificar que haya al menos un paso
+                if ($steps->count() === 0) {
+                    $this->dispatch(
+                        'process-error',
+                        title: 'No se puede activar',
+                        message: 'El proceso no tiene pasos definidos. Define al menos un paso inicial y uno final.'
+                    );
+                    return;
+                }
+
+                // Verificar paso inicial
+                $initialSteps = $steps->where('is_initial_step', true);
+                if ($initialSteps->count() === 0) {
+                    $this->dispatch(
+                        'process-error',
+                        title: 'No se puede activar',
+                        message: 'No hay un paso inicial definido. Ve a "Configurar flujo" y selecciona el paso inicial.'
+                    );
+                    return;
+                }
+
+                // Verificar paso final
+                $finalSteps = $steps->where('step_type', 'final');
+                if ($finalSteps->count() === 0) {
+                    $this->dispatch(
+                        'process-error',
+                        title: 'No se puede activar',
+                        message: 'No hay un paso de tipo "Final". Crea al menos un paso de tipo finalización.'
+                    );
+                    return;
+                }
+
+                // Verificar que todos los pasos estén vinculados
+                $unlinkedSteps = $steps->where('is_linked', false);
+                if ($unlinkedSteps->count() > 0) {
+                    $unlinkedNames = $unlinkedSteps->pluck('title')->take(3)->implode(', ');
+                    $this->dispatch(
+                        'process-error',
+                        title: 'No se puede activar',
+                        message: "Hay pasos sin vincular: {$unlinkedNames}. Ve a \"Configurar flujo\" para conectar todos los pasos."
+                    );
+                    return;
+                }
+            }
+
             $process->update([
                 'name' => $this->name,
                 'description' => $this->description,
@@ -99,7 +149,8 @@ class EditProcess extends Component
                 $user?->users_id
             );
 
-            $this->dispatch('process-updated',
+            $this->dispatch(
+                'process-updated',
                 title: 'Proceso actualizado',
                 message: 'El proceso se actualizó correctamente.'
             );
@@ -112,7 +163,8 @@ class EditProcess extends Component
                 'error' => $th->getMessage(),
             ]);
 
-            $this->dispatch('process-error',
+            $this->dispatch(
+                'process-error',
                 title: 'Error al actualizar',
                 message: 'No se pudo actualizar el proceso. Intenta de nuevo.'
             );
@@ -137,7 +189,8 @@ class EditProcess extends Component
                     $user?->users_id
                 );
 
-                $this->dispatch('process-deleted',
+                $this->dispatch(
+                    'process-deleted',
                     title: 'Proceso eliminado',
                     message: 'El proceso se eliminó correctamente.'
                 );
@@ -148,7 +201,8 @@ class EditProcess extends Component
                 'error' => $th->getMessage(),
             ]);
 
-            $this->dispatch('process-error',
+            $this->dispatch(
+                'process-error',
                 title: 'Error al eliminar',
                 message: 'No se pudo eliminar el proceso. Intenta de nuevo.'
             );

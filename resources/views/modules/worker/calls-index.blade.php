@@ -1,4 +1,4 @@
-{{-- 
+﻿{{-- 
 * Company: CETAM
 * Project: ST
 * File: calls-index.blade.php
@@ -42,7 +42,7 @@
                     placeholder="Buscar convocatorias">
             </div>
             <div class="d-flex align-items-center text-nowrap">
-                <span class="small text-gray-600 me-2">Estado:</span>
+                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
                 <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
                     <option value="">Todos</option>
                     <option value="activa">Activa</option>
@@ -52,168 +52,95 @@
             </div>
             <div class="ms-auto">
                 <button wire:click="clearFilters" type="button"
-                    class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                    @icon('refresh', 'me-2')
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
             </div>
         </div>
     </div>
 
-    {{-- Listado --}}
-    <div class="card card-body border-0 shadow">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="h5 mb-0">Convocatorias</h2>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-centered table-nowrap mb-0 rounded user-table">
-                <thead class="thead-light">
-                    <tr>
-                        <th class="border-0 rounded-start">Título</th>
-                        <th class="border-0">Periodo</th>
-                        <th class="border-0">Estado</th>
-                        <th class="border-0 rounded-end">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($convocatorias as $convocatoria)
-                        @php
-                            $isActiva = $convocatoria->status === 'activa';
-                            $isPermanente = $convocatoria->status === 'permanente';
-                            $isProxima = $convocatoria->status === 'proxima';
-                        @endphp
-                        <tr>
-                            <td>
-                                <div class="fw-bold text-gray-900">{{ $convocatoria->title }}</div>
-                                <div class="text-gray-600 small">{{ Str::limit($convocatoria->description, 80) }}</div>
-                            </td>
-                            <td>
-                                <div class="fw-normal">
-                                    {{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}
-                                    @if($convocatoria->end_date)
-                                        <span class="text-gray-500"> - </span>
-                                        {{ $convocatoria->end_date->format('d/m/Y') }}
-                                    @else
-                                        <div class="text-gray-500 small">Sin fecha fin</div>
-                                    @endif
-                                </div>
-                            </td>
-                            <td>
-                                @if($isActiva)
-                                    <span class="fw-bold text-success">Activa</span>
-                                @elseif($isPermanente)
-                                    <span class="fw-bold text-info">Permanente</span>
-                                @elseif($isProxima)
-                                    <span class="fw-bold text-warning">Próxima</span>
-                                @else
-                                    <span class="fw-bold text-secondary">{{ ucfirst($convocatoria->status) }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <button
-                                        class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <svg class="icon icon-xs" fill="currentColor"
-                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                            </path>
-                                        </svg>
-                                    </button>
-                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                        <button class="dropdown-item d-flex align-items-center view-convocatoria-detail"
-                                            type="button"
-                                            data-title="{{ $convocatoria->title }}"
-                                            data-description="{{ $convocatoria->description }}"
-                                            data-start="{{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}"
-                                            data-end="{{ $convocatoria->end_date ? $convocatoria->end_date->format('d/m/Y') : 'Sin fecha fin' }}"
-                                            data-status="{{ $convocatoria->status }}"
-                                            data-docs="{{ $convocatoria->documents->count() }}">
-                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
-                                            Ver detalles
-                                        </button>
-                                        @if($convocatoria->documents->count() > 0)
-                                            <div class="dropdown-divider"></div>
-                                            <h6 class="dropdown-header">Documentos</h6>
-                                            @foreach($convocatoria->documents as $doc)
-                                                <a class="dropdown-item d-flex align-items-center"
-                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}">
-                                                    @icon('download', 'dropdown-icon text-gray-400 me-2')
-                                                    <span class="small">{{ Str::limit($doc->file_name ?? 'Documento', 40) }}</span>
+    {{-- Listado en cards (una por fila) --}}
+    <div class="row g-3">
+        @forelse($convocatorias as $convocatoria)
+            @php
+                $status = strtolower($convocatoria->status);
+                $statusClass = match($status) {
+                    'activa' => 'text-success',
+                    'permanente' => 'text-info',
+                    'proxima' => 'text-warning',
+                    default => 'text-secondary'
+                };
+                $statusLabel = match($status) {
+                    'activa' => 'Activa',
+                    'permanente' => 'Permanente',
+                    'proxima' => 'Próxima',
+                    default => ucfirst($status)
+                };
+                $start = $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A';
+                $end = $convocatoria->end_date ? $convocatoria->end_date->format('d/m/Y') : 'Sin fecha fin';
+            @endphp
+            <div class="col-12">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h3 class="h6 mb-0 text-truncate">{{ $convocatoria->title }}</h3>
+                            <span class="fw-bold small {{ $statusClass }}">{{ $statusLabel }}</span>
+                        </div>
+                        <p class="text-muted mb-3">{{ $convocatoria->description }}</p>
+                        <div class="mb-3">
+                            <div class="small text-gray-700 fw-bold">Periodo</div>
+                            <div class="small text-gray-700">{{ $start }} <span class="text-gray">-</span> {{ $end }}</div>
+                        </div>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <div class="small text-gray-600 mb-0">
+                                <div class="fw-bold text-gray-700">Documentos</div>
+                                @if($convocatoria->documents->count() > 0)
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach($convocatoria->documents as $doc)
+                                            <li class="mb-1 small">
+                                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}"
+                                                   class="text-decoration-none">
+                                                    {{ $doc->file_name ?? 'Documento' }}
                                                 </a>
-                                            @endforeach
-                                        @else
-                                            <span class="dropdown-item small text-gray-500">Sin documentos</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-4">
-                                <div class="text-gray-500">
-                                    <div class="mb-3">
-                                    @icon('announcement', 'fa-2x')
-                                    </div>
-                                    <p class="fw-bold">No hay convocatorias para mostrar</p>
-                                    <p class="small">Revisa más tarde, pronto habrá nuevas convocatorias.</p>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        <div
-            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($convocatorias->hasPages())
-                <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                    {{ $convocatorias->links() }}
-                </nav>
-            @endif
-            <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
-                Mostrando <b>{{ $convocatorias->firstItem() ?? 0 }}</b> a
-                <b>{{ $convocatorias->lastItem() ?? 0 }}</b> de <b>{{ $convocatorias->total() }}</b> convocatorias
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <span class="text-gray-500">Sin documentos</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        @empty
+            <div class="col-12">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        @icon('announcement', 'fa-2x mb-3 text-gray-500')
+                        <p class="fw-bold mb-1">No hay convocatorias para mostrar</p>
+                        <p class="small text-gray-600 mb-0">Revisa más tarde, pronto habrá nuevas convocatorias.</p>
+                    </div>
+                </div>
+            </div>
+        @endforelse
     </div>
+
+    @if($convocatorias->hasPages())
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                {{ $convocatorias->links() }}
+            </nav>
+        </div>
+    @endif
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('click', function (e) {
-            const btn = e.target.closest('.view-convocatoria-detail');
-            if (!btn) return;
 
-            const title = btn.getAttribute('data-title') || '';
-            const desc = btn.getAttribute('data-description') || '';
-            const start = btn.getAttribute('data-start') || 'N/A';
-            const end = btn.getAttribute('data-end') || 'Sin fecha fin';
-            const status = btn.getAttribute('data-status') || '';
-            const docs = btn.getAttribute('data-docs') || '0';
 
-            const htmlContent = `
-                <div class="text-start">
-                    <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
-                    <p class="mb-2"><span class="fw-bold">Descripción:</span><br>${desc}</p>
-                    <p class="mb-2"><span class="fw-bold">Fecha inicio:</span> ${start}</p>
-                    <p class="mb-2"><span class="fw-bold">Fecha fin:</span> ${end}</p>
-                    <p class="mb-0"><span class="fw-bold">Documentos:</span> ${docs}</p>
-                </div>
-            `;
 
-            if (window.Swal) {
-                Swal.fire({
-                    title: 'Detalle de la convocatoria',
-                    html: htmlContent,
-                    icon: 'info',
-                    confirmButtonText: 'Cerrar'
-                });
-            } else {
-                alert(`Título: ${title}\nDescripción: ${desc}\nInicio: ${start}\nFin: ${end}\nDocumentos: ${docs}`);
-            }
-        });
-    });
-</script>
+
+
+
+
+

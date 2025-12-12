@@ -106,7 +106,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                     </div>
 
-                    @if($role === 'worker')
+                    @if($role === 'worker' && auth()->user()->role === 'worker')
                         <h2 class="h5 my-4">Información adicional del trabajador</h2>
                         <div class="row">
                             <div class="col-md-6 mb-3">

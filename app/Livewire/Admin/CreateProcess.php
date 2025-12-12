@@ -28,7 +28,7 @@ class CreateProcess extends Component
 {
     public $name = '';
     public $description = '';
-    public $active = true;
+    public $active = false;
     public $process_code = '';
     public $category = '';
     public $department = '';

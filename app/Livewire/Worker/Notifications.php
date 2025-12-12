@@ -12,12 +12,18 @@ class Notifications extends Component
     use WithPagination;
 
     public $search = '';
+    public $statusFilter = 'all'; // all, read, unread
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
 
-    protected $queryString = ['search'];
+    protected $queryString = ['search', 'statusFilter'];
 
     public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFilter()
     {
         $this->resetPage();
     }
@@ -56,8 +62,21 @@ class Notifications extends Component
                         ->orWhere('message', 'like', '%' . $this->search . '%');
                 });
             })
+            ->when($this->statusFilter === 'read', function ($query) {
+                $query->whereNotNull('read_at');
+            })
+            ->when($this->statusFilter === 'unread', function ($query) {
+                $query->whereNull('read_at');
+            })
             ->orderByDesc('created_at')
             ->paginate($this->perPage);
+    }
+
+    public function clearFilters(): void
+    {
+        $this->search = '';
+        $this->statusFilter = 'all';
+        $this->resetPage();
     }
 
     public function refreshList(): void

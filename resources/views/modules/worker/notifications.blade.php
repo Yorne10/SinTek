@@ -10,6 +10,9 @@
 * - ID: 001 | Modified on: 04/12/2025 |
 * Modified by: Claude Code |
 * Description: Refactored notifications table to match users table design with actions menu
+* - ID: 002 | Modified on: 12/12/2025 |
+* Modified by: Claude Code |
+* Description: Updated breadcrumb navigation and added status filter following system standards
 --}}
 
 <div wire:poll.10s="refreshList">
@@ -22,7 +25,6 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Trámites</li>
                     <li class="breadcrumb-item active" aria-current="page">Notificaciones</li>
                 </ol>
             </nav>
@@ -35,8 +37,23 @@
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
                 <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
-                <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
+                <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
                     placeholder="Buscar notificaciones">
+            </div>
+            <div class="d-flex align-items-center text-nowrap">
+                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
+                    <option value="all">Todas</option>
+                    <option value="unread">No leídas</option>
+                    <option value="read">Leídas</option>
+                </select>
+            </div>
+            <div class="ms-auto">
+                <button wire:click="clearFilters" type="button"
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh', 'me-2 text-white')
+                    Limpiar filtros
+                </button>
             </div>
         </div>
     </div>
@@ -75,8 +92,10 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button
+                                    class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
                                     <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -84,7 +103,8 @@
                                         </path>
                                     </svg>
                                 </button>
-                                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                <div
+                                    class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <button class="dropdown-item d-flex align-items-center view-notification-detail"
                                         type="button" data-notification-id="{{ $notification->notification_id }}"
                                         data-notification-title="{{ $notification->title ?? 'Sin título' }}"
