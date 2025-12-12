@@ -74,6 +74,7 @@ class MyProcedures extends Component
             'total' => $allRequests->count(),
             'in_progress' => $allRequests->where('status', 'in_progress')->count(),
             'completed' => $allRequests->where('status', 'completed')->count(),
+            'cancelled' => $allRequests->where('status', 'cancelled')->count(),
         ];
 
         return view('modules.worker.my-procedures', [

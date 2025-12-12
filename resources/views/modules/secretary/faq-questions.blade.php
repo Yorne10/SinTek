@@ -1,10 +1,10 @@
-{{--
+{{-- 
 * Company: CETAM
 * Project: ST
 * File: faq-questions.blade.php
 * Created on: 09/12/2025
 * Created by: Codex
-* Approved by: Alfonso Angel García Hernández
+* Approved by: Alfonso Angel GarcÌa Hern·ndez
 --}}
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -16,7 +16,7 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Secretaría</li>
+                    <li class="breadcrumb-item">SecretarÌa</li>
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}">
                             Preguntas frecuentes
@@ -26,11 +26,11 @@
                 </ol>
             </nav>
             <h2 class="h4">Preguntas: {{ $category->name }}</h2>
-            <p class="mb-0">{{ $category->description ?? 'Gestiona las preguntas frecuentes de esta categoría.' }}</p>
+            <p class="mb-0">{{ $category->description ?? 'Gestiona las preguntas frecuentes de esta categorÌa.' }}</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}" class="btn btn-sm btn-gray-200 d-inline-flex align-items-center me-2">
-                @icon('arrowLeft', 'me-2')
+                @icon('back', 'me-2')
                 Volver
             </a>
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.question.create', $categoryId) }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
@@ -47,16 +47,6 @@
                 <input wire:model.live.debounce.400ms="search" type="text"
                     class="form-control" placeholder="Buscar preguntas">
             </div>
-            <div class="d-flex align-items-center text-nowrap">
-                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
-                <select wire:model.live="statusFilter" class="form-select"
-                    style="min-width: 140px;"
-                    aria-label="Filtrar por estado">
-                    <option value="">Todos</option>
-                    <option value="active">Activo</option>
-                    <option value="inactive">Inactivo</option>
-                </select>
-            </div>
             <div class="ms-auto">
                 <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
                     @icon('refresh', 'me-2 text-white')
@@ -69,8 +59,8 @@
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
         <table class="table table-centered table-nowrap mb-0 rounded" style="table-layout: fixed;">
             <colgroup>
-                <col style="width: 40%">
-                <col style="width: 40%">
+                <col style="width: 42%">
+                <col style="width: 38%">
                 <col style="width: 8%">
                 <col style="width: 12%">
             </colgroup>
@@ -78,7 +68,7 @@
                 <tr>
                     <th class="border-0 rounded-start">Pregunta</th>
                     <th class="border-0">Respuesta</th>
-                    <th class="border-0">Estado</th>
+                    <th class="border-0">Orden</th>
                     <th class="border-0 rounded-end">Acciones</th>
                 </tr>
             </thead>
@@ -91,13 +81,7 @@
                         <td>
                             <span class="fw-normal text-truncate d-inline-block w-100">{{ Str::limit($faq->answer, 100) }}</span>
                         </td>
-                        <td>
-                            @if($faq->is_active)
-                                <span class="fw-bold text-success">Activa</span>
-                            @else
-                                <span class="fw-bold text-warning">Inactiva</span>
-                            @endif
-                        </td>
+                        <td><span class="fw-bold text-gray-900">{{ $faq->order }}</span></td>
                         <td>
                             <div class="btn-group">
                                 <button
@@ -111,8 +95,7 @@
                                         type="button"
                                         data-faq-question="{{ $faq->question }}"
                                         data-faq-answer="{{ $faq->answer }}"
-                                        data-faq-order="{{ $faq->order }}"
-                                        data-faq-active="{{ $faq->is_active ? '1' : '0' }}">
+                                        data-faq-order="{{ $faq->order }}">
                                         @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
                                     </button>
@@ -121,21 +104,13 @@
                                         @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                         Editar
                                     </a>
-                                    <div role="separator" class="dropdown-divider my-1"></div>
-                                    <button
-                                        class="dropdown-item {{ $faq->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center"
-                                        type="button"
-                                        wire:click="toggleFaqStatus({{ $faq->faq_id }})">
-                                        @icon($faq->is_active ? 'warning' : 'success', "dropdown-icon {{ $faq->is_active ? 'text-warning' : 'text-success' }} me-2")
-                                        {{ $faq->is_active ? 'Desactivar' : 'Activar' }}
-                                    </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center py-4">
+                        <td colspan="3" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
                                     @icon('help', 'fa-2x')
@@ -183,15 +158,13 @@
             const faqQuestion = button.getAttribute('data-faq-question');
             const faqAnswer = button.getAttribute('data-faq-answer');
             const faqOrder = button.getAttribute('data-faq-order');
-            const faqActive = button.getAttribute('data-faq-active') === '1';
 
             const htmlContent = `
                 <div class="text-start">
                     <p class="mb-2"><span class="fw-bold">Pregunta:</span> ${faqQuestion}</p>
                     <p class="mb-2"><span class="fw-bold">Respuesta:</span></p>
                     <div class="p-3 bg-light rounded mb-2">${faqAnswer}</div>
-                    <p class="mb-2"><span class="fw-bold">Orden:</span> ${faqOrder}</p>
-                    <p class="mb-0"><span class="fw-bold">Estado:</span> <span class="fw-bold text-${faqActive ? 'success' : 'warning'}">${faqActive ? 'Activa' : 'Inactiva'}</span></p>
+                    <p class="mb-0"><span class="fw-bold">Orden:</span> ${faqOrder}</p>
                 </div>
             `;
 
@@ -205,21 +178,4 @@
             });
         }
     });
-
-    function confirmDeleteFaq(id) {
-        Swal.fire({
-            title: '¿Eliminar pregunta?',
-            text: "Esta acción no se puede revertir",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                @this.call('deleteFaq', id);
-            }
-        })
-    }
 </script>

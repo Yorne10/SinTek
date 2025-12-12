@@ -22,31 +22,47 @@ class FaqQuestionForm extends Component
     public $faqId = null;
     public $faqQuestion = '';
     public $faqAnswer = '';
-    public $faqOrder = 0;
+    public $faqOrder = 1;
+    public $maxOrder = 1;
+    public $originalOrder = 1;
 
-    protected $rules = [
-        'faqQuestion' => 'required|string|max:255',
-        'faqAnswer' => 'required|string',
-        'faqOrder' => 'integer|min:0',
-    ];
+    protected function rules(): array
+    {
+        $max = max(1, $this->maxOrder);
+        return [
+            'faqQuestion' => 'required|string|max:255',
+            'faqAnswer' => 'required|string',
+            'faqOrder' => 'required|integer|min:1|max:' . $max,
+        ];
+    }
 
     protected $messages = [
         'faqQuestion.required' => 'La pregunta es obligatoria.',
         'faqQuestion.max' => 'La pregunta no debe exceder 255 caracteres.',
         'faqAnswer.required' => 'La respuesta es obligatoria.',
+        'faqOrder.required' => 'El orden es obligatorio.',
+        'faqOrder.integer' => 'El orden debe ser numérico.',
+        'faqOrder.min' => 'El orden debe ser al menos 1.',
+        'faqOrder.max' => 'El orden no puede exceder el máximo disponible.',
     ];
 
     public function mount($categoryId, $faqId = null): void
     {
         $this->categoryId = $categoryId;
         $this->category = FaqCategory::findOrFail($categoryId);
+        $this->maxOrder = Faq::where('faq_category_id', $categoryId)->count() + ($faqId ? 0 : 1);
 
         if ($faqId) {
             $this->faqId = $faqId;
             $faq = Faq::where('faq_category_id', $categoryId)->findOrFail($faqId);
             $this->faqQuestion = $faq->question;
             $this->faqAnswer = $faq->answer;
-            $this->faqOrder = $faq->order;
+            $this->faqOrder = max(1, (int) $faq->order);
+            $this->originalOrder = $this->faqOrder;
+        } else {
+            // alta: siguiente orden disponible
+            $this->faqOrder = $this->maxOrder;
+            $this->originalOrder = $this->maxOrder;
         }
     }
 
@@ -57,24 +73,26 @@ class FaqQuestionForm extends Component
         try {
             if ($this->faqId) {
                 $faq = Faq::findOrFail($this->faqId);
-                $faq->update([
-                    'question' => $this->faqQuestion,
-                    'answer' => $this->faqAnswer,
-                    'order' => $this->faqOrder,
-                ]);
+                $faq->question = $this->faqQuestion;
+                $faq->answer = $this->faqAnswer;
+                $faq->order = $this->faqOrder;
+                $faq->save();
                 $message = 'Pregunta actualizada exitosamente.';
                 $action = 'actualizada';
             } else {
-                Faq::create([
+                $faq = Faq::create([
                     'faq_category_id' => $this->categoryId,
                     'question' => $this->faqQuestion,
                     'answer' => $this->faqAnswer,
                     'order' => $this->faqOrder,
-                    'is_active' => true,
                 ]);
+                $this->faqId = $faq->faq_id;
                 $message = 'Pregunta creada exitosamente.';
                 $action = 'creada';
             }
+
+            $this->reorderFaqs($faq);
+            $this->maxOrder = Faq::where('faq_category_id', $this->categoryId)->count();
 
             $user = auth()->user();
             ActivityLogger::log(
@@ -83,10 +101,35 @@ class FaqQuestionForm extends Component
                 $user?->users_id
             );
 
-            $this->dispatch('faq-saved', type: 'success', title: '¡Éxito!', message: $message);
+            $this->dispatch('faq-saved', type: 'success', title: 'Éxito', message: $message);
             $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId));
         } catch (\Exception $e) {
             $this->dispatch('faq-error', type: 'error', title: 'Error', message: 'No se pudo guardar la pregunta.');
+        }
+    }
+
+    protected function reorderFaqs(Faq $current): void
+    {
+        $others = Faq::where('faq_category_id', $this->categoryId)
+            ->where('faq_id', '!=', $current->faq_id)
+            ->orderBy('order')
+            ->orderBy('faq_id')
+            ->get()
+            ->values();
+
+        $desired = max(1, (int) $this->faqOrder);
+        $desired = min($desired, $others->count() + 1);
+
+        $ordered = $others->toArray();
+        array_splice($ordered, $desired - 1, 0, [$current]);
+
+        $order = 1;
+        foreach ($ordered as $row) {
+            $faq = $row instanceof Faq ? $row : Faq::find($row['faq_id']);
+            if ($faq) {
+                $faq->order = $order++;
+                $faq->save();
+            }
         }
     }
 
@@ -108,7 +151,7 @@ class FaqQuestionForm extends Component
                 $user?->users_id
             );
 
-            $this->dispatch('faq-deleted', type: 'success', title: '¡Eliminada!', message: 'Pregunta eliminada exitosamente.');
+            $this->dispatch('faq-deleted', type: 'success', title: 'Eliminada', message: 'Pregunta eliminada exitosamente.');
             $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId));
         } catch (\Exception $e) {
             $this->dispatch('faq-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la pregunta.');

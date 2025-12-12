@@ -41,6 +41,18 @@
         <div class="col-12 col-xl-8">
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     <h2 class="h5 mb-4">Información de la convocatoria</h2>
                     <form wire:submit.prevent="save">
                         <div class="row">
@@ -65,7 +77,8 @@
                             <div class="col-md-12 mb-3">
                                 <div class="form-check">
                                     <input wire:model.live="convocatoria_permanente" class="form-check-input"
-                                        type="checkbox" id="convocatoria_permanente">
+                                        type="checkbox" id="convocatoria_permanente"
+                                        @change="if($el.checked) { $wire.set('fecha_fin', null); }">
                                     <label class="form-check-label" for="convocatoria_permanente">
                                         Convocatoria permanente (sin fecha de cierre)
                                     </label>
@@ -84,7 +97,7 @@
                                 <label for="fecha_fin" class="form-label">Fecha de fin</label>
                                 <input wire:model="fecha_fin" type="date"
                                     class="form-control @error('fecha_fin') is-invalid @enderror" id="fecha_fin"
-                                    @if($convocatoria_permanente) disabled @endif>
+                                    :disabled="@js($convocatoria_permanente)">
                                 <small class="form-text text-muted">Dejar vacío si es permanente</small>
                                 @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
@@ -106,10 +119,18 @@
                                             <div class="col-md-6">
                                                 <input type="file" wire:model="documentos.{{ $index }}.archivo"
                                                     class="form-control @error('documentos.' . $index . '.archivo') is-invalid @enderror"
-                                                    accept=".pdf">
+                                                    accept=".pdf"
+                                                    x-data
+                                                    x-on:livewire-upload-start="window.dispatchEvent(new CustomEvent('file-uploading'))"
+                                                    x-on:livewire-upload-finish="window.dispatchEvent(new CustomEvent('file-uploaded'))"
+                                                    x-on:livewire-upload-error="window.dispatchEvent(new CustomEvent('file-uploaded'))">
                                                 @error('documentos.' . $index . '.archivo') <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div> @enderror
+                                                <div wire:loading wire:target="documentos.{{ $index }}.archivo" class="text-primary small mt-1">
+                                                    <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                                                    Cargando archivo...
+                                                </div>
                                             </div>
                                             <div class="col-md-1">
                                                 <button type="button" wire:click="removeDocumento({{ $index }})"
@@ -190,23 +211,68 @@
             buttonsStyling: false
         });
 
+        let fileUploading = false;
+        let filesUploaded = true;
+
+        // Escuchar eventos de carga de archivo
+        window.addEventListener('file-uploading', () => {
+            fileUploading = true;
+            filesUploaded = false;
+        });
+
+        window.addEventListener('file-uploaded', () => {
+            fileUploading = false;
+            filesUploaded = true;
+        });
+
         // Confirmation before save
         document.getElementById('saveConvBtn')?.addEventListener('click', function (e) {
             e.preventDefault();
             const isEdit = {{ $convocationId ? 'true' : 'false' }};
-            swalWithBootstrapButtons.fire({
-                title: isEdit ? '¿Actualizar convocatoria?' : '¿Guardar convocatoria?',
-                text: isEdit ? '¿Deseas actualizar los detalles de esta convocatoria?' : '¿Deseas publicar esta convocatoria?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('save');
-                }
-            });
+
+            // Si los archivos se están cargando, mostrar mensaje de espera
+            if (fileUploading) {
+                Swal.fire({
+                    title: 'Cargando archivos...',
+                    text: 'Por favor espera a que terminen de cargar los documentos PDF',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+
+                        // Esperar a que termine de cargar
+                        const checkInterval = setInterval(() => {
+                            if (!fileUploading && filesUploaded) {
+                                clearInterval(checkInterval);
+                                Swal.close();
+                                // Mostrar confirmación después de que carguen
+                                showConfirmation();
+                            }
+                        }, 100);
+                    }
+                });
+                return;
+            }
+
+            // Si todo está bien, mostrar confirmación
+            showConfirmation();
+
+            function showConfirmation() {
+                swalWithBootstrapButtons.fire({
+                    title: isEdit ? '¿Actualizar convocatoria?' : '¿Guardar convocatoria?',
+                    text: isEdit ? '¿Deseas actualizar los detalles de esta convocatoria?' : '¿Deseas publicar esta convocatoria?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('save');
+                    }
+                });
+            }
         });
     });
 </script>

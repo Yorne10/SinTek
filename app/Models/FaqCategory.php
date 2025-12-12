@@ -37,6 +37,9 @@ class FaqCategory extends Model
     }
 
     /**
+     * Active FAQs only.
+     */
+    /**
      * Scope to order by order field
      */
     public function scopeOrdered($query)

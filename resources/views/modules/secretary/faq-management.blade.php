@@ -1,10 +1,10 @@
-{{--
+{{-- 
 * Company: CETAM
 * Project: ST
 * File: faq-management.blade.php
 * Created on: 24/11/2025
 * Created by: Codex
-* Approved by: Alfonso Angel García Hernández
+* Approved by: Alfonso Angel GarcÌa Hern·ndez
 --}}
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -16,17 +16,17 @@
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Secretaría</li>
+                    <li class="breadcrumb-item">SecretarÌa</li>
                     <li class="breadcrumb-item active" aria-current="page">Preguntas frecuentes</li>
                 </ol>
             </nav>
-            <h2 class="h4">Categorías de preguntas frecuentes</h2>
-            <p class="mb-0">Gestiona las categorías y sus preguntas frecuentes.</p>
+            <h2 class="h4">CategorÌas de preguntas frecuentes</h2>
+            <p class="mb-0">Gestiona las categorÌas y sus preguntas frecuentes.</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.category.create') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('add', 'me-2')
-                Nueva categoría
+                Nueva categorÌa
             </a>
         </div>
     </div>
@@ -36,17 +36,7 @@
             <div class="input-group fmxw-300">
                 <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
                 <input wire:model.live.debounce.400ms="search" type="text"
-                    class="form-control" placeholder="Buscar categorías">
-            </div>
-            <div class="d-flex align-items-center text-nowrap">
-                <span class="small text-gray-600 me-2">Filtrar por estado:</span>
-                <select wire:model.live="statusFilter" class="form-select"
-                    style="min-width: 140px;"
-                    aria-label="Filtrar por estado">
-                    <option value="">Todos</option>
-                    <option value="active">Activo</option>
-                    <option value="inactive">Inactivo</option>
-                </select>
+                    class="form-control" placeholder="Buscar categorÌas">
             </div>
             <div class="ms-auto">
                 <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
@@ -60,9 +50,8 @@
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
         <table class="table table-centered table-nowrap mb-0 rounded" style="table-layout: fixed;">
             <colgroup>
-                <col style="width: 25%">
-                <col style="width: 35%">
-                <col style="width: 10%">
+                <col style="width: 30%">
+                <col style="width: 40%">
                 <col style="width: 10%">
                 <col style="width: 10%">
                 <col style="width: 10%">
@@ -70,10 +59,9 @@
             <thead class="thead-light">
                 <tr>
                     <th class="border-0 rounded-start">Nombre</th>
-                    <th class="border-0">Descripción</th>
+                    <th class="border-0">DescripciÛn</th>
                     <th class="border-0">Orden</th>
                     <th class="border-0">Preguntas</th>
-                    <th class="border-0">Estado</th>
                     <th class="border-0 rounded-end">Acciones</th>
                 </tr>
             </thead>
@@ -84,17 +72,10 @@
                             <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $category->name }}</span>
                         </td>
                         <td>
-                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $category->description ?? 'Sin descripción' }}</span>
+                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $category->description ?? 'Sin descripciÛn' }}</span>
                         </td>
                         <td><span class="fw-normal">{{ $category->order }}</span></td>
-                        <td><span class="badge bg-info">{{ $category->faqs_count }}</span></td>
-                        <td>
-                            @if($category->is_active)
-                                <span class="fw-bold text-success">Activa</span>
-                            @else
-                                <span class="fw-bold text-warning">Inactiva</span>
-                            @endif
-                        </td>
+                        <td><span class="fw-bold text-info">{{ $category->faqs_count }}</span></td>
                         <td>
                             <div class="btn-group">
                                 <button
@@ -112,29 +93,21 @@
                                     <a class="dropdown-item d-flex align-items-center"
                                         href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.category.edit', $category->faq_category_id) }}">
                                         @icon('edit', 'dropdown-icon text-gray-400 me-2')
-                                        Editar categoría
+                                        Editar categorÌa
                                     </a>
-                                    <div role="separator" class="dropdown-divider my-1"></div>
-                                    <button
-                                        class="dropdown-item {{ $category->is_active ? 'text-warning' : 'text-success' }} d-flex align-items-center"
-                                        type="button"
-                                        wire:click="toggleCategoryStatus({{ $category->faq_category_id }})">
-                                        @icon($category->is_active ? 'warning' : 'success', "dropdown-icon {{ $category->is_active ? 'text-warning' : 'text-success' }} me-2")
-                                        {{ $category->is_active ? 'Desactivar' : 'Activar' }}
-                                    </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center py-4">
+                        <td colspan="5" class="text-center py-4">
                             <div class="text-gray-500">
                                 <div class="mb-3">
                                     @icon('help', 'fa-2x')
                                 </div>
-                                <p class="fw-bold">No hay categorías para mostrar</p>
-                                <p class="small">Crea una nueva categoría para empezar</p>
+                                <p class="fw-bold">No hay categorÌas para mostrar</p>
+                                <p class="small">Crea una nueva categorÌa para empezar</p>
                             </div>
                         </td>
                     </tr>
@@ -149,7 +122,7 @@
             @endif
             <div class="fw-normal small mt-0 mt-lg-0 ms-lg-auto">
                 Mostrando <b>{{ $categories->firstItem() ?? 0 }}</b> a
-                <b>{{ $categories->lastItem() ?? 0 }}</b> de <b>{{ $categories->total() }}</b> categorías
+                <b>{{ $categories->lastItem() ?? 0 }}</b> de <b>{{ $categories->total() }}</b> categorÌas
             </div>
         </div>
     </div>

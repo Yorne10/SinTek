@@ -32,12 +32,7 @@
                         <div>
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.available-procedures') }}"
                                 class="btn btn-sm btn-primary d-inline-flex align-items-center">
-                                <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
+                                @icon('add','icon-xs me-1')
                                 Nuevo trámite
                             </a>
                         </div>
@@ -60,19 +55,18 @@
                                 placeholder="Buscar por ID o tipo de trámite...">
                         </div>
                         <div class="d-flex align-items-center text-nowrap">
-                            <span class="small text-gray-600 me-2">Estado:</span>
+                            <span class="small text-gray-600 me-2">Filtrar por estado:</span>
                             <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
-                                <option value="">Todos los estados</option>
+                                <option value="">Todos</option>
                                 <option value="in_progress">En proceso</option>
                                 <option value="completed">Completado</option>
-                                <option value="pending">Pendiente</option>
                                 <option value="cancelled">Cancelado</option>
                             </select>
                         </div>
                         <div class="ms-auto">
                             <button wire:click="$set('search', ''); $set('statusFilter', '')" type="button"
-                                class="btn btn-sm btn-gray-300 d-inline-flex align-items-center">
-                                @icon('refresh', 'me-2')
+                                class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                @icon('refresh', 'me-2 text-white')
                                 Limpiar filtros
                             </button>
                         </div>
@@ -83,17 +77,22 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-body shadow border-0 table-wrapper table-responsive">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h2 class="fs-5 fw-bold mb-0">Mis trámites</h2>
-                            </div>
-                            <table class="table table-centered table-nowrap mb-0 rounded">
+                            
+                            <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col style="width: 30%">
+                                    <col style="width: 18%">
+                                    <col style="width: 16%">
+                                    <col style="width: 26%">
+                                    <col style="width: 10%">
+                                </colgroup>
                                 <thead class="thead-light">
                                     <tr>
-                                        <th class="border-0">Tipo de trámite</th>
+                                        <th class="border-0 rounded-start">Tipo de trámite</th>
                                         <th class="border-0">Fecha inicio</th>
                                         <th class="border-0">Estado</th>
                                         <th class="border-0">Progreso</th>
-                                        <th class="border-0">Acciones</th>
+                                        <th class="border-0 rounded-end">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,7 +104,6 @@
                                                 $status = strtolower($req->status);
                                                 $isCompleted = in_array($status, ['completed', 'completado']);
                                                 $isInProgress = in_array($status, ['in_progress', 'en_proceso']);
-                                                $isPending = in_array($status, ['pending', 'pendiente']);
                                                 $isCancelled = in_array($status, ['cancelled', 'cancelado']);
                                             @endphp
                                             <td>
@@ -113,8 +111,6 @@
                                                     <span class="fw-bold text-warning">En proceso</span>
                                                 @elseif($isCompleted)
                                                     <span class="fw-bold text-success">Completado</span>
-                                                @elseif($isPending)
-                                                    <span class="fw-bold text-info">Pendiente</span>
                                                 @elseif($isCancelled)
                                                     <span class="fw-bold text-danger">Cancelado</span>
                                                 @else
@@ -202,3 +198,10 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+

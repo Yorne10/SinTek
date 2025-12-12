@@ -24,7 +24,7 @@ class CreateStep extends Component
     public $title;  // Corrected from 'tittle'
     public $order;
     public $instruction;  // Corrected from 'instructions' (singular)
-    public $step_type = 'normal';  // Corrected from 'condition_type'
+    public $step_type = 'form';  // Updated: form, approval, file_upload, final
     public $condition_question;
     public $responsible_role;  // Corrected from 'responsible'
     public $requires_documents = false;
@@ -81,7 +81,7 @@ class CreateStep extends Component
             $this->active = $step->active ?? true;
             $this->documents = $step->requiredDocuments->map(fn($doc) => ['title' => $doc->title])->toArray();
 
-            $this->activarRamificacion = ($this->step_type === 'conditional');
+            $this->activarRamificacion = ($this->step_type === 'approval' && $this->condition_question);
             $this->loadAvailableSteps();
         }
     }
@@ -96,7 +96,7 @@ class CreateStep extends Component
 
     public function updatedStepType()
     {
-        $this->activarRamificacion = $this->step_type === 'conditional';
+        $this->activarRamificacion = $this->step_type === 'approval';
     }
 
     public function addDocument()
@@ -143,7 +143,7 @@ class CreateStep extends Component
             'title' => 'required|string|max:200',
             'order' => 'required|integer|min:1',
             'instruction' => 'nullable|string',
-            'step_type' => 'required|string|in:normal,conditional,finalization',
+            'step_type' => 'required|string|in:form,approval,file_upload,final',
             'condition_question' => 'nullable|string',
             'responsible_role' => 'nullable|string|max:100',
             'requires_documents' => 'boolean',
@@ -179,8 +179,8 @@ class CreateStep extends Component
             'responsible_role' => $this->responsible_role,
             'requires_documents' => $this->requires_documents,
             'next_step_id' => $this->next_step_id,
-            'next_yes' => $this->step_type === 'conditional' ? $this->next_yes : null,
-            'next_no' => $this->step_type === 'conditional' ? $this->next_no : null,
+            'next_yes' => $this->step_type === 'approval' ? $this->next_yes : null,
+            'next_no' => $this->step_type === 'approval' ? $this->next_no : null,
             'finalization_message' => $this->finalization_message,
             'is_initial_step' => $this->is_initial_step,
             'is_linked' => $this->is_linked,

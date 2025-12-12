@@ -5,14 +5,12 @@
  * File: FaqManagement.php
  * Created on: 24/11/2025
  * Created by: Codex
- * Approved by: Alfonso Angel García Hernández
+ * Approved by: Alfonso Angel GarcÍa HernÁndez
  */
 
 namespace App\Livewire\Secretary;
 
-use App\Models\Faq;
 use App\Models\FaqCategory;
-use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,16 +19,60 @@ class FaqManagement extends Component
     use WithPagination;
 
     public $search = '';
-    public $statusFilter = '';
 
     protected $paginationTheme = 'bootstrap';
 
-    public function updatingSearch()
+    protected function normalizeOrder(): void
     {
-        $this->resetPage();
+        $categories = FaqCategory::orderBy('order')->orderBy('faq_category_id')->get();
+        $order = 1;
+        foreach ($categories as $cat) {
+            $cat->order = $order++;
+            $cat->save();
+        }
     }
 
-    public function updatingStatusFilter()
+    public function moveUp($categoryId)
+    {
+        $this->moveCategory($categoryId, 'up');
+    }
+
+    public function moveDown($categoryId)
+    {
+        $this->moveCategory($categoryId, 'down');
+    }
+
+    protected function moveCategory($categoryId, $direction = 'up')
+    {
+        try {
+            $this->normalizeOrder();
+
+            $category = FaqCategory::findOrFail($categoryId);
+            if ($direction === 'up') {
+                $target = FaqCategory::where('order', '<', $category->order)
+                    ->orderBy('order', 'desc')
+                    ->first();
+            } else {
+                $target = FaqCategory::where('order', '>', $category->order)
+                    ->orderBy('order', 'asc')
+                    ->first();
+            }
+
+            if (!$target) {
+                return;
+            }
+
+            [$category->order, $target->order] = [$target->order, $category->order];
+            $category->save();
+            $target->save();
+
+            $this->dispatch('faq-notify', type: 'success', title: 'Orden actualizado', message: 'La categorÍa ha sido reordenada.');
+        } catch (\Exception $e) {
+            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo reordenar la categorÍa.');
+        }
+    }
+
+    public function updatingSearch()
     {
         $this->resetPage();
     }
@@ -38,24 +80,8 @@ class FaqManagement extends Component
     public function clearFilters()
     {
         $this->search = '';
-        $this->statusFilter = '';
         $this->resetPage();
     }
-
-    public function toggleCategoryStatus($categoryId)
-    {
-        try {
-            $category = FaqCategory::findOrFail($categoryId);
-            $category->is_active = !$category->is_active;
-            $category->save();
-
-            $status = $category->is_active ? 'activada' : 'desactivada';
-            $this->dispatch('faq-notify', type: 'success', title: 'Estado actualizado', message: "Categoría {$status} exitosamente.");
-        } catch (\Exception $e) {
-            $this->dispatch('faq-notify', type: 'error', title: 'Error', message: 'No se pudo cambiar el estado.');
-        }
-    }
-
 
     public function render()
     {
@@ -63,17 +89,10 @@ class FaqManagement extends Component
 
         // Apply search filter
         if ($this->search) {
-            $query->where(function($q) {
+            $query->where(function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%');
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
             });
-        }
-
-        // Apply status filter
-        if ($this->statusFilter === 'active') {
-            $query->where('is_active', true);
-        } elseif ($this->statusFilter === 'inactive') {
-            $query->where('is_active', false);
         }
 
         $categories = $query->orderBy('order')->paginate(10);
@@ -83,4 +102,3 @@ class FaqManagement extends Component
         ])->layout('layouts.app');
     }
 }
-

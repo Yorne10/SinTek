@@ -16,6 +16,7 @@ use App\Services\ActivityLogger;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ConvocationForm extends Component
 {
@@ -76,12 +77,17 @@ class ConvocationForm extends Component
         $this->documentos = array_values($this->documentos);
     }
 
-    public function save()
+    public function save(): void
     {
-        $this->validate();
-        $user = Auth::user();
-
         try {
+            $this->validate();
+
+            Log::info('ConvocationForm::save - Validación exitosa', [
+                'documentos_count' => count($this->documentos),
+                'es_nuevo' => !$this->convocationId
+            ]);
+
+            $user = Auth::user();
             // Determinar el estado de la convocatoria
             $status = 'activa';
             $today = now()->startOfDay();
@@ -142,25 +148,58 @@ class ConvocationForm extends Component
                 $message = 'La convocatoria ha sido publicada exitosamente.';
             }
 
-            // Guardar documentos si existen (solo para nuevas convocatorias)
-            if (!$this->convocationId && !empty($this->documentos)) {
-                foreach ($this->documentos as $documento) {
+            // Guardar documentos si existen
+            if (!empty($this->documentos)) {
+                foreach ($this->documentos as $index => $documento) {
                     if (isset($documento['archivo']) && $documento['archivo'] && isset($documento['titulo']) && $documento['titulo']) {
-                        $fileContent = file_get_contents($documento['archivo']->getRealPath());
+                        try {
+                            $file = $documento['archivo'];
+                            $filePath = $file->getRealPath();
 
-                        ConvocationDocument::create([
-                            'convocation_id' => $convocatoria->convocation_id,
-                            'title' => $documento['titulo'],
-                            'file_content' => $fileContent,
-                        ]);
+                            Log::info('Procesando documento de convocatoria', [
+                                'index' => $index,
+                                'titulo' => $documento['titulo'],
+                                'path' => $filePath,
+                                'size' => $file->getSize(),
+                                'mime' => $file->getMimeType()
+                            ]);
+
+                            ConvocationDocument::create([
+                                'convocation_id' => $convocatoria->convocation_id,
+                                'file_name' => $documento['titulo'] ?: ($file->getClientOriginalName() ?? 'documento.pdf'),
+                                'mime_type' => $file->getMimeType() ?: 'application/pdf',
+                                'file_content' => file_get_contents($filePath),
+                            ]);
+
+                            Log::info('Documento guardado correctamente', [
+                                'index' => $index,
+                                'titulo' => $documento['titulo']
+                            ]);
+                        } catch (\Exception $e) {
+                            Log::error('Error al procesar documento de convocatoria', [
+                                'index' => $index,
+                                'error' => $e->getMessage(),
+                                'trace' => $e->getTraceAsString()
+                            ]);
+                            throw $e;
+                        }
                     }
                 }
             }
 
             session()->flash('success', $message);
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.calls');
+            redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.calls');
 
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Error de validación en convocatoria', [
+                'errors' => $e->errors()
+            ]);
+            throw $e;
         } catch (\Exception $e) {
+            Log::error('Error al guardar convocatoria', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             session()->flash('error', 'Ocurrió un error al guardar la convocatoria: ' . $e->getMessage());
         }
     }

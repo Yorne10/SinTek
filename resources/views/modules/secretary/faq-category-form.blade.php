@@ -1,4 +1,4 @@
-{{--
+{{-- 
 Company: CETAM
 Project: ST
 File: faq-category-form.blade.php
@@ -50,10 +50,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="categoryOrder" class="form-label">Orden de visualización</label>
+                                <label for="categoryOrder" class="form-label">Orden de visualización <span class="text-danger">*</span></label>
                                 <input wire:model="categoryOrder" type="number"
                                     class="form-control @error('categoryOrder') is-invalid @enderror" id="categoryOrder"
-                                    placeholder="0">
+                                    min="1" max="{{ $maxOrder }}" placeholder="1">
                                 @error('categoryOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
@@ -68,7 +68,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <button type="submit" class="btn btn-primary" id="saveCategoryBtn">
+                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn"
+                                            data-max="{{ $maxOrder }}" data-original="{{ $originalOrder ?? $categoryOrder }}">
                                             @icon('save', 'icon-xs me-1')
                                             {{ $categoryId ? 'Actualizar' : 'Guardar' }} categoría
                                         </button>
@@ -150,23 +151,52 @@ Approved by: Alfonso Angel Garcia Hernandez
         });
 
         const isEdit = {{ $categoryId ? 'true' : 'false' }};
+        const saveBtn = document.getElementById('saveCategoryBtn');
 
-        // Confirmation before save
-        document.getElementById('saveCategoryBtn')?.addEventListener('click', function (e) {
+        const confirmFlow = (message) => swalWithBootstrapButtons.fire({
+            icon: 'warning',
+            title: 'Aviso',
+            text: message,
+            confirmButtonText: 'Entendido',
+            showCancelButton: false
+        });
+
+        const confirmQuestion = () => swalWithBootstrapButtons.fire({
+            title: isEdit ? '¿Actualizar categoría?' : '¿Guardar categoría?',
+            text: isEdit ? '¿Deseas actualizar los detalles de esta categoría?' : '¿Deseas crear esta categoría?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        });
+
+        saveBtn?.addEventListener('click', function (e) {
             e.preventDefault();
-            swalWithBootstrapButtons.fire({
-                title: isEdit ? '¿Actualizar categoría?' : '¿Guardar categoría?',
-                text: isEdit ? '¿Deseas actualizar los detalles de esta categoría?' : '¿Deseas crear esta categoría?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('save');
-                }
-            });
+            const orderInput = document.getElementById('categoryOrder');
+            const desired = parseInt(orderInput.value || '1', 10);
+            const max = parseInt(saveBtn.dataset.max || '1', 10);
+            const original = parseInt(saveBtn.dataset.original || '1', 10);
+
+            const proceed = () => {
+                confirmQuestion().then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('save');
+                    }
+                });
+            };
+
+            if (desired > max) {
+                confirmFlow(`El orden solicitado supera el máximo (${max}). Se ajustará al último número secuencial.`)
+                    .then(() => {
+                        orderInput.value = max;
+                        @this.set('categoryOrder', max);
+                        proceed();
+                    });
+                return;
+            }
+
+            proceed();
         });
 
         // Confirmation before delete
@@ -195,5 +225,28 @@ Approved by: Alfonso Angel Garcia Hernandez
                 }
             });
         });
+
+        // Listeners for alerts
+        if (window.Livewire) {
+            Livewire.on('category-saved', (detail) => {
+                const payload = Array.isArray(detail) ? detail[0] : detail || {};
+                swalWithBootstrapButtons.fire({
+                    icon: payload.type || 'success',
+                    title: payload.title || 'Éxito',
+                    text: payload.message || '',
+                    confirmButtonText: 'Entendido'
+                });
+            });
+
+            Livewire.on('category-error', (detail) => {
+                const payload = Array.isArray(detail) ? detail[0] : detail || {};
+                swalWithBootstrapButtons.fire({
+                    icon: payload.type || 'error',
+                    title: payload.title || 'Error',
+                    text: payload.message || '',
+                    confirmButtonText: 'Entendido'
+                });
+            });
+        }
     });
 </script>

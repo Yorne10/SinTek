@@ -70,18 +70,16 @@
         <div class="table-responsive">
             <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
                 <colgroup>
-                    <col style="width: 30%">
-                    <col style="width: 22%">
-                    <col style="width: 16%">
-                    <col style="width: 20%">
-                    <col style="width: 12%">
+                    <col style="width: 34%">
+                    <col style="width: 24%">
+                    <col style="width: 18%">
+                    <col style="width: 24%">
                 </colgroup>
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Periodo</th>
                         <th class="border-0">Estado</th>
-                        <th class="border-0">Documentos</th>
                         <th class="border-0 rounded-end">Acciones</th>
                     </tr>
                 </thead>
@@ -116,26 +114,6 @@
                                 @endif
                             </td>
                             <td>
-                                @if($convocation->documents->count() > 0)
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Documentos ({{ $convocation->documents->count() }})
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-start">
-                                            @foreach($convocation->documents as $doc)
-                                                <a class="dropdown-item d-flex align-items-center"
-                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_document_id) }}">
-                                                    @icon('download', 'dropdown-icon text-gray-400 me-2')
-                                                    <span class="small">{{ Str::limit($doc->title, 40) }}</span>
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @else
-                                    <span class="small text-gray-500">Sin documentos</span>
-                                @endif
-                            </td>
-                            <td>
                                 <div class="btn-group">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -153,6 +131,19 @@
                                             @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver detalles
                                         </button>
+                                        @if($convocation->documents->count() > 0)
+                                            <div class="dropdown-divider"></div>
+                                            <h6 class="dropdown-header">Documentos</h6>
+                                            @foreach($convocation->documents as $doc)
+                                                <a class="dropdown-item d-flex align-items-center"
+                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}">
+                                                    @icon('download', 'dropdown-icon text-gray-400 me-2')
+                                                    <span class="small">{{ Str::limit($doc->file_name ?? 'Documento', 40) }}</span>
+                                                </a>
+                                            @endforeach
+                                        @else
+                                            <span class="dropdown-item small text-gray-500">Sin documentos</span>
+                                        @endif
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.edit', $convocation->convocation_id) }}">
                                             @icon('edit', 'dropdown-icon text-gray-400 me-2')

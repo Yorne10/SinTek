@@ -26,36 +26,37 @@
                     <li class="breadcrumb-item active" aria-current="page">Preguntas frecuentes</li>
                 </ol>
             </nav>
-            <h2 class="h4">Preguntas frecuentes (FAQ)</h2>
-            <p class="mb-0">Encuentra respuestas a las preguntas m&aacute;s comunes sobre el sistema y tr&aacute;mites</p>
+            <h2 class="h4">Preguntas frecuentes</h2>
+            <p class="mb-0">Encuentra respuestas a las preguntas m&aacute;s comunes sobre el sistema y tr&aacute;mites.</p>
         </div>
     </div>
 
     {{-- Search and Filter --}}
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </span>
-                                <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Buscar en preguntas frecuentes...">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <select wire:model.live="selectedCategoryId" class="form-select">
-                                <option value="">Todas las categor&iacute;as</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->faq_category_id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+    <div class="card border-0 shadow mb-4">
+        <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center gap-3">
+                <div class="input-group fmxw-300">
+                    <span class="input-group-text">
+                        <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                    <input type="text" wire:model.live.debounce.300ms="search" class="form-control" placeholder="Buscar preguntas">
+                </div>
+                <div class="d-flex flex-nowrap align-items-center gap-2">
+                    <span class="small text-gray-600">Filtrar por categor&iacute;a:</span>
+                    <select wire:model.live="selectedCategoryId" class="form-select" style="min-width: 200px;">
+                        <option value="">Todas</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->faq_category_id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="ms-auto">
+                    <button type="button" wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                        @icon('refresh', 'me-2 text-white')
+                        Limpiar filtros
+                    </button>
                 </div>
             </div>
         </div>

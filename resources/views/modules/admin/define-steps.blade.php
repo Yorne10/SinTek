@@ -33,8 +33,15 @@ Approved by: Alfonso Angel Garcia Hernandez
             <h2 class="h4">Definir pasos de proceso</h2>
             <p class="mb-0">Configura el flujo de trabajo y los pasos que componen el proceso.</p>
         </div>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step') }}"
+        <div class="btn-toolbar mb-2 mb-md-0 gap-2">
+            @if($selectedProcessId)
+                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.configure-flow', ['process_id' => $selectedProcessId]) }}"
+                    class="btn btn-sm btn-secondary d-inline-flex align-items-center">
+                    @icon('settings', 'me-2')
+                    Configurar flujo
+                </a>
+            @endif
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step', ['process_id' => $selectedProcessId]) }}"
                 class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('add', 'me-2')
                 Agregar paso
@@ -98,7 +105,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                             <th class="border-bottom" style="width: 70px;">Orden</th>
                                             <th class="border-bottom">Paso</th>
                                             <th class="border-bottom">Tipo</th>
-                                            <th class="border-bottom">Responsable</th>
+                                            <th class="border-bottom">Estado</th>
                                             <th class="border-bottom">Docs. Requeridos</th>
                                             <th class="border-bottom" style="width: 120px;">Acciones</th>
                                         </tr>
@@ -107,42 +114,47 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         @foreach($steps as $step)
                                             <tr>
                                                 <td>
-                                                    @if($step->condition_type === 'final')
+                                                    @if($step->step_type === 'final')
                                                         <div class="d-flex align-items-center justify-content-center">
                                                             @icon('success', 'text-success')
                                                         </div>
                                                     @else
                                                         <div class="d-flex align-items-center justify-content-center">
                                                             <span class="badge rounded-circle bg-primary"
-                                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">{{ $step->order }}</span>
+                                                                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">{{ $step->order ?? '-' }}</span>
                                                         </div>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     <div class="d-block">
                                                         <span class="fw-bold">{{ $step->title }}</span>
-                                                        @if($step->description)
-                                                            <div class="small text-gray">{{ Str::limit($step->description, 60) }}
+                                                        @if($step->instruction)
+                                                            <div class="small text-gray">{{ Str::limit($step->instruction, 60) }}
                                                             </div>
                                                         @endif
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    @if($step->condition_type === 'form')
-                                                        <span class="fw-bold text-info">Formulario</span>
-                                                    @elseif($step->condition_type === 'approval')
-                                                        <span class="fw-bold text-warning">Aprobación</span>
-                                                    @elseif($step->condition_type === 'upload')
-                                                        <span class="fw-bold text-secondary">Carga de archivos</span>
-                                                    @elseif($step->condition_type === 'final')
-                                                        <span class="fw-bold text-success">Final</span>
+                                                    @if($step->step_type === 'form')
+                                                        <span class="badge bg-info">📝 Formulario</span>
+                                                    @elseif($step->step_type === 'approval')
+                                                        <span class="badge bg-warning text-dark">✓✗ Aprobación</span>
+                                                    @elseif($step->step_type === 'file_upload')
+                                                        <span class="badge bg-secondary">📎 Carga archivos</span>
+                                                    @elseif($step->step_type === 'final')
+                                                        <span class="badge bg-success">🏁 Final</span>
                                                     @else
-                                                        <span
-                                                            class="fw-bold text-gray-600">{{ ucfirst($step->condition_type) }}</span>
+                                                        <span class="badge bg-light text-dark">{{ ucfirst($step->step_type) }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <span class="small text-gray-700">{{ $step->responsible ?? '' }}</span>
+                                                    @if($step->is_initial_step)
+                                                        <span class="badge bg-primary">Paso inicial</span>
+                                                    @elseif($step->is_linked)
+                                                        <span class="badge bg-success">Vinculado</span>
+                                                    @else
+                                                        <span class="badge bg-warning text-dark">Sin vincular</span>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     @if($step->requiredDocuments->count() > 0)

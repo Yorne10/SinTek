@@ -72,7 +72,6 @@
                         <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Periodo</th>
                         <th class="border-0">Estado</th>
-                        <th class="border-0">Documentos</th>
                         <th class="border-0 rounded-end">Acciones</th>
                     </tr>
                 </thead>
@@ -111,13 +110,6 @@
                                 @endif
                             </td>
                             <td>
-                                @if($convocatoria->documents->count() > 0)
-                                    <span class="small text-gray-700">{{ $convocatoria->documents->count() }} documentos</span>
-                                @else
-                                    <span class="small text-gray-500">Sin documentos</span>
-                                @endif
-                            </td>
-                            <td>
                                 <div class="btn-group">
                                     <button
                                         class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
@@ -141,6 +133,19 @@
                                             @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver detalles
                                         </button>
+                                        @if($convocatoria->documents->count() > 0)
+                                            <div class="dropdown-divider"></div>
+                                            <h6 class="dropdown-header">Documentos</h6>
+                                            @foreach($convocatoria->documents as $doc)
+                                                <a class="dropdown-item d-flex align-items-center"
+                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}">
+                                                    @icon('download', 'dropdown-icon text-gray-400 me-2')
+                                                    <span class="small">{{ Str::limit($doc->file_name ?? 'Documento', 40) }}</span>
+                                                </a>
+                                            @endforeach
+                                        @else
+                                            <span class="dropdown-item small text-gray-500">Sin documentos</span>
+                                        @endif
                                     </div>
                                 </div>
                             </td>

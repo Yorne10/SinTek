@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -16,11 +17,13 @@ return new class extends Migration
             $table->foreignId('convocation_id')->constrained('convocations', 'convocation_id')->onDelete('cascade');
             $table->string('file_name');
             $table->string('mime_type');
-            $table->longText('file_content');
             $table->timestamp('created_at')->useCurrent();
 
             $table->index('convocation_id');
         });
+
+        // Agregar columna LONGBLOB después de crear la tabla
+        DB::statement('ALTER TABLE convocation_docs ADD file_content LONGBLOB AFTER mime_type');
     }
 
     /**

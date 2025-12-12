@@ -192,6 +192,23 @@ class Profile extends Component
         );
     }
 
+    public function removeBudgetKey($positionId): void
+    {
+        if (!$this->worker) {
+            return;
+        }
+
+        $this->worker->positions()->detach($positionId);
+        $this->worker = $this->worker->fresh(['positions']);
+
+        $this->dispatch(
+            'profile-notify',
+            type: 'success',
+            title: 'Clave eliminada',
+            message: 'Se eliminó la clave presupuestal de tu perfil.'
+        );
+    }
+
     public function render()
     {
         return view('modules.profile')->layout('layouts.app');

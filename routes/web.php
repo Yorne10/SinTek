@@ -40,6 +40,7 @@ use App\Livewire\Admin\Settings;
 use App\Livewire\Admin\CreateProcess;
 use App\Livewire\Admin\CreateStep;
 use App\Livewire\Admin\DefineSteps;
+use App\Livewire\Admin\ConfigureFlow;
 use App\Livewire\Admin\EditProcess;
 use App\Livewire\Secretary\ValidateSteps;
 use App\Livewire\Secretary\SearchWorkers;
@@ -180,6 +181,7 @@ Route::prefix("p/{$slug}")
             Route::middleware(['role:admin,secretary'])->group(function () {
                 Route::get('/create-process', CreateProcess::class)->name('admin.create-process');
                 Route::get('/define-steps/{process_id?}', DefineSteps::class)->name('admin.define-steps');
+                Route::get('/configure-flow/{process_id}', ConfigureFlow::class)->name('admin.configure-flow');
                 Route::get('/create-step', CreateStep::class)->name('admin.create-step');
                 Route::get('/modify-process/{process_id?}', EditProcess::class)->name('admin.modify-process');
                 Route::get('/manage-procedures', ProcedureManagement::class)->name('admin.manage-procedures');

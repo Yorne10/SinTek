@@ -124,7 +124,7 @@ Changelog:
                                             <option value="">Seleccionar tipo...</option>
                                             <option value="form">Formulario</option>
                                             <option value="approval">Aprobación</option>
-                                            <option value="upload">Carga de archivos</option>
+                                            <option value="file_upload">Carga de archivos</option>
                                             <option value="final">Final</option>
                                         </select>
                                         @error('step_type') <span class="text-danger small">{{ $message }}</span>

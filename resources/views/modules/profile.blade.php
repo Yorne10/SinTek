@@ -1,4 +1,4 @@
-{{--
+{{-- 
 Company: CETAM
 Project: ST
 File: profile.blade.php
@@ -121,141 +121,8 @@ Approved by: Alfonso Angel Garcia Hernandez
             @if($user->role === 'worker')
                 <div class="card card-body border-0 shadow mb-4">
                     <h2 class="h5 mb-4">Claves presupuestales (plazas)</h2>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="budgetKey" class="form-label">Clave presupuestal <span
-                                    class="text-danger">*</span></label>
-                            <select wire:model="budgetKey" id="budgetKey"
-                                class="form-select @error('budgetKey') is-invalid @enderror">
-                                <option value="">Selecciona una clave</option>
-                                @foreach($availablePositions as $positionOption)
-                                    <option value="{{ $positionOption['positions_id'] }}">
-                                        {{ $positionOption['budget_key'] }}{{ $positionOption['position_name'] ? ' - ' . $positionOption['position_name'] : '' }}
-{{--
-Company: CETAM
-Project: ST
-File: profile.blade.php
-Created on: 20/11/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
---}}
-
-{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
-
-<div>
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div class="d-block mb-4 mb-md-0">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('home', 'fa-xs')
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Mi perfil</li>
-                </ol>
-            </nav>
-            <h2 class="h4">Mi perfil</h2>
-            <p class="mb-0">Gestiona tu información personal y mantén tus datos actualizados.</p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-xl-8">
-            <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Información general</h2>
-                <form id="profileForm" action="#" method="POST">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label for="name">Nombre completo <span class="text-danger">*</span></label>
-                                <input wire:model="name" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" type="text" placeholder="Nombre completo" disabled>
-                                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <small class="form-text text-muted">El nombre no es editable</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label for="email">Correo electrónico <span class="text-danger">*</span></label>
-                                <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" type="email" placeholder="correo@institucion.com" required>
-                                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    @if($user->role === 'worker')
-                        <h2 class="h5 my-4">Información personal del trabajador</h2>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="sex">Sexo</label>
-                                    <select wire:model="sex" class="form-select @error('sex') is-invalid @enderror" id="sex"
-                                        disabled>
-                                        <option value="">No especificado</option>
-                                        <option value="M">Masculino</option>
-                                        <option value="F">Femenino</option>
-                                    </select>
-                                    @error('sex') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    <small class="form-text text-muted">El sexo no es editable</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="curp">CURP</label>
-                                    <input wire:model="curp" class="form-control @error('curp') is-invalid @enderror"
-                                        id="curp" type="text" placeholder="CURP de 18 caracteres">
-                                    @error('curp') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="rfc">RFC</label>
-                                    <input wire:model="rfc" class="form-control @error('rfc') is-invalid @enderror" id="rfc"
-                                        type="text" placeholder="RFC con homoclave">
-                                    @error('rfc') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="phone">Teléfono</label>
-                                    <input wire:model="phone" class="form-control @error('phone') is-invalid @enderror"
-                                        id="phone" type="text" placeholder="Número de teléfono">
-                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="address">Dirección</label>
-                                    <textarea wire:model="address"
-                                        class="form-control @error('address') is-invalid @enderror" id="address" rows="3"
-                                        placeholder="Dirección completa"></textarea>
-                                    @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="mt-3">
-                        <button type="button" id="saveProfileBtn" class="btn btn-primary mt-2 animate-up-2">
-                            @icon('save', 'fa-xs text-white me-2')
-                            Guardar cambios
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            @if($user->role === 'worker')
-                <div class="card card-body border-0 shadow mb-4">
-                    <h2 class="h5 mb-4">Claves presupuestales (plazas)</h2>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
+                    <div class="row align-items-end g-3">
+                        <div class="col-md-8">
                             <label for="budgetKey" class="form-label">Clave presupuestal <span
                                     class="text-danger">*</span></label>
                             <select wire:model="budgetKey" id="budgetKey"
@@ -269,16 +136,16 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </select>
                             @error('budgetKey') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <button type="button" class="btn btn-primary" wire:click="addBudgetKey"
-                            wire:loading.attr="disabled" wire:target="addBudgetKey">
-                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                                wire:loading wire:target="addBudgetKey"></span>
-                            <span wire:loading.remove wire:target="addBudgetKey">@icon('add', 'me-2')</span>
-                            Agregar clave
-                        </button>
-                        <span class="text-gray-600 small ms-3">Agrega tus plazas para que queden ligadas a tu perfil.</span>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
+                                wire:click="addBudgetKey"
+                                wire:loading.attr="disabled" wire:target="addBudgetKey">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
+                                    wire:loading wire:target="addBudgetKey"></span>
+                                <span wire:loading.remove wire:target="addBudgetKey">@icon('add', 'me-2') Agregar clave</span>
+                                <span wire:loading wire:target="addBudgetKey">Agregando...</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="mt-4">
@@ -303,12 +170,22 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                     <span class="fw-normal">{{ $position->position_name ?? 'Sin nombre' }}</span>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-sm btn-danger"
-                                                        wire:click="removeBudgetKey({{ $position->positions_id }})"
-                                                        wire:loading.attr="disabled"
-                                                        wire:confirm="¿Estás seguro de eliminar esta clave presupuestal?">
-                                                        @icon('delete', 'icon-xs')
-                                                    </button>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            @icon('menu', 'icon icon-xs')
+                                                        </button>
+                                                        <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
+                                                            <button type="button"
+                                                                class="dropdown-item text-danger d-flex align-items-center"
+                                                                wire:click="removeBudgetKey({{ $position->positions_id }})"
+                                                                wire:loading.attr="disabled"
+                                                                onclick="confirm('¿Estás seguro de eliminar esta clave presupuestal?') || event.stopImmediatePropagation();">
+                                                                @icon('delete', 'dropdown-icon text-danger me-2')
+                                                                Eliminar clave
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
