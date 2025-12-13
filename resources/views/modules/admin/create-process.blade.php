@@ -45,14 +45,7 @@ Changelog:
                 <div class="card card-body shadow border-0 mb-4">
                     <h2 class="h5 mb-4">Información del proceso</h2>
 
-                    @if ($successMessage)
-                        <div class="alert alert-success d-flex align-items-center" role="alert">
-                            <span class="fa-xs text-success me-2 fas fa-check-circle"></span>
-                            <div>{{ $successMessage }}</div>
-                        </div>
-                    @endif
-
-                    <form wire:submit.prevent="save">
+                    <form wire:submit.prevent="save" id="createProcessForm">
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="process_name">Nombre del proceso <span class="text-danger">*</span></label>
@@ -108,12 +101,12 @@ Changelog:
                         </div>
                         <div class="row align-items-center mt-4">
                             <div class="col">
-                                <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">
+                                <button class="btn btn-gray-800 mt-2 animate-up-2" type="button" id="saveProcessBtn">
                                     @icon('save', 'me-2')
                                     Guardar proceso
                                 </button>
-                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.manage-procedures') }}"
-                                    class="btn btn-link text-gray-700 ms-2">Cancelar</a>
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}"
+                                    class="btn btn-gray-300 mt-2 animate-up-2">Cancelar</a>
                             </div>
                         </div>
                     </form>
@@ -167,3 +160,47 @@ Changelog:
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-gray'
+                },
+                buttonsStyling: false
+            });
+
+            // Confirmación antes de guardar
+            document.getElementById('saveProcessBtn')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                swalWithBootstrapButtons.fire({
+                    title: '¿Crear proceso?',
+                    text: '¿Deseas crear este nuevo proceso?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, crear',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('save');
+                    }
+                });
+            });
+
+            // Escuchar evento de proceso guardado
+            Livewire.on('process-saved', (data) => {
+                swalWithBootstrapButtons.fire({
+                    title: data.title || 'Éxito',
+                    text: data.message || 'Operación completada.',
+                    icon: 'success',
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }
+                });
+            });
+        });
+    </script>

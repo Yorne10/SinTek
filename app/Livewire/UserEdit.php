@@ -109,8 +109,8 @@ class UserEdit extends Component
                 );
             }
 
-            session()->flash('success', 'Usuario actualizado correctamente');
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.users.index');
+            // Disparar evento para mostrar success alert
+            $this->dispatch('user-updated');
         } catch (\Throwable $th) {
             session()->flash('error', 'No se pudo actualizar el usuario. Intenta de nuevo.');
         }

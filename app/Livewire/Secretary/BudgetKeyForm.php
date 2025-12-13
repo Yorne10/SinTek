@@ -70,6 +70,10 @@ class BudgetKeyForm extends Component
                 $user?->users_id
             );
             $successMessage = 'Clave presupuestal actualizada correctamente.';
+
+            // Redirigir solo si es edición
+            $redirect = route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
+            $this->dispatch('budget-key-saved', message: $successMessage, redirect: $redirect);
         } else {
             ActivityLogger::log(
                 'clave.crear',
@@ -77,10 +81,13 @@ class BudgetKeyForm extends Component
                 $user?->users_id
             );
             $successMessage = 'Clave presupuestal creada correctamente.';
-        }
 
-        $redirect = route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
-        $this->dispatch('budget-key-saved', message: $successMessage, redirect: $redirect);
+            // Limpiar formulario y quedarse en la página
+            $this->reset(['budget_key', 'position_name']);
+
+            // Mostrar alerta sin redirect
+            $this->dispatch('budget-key-saved', message: $successMessage, redirect: null);
+        }
     }
 
     public function cancel()
@@ -109,10 +116,9 @@ class BudgetKeyForm extends Component
                 $user?->users_id
             );
 
-            session()->flash('success', 'Clave presupuestal eliminada correctamente.');
+            $redirect = route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
+            $this->dispatch('budget-key-saved', message: 'Clave presupuestal eliminada correctamente.', redirect: $redirect);
         }
-
-        return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
     }
 
     public function render()

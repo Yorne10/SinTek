@@ -63,16 +63,9 @@ Validado por: Alfonso Angel Garcia Hernandez
                                 @enderror
                             </div>
                             <!-- End of Form -->
-                            <div class="d-flex justify-content-between align-items-top mb-4">
-                                <div class="form-check">
-                                    <input wire:model="remember_me" class="form-check-input" type="checkbox"
-                                        id="remember">
-                                    <label class="form-check-label mb-0" for="remember">
-                                        Recuérdame
-                                    </label>
-                                </div>
-                                <div><a href="{{ route(config('proj.route_name_prefix', 'proj') . '.auth.forgot-password') }}"
-                                        class="small text-right">¿Olvidaste tu contraseña?</a></div>
+                            <div class="d-flex justify-content-end mb-4">
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.auth.forgot-password') }}"
+                                    class="small">¿Olvidaste tu contraseña?</a>
                             </div>
                         </div>
                         <div class="d-grid">

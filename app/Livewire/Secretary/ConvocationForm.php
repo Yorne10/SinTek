@@ -43,13 +43,20 @@ class ConvocationForm extends Component
         }
     }
 
+    public function updatedConvocatoriaPermanente($value)
+    {
+        if ($value) {
+            $this->fecha_fin = null;
+        }
+    }
+
     protected function rules()
     {
         return [
             'titulo' => 'required|string|max:150',
             'descripcion' => 'required|string',
             'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'fecha_fin' => $this->convocatoria_permanente ? 'nullable|date|after_or_equal:fecha_inicio' : 'required|date|after_or_equal:fecha_inicio',
             'documentos.*.titulo' => 'required_with:documentos.*.archivo|string|max:150',
             'documentos.*.archivo' => 'required_with:documentos.*.titulo|file|mimes:pdf|max:5120',
         ];
@@ -59,6 +66,7 @@ class ConvocationForm extends Component
         'titulo.required' => 'El título es obligatorio.',
         'descripcion.required' => 'La descripción es obligatoria.',
         'fecha_inicio.required' => 'La fecha de inicio es obligatoria.',
+        'fecha_fin.required' => 'La fecha de fin es obligatoria o marca "Convocatoria permanente".',
         'fecha_fin.after_or_equal' => 'La fecha de fin debe ser igual o posterior a la fecha de inicio.',
         'documentos.*.titulo.required_with' => 'El título del documento es obligatorio.',
         'documentos.*.archivo.required_with' => 'Debe seleccionar un archivo PDF.',
@@ -186,9 +194,28 @@ class ConvocationForm extends Component
                     }
                 }
             }
+            $isNew = !$this->convocationId;
 
-            session()->flash('success', $message);
-            redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.calls');
+            if ($isNew) {
+                // Limpiar formulario después de crear
+                $this->reset(['titulo', 'descripcion', 'fecha_inicio', 'fecha_fin', 'convocatoria_permanente', 'documentos']);
+
+                $this->dispatch(
+                    'convocation-saved',
+                    type: 'success',
+                    title: 'Convocatoria publicada',
+                    message: $message,
+                    redirect: null
+                );
+            } else {
+                $this->dispatch(
+                    'convocation-saved',
+                    type: 'success',
+                    title: 'Convocatoria actualizada',
+                    message: $message,
+                    redirect: route(config('proj.route_name_prefix', 'proj') . '.secretary.calls')
+                );
+            }
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Error de validación en convocatoria', [
@@ -201,6 +228,46 @@ class ConvocationForm extends Component
                 'trace' => $e->getTraceAsString()
             ]);
             session()->flash('error', 'Ocurrió un error al guardar la convocatoria: ' . $e->getMessage());
+        }
+    }
+
+    public function delete(): void
+    {
+        if (!$this->convocationId) {
+            return;
+        }
+
+        try {
+            $convocation = Convocation::findOrFail($this->convocationId);
+            $title = $convocation->title;
+
+            // Delete associated documents first
+            $convocation->documents()->delete();
+            $convocation->delete();
+
+            $user = Auth::user();
+            ActivityLogger::log(
+                'convocatoria.eliminar',
+                "Convocatoria eliminada: '{$title}'",
+                $user?->users_id
+            );
+
+            $this->dispatch(
+                'convocation-deleted',
+                type: 'success',
+                title: 'Eliminada',
+                message: 'La convocatoria ha sido eliminada exitosamente.'
+            );
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar convocatoria', [
+                'error' => $e->getMessage()
+            ]);
+            $this->dispatch(
+                'convocation-error',
+                type: 'error',
+                title: 'Error',
+                message: 'No se pudo eliminar la convocatoria.'
+            );
         }
     }
 

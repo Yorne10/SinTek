@@ -102,7 +102,14 @@ class CreateProcess extends Component
             'active',
         ]);
         $this->active = true;
-        $this->successMessage = 'Proceso creado correctamente.';
+
+        $this->dispatch(
+            'process-saved',
+            type: 'success',
+            title: 'Proceso creado',
+            message: 'El proceso ha sido creado correctamente.',
+            redirect: route(config('proj.route_name_prefix', 'proj') . '.secretary.processes')
+        );
     }
 
     public function render()

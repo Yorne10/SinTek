@@ -73,18 +73,18 @@
                     </div>
                 </div>
 
-                {{-- Tramites list --}}
+                {{-- Trámites list --}}
                 <div class="row">
                     <div class="col-12">
                         <div class="card card-body shadow border-0 table-wrapper table-responsive">
                             
                             <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
                                 <colgroup>
-                                    <col style="width: 30%">
-                                    <col style="width: 18%">
+                                    <col style="width: 32%">
+                                    <col style="width: 20%">
                                     <col style="width: 16%">
-                                    <col style="width: 26%">
-                                    <col style="width: 10%">
+                                    <col style="width: 20%">
+                                    <col style="width: 12%; min-width: 72px;">
                                 </colgroup>
                                 <thead class="thead-light">
                                     <tr>
@@ -92,7 +92,7 @@
                                         <th class="border-0">Fecha inicio</th>
                                         <th class="border-0">Estado</th>
                                         <th class="border-0">Progreso</th>
-                                        <th class="border-0 rounded-end">Acciones</th>
+                                        <th class="border-0 rounded-end text-start">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -144,18 +144,13 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="btn-group">
+                                            <td class="text-start" style="width: 12%; min-width: 72px;">
+                                                <div class="btn-group position-static">
                                                     <button
                                                         class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                                         data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                        <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                                            </path>
-                                                        </svg>
+                                                        @icon('menu', 'icon icon-xs')
                                                     </button>
                                                     <div
                                                         class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
@@ -170,12 +165,11 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center py-4">
-                                                <div class="text-gray-500">
-                                                    <i class="fa-solid fa-clipboard-list fa-2x mb-3"></i>
-                                                    <p class="fw-bold">No hay trámites para mostrar</p>
-                                                    <p class="small">Comienza un nuevo trámite haciendo clic en "Nuevo
-                                                        trámite"</p>
+                                            <td colspan="5" class="py-5">
+                                                <div class="d-flex flex-column align-items-center justify-content-center text-gray-500">
+                                                    @icon('help', 'fa-2x mb-3 text-gray-400')
+                                                    <p class="fw-bold mb-1">No hay trámites para mostrar</p>
+                                                    <p class="small mb-0">Comienza un nuevo trámite haciendo clic en "Nuevo trámite"</p>
                                                 </div>
                                             </td>
                                         </tr>

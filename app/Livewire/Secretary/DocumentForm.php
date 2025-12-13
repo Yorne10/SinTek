@@ -26,10 +26,13 @@ class DocumentForm extends Component
     public $documentId;
     public $titulo;
     public $descripcion;
-    public $categoria = 'reglamento';
-    public $version = '1.0';
+    public $categoria;
+    public $version;
     public $fecha_vigencia;
+    public $sin_fecha_vigencia = false;
     public $archivo;
+    public $archivo_actual;
+    public $status = 'active';
 
     public function mount($id = null): void
     {
@@ -38,10 +41,25 @@ class DocumentForm extends Component
             $document = InstitutionalDocument::findOrFail($id);
             $this->titulo = $document->title;
             $this->descripcion = $document->description;
-            $this->categoria = $document->category ?? 'reglamento';
-            $this->version = $document->version ?? '1.0';
+            $this->categoria = $document->category;
+            $this->version = $document->version;
             $this->fecha_vigencia = $document->effective_date?->format('Y-m-d');
+            $this->sin_fecha_vigencia = !$document->effective_date;
+            $this->archivo_actual = $document->file_name;
+            $this->status = $document->status ?? 'active';
         }
+    }
+
+    public function updatedSinFechaVigencia($value)
+    {
+        if ($value) {
+            $this->fecha_vigencia = null;
+        }
+    }
+
+    public function toggleStatus()
+    {
+        $this->status = $this->status === 'active' ? 'inactive' : 'active';
     }
 
     protected function rules(): array
@@ -51,7 +69,7 @@ class DocumentForm extends Component
             'descripcion' => 'nullable|string|max:5000',
             'categoria' => 'required|string|in:reglamento,manual,lineamiento,codigo,otro',
             'version' => 'required|string|max:20',
-            'fecha_vigencia' => 'nullable|date',
+            'fecha_vigencia' => $this->sin_fecha_vigencia ? 'nullable|date' : 'required|date',
         ];
 
         // Si es nuevo documento, el archivo es obligatorio
@@ -73,6 +91,7 @@ class DocumentForm extends Component
         'categoria.in' => 'La categoría seleccionada no es válida',
         'version.required' => 'La versión es obligatoria',
         'version.max' => 'La versión no debe exceder los 20 caracteres',
+        'fecha_vigencia.required' => 'La fecha de vigencia es obligatoria o marca "Sin fecha de vigencia"',
         'fecha_vigencia.date' => 'La fecha de vigencia no es válida',
         'archivo.required' => 'Debes seleccionar un archivo PDF',
         'archivo.file' => 'El archivo seleccionado no es válido',
@@ -99,6 +118,7 @@ class DocumentForm extends Component
                 'category' => $this->categoria,
                 'version' => trim((string) $this->version),
                 'effective_date' => $this->fecha_vigencia ?: null,
+                'status' => $this->status,
             ];
 
             // Preparar archivo si existe
@@ -116,7 +136,8 @@ class DocumentForm extends Component
                     $data['file_content'] = file_get_contents($filePath);
                     $data['file_size'] = $file->getSize();
                     $data['mime_type'] = $file->getMimeType() ?? 'application/pdf';
-                    $data['file_name'] = $file->getClientOriginalName() ?: ('documento-' . Str::random(8) . '.pdf');
+                    // Usar el título del formulario como nombre del archivo
+                    $data['file_name'] = Str::slug($this->titulo) . '.pdf';
 
                     Log::info('Archivo procesado correctamente', [
                         'file_name' => $data['file_name'],
@@ -148,11 +169,23 @@ class DocumentForm extends Component
                     $user?->users_id
                 );
 
-                session()->flash('success', 'El documento ha sido guardado exitosamente.');
+                // Dispatch evento para mostrar alerta de éxito
+                $this->dispatch(
+                    'document-saved',
+                    type: 'success',
+                    title: 'Documento guardado',
+                    message: 'El documento ha sido guardado exitosamente.'
+                );
+
+                // Limpiar formulario después de crear
+                $this->reset(['titulo', 'descripcion', 'categoria', 'version', 'fecha_vigencia', 'sin_fecha_vigencia', 'archivo']);
+
+                // Dispatch evento para limpiar el input file
+                $this->dispatch('document-saved');
             } else {
                 $document = InstitutionalDocument::findOrFail($this->documentId);
 
-                $data['status'] = $document->status ?? 'active';
+                $data['status'] = $this->status;
                 $data['uploaded_by'] = $document->uploaded_by ?? $user?->users_id;
 
                 Log::info('Actualizando documento', ['id' => $this->documentId, 'data' => array_keys($data)]);
@@ -165,10 +198,14 @@ class DocumentForm extends Component
                     $user?->users_id
                 );
 
-                session()->flash('success', 'El documento ha sido actualizado exitosamente.');
+                // Dispatch evento para mostrar alerta de éxito
+                $this->dispatch(
+                    'document-saved',
+                    type: 'success',
+                    title: 'Documento actualizado',
+                    message: 'El documento ha sido actualizado exitosamente.'
+                );
             }
-
-            redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.documents');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Error de validación', [
@@ -180,7 +217,50 @@ class DocumentForm extends Component
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            session()->flash('error', 'Error al guardar el documento: ' . $e->getMessage());
+            // Dispatch evento para mostrar alerta de error
+            $this->dispatch(
+                'document-error',
+                type: 'error',
+                title: 'Error',
+                message: 'Error al guardar el documento: ' . $e->getMessage()
+            );
+        }
+    }
+
+    public function delete(): void
+    {
+        if (!$this->documentId) {
+            return;
+        }
+
+        try {
+            $document = InstitutionalDocument::findOrFail($this->documentId);
+            $title = $document->title;
+            $document->delete();
+
+            $user = Auth::user();
+            ActivityLogger::log(
+                'documento.eliminar',
+                "Documento institucional eliminado: '{$title}'",
+                $user?->users_id
+            );
+
+            $this->dispatch(
+                'document-deleted',
+                type: 'success',
+                title: 'Eliminado',
+                message: 'El documento ha sido eliminado exitosamente.'
+            );
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar documento', [
+                'error' => $e->getMessage()
+            ]);
+            $this->dispatch(
+                'document-error',
+                type: 'error',
+                title: 'Error',
+                message: 'No se pudo eliminar el documento.'
+            );
         }
     }
 

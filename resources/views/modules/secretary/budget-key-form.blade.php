@@ -1,4 +1,4 @@
-{{-- 
+{{--
 Company: CETAM
 Project: ST
 File: budget-key-form.blade.php
@@ -29,56 +29,76 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </ol>
             </nav>
             <h2 class="h4">{{ $budget_key_id ? 'Editar' : 'Nueva' }} Clave Presupuestal</h2>
-            <p class="mb-0">{{ $budget_key_id ? 'Modifica los datos de la clave presupuestal' : 'Completa el formulario para crear una nueva clave presupuestal' }}</p>
+            <p class="mb-0">
+                {{ $budget_key_id ? 'Modifica los datos de la clave presupuestal' : 'Completa el formulario para crear una nueva clave presupuestal' }}
+            </p>
         </div>
-</div>
+    </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-primary me-2',
-                cancelButton: 'btn btn-gray'
-            },
-            buttonsStyling: false
-        });
-
-        // Confirmación antes de guardar
-        document.getElementById('saveKeyBtn')?.addEventListener('click', function (e) {
-            e.preventDefault();
-            const isEdit = {{ $budget_key_id ? 'true' : 'false' }};
-            swalWithBootstrapButtons.fire({
-                icon: 'question',
-                title: isEdit ? '¿Actualizar clave presupuestal?' : '¿Guardar clave presupuestal?',
-                text: isEdit ? '¿Deseas actualizar esta clave?' : '¿Deseas guardar esta nueva clave?',
-                showCancelButton: true,
-                confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('save');
-                }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-gray'
+                },
+                buttonsStyling: false
             });
-        });
 
-        // Mostrar alerta de éxito desde Livewire y redirigir
-        if (window.Livewire) {
-            Livewire.on('budget-key-saved', (detail = {}) => {
+            // Confirmación antes de guardar
+            document.getElementById('saveKeyBtn')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                const isEdit = {{ $budget_key_id ? 'true' : 'false' }};
                 swalWithBootstrapButtons.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: detail.message || 'Operación realizada correctamente.',
-                    confirmButtonText: 'Entendido'
-                }).then(() => {
-                    if (detail.redirect) {
-                        window.location.href = detail.redirect;
+                    icon: 'question',
+                    title: isEdit ? '¿Actualizar clave presupuestal?' : '¿Guardar clave presupuestal?',
+                    text: isEdit ? '¿Deseas actualizar esta clave?' : '¿Deseas guardar esta nueva clave?',
+                    showCancelButton: true,
+                    confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('save');
                     }
                 });
             });
-        }
-    });
-</script>
+
+            // Mostrar alerta de éxito desde Livewire y redirigir
+            if (window.Livewire) {
+                Livewire.on('budget-key-saved', (detail = {}) => {
+                    swalWithBootstrapButtons.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: detail.message || 'Operación realizada correctamente.',
+                        confirmButtonText: 'Entendido'
+                    }).then(() => {
+                        if (detail.redirect) {
+                            window.location.href = detail.redirect;
+                        }
+                    });
+                });
+            }
+
+            // Confirmación antes de eliminar
+            document.getElementById('deleteKeyBtn')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                swalWithBootstrapButtons.fire({
+                    icon: 'question',
+                    title: '¿Eliminar clave presupuestal?',
+                    text: '¿Estás seguro de eliminar esta clave? Esta acción no se puede deshacer.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('deleteKey');
+                    }
+                });
+            });
+        });
+    </script>
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
@@ -102,12 +122,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <label for="budget_key" class="form-label">
                                 Clave Presupuestal <span class="text-danger">*</span>
                             </label>
-                            <input type="text"
-                                class="form-control @error('budget_key') is-invalid @enderror"
-                                id="budget_key"
-                                wire:model="budget_key"
-                                placeholder="Clave presupuestal"
-                                required>
+                            <input type="text" class="form-control @error('budget_key') is-invalid @enderror"
+                                id="budget_key" wire:model="budget_key" placeholder="Clave presupuestal" required>
                             @error('budget_key')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -117,12 +133,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <label for="position_name" class="form-label">
                                 Nombre del Puesto <span class="text-danger">*</span>
                             </label>
-                            <input type="text"
-                                class="form-control @error('position_name') is-invalid @enderror"
-                                id="position_name"
-                                wire:model="position_name"
-                                placeholder="Nombre del puesto"
-                                required>
+                            <input type="text" class="form-control @error('position_name') is-invalid @enderror"
+                                id="position_name" wire:model="position_name" placeholder="Nombre del puesto" required>
                             @error('position_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -131,16 +143,15 @@ Approved by: Alfonso Angel Garcia Hernandez
 
                     <div class="mt-3 d-flex justify-content-between">
                         <div>
-                            <button type="button"
-                                id="saveKeyBtn"
-                                class="btn btn-primary mt-2 animate-up-2"
+                            <button type="button" id="saveKeyBtn" class="btn btn-primary mt-2 animate-up-2"
                                 wire:loading.attr="disabled">
                                 <span wire:loading.remove wire:target="save">
                                     @icon('save', 'fa-xs text-white me-2')
                                     {{ $budget_key_id ? 'Actualizar' : 'Guardar' }} Clave
                                 </span>
                                 <span wire:loading wire:target="save">
-                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"
+                                        aria-hidden="true"></span>
                                     Guardando...
                                 </span>
                             </button>
@@ -151,10 +162,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                         @if($budget_key_id)
                             <div>
-                                <button type="button"
-                                    class="btn btn-danger mt-2 animate-up-2"
-                                    wire:click="deleteKey"
-                                    onclick="confirm('¿Estás seguro de eliminar esta clave?') || event.stopImmediatePropagation()">
+                                <button type="button" id="deleteKeyBtn" class="btn btn-danger mt-2 animate-up-2">
                                     @icon('delete', 'fa-xs text-white me-2')
                                     Eliminar clave
                                 </button>
@@ -187,7 +195,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <div>
                                     <h3 class="h6">Nombre del puesto</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Será utilizado para identificar las plazas disponibles en el sistema de convocatorias.
+                                        Será utilizado para identificar las plazas disponibles en el sistema de
+                                        convocatorias.
                                     </p>
                                 </div>
                             </div>

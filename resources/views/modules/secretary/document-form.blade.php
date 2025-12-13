@@ -90,19 +90,21 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <label for="version" class="form-label">Versión <span class="text-danger">*</span></label>
                             <input wire:model="version" type="text"
                                 class="form-control @error('version') is-invalid @enderror" id="version"
-                                placeholder="1.0">
+                                placeholder="Ej: 1.0">
                             @error('version') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
-                        <div class="col-md-4 mb-3" x-data="{ sinFecha: false }">
-                            <label for="fecha_vigencia" class="form-label">Fecha de Vigencia</label>
+                        <div class="col-md-4 mb-3">
+                            <label for="fecha_vigencia" class="form-label">
+                                Fecha de Vigencia @if(!$sin_fecha_vigencia)<span class="text-danger">*</span>@endif
+                            </label>
                             <input wire:model="fecha_vigencia" type="date"
                                 class="form-control @error('fecha_vigencia') is-invalid @enderror" id="fecha_vigencia"
-                                :disabled="sinFecha">
+                                {{ $sin_fecha_vigencia ? 'disabled' : '' }}>
                             @error('fecha_vigencia') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" id="sin_fecha_vigencia"
-                                    @change="if($el.checked) { $wire.set('fecha_vigencia', null); sinFecha = true; } else { sinFecha = false; }">
+                                <input wire:model.live="sin_fecha_vigencia" class="form-check-input" type="checkbox"
+                                    id="sin_fecha_vigencia">
                                 <label class="form-check-label small" for="sin_fecha_vigencia">
                                     Sin fecha de vigencia
                                 </label>
@@ -110,12 +112,35 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                     </div>
 
+                    @if($documentId)
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="status">Estado</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" 
+                                        id="status"
+                                        {{ $status === 'active' ? 'checked' : '' }}
+                                        wire:click="toggleStatus">
+                                    <label class="form-check-label" for="status">
+                                        Documento activo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <h2 class="h5 my-4">Archivo del Documento</h2>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="archivo" class="form-label">
-                                Archivo PDF {{ $documentId ? '(opcional para mantener el actual)' : '*' }}
+                                Archivo PDF @if(!$documentId)<span class="text-danger">*</span>@else(opcional para
+                                mantener el actual)@endif
                             </label>
+                            @if($documentId && $archivo_actual)
+                                <div class="small text-secondary mb-2">
+                                    {{ $archivo_actual }}
+                                </div>
+                            @endif
                             <input wire:model="archivo" type="file"
                                 class="form-control @error('archivo') is-invalid @enderror" id="archivo" accept=".pdf"
                                 x-data
@@ -127,21 +152,28 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <span class="spinner-border spinner-border-sm me-1" role="status"></span>
                                 Cargando archivo...
                             </div>
-                            <small class="form-text text-muted d-block mt-1">
-                                Máximo 10MB. Espera a que termine de cargar antes de guardar.
-                            </small>
                         </div>
                     </div>
 
-                    <div class="mt-3 d-flex justify-content-start gap-2">
-                        <button type="button" id="saveDocBtn" class="btn btn-primary mt-2 animate-up-2">
-                            @icon('save', 'fa-xs text-white me-2')
-                            {{ $documentId ? 'Actualizar' : 'Guardar' }} Documento
-                        </button>
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}"
-                            class="btn btn-gray-300 mt-2 animate-up-2">
-                            Cancelar
-                        </a>
+                    <div class="mt-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-2">
+                            <button type="button" id="saveDocBtn" class="btn btn-primary mt-2 animate-up-2">
+                                @icon('save', 'fa-xs text-white me-2')
+                                {{ $documentId ? 'Actualizar' : 'Guardar' }} Documento
+                            </button>
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}"
+                                class="btn btn-gray-300 mt-2 animate-up-2">
+                                Cancelar
+                            </a>
+                        </div>
+                        @if($documentId)
+                            <div>
+                                <button type="button" id="deleteDocBtn" class="btn btn-danger mt-2 animate-up-2">
+                                    @icon('delete', 'fa-xs text-white me-2')
+                                    Eliminar documento
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -156,9 +188,9 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="d-flex align-items-start">
                                 @icon('file', 'fa-xs text-info me-3')
                                 <div>
-                                    <h3 class="h6">Formato de archivo</h3>
+                                    <h3 class="h6">Documento</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Solo PDF, máximo 10MB. En edición, deja vacío para conservar el archivo actual.
+                                        Sube el archivo Máximo 10 MB.
                                     </p>
                                 </div>
                             </div>
@@ -178,7 +210,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('notification', 'fa-xs text-info me-3')
+                                @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Versionado</h3>
                                     <p class="text-gray-700 small mb-0">
@@ -218,6 +250,35 @@ Approved by: Alfonso Angel Garcia Hernandez
             fileUploaded = true;
         });
 
+        // Escuchar evento de documento guardado para limpiar el input file y mostrar alerta
+        Livewire.on('document-saved', (data) => {
+            const fileInput = document.getElementById('archivo');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+            fileUploaded = false;
+
+            // Mostrar alerta de éxito con SweetAlert
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Éxito',
+                text: data.message || 'Operación completada exitosamente.',
+                icon: 'success',
+                confirmButtonText: 'Entendido'
+            }).then(() => {
+                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
+            });
+        });
+
+        // Escuchar evento de error
+        Livewire.on('document-error', (data) => {
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Error',
+                text: data.message || 'Ocurrió un error.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+
         // Confirmación antes de guardar
         document.getElementById('saveDocBtn')?.addEventListener('click', function (e) {
             e.preventDefault();
@@ -226,40 +287,19 @@ Approved by: Alfonso Angel Garcia Hernandez
             // Si el archivo se está cargando, mostrar mensaje de espera
             if (fileUploading) {
                 Swal.fire({
-                    title: 'Cargando archivo...',
-                    text: 'Por favor espera a que termine de cargar el archivo PDF',
-                    icon: 'info',
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-
-                        // Esperar a que termine de cargar
-                        const checkInterval = setInterval(() => {
-                            if (!fileUploading && fileUploaded) {
-                                clearInterval(checkInterval);
-                                Swal.close();
-                                // Mostrar confirmación después de que cargue
-                                showConfirmation();
-                            }
-                        }, 100);
-                    }
-                });
-                return;
-            }
-
-            // Si no hay archivo en creación, mostrar error
-            if (!isEdit && !fileUploaded) {
-                Swal.fire({
-                    title: 'Archivo requerido',
-                    text: 'Debes seleccionar un archivo PDF antes de guardar',
+                    title: 'Archivo en proceso',
+                    text: 'Por favor espera a que termine de cargar el archivo PDF antes de guardar.',
                     icon: 'warning',
-                    confirmButtonText: 'Entendido'
+                    confirmButtonText: 'Entendido',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
                 });
                 return;
             }
 
-            // Si todo está bien, mostrar confirmación
+            // Mostrar confirmación (Livewire manejará la validación del archivo)
             showConfirmation();
 
             function showConfirmation() {
@@ -277,6 +317,40 @@ Approved by: Alfonso Angel Garcia Hernandez
                     }
                 });
             }
+        });
+
+        // Confirmación antes de eliminar
+        document.getElementById('deleteDocBtn')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            swalWithBootstrapButtons.fire({
+                title: '¿Eliminar documento?',
+                text: 'Esta acción no se puede deshacer. El documento será eliminado permanentemente.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'btn btn-danger me-2',
+                    cancelButton: 'btn btn-gray'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('delete');
+                }
+            });
+        });
+
+        // Escuchar evento de documento eliminado
+        Livewire.on('document-deleted', (data) => {
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Eliminado',
+                text: data.message || 'El documento ha sido eliminado.',
+                icon: 'success',
+                confirmButtonText: 'Entendido'
+            }).then(() => {
+                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
+            });
         });
     });
 </script>

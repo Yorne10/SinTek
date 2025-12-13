@@ -1,12 +1,10 @@
 {{--
 * Company: CETAM
-{{--
-* Company: CETAM
 * Project: ST
 * File: convocation-form.blade.php
 * Created on: 01/12/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
+* Created by: Alfonso Angel Garcia Hernandez
+* Approved by: Alfonso Angel Garcia Hernandez
 --}}
 <div>
     {{-- Page Header --}}
@@ -94,11 +92,11 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="fecha_fin" class="form-label">Fecha de fin</label>
+                                <label for="fecha_fin" class="form-label">Fecha de fin
+                                    @if(!$convocatoria_permanente)<span class="text-danger">*</span>@endif</label>
                                 <input wire:model="fecha_fin" type="date"
                                     class="form-control @error('fecha_fin') is-invalid @enderror" id="fecha_fin"
-                                    :disabled="@js($convocatoria_permanente)">
-                                <small class="form-text text-muted">Dejar vacío si es permanente</small>
+                                    @if($convocatoria_permanente) disabled @endif>
                                 @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
@@ -119,15 +117,15 @@
                                             <div class="col-md-6">
                                                 <input type="file" wire:model="documentos.{{ $index }}.archivo"
                                                     class="form-control @error('documentos.' . $index . '.archivo') is-invalid @enderror"
-                                                    accept=".pdf"
-                                                    x-data
+                                                    accept=".pdf" x-data
                                                     x-on:livewire-upload-start="window.dispatchEvent(new CustomEvent('file-uploading'))"
                                                     x-on:livewire-upload-finish="window.dispatchEvent(new CustomEvent('file-uploaded'))"
                                                     x-on:livewire-upload-error="window.dispatchEvent(new CustomEvent('file-uploaded'))">
                                                 @error('documentos.' . $index . '.archivo') <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div> @enderror
-                                                <div wire:loading wire:target="documentos.{{ $index }}.archivo" class="text-primary small mt-1">
+                                                <div wire:loading wire:target="documentos.{{ $index }}.archivo"
+                                                    class="text-primary small mt-1">
                                                     <span class="spinner-border spinner-border-sm me-1" role="status"></span>
                                                     Cargando archivo...
                                                 </div>
@@ -140,23 +138,36 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <button type="button" wire:click="addDocumento"
-                                        class="btn btn-sm btn-outline-primary mt-2">
-                                        @icon('add', 'icon-xs me-1')
-                                        Agregar documento
-                                    </button>
+                                    <div class="mt-3">
+                                        <button type="button" wire:click="addDocumento"
+                                            class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                            @icon('add', 'icon-xs me-1')
+                                            Agregar documento
+                                        </button>
+                                    </div>
                                 </div>
                             @endif
 
-                            <div class="col-md-12 d-flex flex-wrap align-items-center gap-2 mt-3">
-                                <button type="submit" class="btn btn-primary" id="saveConvBtn">
-                                    @icon('save', 'icon-xs me-1')
-                                    {{ $convocationId ? 'Actualizar' : 'Guardar' }} convocatoria
-                                </button>
-                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
-                                    class="btn btn-gray-300">
-                                    Cancelar
-                                </a>
+                            <div
+                                class="col-md-12 d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary" id="saveConvBtn">
+                                        @icon('save', 'icon-xs me-1')
+                                        {{ $convocationId ? 'Actualizar' : 'Guardar' }} convocatoria
+                                    </button>
+                                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}"
+                                        class="btn btn-gray-300">
+                                        Cancelar
+                                    </a>
+                                </div>
+                                @if($convocationId)
+                                    <div>
+                                        <button type="button" id="deleteConvBtn" class="btn btn-danger">
+                                            @icon('delete', 'fa-xs text-white me-2')
+                                            Eliminar convocatoria
+                                        </button>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -184,12 +195,11 @@
                         </li>
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
-                                @icon('documentSign', 'fa-xs text-info me-3')
+                                @icon('file', 'fa-xs text-info me-3')
                                 <div>
-                                    <h3 class="h6">Documentación</h3>
+                                    <h3 class="h6">Documento</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Sube los archivos PDF necesarios para la convocatoria. Asegúrate de que no
-                                        superen los 5MB.
+                                        Sube los archivos PDF necesarios para la convocatoria. Máximo 10 MB.
                                     </p>
                                 </div>
                             </div>
@@ -273,6 +283,64 @@
                     }
                 });
             }
+        });
+
+        // Escuchar evento de convocatoria guardada
+        Livewire.on('convocation-saved', (data) => {
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Éxito',
+                text: data.message || 'Operación completada.',
+                icon: 'success',
+                confirmButtonText: 'Entendido'
+            }).then(() => {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            });
+        });
+
+        // Confirmación antes de eliminar
+        document.getElementById('deleteConvBtn')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            swalWithBootstrapButtons.fire({
+                title: '¿Eliminar convocatoria?',
+                text: 'Esta acción no se puede deshacer. La convocatoria y sus documentos serán eliminados permanentemente.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'btn btn-danger me-2',
+                    cancelButton: 'btn btn-gray'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('delete');
+                }
+            });
+        });
+
+        // Escuchar evento de convocatoria eliminada
+        Livewire.on('convocation-deleted', (data) => {
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Eliminada',
+                text: data.message || 'La convocatoria ha sido eliminada.',
+                icon: 'success',
+                confirmButtonText: 'Entendido'
+            }).then(() => {
+                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}";
+            });
+        });
+
+        // Escuchar evento de error
+        Livewire.on('convocation-error', (data) => {
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Error',
+                text: data.message || 'Ocurrió un error.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
         });
     });
 </script>

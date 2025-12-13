@@ -280,5 +280,16 @@ Approved by: Alfonso Angel Garcia Hernandez
                 }
             });
         });
+
+        // Listen for notification-sent event
+        Livewire.on('notification-sent', (event) => {
+            swalWithBootstrapButtons.fire({
+                title: event.title,
+                text: event.message,
+                icon: event.type,
+                confirmButtonText: 'Aceptar',
+                showConfirmButton: true
+            });
+        });
     });
 </script>

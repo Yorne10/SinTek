@@ -29,7 +29,7 @@
                 </ol>
             </nav>
             <h2 class="h4">Mis notificaciones</h2>
-            <p class="mb-0">Mensajes y avisos relacionados con tus trámites.</p>
+            <p class="mb-0">Mensajes y avisos relacionados con tus tr&aacute;mites.</p>
         </div>
     </div>
 
@@ -44,8 +44,8 @@
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
                 <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;">
                     <option value="all">Todas</option>
-                    <option value="unread">No leídas</option>
-                    <option value="read">Leídas</option>
+                    <option value="unread">No le&iacute;das</option>
+                    <option value="read">Le&iacute;das</option>
                 </select>
             </div>
             <div class="ms-auto">
@@ -58,60 +58,57 @@
         </div>
     </div>
 
-    <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table table-centered table-nowrap mb-0 rounded align-items-center">
+    <div class="card card-body shadow border-0 table-wrapper table-responsive overflow-visible">
+        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+            <colgroup>
+                <col style="width: 26%">
+                <col style="width: 34%">
+                <col style="width: 14%">
+                <col style="width: 14%">
+                <col style="width: 12%; min-width: 72px;">
+            </colgroup>
             <thead class="thead-light">
                 <tr>
-                    <th class="border-0 rounded-start">Título</th>
-                    <th class="border-0">Mensaje</th>
-                    <th class="border-0">Estado</th>
-                    <th class="border-0">Recibido</th>
-                    <th class="border-0 rounded-end">Acciones</th>
+                    <th class="border-0 rounded-start text-start">T&iacute;tulo</th>
+                    <th class="border-0 text-start">Mensaje</th>
+                    <th class="border-0 text-start">Estado</th>
+                    <th class="border-0 text-start">Recibido</th>
+                    <th class="border-0 rounded-end text-start">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($notifications as $notification)
                     <tr wire:key="notification-{{ $notification->notification_id }}">
-                        <td>
-                            <span class="fw-bold text-gray-900">{{ $notification->title ?? 'Sin título' }}</span>
+                        <td class="text-start">
+                            <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $notification->title ?? 'Sin t&iacute;tulo' }}</span>
                         </td>
-                        <td>
-                            <span class="fw-normal text-truncate d-inline-block" style="max-width: 400px;">
-                                {{ $notification->message }}
-                            </span>
+                        <td class="text-start">
+                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $notification->message }}</span>
                         </td>
-                        <td>
+                        <td class="text-start">
                             @if ($notification->read_at)
-                                <span class="fw-bold text-success">Leída</span>
+                                <span class="fw-bold text-success">Le&iacute;da</span>
                             @else
-                                <span class="fw-bold text-warning">No leída</span>
+                                <span class="fw-bold text-warning">No le&iacute;da</span>
                             @endif
                         </td>
-                        <td>
+                        <td class="text-start">
                             <span class="fw-normal">{{ optional($notification->created_at)->format('d/m/Y H:i') }}</span>
                         </td>
-                        <td>
+                        <td class="text-start" style="width: 12%; min-width: 72px;">
                             <div class="btn-group">
-                                <button
-                                    class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
-                                        </path>
-                                    </svg>
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+                                    @icon('menu', 'icon icon-xs')
                                 </button>
-                                <div
-                                    class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
                                     <button class="dropdown-item d-flex align-items-center view-notification-detail"
                                         type="button" data-notification-id="{{ $notification->notification_id }}"
-                                        data-notification-title="{{ $notification->title ?? 'Sin título' }}"
+                                        data-notification-title="{{ $notification->title ?? 'Sin t&iacute;tulo' }}"
                                         data-notification-message="{{ $notification->message }}"
                                         data-notification-process="{{ $notification->request->process->name ?? 'N/D' }}"
                                         data-notification-folio="{{ $notification->request_id ?? 'N/D' }}"
-                                        data-notification-status="{{ $notification->read_at ? 'Leída' : 'No leída' }}"
+                                        data-notification-status="{{ $notification->read_at ? 'Le&iacute;da' : 'No le&iacute;da' }}"
                                         data-notification-created="{{ optional($notification->created_at)->format('d/m/Y H:i') }}">
                                         @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
@@ -124,7 +121,7 @@
                                             <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
                                                 wire:loading wire:target="markAsRead"></span>
                                             @icon('success', 'dropdown-icon text-primary me-2')
-                                            Marcar como leída
+                                            Marcar como le&iacute;da
                                         </button>
                                     @endif
                                 </div>
@@ -133,13 +130,11 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center py-4">
-                            <div class="text-gray-500">
-                                <div class="mb-3">
-                                    @icon('notification', 'fa-2x')
-                                </div>
-                                <p class="fw-bold">No hay notificaciones para mostrar</p>
-                                <p class="small">Aquí aparecerán los mensajes relacionados con tus trámites</p>
+                        <td colspan="5" class="py-5">
+                            <div class="d-flex flex-column align-items-center justify-content-center text-gray-500">
+                                @icon('notification', 'fa-2x mb-3')
+                                <p class="fw-bold mb-1">No hay notificaciones para mostrar</p>
+                                <p class="small mb-0">Aqu&iacute; aparecer&aacute;n los mensajes relacionados con tus tr&aacute;mites</p>
                             </div>
                         </td>
                     </tr>
@@ -150,10 +145,10 @@
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
             @if($notifications->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                    {{ $notifications->links() }}
+                    {{ $notifications->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
             @endif
-            <div class="fw-normal small mt-0 mt-lg-0 ms-lg-auto">
+            <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
                 Mostrando <b>{{ $notifications->firstItem() ?? 0 }}</b> a
                 <b>{{ $notifications->lastItem() ?? 0 }}</b> de <b>{{ $notifications->total() }}</b> notificaciones
             </div>
@@ -184,17 +179,17 @@
 
                     const htmlContent = `
                         <div class="text-start">
-                            <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
+                            <p class="mb-2"><span class="fw-bold">T&iacute;tulo:</span> ${title}</p>
                             <p class="mb-2"><span class="fw-bold">Mensaje:</span> ${message}</p>
-                            <p class="mb-2"><span class="fw-bold">Trámite:</span> ${process}</p>
+                            <p class="mb-2"><span class="fw-bold">Tr&aacute;mite:</span> ${process}</p>
                             <p class="mb-2"><span class="fw-bold">Folio:</span> ${folio}</p>
-                            <p class="mb-2"><span class="fw-bold">Estado:</span> <span class="fw-bold ${status === 'Leída' ? 'text-success' : 'text-warning'}">${status}</span></p>
+                            <p class="mb-2"><span class="fw-bold">Estado:</span> <span class="fw-bold ${status === 'Le&iacute;da' ? 'text-success' : 'text-warning'}">${status}</span></p>
                             <p class="mb-0"><span class="fw-bold">Recibido:</span> ${created}</p>
                         </div>
                     `;
 
                     swalWithBootstrapButtons.fire({
-                        title: 'Detalles de la notificación',
+                        title: 'Detalles de la notificaci&oacute;n',
                         html: htmlContent,
                         icon: 'info',
                         confirmButtonText: 'Cerrar',

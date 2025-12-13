@@ -167,7 +167,7 @@
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
             @if($convocations->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                    {{ $convocations->links() }}
+                    {{ $convocations->links('components.pagination-users') }}
                 </nav>
             @endif
             <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">

@@ -20,7 +20,12 @@ class DocumentsIndex extends Component
 
     public function render()
     {
-        $query = InstitutionalDocument::query();
+        $query = InstitutionalDocument::query()
+            ->where('status', 'active')
+            ->where(function ($q) {
+                $q->whereNull('effective_date')
+                    ->orWhere('effective_date', '>=', now()->startOfDay());
+            });
 
         if ($this->search) {
             $query->where(function ($q) {
@@ -33,15 +38,9 @@ class DocumentsIndex extends Component
             $query->where('category', $this->categoryFilter);
         }
 
-        $documents = $query->orderByDesc('created_at')->get();
-
-        // Separate by category for display
-        $reglamentos = $documents->filter(fn($doc) => strtolower($doc->category) === 'reglamento');
-        $otrosDocumentos = $documents->filter(fn($doc) => strtolower($doc->category) !== 'reglamento');
+        $documents = $query->orderByDesc('created_at')->paginate(10);
 
         return view('modules.worker.documents-index', [
-            'reglamentos' => $reglamentos,
-            'manuales' => $otrosDocumentos,
             'documents' => $documents,
         ])->layout('layouts.app');
     }

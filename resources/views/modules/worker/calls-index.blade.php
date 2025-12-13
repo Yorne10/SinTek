@@ -22,7 +22,7 @@
                 </ol>
             </nav>
             <h2 class="h4">Convocatorias</h2>
-            <p class="mb-0">Accede a las convocatorias vigentes y próximas</p>
+            <p class="mb-0">Accede a las convocatorias vigentes y proximas</p>
         </div>
     </div>
 
@@ -31,15 +31,11 @@
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
                 <span class="input-group-text">
-                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"></path>
+                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                     </svg>
                 </span>
-                <input wire:model.live.debounce.300ms="search" type="text" class="form-control"
-                    placeholder="Buscar convocatorias">
+                <input wire:model.live.debounce.300ms="search" type="text" class="form-control" placeholder="Buscar convocatorias">
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
@@ -47,12 +43,11 @@
                     <option value="">Todos</option>
                     <option value="activa">Activa</option>
                     <option value="permanente">Permanente</option>
-                    <option value="proxima">Próxima</option>
+                    <option value="proxima">Proxima</option>
                 </select>
             </div>
             <div class="ms-auto">
-                <button wire:click="clearFilters" type="button"
-                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                <button wire:click="clearFilters" type="button" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
                     @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
@@ -74,7 +69,7 @@
                 $statusLabel = match($status) {
                     'activa' => 'Activa',
                     'permanente' => 'Permanente',
-                    'proxima' => 'Próxima',
+                    'proxima' => 'Proxima',
                     default => ucfirst($status)
                 };
                 $start = $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A';
@@ -83,10 +78,8 @@
             <div class="col-12">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h3 class="h6 mb-0 text-truncate">{{ $convocatoria->title }}</h3>
-                            <span class="fw-bold small {{ $statusClass }}">{{ $statusLabel }}</span>
-                        </div>
+                        <h3 class="h6 mb-1">{{ $convocatoria->title }}</h3>
+                        <span class="fw-bold small {{ $statusClass }} mb-2">{{ $statusLabel }}</span>
                         <p class="text-muted mb-3">{{ $convocatoria->description }}</p>
                         <div class="mb-3">
                             <div class="small text-gray-700 fw-bold">Periodo</div>
@@ -98,11 +91,9 @@
                                 <div class="row g-2">
                                     @foreach($convocatoria->documents as $doc)
                                         <div class="col-4">
-                                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}"
-                                               class="btn btn-tertiary btn-sm w-100 d-flex flex-column align-items-center text-center p-2"
-                                               style="min-height: 60px;">
-                                                @icon('download', 'mb-1')
-                                                <span class="small text-truncate w-100">{{ $doc->file_name ?? 'Documento' }}</span>
+                                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}" class="btn btn-outline-tertiary btn-sm w-100 d-flex align-items-center justify-content-start p-2">
+                                                @icon('download', 'me-2')
+                                                <span class="small text-truncate">{{ $doc->file_name ?? 'Documento' }}</span>
                                             </a>
                                         </div>
                                     @endforeach
@@ -120,7 +111,7 @@
                     <div class="card-body text-center py-5">
                         @icon('announcement', 'fa-2x mb-3 text-gray-500')
                         <p class="fw-bold mb-1">No hay convocatorias para mostrar</p>
-                        <p class="small text-gray-600 mb-0">Revisa más tarde, pronto habrá nuevas convocatorias.</p>
+                        <p class="small text-gray-600 mb-0">Revisa mas tarde, pronto habra nuevas convocatorias.</p>
                     </div>
                 </div>
             </div>
@@ -128,19 +119,13 @@
     </div>
 
     @if($convocatorias->hasPages())
-        <div class="d-flex justify-content-center mt-4">
-            <nav aria-label="Page navigation">
-                {{ $convocatorias->links() }}
+        <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between mt-4 gap-3">
+            <nav aria-label="Paginacion de convocatorias">
+                {{ $convocatorias->onEachSide(1)->links('components.pagination-users') }}
             </nav>
+            <div class="fw-normal small ms-lg-auto">
+                Mostrando <b>{{ $convocatorias->firstItem() ?? 0 }}</b> a <b>{{ $convocatorias->lastItem() ?? 0 }}</b> de <b>{{ $convocatorias->total() }}</b> convocatorias
+            </div>
         </div>
     @endif
 </div>
-
-
-
-
-
-
-
-
-

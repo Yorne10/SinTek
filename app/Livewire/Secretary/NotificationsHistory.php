@@ -21,7 +21,7 @@ class NotificationsHistory extends Component
     public $searchTitle = '';
     public $searchUser = '';
     public $statusFilter = '';
-    public $perPage = 8;
+    public $perPage = 10;
 
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['searchTitle', 'searchUser', 'statusFilter'];

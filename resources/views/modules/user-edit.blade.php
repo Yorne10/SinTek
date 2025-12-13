@@ -232,5 +232,18 @@ Approved by: Alfonso Angel Garcia Hernandez
                 }
             });
         });
+
+        // Listen for user-updated event
+        Livewire.on('user-updated', () => {
+            swalWithBootstrapButtons.fire({
+                title: '¡Éxito!',
+                text: 'Usuario actualizado correctamente',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                showConfirmButton: true
+            }).then((result) => {
+                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.users.index') }}";
+            });
+        });
     });
 </script>

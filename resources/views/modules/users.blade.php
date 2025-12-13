@@ -52,15 +52,13 @@
                                 <div class="d-flex flex-wrap gap-3 align-items-center">
                                     <div class="input-group fmxw-300">
                                         <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
-                                        <input wire:model.live.debounce.400ms="search" type="text"
-                                            class="form-control" placeholder="Buscar usuarios">
+                                        <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
+                                            placeholder="Buscar usuarios">
                                     </div>
                                     <div class="d-flex align-items-center text-nowrap">
                                         <span class="small text-gray-600 me-2">Filtrar por rol:</span>
-                                        <select wire:model.live="roleFilter"
-                                            class="form-select"
-                                            style="min-width: 200px;"
-                                            aria-label="Filtrar por rol">
+                                        <select wire:model.live="roleFilter" class="form-select"
+                                            style="min-width: 200px;" aria-label="Filtrar por rol">
                                             <option value="">Todos</option>
                                             <option value="admin">Administrador</option>
                                             <option value="secretary">Secretario</option>
@@ -70,15 +68,15 @@
                                     <div class="d-flex align-items-center text-nowrap">
                                         <span class="small text-gray-600 me-2">Filtrar por estado:</span>
                                         <select wire:model.live="statusFilter" class="form-select"
-                                            style="min-width: 140px;"
-                                            aria-label="Filtrar por estado">
+                                            style="min-width: 140px;" aria-label="Filtrar por estado">
                                             <option value="">Todos</option>
                                             <option value="active">Activo</option>
                                             <option value="inactive">Inactivo</option>
                                         </select>
                                     </div>
                                     <div class="ms-auto">
-                                        <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                        <button wire:click="clearFilters"
+                                            class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
                                             @icon('refresh', 'me-2 text-white')
                                             Limpiar filtros
                                         </button>
@@ -87,7 +85,9 @@
                             </div>
 
                             <div class="card card-body shadow border-0 table-wrapper table-responsive">
-                                <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+                                <table
+                                    class="table table-centered table-nowrap mb-0 rounded user-table align-items-center"
+                                    style="table-layout: fixed;">
                                     <colgroup>
                                         <col style="width: 22%">
                                         <col style="width: 22%">
@@ -110,9 +110,12 @@
                                         @forelse($users as $user)
                                             <tr>
                                                 <td>
-                                                    <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $user->name }}</span>
+                                                    <span
+                                                        class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $user->name }}</span>
                                                 </td>
-                                                <td><span class="fw-normal text-truncate d-inline-block w-100">{{ $user->email }}</span></td>
+                                                <td><span
+                                                        class="fw-normal text-truncate d-inline-block w-100">{{ $user->email }}</span>
+                                                </td>
                                                 <td>
                                                     <span
                                                         class="fw-normal text-dark">{{ $this->getRoleLabel($user->role) }}</span>
@@ -136,9 +139,9 @@
                                                         </button>
                                                         <div
                                                             class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                                            <button class="dropdown-item d-flex align-items-center view-user-detail"
-                                                                type="button"
-                                                                data-user-id="{{ $user->users_id }}"
+                                                            <button
+                                                                class="dropdown-item d-flex align-items-center view-user-detail"
+                                                                type="button" data-user-id="{{ $user->users_id }}"
                                                                 data-user-name="{{ $user->name }}"
                                                                 data-user-email="{{ $user->email }}"
                                                                 data-user-role="{{ $this->getRoleLabel($user->role) }}"
@@ -168,7 +171,7 @@
                                                                 <span class="spinner-border spinner-border-sm me-2"
                                                                     role="status" aria-hidden="true" wire:loading
                                                                     wire:target="toggleUserStatus"></span>
-                                                                @icon($user->is_active ? 'warning' : 'success', "dropdown-icon {{ $user->is_active ? 'text-warning' : 'text-success' }} me-2")
+                                                                @icon($user->is_active ? 'error' : 'success', "dropdown-icon " . ($user->is_active ? 'text-warning' : 'text-success') . " me-2")
                                                                 {{ $user->is_active ? 'Desactivar' : 'Activar' }}
                                                             </button>
                                                         </div>
@@ -190,7 +193,8 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                                <div
+                                    class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
                                     @if($users->hasPages())
                                         <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                                             {{ $users->onEachSide(1)->links('components.pagination-users') }}

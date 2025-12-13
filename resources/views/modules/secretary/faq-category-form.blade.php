@@ -1,4 +1,4 @@
-{{-- 
+{{--
 Company: CETAM
 Project: ST
 File: faq-category-form.blade.php
@@ -29,7 +29,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </ol>
             </nav>
             <h2 class="h4">{{ $categoryId ? 'Editar' : 'Nueva' }} Categoría</h2>
-            <p class="mb-0">{{ $categoryId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} categoría de preguntas frecuentes.</p>
+            <p class="mb-0">{{ $categoryId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} categoría de preguntas
+                frecuentes.</p>
         </div>
     </div>
 
@@ -42,7 +43,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <form wire:submit.prevent="save">
                         <div class="row">
                             <div class="col-md-8 mb-3">
-                                <label for="categoryName" class="form-label">Nombre de la categoría <span class="text-danger">*</span></label>
+                                <label for="categoryName" class="form-label">Nombre de la categoría <span
+                                        class="text-danger">*</span></label>
                                 <input wire:model="categoryName" type="text"
                                     class="form-control @error('categoryName') is-invalid @enderror" id="categoryName"
                                     placeholder="Ej: Trámites generales">
@@ -50,7 +52,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="categoryOrder" class="form-label">Orden de visualización <span class="text-danger">*</span></label>
+                                <label for="categoryOrder" class="form-label">Orden de visualización <span
+                                        class="text-danger">*</span></label>
                                 <input wire:model="categoryOrder" type="number"
                                     class="form-control @error('categoryOrder') is-invalid @enderror" id="categoryOrder"
                                     min="1" max="{{ $maxOrder }}" placeholder="1">
@@ -58,18 +61,22 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label for="categoryDescription" class="form-label">Descripción</label>
+                                <label for="categoryDescription" class="form-label">Descripción <span
+                                        class="text-danger">*</span></label>
                                 <textarea wire:model="categoryDescription"
-                                    class="form-control @error('categoryDescription') is-invalid @enderror" id="categoryDescription"
-                                    rows="3" placeholder="Descripción breve de la categoría..."></textarea>
-                                @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    class="form-control @error('categoryDescription') is-invalid @enderror"
+                                    id="categoryDescription" rows="3"
+                                    placeholder="Descripción breve de la categoría..."></textarea>
+                                @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
                                         <button type="button" class="btn btn-primary" id="saveCategoryBtn"
-                                            data-max="{{ $maxOrder }}" data-original="{{ $originalOrder ?? $categoryOrder }}">
+                                            data-max="{{ $maxOrder }}"
+                                            data-original="{{ $originalOrder ?? $categoryOrder }}">
                                             @icon('save', 'icon-xs me-1')
                                             {{ $categoryId ? 'Actualizar' : 'Guardar' }} categoría
                                         </button>
@@ -198,32 +205,10 @@ Approved by: Alfonso Angel Garcia Hernandez
 
             proceed();
         });
-
-        // Confirmation before delete
+        // Confirmation before delete - llama al backend que decide el flujo
         document.getElementById('deleteCategoryBtn')?.addEventListener('click', function (e) {
             e.preventDefault();
-
-            const swalWithDangerButton = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-danger me-2',
-                    cancelButton: 'btn btn-gray'
-                },
-                buttonsStyling: false
-            });
-
-            swalWithDangerButton.fire({
-                title: '¿Eliminar categoría?',
-                text: 'Solo se pueden eliminar categorías sin preguntas asociadas.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    @this.call('deleteCategory');
-                }
-            });
+            @this.call('deleteCategory');
         });
 
         // Listeners for alerts
@@ -235,6 +220,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                     title: payload.title || 'Éxito',
                     text: payload.message || '',
                     confirmButtonText: 'Entendido'
+                }).then(() => {
+                    if (payload.redirect) {
+                        window.location.href = payload.redirect;
+                    }
                 });
             });
 
@@ -245,6 +234,51 @@ Approved by: Alfonso Angel Garcia Hernandez
                     title: payload.title || 'Error',
                     text: payload.message || '',
                     confirmButtonText: 'Entendido'
+                });
+            });
+
+            Livewire.on('category-has-faqs', (detail) => {
+                const payload = Array.isArray(detail) ? detail[0] : detail || {};
+                const count = payload.count || 0;
+                
+                // Primero warning informativo
+                swalWithBootstrapButtons.fire({
+                    icon: 'warning',
+                    title: 'Atención',
+                    text: `Esta categoría tiene ${count} pregunta(s) frecuente(s) asociada(s) que también se eliminarán.`,
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    // Después question de confirmación
+                    swalWithBootstrapButtons.fire({
+                        icon: 'question',
+                        title: '¿Eliminar categoría?',
+                        text: '¿Estás seguro de eliminar esta categoría y sus preguntas frecuentes?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            @this.call('confirmDeleteWithFaqs');
+                        }
+                    });
+                });
+            });
+
+            // Para categorías SIN FAQs - solo question
+            Livewire.on('category-no-faqs', () => {
+                swalWithBootstrapButtons.fire({
+                    icon: 'question',
+                    title: '¿Eliminar categoría?',
+                    text: '¿Estás seguro de eliminar esta categoría? Esta acción no se puede deshacer.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('confirmDelete');
+                    }
                 });
             });
         }

@@ -27,6 +27,9 @@ class Faq extends Component
 
     public function render()
     {
+        // Get ALL categories for the filter dropdown (always show all)
+        $allCategories = FaqCategory::ordered()->get();
+
         // Get categories with their FAQs
         $categories = FaqCategory::when($this->selectedCategoryId, function ($query) {
                 $query->where('faq_category_id', $this->selectedCategoryId);
@@ -64,6 +67,7 @@ class Faq extends Component
         }
 
         return view('modules.faq', [
+            'allCategories' => $allCategories,
             'categories' => $categories,
             'faqs' => $faqs,
         ])->layout('layouts.app');

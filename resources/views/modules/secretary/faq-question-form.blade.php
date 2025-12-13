@@ -144,53 +144,54 @@
 </div>
 
 <script>
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.on('faq-saved', (event) => {
-            const detail = Array.isArray(event) ? event[0] : event;
-            Swal.fire({
-                icon: detail.type,
-                title: detail.title,
-                text: detail.message,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        });
-
-        Livewire.on('faq-error', (event) => {
-            const detail = Array.isArray(event) ? event[0] : event;
-            Swal.fire({
-                icon: detail.type,
-                title: detail.title,
-                text: detail.message,
-                showConfirmButton: true
-            });
-        });
-
-        Livewire.on('faq-deleted', (event) => {
-            const detail = Array.isArray(event) ? event[0] : event;
-            Swal.fire({
-                icon: detail.type,
-                title: detail.title,
-                text: detail.message,
-                showConfirmButton: false,
-                timer: 2000
-            });
-        });
-    });
-
     document.addEventListener('DOMContentLoaded', function () {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary me-2',
+                cancelButton: 'btn btn-gray'
+            },
+            buttonsStyling: false
+        });
+
+        // Listener para faq-saved (crear/editar/eliminar)
+        if (window.Livewire) {
+            Livewire.on('faq-saved', (event) => {
+                const detail = Array.isArray(event) ? event[0] : event;
+                swalWithBootstrapButtons.fire({
+                    icon: detail.type || 'success',
+                    title: detail.title || 'Éxito',
+                    text: detail.message || '',
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    if (detail.redirect) {
+                        window.location.href = detail.redirect;
+                    }
+                });
+            });
+
+            Livewire.on('faq-error', (event) => {
+                const detail = Array.isArray(event) ? event[0] : event;
+                swalWithBootstrapButtons.fire({
+                    icon: detail.type || 'error',
+                    title: detail.title || 'Error',
+                    text: detail.message || '',
+                    confirmButtonText: 'Entendido'
+                });
+            });
+        }
+
+        // Confirmación antes de eliminar
         const deleteFaqBtn = document.getElementById('deleteFaqBtn');
         if (deleteFaqBtn) {
             deleteFaqBtn.addEventListener('click', function () {
-                Swal.fire({
+                swalWithBootstrapButtons.fire({
                     title: '¿Eliminar pregunta?',
-                    text: "Esta acción no se puede revertir",
-                    icon: 'warning',
+                    text: '¿Estás seguro de eliminar esta pregunta? Esta acción no se puede deshacer.',
+                    icon: 'question',
                     showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
                     confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
                         @this.call('deleteFaq');
@@ -212,6 +213,8 @@
         });
 
         const saveBtn = document.getElementById('saveQuestionBtn');
+        const isEdit = {{ $faqId ? 'true' : 'false' }};
+        
         if (saveBtn) {
             saveBtn.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -219,8 +222,20 @@
                 const desired = parseInt(orderInput.value || '1', 10);
                 const max = parseInt(saveBtn.dataset.max || '1', 10);
 
-                const proceed = () => {
-                    @this.call('save');
+                const confirmAndSave = () => {
+                    swalMixin.fire({
+                        icon: 'question',
+                        title: isEdit ? '¿Actualizar pregunta?' : '¿Guardar pregunta?',
+                        text: isEdit ? '¿Deseas actualizar los datos de esta pregunta?' : '¿Deseas guardar esta nueva pregunta?',
+                        showCancelButton: true,
+                        confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            @this.call('save');
+                        }
+                    });
                 };
 
                 if (desired > max) {
@@ -233,12 +248,12 @@
                     }).then(() => {
                         orderInput.value = max;
                         @this.set('faqOrder', max);
-                        proceed();
+                        confirmAndSave();
                     });
                     return;
                 }
 
-                proceed();
+                confirmAndSave();
             });
         }
     });

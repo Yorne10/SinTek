@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    {{-- Filters and Table --}}
+    {{-- Filters --}}
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
@@ -63,12 +63,14 @@
         </div>
     </div>
 
+    {{-- Table --}}
     <div class="card card-body border-0 shadow">
         <div class="table-responsive">
             <table class="table table-centered mb-0 rounded user-table w-100" style="table-layout: fixed;">
                 <colgroup>
-                    <col style="width: 42%">
-                    <col style="width: 26%">
+                    <col style="width: 32%">
+                    <col style="width: 18%">
+                    <col style="width: 18%">
                     <col style="width: 20%">
                     <col style="width: 12%">
                 </colgroup>
@@ -77,6 +79,7 @@
                         <th class="border-0 rounded-start">Título</th>
                         <th class="border-0">Categoría</th>
                         <th class="border-0">Fecha Vigencia</th>
+                        <th class="border-0">Estatus</th>
                         <th class="border-0 rounded-end text-start">Acciones</th>
                     </tr>
                 </thead>
@@ -90,20 +93,38 @@
                             </td>
                             <td><span class="fw-normal">{{ ucfirst($document->category ?? 'N/A') }}</span></td>
                             <td><span
-                                    class="fw-normal">{{ $document->effective_date ? $document->effective_date->format('d/m/Y') : 'N/A' }}</span>
+                                    class="fw-normal">{{ $document->effective_date ? $document->effective_date->format('d/m/Y') : 'Sin vigencia' }}</span>
                             </td>
-                            <td class="text-start" style="width: 12%; min-width: 72px;">
+                            <td>
+                                @if($document->status === 'active')
+                                    <span class="fw-bold text-success">Activo</span>
+                                @else
+                                    <span class="fw-bold text-warning">Inactivo</span>
+                                @endif
+                            </td>
+                            <td class="text-start">
                                 <div class="btn-group position-static">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
                                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         @icon('menu', 'icon-xs')
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                        <button class="dropdown-item d-flex align-items-center view-doc-detail"
+                                            type="button" data-doc-title="{{ $document->title }}"
+                                            data-doc-description="{{ $document->description ?? 'Sin descripción' }}"
+                                            data-doc-category="{{ ucfirst($document->category ?? 'N/A') }}"
+                                            data-doc-version="{{ $document->version ?? 'N/A' }}"
+                                            data-doc-date="{{ $document->effective_date ? $document->effective_date->format('d/m/Y') : 'Sin vigencia' }}"
+                                            data-doc-status="{{ $document->status === 'active' ? 'Activo' : 'Inactivo' }}"
+                                            data-doc-filename="{{ $document->file_name ?? 'N/A' }}">
+                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
+                                            Ver detalles
+                                        </button>
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.show', $document->institucional_document_id) }}"
                                             target="_blank">
-                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
-                                            Ver documento
+                                            @icon('file', 'dropdown-icon text-gray-400 me-2')
+                                            Abrir documento
                                         </a>
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institucional_document_id) }}">
@@ -115,13 +136,23 @@
                                             @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>
+                                        <div role="separator" class="dropdown-divider my-1"></div>
+                                        @php $isActive = $document->status === 'active'; @endphp
+                                        <button wire:click="toggleStatus({{ $document->institucional_document_id }})"
+                                            class="dropdown-item {{ $isActive ? 'text-warning' : 'text-success' }} d-flex align-items-center"
+                                            type="button" wire:loading.attr="disabled" wire:target="toggleStatus">
+                                            <span class="spinner-border spinner-border-sm me-2" role="status"
+                                                aria-hidden="true" wire:loading wire:target="toggleStatus"></span>
+                                            @icon($isActive ? 'error' : 'success', "dropdown-icon " . ($isActive ? 'text-warning' : 'text-success') . " me-2")
+                                            {{ $isActive ? 'Desactivar' : 'Activar' }}
+                                        </button>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-4">
+                            <td colspan="5" class="text-center py-4">
                                 <div class="text-gray-500">
                                     @icon('file', 'fa-2x mb-3')
                                     <p class="fw-bold">No hay documentos institucionales para mostrar</p>
@@ -137,7 +168,7 @@
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
             @if($documents->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                    {{ $documents->links() }}
+                    {{ $documents->links('components.pagination-users') }}
                 </nav>
             @endif
             <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
@@ -148,3 +179,55 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swalMixin = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+
+        if (window.Livewire) {
+            Livewire.on('documents-notify', (event) => {
+                const detail = Array.isArray(event) ? event[0] : event;
+                swalMixin.fire({
+                    icon: detail.type || 'info',
+                    title: detail.title || '',
+                    text: detail.message || '',
+                    confirmButtonText: 'Entendido'
+                });
+            });
+        }
+
+        // Ver detalles del documento
+        document.querySelectorAll('.view-doc-detail').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const title = this.dataset.docTitle;
+                const description = this.dataset.docDescription;
+                const category = this.dataset.docCategory;
+                const version = this.dataset.docVersion;
+                const date = this.dataset.docDate;
+                const status = this.dataset.docStatus;
+                const filename = this.dataset.docFilename;
+
+                swalMixin.fire({
+                    icon: 'info',
+                    title: title,
+                    html: `
+                        <div class="text-start">
+                            <p><strong>Archivo:</strong> ${filename}</p>
+                            <p><strong>Categoría:</strong> ${category}</p>
+                            <p><strong>Versión:</strong> ${version}</p>
+                            <p><strong>Fecha de vigencia:</strong> ${date}</p>
+                            <p><strong>Estado:</strong> ${status}</p>
+                            <p><strong>Descripción:</strong></p>
+                            <p class="text-muted">${description}</p>
+                        </div>
+                    `,
+                    confirmButtonText: 'Cerrar'
+                });
+            });
+        });
+    });
+</script>

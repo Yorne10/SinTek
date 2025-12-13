@@ -40,6 +40,23 @@ class DocumentsIndex extends Component
         $this->resetPage();
     }
 
+    public function toggleStatus($documentId)
+    {
+        $document = InstitutionalDocument::find($documentId);
+        if ($document) {
+            $isActive = $document->status === 'active';
+            $document->status = $isActive ? 'inactive' : 'active';
+            $document->save();
+
+            $this->dispatch(
+                'documents-notify',
+                type: !$isActive ? 'success' : 'warning',
+                title: !$isActive ? 'Documento activado' : 'Documento desactivado',
+                message: !$isActive ? 'El documento ahora es visible para los usuarios.' : 'El documento ya no será visible para los usuarios.'
+            );
+        }
+    }
+
     public function render()
     {
         $query = InstitutionalDocument::query();

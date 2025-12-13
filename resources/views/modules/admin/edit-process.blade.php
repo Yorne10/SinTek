@@ -131,7 +131,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     </span>
                                 </button>
                                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}"
-                                    class="btn btn-link text-gray-700 ms-2">Cancelar</a>
+                                    class="btn btn-gray-300 mt-2 animate-up-2">Cancelar</a>
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-danger mt-2" type="button" data-bs-toggle="modal"
@@ -147,29 +147,10 @@ Approved by: Alfonso Angel Garcia Hernandez
 
             <div class="col-12 col-xl-4">
                 <div class="card card-body shadow border-0 mb-4">
-                    <h2 class="h5 mb-4">
-                        @icon('warning', 'me-2 text-warning')
-                        Advertencia
-                    </h2>
-                    <div class="alert alert-warning" role="alert">
-                        <div class="d-flex align-items-start">
-                            <div>
-                                <h3 class="h6 mb-2">Eliminar proceso</h3>
-                                <p class="small mb-0">
-                                    Al eliminar un proceso, se eliminará permanentemente toda la configuración asociada,
-                                    incluyendo los pasos definidos. <strong>Los trámites activos no se verán
-                                        afectados</strong>, pero no podrán iniciarse nuevos trámites con este proceso.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card card-body shadow border-0 mb-4">
-                    <h2 class="h5 mb-4">Ayuda</h2>
+                    <h2 class="h5 mb-4">Información importante</h2>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('help', 'me-1 text-gray-500')
+                            @icon('help', 'me-1 text-info')
                             Modificar información
                         </h3>
                         <p class="small text-gray-700">Puedes cambiar cualquier campo del proceso excepto el código, que
@@ -177,7 +158,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </div>
                     <div class="mb-3">
                         <h3 class="h6 mb-2">
-                            @icon('help', 'me-1 text-gray-500')
+                            @icon('help', 'me-1 text-info')
                             Desactivar vs Eliminar
                         </h3>
                         <p class="small text-gray-700">Si solo deseas pausar temporalmente el proceso, desmarca la opción
@@ -185,7 +166,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </div>
                     <div>
                         <h3 class="h6 mb-2">
-                            @icon('help', 'me-1 text-gray-500')
+                            @icon('help', 'me-1 text-info')
                             Modificar pasos
                         </h3>
                         <p class="small text-gray-700">Para modificar los pasos del proceso, dirígete a la sección

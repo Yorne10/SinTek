@@ -32,7 +32,7 @@ class FaqCategoryForm extends Component
         }
         return [
             'categoryName' => 'required|string|max:100|' . $uniqueRule,
-            'categoryDescription' => 'nullable|string',
+            'categoryDescription' => 'required|string',
             'categoryOrder' => 'required|integer|min:1|max:' . $max,
         ];
     }
@@ -41,6 +41,7 @@ class FaqCategoryForm extends Component
         'categoryName.required' => 'El nombre de la categoría es obligatorio.',
         'categoryName.max' => 'El nombre no debe exceder 100 caracteres.',
         'categoryName.unique' => 'Ya existe una categoría con este nombre.',
+        'categoryDescription.required' => 'La descripción es obligatoria.',
         'categoryOrder.required' => 'El orden es obligatorio.',
         'categoryOrder.integer' => 'El orden debe ser numérico.',
         'categoryOrder.min' => 'El orden debe ser al menos 1.',
@@ -70,7 +71,9 @@ class FaqCategoryForm extends Component
         $this->validate();
 
         try {
-            if ($this->categoryId) {
+            $isEditing = (bool) $this->categoryId;
+
+            if ($isEditing) {
                 $category = FaqCategory::findOrFail($this->categoryId);
                 $category->name = $this->categoryName;
                 $category->description = $this->categoryDescription;
@@ -84,7 +87,6 @@ class FaqCategoryForm extends Component
                     'description' => $this->categoryDescription,
                     'order' => $this->categoryOrder,
                 ]);
-                $this->categoryId = $category->faq_category_id;
                 $message = 'Categoría creada exitosamente.';
                 $action = 'creada';
             }
@@ -94,13 +96,22 @@ class FaqCategoryForm extends Component
 
             $user = auth()->user();
             ActivityLogger::log(
-                $this->categoryId ? 'faq.categoria.editar' : 'faq.categoria.crear',
+                $isEditing ? 'faq.categoria.editar' : 'faq.categoria.crear',
                 "Categoría de FAQ '{$this->categoryName}' {$action}",
                 $user?->users_id
             );
 
-            $this->dispatch('category-saved', type: 'success', title: 'Éxito', message: $message);
-            $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.faq.categories'));
+            if ($isEditing) {
+                // En edición: redirigir después de mostrar alerta
+                $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.categories');
+                $this->dispatch('category-saved', type: 'success', title: 'Éxito', message: $message, redirect: $redirect);
+            } else {
+                // En creación: limpiar formulario y quedarse
+                $this->reset(['categoryName', 'categoryDescription']);
+                $this->maxOrder = FaqCategory::count() + 1;
+                $this->categoryOrder = $this->maxOrder;
+                $this->dispatch('category-saved', type: 'success', title: 'Éxito', message: $message, redirect: null);
+            }
         } catch (\Exception $e) {
             $this->dispatch('category-error', type: 'error', title: 'Error', message: 'No se pudo guardar la categoría.');
         }
@@ -138,27 +149,75 @@ class FaqCategoryForm extends Component
 
         try {
             $category = FaqCategory::findOrFail($this->categoryId);
+            $faqsCount = $category->faqs()->count();
 
-            if ($category->faqs()->count() > 0) {
-                $this->dispatch('category-error', type: 'warning', title: 'No se puede eliminar', message: 'Esta categoría tiene preguntas frecuentes asociadas.');
-                return;
+            if ($faqsCount > 0) {
+                // Mostrar warning de que se eliminarán las FAQs también
+                $this->dispatch('category-has-faqs', count: $faqsCount);
+            } else {
+                // Mostrar solo question de confirmación
+                $this->dispatch('category-no-faqs');
             }
-
-            $categoryName = $category->name;
-            $category->delete();
-
-            $user = auth()->user();
-            ActivityLogger::log(
-                'faq.categoria.eliminar',
-                "Categoría de FAQ '{$categoryName}' eliminada",
-                $user?->users_id
-            );
-
-            $this->dispatch('category-deleted', type: 'success', title: 'Eliminada', message: 'Categoría eliminada exitosamente.');
-            $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.faq.categories'));
         } catch (\Exception $e) {
             $this->dispatch('category-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la categoría.');
         }
+    }
+
+    public function confirmDelete(): void
+    {
+        if (!$this->categoryId) {
+            return;
+        }
+
+        try {
+            $category = FaqCategory::findOrFail($this->categoryId);
+            $this->performDelete($category);
+        } catch (\Exception $e) {
+            $this->dispatch('category-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la categoría.');
+        }
+    }
+
+    public function confirmDeleteWithFaqs(): void
+    {
+        if (!$this->categoryId) {
+            return;
+        }
+
+        try {
+            $category = FaqCategory::findOrFail($this->categoryId);
+
+            // Eliminar FAQs asociadas primero
+            $category->faqs()->delete();
+
+            // Luego eliminar la categoría
+            $this->performDelete($category);
+        } catch (\Exception $e) {
+            $this->dispatch('category-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la categoría.');
+        }
+    }
+
+    protected function performDelete(FaqCategory $category): void
+    {
+        $categoryName = $category->name;
+        $category->delete();
+
+        // Renumerar categorías restantes
+        $remainingCategories = FaqCategory::orderBy('order')->get();
+        $order = 1;
+        foreach ($remainingCategories as $cat) {
+            $cat->order = $order++;
+            $cat->save();
+        }
+
+        $user = auth()->user();
+        ActivityLogger::log(
+            'faq.categoria.eliminar',
+            "Categoría de FAQ '{$categoryName}' eliminada",
+            $user?->users_id
+        );
+
+        $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.categories');
+        $this->dispatch('category-saved', type: 'success', title: 'Eliminada', message: 'Categoría eliminada exitosamente.', redirect: $redirect);
     }
 
     public function render()

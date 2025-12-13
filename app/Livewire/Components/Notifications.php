@@ -24,7 +24,7 @@ class Notifications extends Component
 
         if ($this->isWorker) {
             $this->notifications = $user->notifications()->latest()->limit(5)->get();
-            $this->unreadCount = $this->notifications->whereNull('read_at')->count();
+            $this->unreadCount = $user->notifications()->whereNull('read_at')->count();
             $this->notificationRoute = route(config('proj.route_name_prefix', 'proj') . '.worker.notifications');
         } else {
             $this->notifications = collect();

@@ -47,19 +47,14 @@ Approved by: Alfonso Angel Garcia Hernandez
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
                     @if($selectedProcess)
-                        <div class="d-flex align-items-center">
-                            @icon('documentSign', 'fa-lg text-primary me-3')
-                            <div>
-                                <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
-                                <p class="small text-gray mb-0">
-                                    @if($selectedProcess->process_code)
-                                        Código: {{ $selectedProcess->process_code }}
-                                    @endif
-                                    @if($selectedProcess->category)
-                                        | Categoría: {{ ucfirst($selectedProcess->category) }}
-                                    @endif
-                                </p>
-                            </div>
+                        <div>
+                            <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
+                            @if($selectedProcess->process_code)
+                                <p class="small text-gray mb-1">Código: {{ $selectedProcess->process_code }}</p>
+                            @endif
+                            @if($selectedProcess->category)
+                                <p class="small text-gray mb-0">Categoría: {{ ucfirst($selectedProcess->category) }}</p>
+                            @endif
                         </div>
                     @else
                         <div class="alert alert-warning mb-0" role="alert">
@@ -69,96 +64,100 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </div>
             </div>
 
-            <div class="card border-0 shadow">
-                <div class="card-header border-bottom">
-                    <h2 class="h5 mb-0">Pasos del proceso</h2>
-                </div>
-                <div class="card-body p-0">
-                    @if($selectedProcess && count($steps) > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="border-bottom" style="width: 70px;">Orden</th>
-                                        <th class="border-bottom">Paso</th>
-                                        <th class="border-bottom">Estado</th>
-                                        <th class="border-bottom">Docs. Requeridos</th>
-                                        <th class="border-bottom" style="width: 120px;">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($steps as $step)
-                                        <tr>
-                                            <td class="text-center">
-                                                @if($step->step_type === 'final')
-                                                    @icon('success', 'text-success')
-                                                @else
-                                                    <span class="badge rounded-circle bg-primary"
-                                                        style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">{{ $step->order ?? '-' }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="d-block">
-                                                    <span class="fw-bold">{{ $step->title }}</span>
-                                                    @if($step->instruction)
-                                                        <div class="small text-gray">{{ Str::limit($step->instruction, 60) }}</div>
-                                                    @endif
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @if($step->is_initial_step)
-                                                    <span class="badge bg-primary">Paso inicial</span>
-                                                @elseif($step->is_linked)
-                                                    <span class="badge bg-success">Vinculado</span>
-                                                @else
-                                                    <span class="badge bg-warning text-dark">Sin vincular</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($step->requiredDocuments->count() > 0)
-                                                    <ul class="list-unstyled mb-0 small">
-                                                        @foreach($step->requiredDocuments as $doc)
-                                                            <li>{{ $doc->title }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                @else
-                                                    <span class="small text-muted">-</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        @icon('menu', 'icon icon-xs')
-                                                    </button>
-                                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                                        <a class="dropdown-item d-flex align-items-center"
-                                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step', ['step_id' => $step->step_id]) }}">
-                                                            @icon('edit', 'dropdown-icon text-gray-400 me-2')
-                                                            Editar
-                                                        </a>
-                                                        <div role="separator" class="dropdown-divider my-1"></div>
-                                                        <a class="dropdown-item text-danger d-flex align-items-center" href="#"
-                                                            wire:click.prevent="deleteStep({{ $step->step_id }})">
-                                                            @icon('delete', 'dropdown-icon text-danger me-2')
-                                                            Eliminar
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <div class="text-center py-5">
-                            @icon('documentSign', 'fa-2x text-gray-400 mb-3')
-                            <h5 class="text-gray-700 mb-2">No hay pasos registrados</h5>
-                            <p class="text-gray-600 mb-3">Este proceso aún no tiene pasos configurados.</p>
-                        </div>
-                    @endif
-                </div>
+            <div class="card card-body shadow border-0 table-wrapper table-responsive">
+                <table class="table mb-0 rounded w-100" style="table-layout: fixed;">
+                    <colgroup>
+                        <col style="width: 10%">
+                        <col style="width: 35%">
+                        <col style="width: 20%">
+                        <col style="width: 25%">
+                        <col style="width: 10%">
+                    </colgroup>
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="border-0 rounded-start">Orden</th>
+                            <th class="border-0">Paso</th>
+                            <th class="border-0">Estado</th>
+                            <th class="border-0">Docs. Requeridos</th>
+                            <th class="border-0 rounded-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($selectedProcess && count($steps) > 0)
+                            @foreach($steps as $step)
+                                <tr>
+                                    <td class="text-center">
+                                        @if($step->step_type === 'final')
+                                            @icon('success', 'text-success')
+                                        @else
+                                            <span class="badge rounded-circle bg-primary"
+                                                style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">{{ $step->order ?? '-' }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="d-block">
+                                            <span class="fw-bold text-gray-900">{{ $step->title }}</span>
+                                            @if($step->instruction)
+                                                <div class="small text-gray">{{ Str::limit($step->instruction, 60) }}</div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($step->is_initial_step)
+                                            <span class="badge bg-primary">Paso inicial</span>
+                                        @elseif($step->is_linked)
+                                            <span class="badge bg-success">Vinculado</span>
+                                        @else
+                                            <span class="badge bg-warning text-dark">Sin vincular</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($step->requiredDocuments->count() > 0)
+                                            <ul class="list-unstyled mb-0 small">
+                                                @foreach($step->requiredDocuments as $doc)
+                                                    <li>{{ $doc->title }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <span class="small text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                @icon('menu', 'icon icon-xs')
+                                            </button>
+                                            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                                <a class="dropdown-item d-flex align-items-center"
+                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.create-step', ['step_id' => $step->step_id]) }}">
+                                                    @icon('edit', 'dropdown-icon text-gray-400 me-2')
+                                                    Editar
+                                                </a>
+                                                <div role="separator" class="dropdown-divider my-1"></div>
+                                                <a class="dropdown-item text-danger d-flex align-items-center" href="#"
+                                                    wire:click.prevent="deleteStep({{ $step->step_id }})">
+                                                    @icon('delete', 'dropdown-icon text-danger me-2')
+                                                    Eliminar
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <div class="text-gray-500">
+                                        @icon('documentSign', 'fa-2x mb-3 text-gray-400')
+                                        <p class="fw-bold">No hay pasos registrados</p>
+                                        <p class="small">Este proceso aún no tiene pasos configurados.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
             </div>
         </div>
 

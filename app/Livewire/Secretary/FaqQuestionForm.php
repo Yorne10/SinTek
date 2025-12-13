@@ -71,7 +71,9 @@ class FaqQuestionForm extends Component
         $this->validate();
 
         try {
-            if ($this->faqId) {
+            $isEditing = (bool) $this->faqId;
+
+            if ($isEditing) {
                 $faq = Faq::findOrFail($this->faqId);
                 $faq->question = $this->faqQuestion;
                 $faq->answer = $this->faqAnswer;
@@ -86,7 +88,6 @@ class FaqQuestionForm extends Component
                     'answer' => $this->faqAnswer,
                     'order' => $this->faqOrder,
                 ]);
-                $this->faqId = $faq->faq_id;
                 $message = 'Pregunta creada exitosamente.';
                 $action = 'creada';
             }
@@ -96,13 +97,22 @@ class FaqQuestionForm extends Component
 
             $user = auth()->user();
             ActivityLogger::log(
-                $this->faqId ? 'faq.editar' : 'faq.crear',
+                $isEditing ? 'faq.editar' : 'faq.crear',
                 "FAQ '{$this->faqQuestion}' {$action} en categoría '{$this->category->name}'",
                 $user?->users_id
             );
 
-            $this->dispatch('faq-saved', type: 'success', title: 'Éxito', message: $message);
-            $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId));
+            if ($isEditing) {
+                // En edición: redirigir después de mostrar alerta
+                $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId);
+                $this->dispatch('faq-saved', type: 'success', title: 'Éxito', message: $message, redirect: $redirect);
+            } else {
+                // En creación: limpiar formulario y quedarse
+                $this->reset(['faqQuestion', 'faqAnswer']);
+                $this->maxOrder = Faq::where('faq_category_id', $this->categoryId)->count() + 1;
+                $this->faqOrder = $this->maxOrder;
+                $this->dispatch('faq-saved', type: 'success', title: 'Éxito', message: $message, redirect: null);
+            }
         } catch (\Exception $e) {
             $this->dispatch('faq-error', type: 'error', title: 'Error', message: 'No se pudo guardar la pregunta.');
         }
@@ -144,6 +154,14 @@ class FaqQuestionForm extends Component
             $question = $faq->question;
             $faq->delete();
 
+            // Renumerar FAQs restantes
+            $remainingFaqs = Faq::where('faq_category_id', $this->categoryId)->orderBy('order')->get();
+            $order = 1;
+            foreach ($remainingFaqs as $f) {
+                $f->order = $order++;
+                $f->save();
+            }
+
             $user = auth()->user();
             ActivityLogger::log(
                 'faq.eliminar',
@@ -151,8 +169,8 @@ class FaqQuestionForm extends Component
                 $user?->users_id
             );
 
-            $this->dispatch('faq-deleted', type: 'success', title: 'Eliminada', message: 'Pregunta eliminada exitosamente.');
-            $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId));
+            $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId);
+            $this->dispatch('faq-saved', type: 'success', title: 'Eliminada', message: 'Pregunta eliminada exitosamente.', redirect: $redirect);
         } catch (\Exception $e) {
             $this->dispatch('faq-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la pregunta.');
         }

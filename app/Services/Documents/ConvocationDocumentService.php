@@ -10,11 +10,17 @@ class ConvocationDocumentService
     {
         $document = ConvocationDocument::findOrFail($id);
 
-        $filename = $document->file_name ?: ($document->title . '.pdf');
-        $mime = $document->mime_type ?: 'application/pdf';
+        // Asegurar que el nombre del archivo siempre termine en .pdf
+        $filename = $document->file_name ?: $document->title;
+
+        // Remover extensión existente si la hay
+        $filename = preg_replace('/\.[^.]+$/', '', $filename);
+
+        // Agregar extensión .pdf
+        $filename = $filename . '.pdf';
 
         return response($document->file_content)
-            ->header('Content-Type', $mime)
+            ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="' . $filename . '"');
     }
 
@@ -22,11 +28,17 @@ class ConvocationDocumentService
     {
         $document = ConvocationDocument::findOrFail($id);
 
-        $filename = $document->file_name ?: ($document->title . '.pdf');
-        $mime = $document->mime_type ?: 'application/pdf';
+        // Asegurar que el nombre del archivo siempre termine en .pdf
+        $filename = $document->file_name ?: $document->title;
+
+        // Remover extensión existente si la hay
+        $filename = preg_replace('/\.[^.]+$/', '', $filename);
+
+        // Agregar extensión .pdf
+        $filename = $filename . '.pdf';
 
         return response($document->file_content)
-            ->header('Content-Type', $mime)
+            ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 }
