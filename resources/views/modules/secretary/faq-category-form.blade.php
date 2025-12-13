@@ -1,4 +1,4 @@
-﻿{{--
+{{--
 Company: CETAM
 Project: ST
 File: faq-category-form.blade.php

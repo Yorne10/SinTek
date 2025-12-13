@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: Request.php
+ * Created on: 12/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 namespace App\Models;
 
@@ -15,13 +28,14 @@ class Request extends Model
         'worker_id',
         'process_id',
         'status',
-        'start_date',
-        'end_date',
+        'current_step_id',
+        'submitted_at',
+        'completed_at',
     ];
 
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'submitted_at' => 'datetime',
+        'completed_at' => 'datetime',
     ];
 
     public function worker()
@@ -34,18 +48,8 @@ class Request extends Model
         return $this->belongsTo(Process::class, 'process_id', 'process_id');
     }
 
-    public function requestSteps()
+    public function currentStep()
     {
-        return $this->hasMany(RequestStep::class, 'request_id', 'request_id');
-    }
-
-    public function documents()
-    {
-        return $this->hasMany(Document::class, 'request_id', 'request_id');
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class, 'request_id', 'request_id');
+        return $this->belongsTo(Step::class, 'current_step_id', 'step_id');
     }
 }

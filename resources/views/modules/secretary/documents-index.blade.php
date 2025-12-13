@@ -1,4 +1,4 @@
-﻿{{--
+{{--
 * Company: CETAM
 * Project: ST
 * File: documents-index.blade.php

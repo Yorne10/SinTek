@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: ResetPassword.php
+ * Created on: 12/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 namespace App\Notifications;
 
@@ -47,10 +60,10 @@ class ResetPassword extends Notification
         // Ajuste al nuevo esquema de rutas con prefijo configurable (proj.*)
         $url = URL::signedRoute(config('proj.route_name_prefix', 'proj') . '.auth.reset-password', ['id' => $this->token]);
         return (new MailMessage)
-                    ->subject('Reset your password')
-                    ->line('Hey, did you forget your password? Click the button to reset it.')
-                    ->action('Reset Password', $url)
-                    ->line('Thank you for using our application!');
+            ->subject('Reset your password')
+            ->line('Hey, did you forget your password? Click the button to reset it.')
+            ->action('Reset Password', $url)
+            ->line('Thank you for using our application!');
     }
 
     /**

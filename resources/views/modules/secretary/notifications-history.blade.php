@@ -1,4 +1,4 @@
-﻿{{--
+{{--
 Company: CETAM
 Project: ST
 File: notifications-history.blade.php

@@ -1,10 +1,15 @@
 {{--
-Empresa: CETAM
-Proyecto: ST
-Archivo: login.blade.php
-Fecha de creacion: 02/11/25
-Realizado por: Alfonso Angel Garcia Hernandez
-Validado por: Alfonso Angel Garcia Hernandez
+Company: CETAM
+Project: ST
+File: login.blade.php
+Created on: 12/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
 --}}
 
 @section('title', 'Iniciar sesión - ' . config('app.name'))

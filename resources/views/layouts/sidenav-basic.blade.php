@@ -1,12 +1,17 @@
- 
-{{-- 
-  Empresa: CETAM
-  Proyecto: ST
-  Archivo: sidenav.blade.php
-  Fecha de creacin: 02/11/25
-  Realizado por: Alfonso Angel Garca Hernndez
-  Validado por: Alfonso Angel Garca Hernndez
+{{--
+Company: CETAM
+Project: ST
+File: sidenav-basic.blade.php
+Created on: 19/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
 --}}
+
 <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
   <div class="sidebar-inner px-2 pt-3">
     <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">

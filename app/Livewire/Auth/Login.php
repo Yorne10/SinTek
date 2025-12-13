@@ -1,11 +1,16 @@
 <?php
 /**
- * Empresa: CETAM
- * Proyecto: ST
- * Archivo: Login.php
- * Fecha de creación: 02/11/25
- * Realizado por: Alfonso Angel García Hernández
- * Validado por: Alfonso Angel García Hernández
+ * Company: CETAM
+ * Project: ST
+ * File: Login.php
+ * Created on: 09/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Auth;

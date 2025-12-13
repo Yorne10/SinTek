@@ -1,4 +1,4 @@
-﻿{{-- 
+{{-- 
 * Company: CETAM
 * Project: ST
 * File: faq-questions.blade.php

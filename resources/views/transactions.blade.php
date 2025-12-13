@@ -1,4 +1,17 @@
- 
+{{--
+Company: CETAM
+Project: ST
+File: transactions.blade.php
+Created on: 02/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
+--}}
+
 <div>
 {{-- <title>Volt Laravel Dashboard - Transactions</title> --}}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">

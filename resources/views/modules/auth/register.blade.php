@@ -1,10 +1,15 @@
 {{--
-Empresa: CETAM
-Proyecto: ST
-Archivo: register.blade.php
-Fecha de creacin: 02/11/25
-Realizado por: Alfonso Angel Garca Hernndez
-Validado por: Alfonso Angel Garca Hernndez
+Company: CETAM
+Project: ST
+File: register.blade.php
+Created on: 28/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
 --}}
 
 {{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}

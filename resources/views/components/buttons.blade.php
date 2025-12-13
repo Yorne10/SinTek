@@ -1,4 +1,17 @@
- 
+{{--
+Company: CETAM
+Project: ST
+File: buttons.blade.php
+Created on: 02/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
+--}}
+
 <div>
 <div class="py-4">
     <nav aria-label="breadcrumb" class="d-none d-md-inline-block">

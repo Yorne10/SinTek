@@ -1,3 +1,17 @@
+{{--
+Company: CETAM
+Project: ST
+File: index.blade.php
+Created on: 28/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
+--}}
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">

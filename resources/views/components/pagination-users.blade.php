@@ -1,3 +1,17 @@
+{{--
+Company: CETAM
+Project: ST
+File: pagination-users.blade.php
+Created on: 01/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
+--}}
+
 @if ($paginator->hasPages())
     <nav aria-label="Page navigation">
         <ul class="pagination pagination-sm mb-0">

@@ -1,4 +1,18 @@
-﻿<script>
+{{--
+Company: CETAM
+Project: ST
+File: idle-timer.blade.php
+Created on: 11/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
+--}}
+
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const sessionLifetime = {{ config('session.lifetime', 120) }};
         const sessionLifetimeMs = sessionLifetime * 60 * 1000;
