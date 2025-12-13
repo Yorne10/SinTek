@@ -34,11 +34,35 @@ class ProcedureDetail extends Component
     public $allSteps = [];
     public $file;
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($id)
     {
         $this->requestId = $id;
         $this->loadRequest();
     }
+
+    /**
+
+     * Load request.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadRequest()
     {
@@ -62,6 +86,16 @@ class ProcedureDetail extends Component
             ->orderBy('order', 'asc')
             ->get();
     }
+
+    /**
+
+     * Next step.
+
+     *
+
+     * @return void
+
+     */
 
     public function nextStep()
     {
@@ -123,6 +157,16 @@ class ProcedureDetail extends Component
         $this->loadRequest();
     }
 
+    /**
+
+     * Upload file.
+
+     *
+
+     * @return void
+
+     */
+
     public function uploadFile()
     {
         $this->validate([
@@ -163,6 +207,20 @@ class ProcedureDetail extends Component
         $this->file = null;
         $this->nextStep();
     }
+
+    /**
+
+     * Conditional step.
+
+     *
+
+     * @param mixed $decision
+
+     *
+
+     * @return void
+
+     */
 
     public function conditionalStep($decision)
     {
@@ -232,6 +290,16 @@ class ProcedureDetail extends Component
 
         $this->loadRequest();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

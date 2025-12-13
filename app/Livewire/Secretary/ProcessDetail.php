@@ -23,6 +23,20 @@ class ProcessDetail extends Component
     public $processId;
     public $process;
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $processId
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($processId)
     {
         $this->processId = $processId;
@@ -30,6 +44,16 @@ class ProcessDetail extends Component
             $query->orderBy('order');
         }])->findOrFail($processId);
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

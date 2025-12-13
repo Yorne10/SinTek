@@ -29,6 +29,16 @@ class Position extends Model
         'position_name',
     ];
 
+    /**
+
+     * Workers.
+
+     *
+
+     * @return void
+
+     */
+
     public function workers()
     {
         return $this->belongsToMany(

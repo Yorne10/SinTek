@@ -36,15 +36,45 @@ class RequestStep extends Model
         'step_date' => 'datetime',
     ];
 
+    /**
+
+     * Request.
+
+     *
+
+     * @return void
+
+     */
+
     public function request()
     {
         return $this->belongsTo(Request::class, 'request_id', 'request_id');
     }
 
+    /**
+
+     * Step.
+
+     *
+
+     * @return void
+
+     */
+
     public function step()
     {
         return $this->belongsTo(Step::class, 'step_id', 'step_id');
     }
+
+    /**
+
+     * User.
+
+     *
+
+     * @return void
+
+     */
 
     public function user()
     {

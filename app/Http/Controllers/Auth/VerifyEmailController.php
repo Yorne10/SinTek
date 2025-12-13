@@ -22,11 +22,23 @@ use Illuminate\Routing\Controller;
 class VerifyEmailController extends Controller
 {
     protected VerifyEmailService $verifyEmailService;
+    /**
+     * Create a new instance.
+     *
+     * @param VerifyEmailService $verifyEmailService
+     */
 
     public function __construct(VerifyEmailService $verifyEmailService)
     {
         $this->verifyEmailService = $verifyEmailService;
     }
+    /**
+     * Handle the incoming request.
+     *
+     * @param Request $request
+     * @param mixed $id
+     * @param mixed $hash
+     */
 
     public function __invoke(Request $request, $id, $hash)
     {

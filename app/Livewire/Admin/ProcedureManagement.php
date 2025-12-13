@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class ProcedureManagement extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.admin.procedure-management')->layout('layouts.app');

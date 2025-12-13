@@ -31,11 +31,35 @@ class WorkerProceduresHistory extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($id)
     {
         $this->workerId = $id;
         $this->worker = Worker::with('user')->findOrFail($id);
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {
@@ -58,6 +82,16 @@ class WorkerProceduresHistory extends Component
             'requests' => $requests,
         ])->layout('layouts.app');
     }
+
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
 
     public function clearFilters()
     {

@@ -28,15 +28,45 @@ class DocumentsIndex extends Component
     public $search = '';
     public $categoryFilter = '';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Updating category filter.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingCategoryFilter()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
 
     public function clearFilters()
     {
@@ -44,6 +74,20 @@ class DocumentsIndex extends Component
         $this->categoryFilter = '';
         $this->resetPage();
     }
+
+    /**
+
+     * Toggle status.
+
+     *
+
+     * @param mixed $documentId
+
+     *
+
+     * @return void
+
+     */
 
     public function toggleStatus($documentId)
     {
@@ -61,6 +105,16 @@ class DocumentsIndex extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

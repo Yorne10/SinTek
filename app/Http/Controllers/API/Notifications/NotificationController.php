@@ -23,15 +23,53 @@ class NotificationController extends RestfulController
 {
     protected NotificationService $notificationService;
 
+    /**
+
+     * Create a new instance.
+
+     *
+
+     * @param NotificationService $notificationService
+
+     */
+
     public function __construct(NotificationService $notificationService)
     {
         $this->notificationService = $notificationService;
     }
 
+    /**
+
+     * List all resources.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function index(Request $request)
     {
         return $this->notificationService->index($request);
     }
+
+    /**
+
+     * Mark as read.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function markAsRead(Request $request)
     {

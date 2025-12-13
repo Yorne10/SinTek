@@ -24,11 +24,31 @@ class Faq extends Component
     public $search = '';
     public $selectedCategoryId = null;
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters(): void
     {
         $this->search = '';
         $this->selectedCategoryId = null;
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

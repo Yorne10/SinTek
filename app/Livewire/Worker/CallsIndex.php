@@ -28,21 +28,61 @@ class CallsIndex extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters(): void
     {
         $this->reset(['search', 'statusFilter']);
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

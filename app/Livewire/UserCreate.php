@@ -53,6 +53,16 @@ class UserCreate extends Component
         'password.min' => 'El campo contraseña debe tener al menos 8 caracteres',
     ];
 
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
+
     public function save()
     {
         $this->validate();
@@ -99,6 +109,16 @@ class UserCreate extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

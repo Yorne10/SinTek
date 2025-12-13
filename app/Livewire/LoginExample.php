@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class LoginExample extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.login-example')->layout('layouts.app');

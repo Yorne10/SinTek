@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class Err500 extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('errors.500')->layout('layouts.app');

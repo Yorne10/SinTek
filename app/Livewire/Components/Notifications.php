@@ -25,10 +25,30 @@ class Notifications extends Component
     public $notificationRoute = '#';
     public $isWorker = false;
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @return void
+
+     */
+
     public function mount()
     {
         $this->loadNotifications();
     }
+
+    /**
+
+     * Load notifications.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadNotifications()
     {
@@ -46,16 +66,41 @@ class Notifications extends Component
         }
     }
 
+    /**
+
+     * Refresh notifications.
+
+     *
+
+     * @return void
+
+     */
+
     public function refreshNotifications(): void
     {
         $this->loadNotifications();
     }
 
     #[On('notification-read')]
+    /**
+     * Handle notification read.
+     *
+     * @return void
+     */
     public function handleNotificationRead(): void
     {
         $this->loadNotifications();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

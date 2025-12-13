@@ -39,6 +39,16 @@ class ConvocationDocument extends Model
         'file_content',
     ];
 
+    /**
+
+     * Convocation.
+
+     *
+
+     * @return void
+
+     */
+
     public function convocation()
     {
         return $this->belongsTo(Convocation::class, 'convocation_id', 'convocation_id');

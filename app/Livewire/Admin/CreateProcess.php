@@ -73,6 +73,16 @@ class CreateProcess extends Component
         'department.in' => 'La opción seleccionada en área responsable no es válida',
     ];
 
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
+
     public function save()
     {
         $this->validate();
@@ -110,6 +120,16 @@ class CreateProcess extends Component
             message: 'El proceso ha sido creado correctamente.'
         );
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

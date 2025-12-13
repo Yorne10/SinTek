@@ -19,6 +19,13 @@ use App\Models\ConvocationDocument;
 
 class ConvocationDocumentService
 {
+    /**
+     * Display the specified resource.
+     *
+     * @param mixed $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         $document = ConvocationDocument::findOrFail($id);
@@ -36,6 +43,20 @@ class ConvocationDocumentService
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="' . $filename . '"');
     }
+
+    /**
+
+     * Download.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+
+     */
 
     public function download($id)
     {

@@ -27,6 +27,11 @@ use Carbon\Carbon;
 
 class Dashboard extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         $user = Auth::user();

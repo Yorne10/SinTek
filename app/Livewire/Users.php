@@ -38,21 +38,61 @@ class Users extends Component
         $this->resetPage();
     }
 
+    /**
+
+     * Updating role filter.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingRoleFilter()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters()
     {
         $this->reset(['search', 'roleFilter', 'statusFilter']);
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {
@@ -84,6 +124,20 @@ class Users extends Component
         ])->layout('layouts.app');
     }
 
+    /**
+
+     * Get role label.
+
+     *
+
+     * @param mixed $role
+
+     *
+
+     * @return void
+
+     */
+
     public function getRoleLabel($role)
     {
         $roles = [
@@ -94,6 +148,20 @@ class Users extends Component
 
         return $roles[$role] ?? $role;
     }
+
+    /**
+
+     * Toggle user status.
+
+     *
+
+     * @param int $userId
+
+     *
+
+     * @return void
+
+     */
 
     public function toggleUserStatus(int $userId): void
     {

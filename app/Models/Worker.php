@@ -33,10 +33,30 @@ class Worker extends Model
         'rfc',
     ];
 
+    /**
+
+     * User.
+
+     *
+
+     * @return void
+
+     */
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'users_id');
     }
+
+    /**
+
+     * Positions.
+
+     *
+
+     * @return void
+
+     */
 
     public function positions()
     {
@@ -47,6 +67,16 @@ class Worker extends Model
             'positions_id' // Related key in pivot table
         )->withPivot('assigned_at');
     }
+
+    /**
+
+     * Requests.
+
+     *
+
+     * @return void
+
+     */
 
     public function requests()
     {

@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class BootstrapTables extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.examples.bootstrap-tables')->layout('layouts.app');

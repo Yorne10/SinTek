@@ -23,30 +23,110 @@ class ProfileController extends Controller
 {
     protected ProfileService $profileService;
 
+    /**
+
+     * Create a new instance.
+
+     *
+
+     * @param ProfileService $profileService
+
+     */
+
     public function __construct(ProfileService $profileService)
     {
         $this->profileService = $profileService;
     }
+
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function show(Request $request)
     {
         return $this->profileService->show($request);
     }
 
+    /**
+
+     * Update the specified resource.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function update(Request $request)
     {
         return $this->profileService->update($request);
     }
+
+    /**
+
+     * Update photo.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function updatePhoto(Request $request)
     {
         return $this->profileService->updatePhoto($request);
     }
 
+    /**
+
+     * Delete photo.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
+
     public function deletePhoto(Request $request)
     {
         return $this->profileService->deletePhoto($request);
     }
+
+    /**
+
+     * Update password.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function updatePassword(Request $request)
     {

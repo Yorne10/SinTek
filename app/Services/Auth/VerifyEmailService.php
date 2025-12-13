@@ -21,6 +21,15 @@ use Illuminate\Support\Facades\Date;
 
 class VerifyEmailService
 {
+    /**
+     * Handle.
+     *
+     * @param Request $request
+     * @param mixed $id
+     * @param mixed $hash
+     *
+     * @return void
+     */
     public function handle(Request $request, $id, $hash)
     {
         $user = User::findOrFail($id);

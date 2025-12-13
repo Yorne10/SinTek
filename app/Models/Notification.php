@@ -36,10 +36,30 @@ class Notification extends Model
         'read_at' => 'datetime',
     ];
 
+    /**
+
+     * User.
+
+     *
+
+     * @return void
+
+     */
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'users_id');
     }
+
+    /**
+
+     * Convocation.
+
+     *
+
+     * @return void
+
+     */
 
     public function convocation()
     {

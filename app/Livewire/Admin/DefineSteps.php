@@ -30,6 +30,20 @@ class DefineSteps extends Component
     public $selectedProcess;
     public $steps = [];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $process_id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($process_id = null)
     {
         // Usar siempre el proceso que llega por la ruta. Si no hay, no forzamos otro.
@@ -42,10 +56,30 @@ class DefineSteps extends Component
         }
     }
 
+    /**
+
+     * Updated selected process id.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedSelectedProcessId()
     {
         $this->loadProcess();
     }
+
+    /**
+
+     * Load process.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadProcess()
     {
@@ -70,6 +104,20 @@ class DefineSteps extends Component
         }
     }
 
+    /**
+
+     * Delete step.
+
+     *
+
+     * @param mixed $stepId
+
+     *
+
+     * @return void
+
+     */
+
     public function deleteStep($stepId)
     {
         $step = Step::find($stepId);
@@ -91,6 +139,16 @@ class DefineSteps extends Component
         }
     }
 
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
+
     public function render()
     {
         $processes = Process::where('active', 1)
@@ -102,6 +160,20 @@ class DefineSteps extends Component
         ])->layout('layouts.app');
     }
 
+    /**
+
+     * Get step type label.
+
+     *
+
+     * @param mixed $conditionType
+
+     *
+
+     * @return void
+
+     */
+
     public function getStepTypeLabel($conditionType)
     {
         $types = [
@@ -112,6 +184,20 @@ class DefineSteps extends Component
 
         return $types[$conditionType] ?? ucfirst($conditionType);
     }
+
+    /**
+
+     * Get step type badge.
+
+     *
+
+     * @param mixed $conditionType
+
+     *
+
+     * @return void
+
+     */
 
     public function getStepTypeBadge($conditionType)
     {

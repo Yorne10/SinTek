@@ -44,6 +44,11 @@ class Login extends Component
     }
 
     //This mounts the default credentials for the admin. Remove this section if you want to make it public.
+    /**
+     * Initialize component state.
+     *
+     * @return void
+     */
     public function mount()
     {
         if (auth()->user()) {
@@ -57,6 +62,16 @@ class Login extends Component
             'remember_me' => false,
         ]);
     }
+
+    /**
+
+     * Authenticate user and generate access token.
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function login()
     {
@@ -90,6 +105,16 @@ class Login extends Component
             return $this->addError('email', trans('auth.failed'));
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

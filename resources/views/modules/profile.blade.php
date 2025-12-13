@@ -7,7 +7,7 @@ Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN ├║nico elemento ra├¡z --}}
+{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
 {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
@@ -24,14 +24,14 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </ol>
             </nav>
             <h2 class="h4">Mi perfil</h2>
-            <p class="mb-0">Gestiona tu informaci├│n personal y mant├®n tus datos actualizados.</p>
+            <p class="mb-0">Gestiona tu información personal y mantén tus datos actualizados.</p>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Informaci├│n general</h2>
+                <h2 class="h5 mb-4">Información general</h2>
                 <form id="profileForm" action="#" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -45,7 +45,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="email">Correo electr├│nico <span class="text-danger">*</span></label>
+                                <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" type="email" placeholder="correo@institucion.com" required>
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -54,7 +54,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </div>
 
                     @if($user->role === 'worker')
-                        <h2 class="h5 my-4">Informaci├│n personal del trabajador</h2>
+                        <h2 class="h5 my-4">Información personal del trabajador</h2>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
@@ -89,9 +89,9 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="phone">Tel├®fono</label>
+                                    <label for="phone">Teléfono</label>
                                     <input wire:model="phone" class="form-control @error('phone') is-invalid @enderror"
-                                        id="phone" type="text" placeholder="N├║mero de tel├®fono">
+                                        id="phone" type="text" placeholder="Número de teléfono">
                                     @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -99,10 +99,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="address">Direcci├│n</label>
+                                    <label for="address">Dirección</label>
                                     <textarea wire:model="address"
                                         class="form-control @error('address') is-invalid @enderror" id="address" rows="3"
-                                        placeholder="Direcci├│n completa"></textarea>
+                                        placeholder="Dirección completa"></textarea>
                                     @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -122,7 +122,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 <div class="card card-body border-0 shadow mb-4">
                     <h2 class="h5 mb-4">Claves presupuestales (plazas)</h2>
                     <div class="row align-items-end g-3">
-                        <div class="col-md-8">
+                        <div class="col-md-8 position-relative">
                             <label for="budgetKey" class="form-label">Clave presupuestal <span
                                     class="text-danger">*</span></label>
                             <select wire:model="budgetKey" id="budgetKey"
@@ -134,11 +134,12 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     </option>
                                 @endforeach
                             </select>
-                            @error('budgetKey') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('budgetKey')
+                                <div class="invalid-feedback" style="position: absolute; white-space: nowrap;">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center"
-                                wire:click="addBudgetKey"
+                            <button type="button" id="addBudgetKeyBtn" class="btn btn-primary btn-sm d-inline-flex align-items-center"
                                 wire:loading.attr="disabled" wire:target="addBudgetKey">
                                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
                                     wire:loading wire:target="addBudgetKey"></span>
@@ -198,7 +199,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     <div class="mb-2">
                                         @icon('jobCredential', 'fa-2x')
                                     </div>
-                                    <p class="small mb-0">A├║n no registras claves presupuestales.</p>
+                                    <p class="small mb-0">Aún no registras claves presupuestales.</p>
                                 </div>
                             </div>
                         @endif
@@ -233,7 +234,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             @if($user->role === 'worker' && $worker)
                 <div class="card border-0 shadow mt-4">
                     <div class="card-body">
-                        <h2 class="h6 mb-3">Informaci├│n del trabajador</h2>
+                        <h2 class="h6 mb-3">Información del trabajador</h2>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">CURP:</span>
@@ -256,7 +257,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 </span>
                             </li>
                             <li class="list-group-item px-0 d-flex justify-content-between">
-                                <span class="text-gray-600">Tel├®fono:</span>
+                                <span class="text-gray-600">Teléfono:</span>
                                 <span class="fw-bold">{{ $worker->phone ?? 'No especificado' }}</span>
                             </li>
                         </ul>
@@ -268,7 +269,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             @if($user->role === 'worker')
                 <div class="card border-0 shadow mt-4">
                     <div class="card-body">
-                        <h2 class="h6 mb-3">Informaci├│n importante</h2>
+                        <h2 class="h6 mb-3">Información importante</h2>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item px-0">
                                 <div class="d-flex align-items-start">
@@ -300,14 +301,14 @@ Approved by: Alfonso Angel Garcia Hernandez
             buttonsStyling: false
         });
 
-        // Botn de guardar con confirmacin
+        // Botón de guardar con confirmación
         document.getElementById('saveProfileBtn').addEventListener('click', function () {
             swalWithBootstrapButtons.fire({
-                title: '┬┐Est├ís seguro?',
-                text: '┬┐Deseas guardar los cambios realizados en tu perfil?',
+                title: '¿Estás seguro?',
+                text: '¿Deseas guardar los cambios realizados en tu perfil?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'S├¡, guardar',
+                confirmButtonText: 'Sí, guardar',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
             }).then((result) => {
@@ -317,12 +318,32 @@ Approved by: Alfonso Angel Garcia Hernandez
             });
         });
 
-        // Escuchar evento cuando se muestre la notificacin demo
+        // Botón de agregar clave con confirmación
+        const addBudgetKeyBtn = document.getElementById('addBudgetKeyBtn');
+        if (addBudgetKeyBtn) {
+            addBudgetKeyBtn.addEventListener('click', function () {
+                swalWithBootstrapButtons.fire({
+                    title: '¿Agregar clave presupuestal?',
+                    text: '¿Estás seguro de agregar esta clave presupuestal a tu perfil?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, agregar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('addBudgetKey');
+                    }
+                });
+            });
+        }
+
+        // Escuchar evento cuando se muestre la notificación demo
         @if($showDemoNotification)
             swalWithBootstrapButtons.fire({
                 icon: 'warning',
                 title: 'Modo Demo',
-                text: 'No puedes realizar esta acci├│n en la versi├│n de demostraci├│n.',
+                text: 'No puedes realizar esta acción en la versión de demostración.',
                 showConfirmButton: true
             });
         @endif
@@ -343,7 +364,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 swalWithBootstrapButtons.fire({
                     icon: 'success',
                     title: 'Guardado!',
-                    text: 'Tu informacion ha sido actualizada correctamente.',
+                    text: 'Tu información ha sido actualizada correctamente.',
                     showConfirmButton: true,
                     timer: 2000
                 });
@@ -351,3 +372,4 @@ Approved by: Alfonso Angel Garcia Hernandez
         }
     });
 </script>
+

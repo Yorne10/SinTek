@@ -31,31 +31,91 @@ class SearchWorkers extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating search curp.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingSearchCurp()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Updating search rfc.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearchRfc()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters()
     {
         $this->reset(['search', 'searchCurp', 'searchRfc', 'statusFilter']);
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

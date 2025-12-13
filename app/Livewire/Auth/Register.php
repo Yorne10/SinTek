@@ -56,6 +56,16 @@ class Register extends Component
     #[Rule('required|same:password')]
     public $passwordConfirmation = '';
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @return void
+
+     */
+
     public function mount()
     {
         if (auth()->user()) {
@@ -63,10 +73,30 @@ class Register extends Component
         }
     }
 
+    /**
+
+     * Updated email.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedEmail()
     {
         $this->validate(['email' => 'required|email|unique:users,email']);
     }
+
+    /**
+
+     * Register a new user account.
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function register()
     {
@@ -136,6 +166,16 @@ class Register extends Component
         session()->flash('status', __('Hemos enviado un enlace de verificación a tu correo. Tu cuenta quedará activa cuando un secretario la apruebe.'));
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class ValidateSteps extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.secretary.validate-steps')

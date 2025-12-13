@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class ForgotPasswordExample extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.forgot-password-example')->layout('layouts.app');

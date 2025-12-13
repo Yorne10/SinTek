@@ -19,6 +19,13 @@ use App\Models\InstitutionalDocument;
 
 class InstitutionalDocumentService
 {
+    /**
+     * Display the specified resource.
+     *
+     * @param mixed $id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         $document = InstitutionalDocument::findOrFail($id);
@@ -27,6 +34,20 @@ class InstitutionalDocumentService
             ->header('Content-Type', $document->mime_type)
             ->header('Content-Disposition', 'inline; filename="' . $document->file_name . '"');
     }
+
+    /**
+
+     * Download.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+
+     */
 
     public function download($id)
     {

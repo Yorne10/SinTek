@@ -26,20 +26,64 @@ class NotificationCreated implements ShouldBroadcastNow
 
     public Notification $notification;
 
+    /**
+
+     * __construct.
+
+     *
+
+     * @param Notification $notification
+
+     *
+
+     * @return void
+
+     */
+
     public function __construct(Notification $notification)
     {
         $this->notification = $notification;
     }
+
+    /**
+
+     * Broadcast on.
+
+     *
+
+     * @return void
+
+     */
 
     public function broadcastOn()
     {
         return new PrivateChannel('user.' . $this->notification->user_id);
     }
 
+    /**
+
+     * Broadcast as.
+
+     *
+
+     * @return void
+
+     */
+
     public function broadcastAs()
     {
         return 'notification.created';
     }
+
+    /**
+
+     * Broadcast with.
+
+     *
+
+     * @return void
+
+     */
 
     public function broadcastWith()
     {

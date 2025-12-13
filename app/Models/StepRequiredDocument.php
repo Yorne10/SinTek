@@ -29,6 +29,16 @@ class StepRequiredDocument extends Model
         'title',
     ];
 
+    /**
+
+     * Step.
+
+     *
+
+     * @return void
+
+     */
+
     public function step()
     {
         return $this->belongsTo(Step::class, 'step_id', 'step_id');

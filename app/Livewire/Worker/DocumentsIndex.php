@@ -18,6 +18,16 @@ class DocumentsIndex extends Component
     public $search = '';
     public $categoryFilter = '';
 
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
+
     public function render()
     {
         $query = InstitutionalDocument::query()

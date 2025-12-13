@@ -31,15 +31,49 @@ class Notifications extends Component
 
     protected $queryString = ['search', 'statusFilter'];
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Mark as read.
+
+     *
+
+     * @param int $notificationId
+
+     *
+
+     * @return void
+
+     */
 
     public function markAsRead(int $notificationId): void
     {
@@ -65,6 +99,16 @@ class Notifications extends Component
         }
     }
 
+    /**
+
+     * Get notifications property.
+
+     *
+
+     * @return void
+
+     */
+
     public function getNotificationsProperty()
     {
         return Notification::with(['convocation'])
@@ -85,6 +129,16 @@ class Notifications extends Component
             ->paginate($this->perPage);
     }
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters(): void
     {
         $this->search = '';
@@ -92,10 +146,30 @@ class Notifications extends Component
         $this->resetPage();
     }
 
+    /**
+
+     * Refresh list.
+
+     *
+
+     * @return void
+
+     */
+
     public function refreshList(): void
     {
         // Method used by wire:poll to refresh the list.
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

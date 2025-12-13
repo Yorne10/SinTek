@@ -53,6 +53,20 @@ class FaqCategoryForm extends Component
         'categoryOrder.max' => 'El orden no puede exceder el máximo disponible.',
     ];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $categoryId
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($categoryId = null): void
     {
         $this->maxOrder = FaqCategory::count() + ($categoryId ? 0 : 1);
@@ -70,6 +84,16 @@ class FaqCategoryForm extends Component
             $this->originalOrder = $this->maxOrder;
         }
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save(): void
     {
@@ -146,6 +170,16 @@ class FaqCategoryForm extends Component
         }
     }
 
+    /**
+
+     * Delete category.
+
+     *
+
+     * @return void
+
+     */
+
     public function deleteCategory(): void
     {
         if (!$this->categoryId) {
@@ -168,6 +202,16 @@ class FaqCategoryForm extends Component
         }
     }
 
+    /**
+
+     * Confirm delete.
+
+     *
+
+     * @return void
+
+     */
+
     public function confirmDelete(): void
     {
         if (!$this->categoryId) {
@@ -181,6 +225,16 @@ class FaqCategoryForm extends Component
             $this->dispatch('category-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la categoría.');
         }
     }
+
+    /**
+
+     * Confirm delete with faqs.
+
+     *
+
+     * @return void
+
+     */
 
     public function confirmDeleteWithFaqs(): void
     {
@@ -224,6 +278,16 @@ class FaqCategoryForm extends Component
         $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.categories');
         $this->dispatch('category-saved', type: 'success', title: 'Eliminada', message: 'Categoría eliminada exitosamente.', redirect: $redirect);
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

@@ -39,6 +39,20 @@ class BudgetKeyForm extends Component
         'position_name.max' => 'El nombre del puesto no debe exceder los 150 caracteres',
     ];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($id = null)
     {
         if ($id) {
@@ -48,6 +62,16 @@ class BudgetKeyForm extends Component
             $this->position_name = $position->position_name;
         }
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save()
     {
@@ -112,10 +136,30 @@ class BudgetKeyForm extends Component
         }
     }
 
+    /**
+
+     * Cancel.
+
+     *
+
+     * @return void
+
+     */
+
     public function cancel()
     {
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
     }
+
+    /**
+
+     * Delete key.
+
+     *
+
+     * @return void
+
+     */
 
     public function deleteKey()
     {
@@ -142,6 +186,16 @@ class BudgetKeyForm extends Component
             $this->dispatch('budget-key-saved', message: 'Clave presupuestal eliminada correctamente.', redirect: $redirect);
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

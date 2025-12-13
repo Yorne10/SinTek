@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class UpgradeToPro extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.upgrade-to-pro')->layout('layouts.app');

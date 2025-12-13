@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class ProfileExample extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.profile-example')->layout('layouts.app');

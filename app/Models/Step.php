@@ -50,35 +50,105 @@ class Step extends Model
         'active' => 'boolean',
     ];
 
+    /**
+
+     * Process.
+
+     *
+
+     * @return void
+
+     */
+
     public function process()
     {
         return $this->belongsTo(Process::class, 'process_id', 'process_id');
     }
+
+    /**
+
+     * Next step.
+
+     *
+
+     * @return void
+
+     */
 
     public function nextStep()
     {
         return $this->belongsTo(Step::class, 'next_step_id', 'step_id');
     }
 
+    /**
+
+     * Next yes step.
+
+     *
+
+     * @return void
+
+     */
+
     public function nextYesStep()
     {
         return $this->belongsTo(Step::class, 'next_yes', 'step_id');
     }
+
+    /**
+
+     * Next no step.
+
+     *
+
+     * @return void
+
+     */
 
     public function nextNoStep()
     {
         return $this->belongsTo(Step::class, 'next_no', 'step_id');
     }
 
+    /**
+
+     * Request steps.
+
+     *
+
+     * @return void
+
+     */
+
     public function requestSteps()
     {
         return $this->hasMany(RequestStep::class, 'step_id', 'step_id');
     }
 
+    /**
+
+     * Documents.
+
+     *
+
+     * @return void
+
+     */
+
     public function documents()
     {
         return $this->hasMany(Document::class, 'step_id', 'step_id');
     }
+
+    /**
+
+     * Required documents.
+
+     *
+
+     * @return void
+
+     */
 
     public function requiredDocuments()
     {

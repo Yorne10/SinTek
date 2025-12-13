@@ -56,6 +56,16 @@ class Settings extends Component
         'session_timeout.max' => 'El tiempo de sesión debe ser menor o igual que 1440',
     ];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @return void
+
+     */
+
     public function mount()
     {
         // Verificar si el modo mantenimiento está activo
@@ -68,6 +78,16 @@ class Settings extends Component
         $this->contact_phone = \App\Models\SystemSetting::getValue('contact_phone', config('app.contact_phone', '(999) 999-9999'));
         $this->session_timeout = (int) \App\Models\SystemSetting::getValue('session_timeout', config('session.lifetime', 120));
     }
+
+    /**
+
+     * Save general info.
+
+     *
+
+     * @return void
+
+     */
 
     public function saveGeneralInfo()
     {
@@ -100,6 +120,16 @@ class Settings extends Component
         }
     }
 
+    /**
+
+     * Save security config.
+
+     *
+
+     * @return void
+
+     */
+
     public function saveSecurityConfig()
     {
         $this->validate([
@@ -124,6 +154,16 @@ class Settings extends Component
             );
         }
     }
+
+    /**
+
+     * Toggle maintenance mode.
+
+     *
+
+     * @return void
+
+     */
 
     public function toggleMaintenanceMode()
     {
@@ -163,6 +203,16 @@ class Settings extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

@@ -46,6 +46,20 @@ class EditProcess extends Component
         'active' => 'boolean',
     ];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $process_id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($process_id = null)
     {
         // Si se proporciona un process_id desde la ruta, usarlo
@@ -55,10 +69,30 @@ class EditProcess extends Component
         }
     }
 
+    /**
+
+     * Updated selected process id.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedSelectedProcessId()
     {
         $this->loadProcess();
     }
+
+    /**
+
+     * Load process.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadProcess()
     {
@@ -76,6 +110,16 @@ class EditProcess extends Component
             }
         }
     }
+
+    /**
+
+     * Update process.
+
+     *
+
+     * @return void
+
+     */
 
     public function updateProcess()
     {
@@ -173,6 +217,16 @@ class EditProcess extends Component
         }
     }
 
+    /**
+
+     * Delete process.
+
+     *
+
+     * @return void
+
+     */
+
     public function deleteProcess()
     {
         try {
@@ -210,6 +264,16 @@ class EditProcess extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

@@ -45,6 +45,24 @@ class Profile extends Component
     public $budgetKey = '';
     public $availablePositions = [];
 
+    /**
+     * Mostrar confirmación antes de agregar una clave.
+     */
+    public function confirmAddKey(): void
+    {
+        $this->dispatch('confirm-add-key');
+    }
+
+    /**
+
+     * Rules.
+
+     *
+
+     * @return void
+
+     */
+
     public function rules()
     {
         $rules = [
@@ -78,6 +96,16 @@ class Profile extends Component
         'sex.in' => 'La opcion seleccionada en sexo no es valida',
     ];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @return void
+
+     */
+
     public function mount()
     {
         $this->user = auth()->user();
@@ -101,6 +129,16 @@ class Profile extends Component
             ])->toArray();
         }
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save()
     {
@@ -143,6 +181,16 @@ class Profile extends Component
 
         $this->dispatch('profile-saved');
     }
+
+    /**
+
+     * Add budget key.
+
+     *
+
+     * @return void
+
+     */
 
     public function addBudgetKey(): void
     {
@@ -205,6 +253,20 @@ class Profile extends Component
         );
     }
 
+    /**
+
+     * Remove budget key.
+
+     *
+
+     * @param mixed $positionId
+
+     *
+
+     * @return void
+
+     */
+
     public function removeBudgetKey($positionId): void
     {
         if (!$this->worker) {
@@ -221,6 +283,16 @@ class Profile extends Component
             message: 'Se eliminó la clave presupuestal de tu perfil.'
         );
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

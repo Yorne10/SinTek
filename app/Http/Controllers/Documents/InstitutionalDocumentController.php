@@ -24,15 +24,55 @@ class InstitutionalDocumentController extends RestfulController
 {
     protected InstitutionalDocumentService $institutionalDocumentService;
 
+    /**
+
+     * Create a new instance.
+
+     *
+
+     * @param InstitutionalDocumentService $institutionalDocumentService
+
+     */
+
     public function __construct(InstitutionalDocumentService $institutionalDocumentService)
     {
         $this->institutionalDocumentService = $institutionalDocumentService;
     }
 
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function show(Request $request, $id)
     {
         return $this->institutionalDocumentService->show($id);
     }
+
+    /**
+
+     * Download.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+
+     */
 
     public function download($id)
     {

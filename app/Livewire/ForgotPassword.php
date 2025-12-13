@@ -33,6 +33,16 @@ class ForgotPassword extends Component
     #[Rule('required|email|exists:users', message: ['email.exists' => 'The Email Address must be in our database.'])]
     public $email = '';
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @return void
+
+     */
+
     public function mount()
     {
         if (auth()->user()) {
@@ -40,13 +50,33 @@ class ForgotPassword extends Component
         }
     }
 
+    /**
+
+     * Updated email.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedEmail()
     {
         $this->validate(['email'=>'required|email|exists:users']);
     }
+    /**
+     * Route notification for mail.
+     *
+     * @return void
+     */
     public function routeNotificationForMail() {
         return $this->email;
     }
+    /**
+     * Recover password.
+     *
+     * @return void
+     */
     public function recoverPassword() {
         if(env('IS_DEMO')) {
             $this->showDemoNotification = true;
@@ -58,6 +88,16 @@ class ForgotPassword extends Component
             $this->mailSentAlert = true;
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

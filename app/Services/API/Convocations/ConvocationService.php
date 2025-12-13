@@ -20,6 +20,11 @@ use App\Models\ConvocationDocument;
 
 class ConvocationService
 {
+    /**
+     * List all resources.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $convocatorias = Convocation::with('documents')
@@ -56,6 +61,20 @@ class ConvocationService
         ]);
     }
 
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function show($id)
     {
         $convocatoria = Convocation::with('documents')->find($id);
@@ -90,6 +109,20 @@ class ConvocationService
             ],
         ]);
     }
+
+    /**
+
+     * Download document.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function downloadDocument($id)
     {

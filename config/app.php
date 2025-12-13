@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Version (Semantic Versioning)
+    |--------------------------------------------------------------------------
+    |
+    | CETAM Standard: MAJOR.MINOR.PATCH
+    | - MAJOR: Incompatible changes
+    | - MINOR: New compatible features
+    | - PATCH: Bug fixes and minor improvements
+    |
+    */
+
+    'version' => '1.0.0',
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

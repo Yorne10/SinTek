@@ -20,6 +20,13 @@ use Illuminate\Http\Request;
 
 class ProcessService
 {
+    /**
+     * List all resources.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $query = Process::with('steps')
@@ -65,6 +72,20 @@ class ProcessService
             'count' => $procesos->count(),
         ]);
     }
+
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function show($id)
     {

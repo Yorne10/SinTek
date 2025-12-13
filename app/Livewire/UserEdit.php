@@ -39,6 +39,20 @@ class UserEdit extends Component
     public $department = '';
     public $position = '';
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($id)
     {
         $user = User::with('worker')->findOrFail($id);
@@ -59,6 +73,16 @@ class UserEdit extends Component
             $this->position = $user->worker->position ?? '';
         }
     }
+
+    /**
+
+     * Update user.
+
+     *
+
+     * @return void
+
+     */
 
     public function updateUser()
     {
@@ -129,10 +153,30 @@ class UserEdit extends Component
         }
     }
 
+    /**
+
+     * Cancel.
+
+     *
+
+     * @return void
+
+     */
+
     public function cancel()
     {
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.users.index');
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

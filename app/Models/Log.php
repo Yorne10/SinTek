@@ -34,6 +34,16 @@ class Log extends Model
         'description',
     ];
 
+    /**
+
+     * User.
+
+     *
+
+     * @return void
+
+     */
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'users_id');

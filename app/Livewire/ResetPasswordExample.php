@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class ResetPasswordExample extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.examples.reset-password-example')->layout('layouts.app');

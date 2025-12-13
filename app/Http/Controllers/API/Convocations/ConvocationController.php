@@ -23,20 +23,74 @@ class ConvocationController extends RestfulController
 {
     protected ConvocationService $convocationService;
 
+    /**
+
+     * Create a new instance.
+
+     *
+
+     * @param ConvocationService $convocationService
+
+     */
+
     public function __construct(ConvocationService $convocationService)
     {
         $this->convocationService = $convocationService;
     }
+
+    /**
+
+     * List all resources.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function index(Request $request)
     {
         return $this->convocationService->index();
     }
 
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function show(Request $request, $id)
     {
         return $this->convocationService->show($id);
     }
+
+    /**
+
+     * Download document.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function downloadDocument($id)
     {

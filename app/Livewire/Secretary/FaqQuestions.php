@@ -30,22 +30,66 @@ class FaqQuestions extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $categoryId
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($categoryId)
     {
         $this->categoryId = $categoryId;
         $this->category = FaqCategory::findOrFail($categoryId);
     }
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
 
     public function clearFilters()
     {
         $this->search = '';
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

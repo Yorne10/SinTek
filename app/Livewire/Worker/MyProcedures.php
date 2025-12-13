@@ -30,15 +30,45 @@ class MyProcedures extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {
@@ -96,6 +126,20 @@ class MyProcedures extends Component
         ])->layout('layouts.app');
     }
 
+    /**
+
+     * Get progress percentage.
+
+     *
+
+     * @param mixed $request
+
+     *
+
+     * @return void
+
+     */
+
     public function getProgressPercentage($request)
     {
         $totalSteps = $request->requestSteps->count();
@@ -107,10 +151,38 @@ class MyProcedures extends Component
         return round(($completedSteps / $totalSteps) * 100);
     }
 
+    /**
+
+     * Get completed steps.
+
+     *
+
+     * @param mixed $request
+
+     *
+
+     * @return void
+
+     */
+
     public function getCompletedSteps($request)
     {
         return $request->requestSteps->where('request_step_status', 'completed')->count();
     }
+
+    /**
+
+     * Get total steps.
+
+     *
+
+     * @param mixed $request
+
+     *
+
+     * @return void
+
+     */
 
     public function getTotalSteps($request)
     {

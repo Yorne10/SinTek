@@ -26,6 +26,16 @@ class Convocations extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
+
     public function render()
     {
         // Obtener solo convocatorias activas y próximas

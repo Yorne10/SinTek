@@ -38,15 +38,45 @@ class Request extends Model
         'completed_at' => 'datetime',
     ];
 
+    /**
+
+     * Worker.
+
+     *
+
+     * @return void
+
+     */
+
     public function worker()
     {
         return $this->belongsTo(Worker::class, 'worker_id', 'workers_id');
     }
 
+    /**
+
+     * Process.
+
+     *
+
+     * @return void
+
+     */
+
     public function process()
     {
         return $this->belongsTo(Process::class, 'process_id', 'process_id');
     }
+
+    /**
+
+     * Current step.
+
+     *
+
+     * @return void
+
+     */
 
     public function currentStep()
     {

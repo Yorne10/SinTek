@@ -31,20 +31,60 @@ class NotificationsHistory extends Component
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['searchTitle', 'searchUser', 'statusFilter'];
 
+    /**
+
+     * Updating search title.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearchTitle(): void
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating search user.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingSearchUser(): void
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingStatusFilter(): void
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
 
     public function clearFilters(): void
     {
@@ -53,6 +93,16 @@ class NotificationsHistory extends Component
         $this->statusFilter = '';
         $this->resetPage();
     }
+
+    /**
+
+     * Get notifications property.
+
+     *
+
+     * @return void
+
+     */
 
     public function getNotificationsProperty()
     {
@@ -76,6 +126,16 @@ class NotificationsHistory extends Component
             ->orderByDesc('created_at')
             ->paginate($this->perPage);
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

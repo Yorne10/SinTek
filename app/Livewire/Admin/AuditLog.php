@@ -27,21 +27,65 @@ class AuditLog extends Component
     public $roleFilter = '';
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating role filter.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingRoleFilter()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters()
     {
         $this->reset(['search', 'roleFilter']);
         $this->resetPage();
     }
+
+    /**
+
+     * Get role label.
+
+     *
+
+     * @param mixed $role
+
+     *
+
+     * @return void
+
+     */
 
     public function getRoleLabel($role)
     {
@@ -55,10 +99,30 @@ class AuditLog extends Component
         return $roles[$role] ?? 'N/D';
     }
 
+    /**
+
+     * Refresh list.
+
+     *
+
+     * @return void
+
+     */
+
     public function refreshList(): void
     {
         // Método utilizado por wire:poll para refrescar el listado.
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

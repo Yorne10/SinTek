@@ -81,6 +81,16 @@ class ConvocationsDocuments extends Component
         'doc_archivo.max' => 'El archivo no debe superar los 10MB.',
     ];
 
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
+
     public function save()
     {
         $this->validate();
@@ -161,6 +171,16 @@ class ConvocationsDocuments extends Component
         }
     }
 
+    /**
+
+     * Save institutional document.
+
+     *
+
+     * @return void
+
+     */
+
     public function saveInstitutionalDocument()
     {
         $this->validate([
@@ -215,6 +235,16 @@ class ConvocationsDocuments extends Component
         }
     }
 
+    /**
+
+     * Toggle institutional form.
+
+     *
+
+     * @return void
+
+     */
+
     public function toggleInstitutionalForm()
     {
         $this->showInstitutionalForm = !$this->showInstitutionalForm;
@@ -223,6 +253,20 @@ class ConvocationsDocuments extends Component
             $this->resetValidation();
         }
     }
+
+    /**
+
+     * Archive institutional document.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function archiveInstitutionalDocument($id)
     {
@@ -254,10 +298,34 @@ class ConvocationsDocuments extends Component
         }
     }
 
+    /**
+
+     * Add documento.
+
+     *
+
+     * @return void
+
+     */
+
     public function addDocumento()
     {
         $this->documentos[] = ['titulo' => '', 'archivo' => null];
     }
+
+    /**
+
+     * Remove documento.
+
+     *
+
+     * @param mixed $index
+
+     *
+
+     * @return void
+
+     */
 
     public function removeDocumento($index)
     {
@@ -265,11 +333,31 @@ class ConvocationsDocuments extends Component
         $this->documentos = array_values($this->documentos);
     }
 
+    /**
+
+     * Limpiar.
+
+     *
+
+     * @return void
+
+     */
+
     public function limpiar()
     {
         $this->reset(['titulo', 'descripcion', 'fecha_inicio', 'fecha_fin', 'convocatoria_permanente', 'documentos']);
         $this->resetValidation();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

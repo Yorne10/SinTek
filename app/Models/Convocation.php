@@ -37,10 +37,30 @@ class Convocation extends Model
         'end_date' => 'date',
     ];
 
+    /**
+
+     * Notifications.
+
+     *
+
+     * @return void
+
+     */
+
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'convocation_id', 'convocation_id');
     }
+
+    /**
+
+     * Documents.
+
+     *
+
+     * @return void
+
+     */
 
     public function documents()
     {

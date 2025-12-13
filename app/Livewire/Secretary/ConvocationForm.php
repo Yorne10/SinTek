@@ -30,6 +30,20 @@ class ConvocationForm extends Component
     public $convocatoria_permanente = false;
     public $documentos = [];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($id = null)
     {
         if ($id) {
@@ -42,6 +56,20 @@ class ConvocationForm extends Component
             $this->convocatoria_permanente = !$convocation->end_date;
         }
     }
+
+    /**
+
+     * Updated convocatoria permanente.
+
+     *
+
+     * @param mixed $value
+
+     *
+
+     * @return void
+
+     */
 
     public function updatedConvocatoriaPermanente($value)
     {
@@ -74,16 +102,50 @@ class ConvocationForm extends Component
         'documentos.*.archivo.max' => 'El archivo no debe superar los 5MB.',
     ];
 
+    /**
+
+     * Add documento.
+
+     *
+
+     * @return void
+
+     */
+
     public function addDocumento()
     {
         $this->documentos[] = ['titulo' => '', 'archivo' => null];
     }
+
+    /**
+
+     * Remove documento.
+
+     *
+
+     * @param mixed $index
+
+     *
+
+     * @return void
+
+     */
 
     public function removeDocumento($index)
     {
         unset($this->documentos[$index]);
         $this->documentos = array_values($this->documentos);
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save(): void
     {
@@ -231,6 +293,16 @@ class ConvocationForm extends Component
         }
     }
 
+    /**
+
+     * Delete the specified resource.
+
+     *
+
+     * @return void
+
+     */
+
     public function delete(): void
     {
         if (!$this->convocationId) {
@@ -270,6 +342,16 @@ class ConvocationForm extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

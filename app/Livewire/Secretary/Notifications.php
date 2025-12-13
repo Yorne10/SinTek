@@ -49,6 +49,20 @@ class Notifications extends Component
 
     protected $queryString = ['search'];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $notificationId
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($notificationId = null): void
     {
         if ($notificationId) {
@@ -59,16 +73,50 @@ class Notifications extends Component
         }
     }
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch(): void
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating worker search.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingWorkerSearch(): void
     {
         // keep pagination consistent on search change
         $this->resetPage();
     }
+
+    /**
+
+     * Updated send to all.
+
+     *
+
+     * @param mixed $value
+
+     *
+
+     * @return void
+
+     */
 
     public function updatedSendToAll($value): void
     {
@@ -78,6 +126,20 @@ class Notifications extends Component
             $this->workerSearch = '';
         }
     }
+
+    /**
+
+     * Add user.
+
+     *
+
+     * @param int $userId
+
+     *
+
+     * @return void
+
+     */
 
     public function addUser(int $userId): void
     {
@@ -95,6 +157,20 @@ class Notifications extends Component
         }
     }
 
+    /**
+
+     * Remove user.
+
+     *
+
+     * @param int $userId
+
+     *
+
+     * @return void
+
+     */
+
     public function removeUser(int $userId): void
     {
         $this->selectedUsers = array_values(array_filter(
@@ -102,6 +178,16 @@ class Notifications extends Component
             fn($id) => (int) $id !== $userId
         ));
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save(): void
     {
@@ -111,6 +197,16 @@ class Notifications extends Component
             $this->sendNotification();
         }
     }
+
+    /**
+
+     * Update notification.
+
+     *
+
+     * @return void
+
+     */
 
     public function updateNotification(): void
     {
@@ -139,6 +235,16 @@ class Notifications extends Component
 
         $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications'));
     }
+
+    /**
+
+     * Send notification.
+
+     *
+
+     * @return void
+
+     */
 
     public function sendNotification(): void
     {
@@ -191,6 +297,16 @@ class Notifications extends Component
         );
     }
 
+    /**
+
+     * Delete notification.
+
+     *
+
+     * @return void
+
+     */
+
     public function deleteNotification(): void
     {
         if (!$this->notificationId) {
@@ -217,6 +333,16 @@ class Notifications extends Component
         $this->redirect(route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications'));
     }
 
+    /**
+
+     * Get filtered workers property.
+
+     *
+
+     * @return void
+
+     */
+
     public function getFilteredWorkersProperty()
     {
         if (trim($this->workerSearch) === '') {
@@ -236,6 +362,16 @@ class Notifications extends Component
             ->get(['users_id', 'name', 'email']);
     }
 
+    /**
+
+     * Get notifications property.
+
+     *
+
+     * @return void
+
+     */
+
     public function getNotificationsProperty()
     {
         return Notification::with(['user'])
@@ -249,6 +385,16 @@ class Notifications extends Component
             ->paginate($this->perPage);
     }
 
+    /**
+
+     * Get selected workers property.
+
+     *
+
+     * @return void
+
+     */
+
     public function getSelectedWorkersProperty()
     {
         if (empty($this->selectedUsers)) {
@@ -259,6 +405,16 @@ class Notifications extends Component
             ->get(['users_id', 'name', 'email'])
             ->keyBy('users_id');
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

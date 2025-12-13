@@ -27,6 +27,13 @@ use Illuminate\Support\Facades\Log;
 
 class FallbackAuthService
 {
+    /**
+     * Authenticate user and generate access token.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -52,6 +59,20 @@ class FallbackAuthService
 
         return back()->withErrors(['email' => trans('auth.failed')]);
     }
+
+    /**
+
+     * Register a new user account.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function register(Request $request)
     {
@@ -120,6 +141,20 @@ class FallbackAuthService
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login')
             ->with('status', __('Hemos enviado un enlace de verificación a tu correo. Tu cuenta quedará activa cuando un secretario la apruebe.'));
     }
+
+    /**
+
+     * Revoke authentication token and log out user.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function logout(Request $request)
     {

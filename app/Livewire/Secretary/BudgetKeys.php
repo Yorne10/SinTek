@@ -29,6 +29,16 @@ class BudgetKeys extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
+
     public function render()
     {
         $positions = Position::where('budget_key', 'like', '%' . $this->search . '%')
@@ -40,15 +50,53 @@ class BudgetKeys extends Component
             ->layout('layouts.app');
     }
 
+    /**
+
+     * Show form for creating new resource.
+
+     *
+
+     * @return void
+
+     */
+
     public function create()
     {
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-key.create');
     }
 
+    /**
+
+     * Show form for editing resource.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function edit($id)
     {
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-key.edit', ['id' => $id]);
     }
+
+    /**
+
+     * Delete the specified resource.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function delete($id)
     {

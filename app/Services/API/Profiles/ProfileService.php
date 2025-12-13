@@ -23,6 +23,13 @@ use Illuminate\Validation\Rule;
 
 class ProfileService
 {
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Request $request)
     {
         $user = $request->user();
@@ -39,6 +46,20 @@ class ProfileService
             ]
         ], 200);
     }
+
+    /**
+
+     * Update the specified resource.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function update(Request $request)
     {
@@ -103,6 +124,20 @@ class ProfileService
         }
     }
 
+    /**
+
+     * Update photo.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
+
     public function updatePhoto(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -136,6 +171,20 @@ class ProfileService
         }
     }
 
+    /**
+
+     * Delete photo.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
+
     public function deletePhoto(Request $request)
     {
         try {
@@ -156,6 +205,20 @@ class ProfileService
             ], 500);
         }
     }
+
+    /**
+
+     * Update password.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function updatePassword(Request $request)
     {

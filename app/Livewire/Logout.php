@@ -20,12 +20,27 @@ use Livewire\Component;
 class Logout extends Component
 {
 
+    /**
+
+     * Revoke authentication token and log out user.
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function logout() {
         auth()->logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
     }
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.logout');

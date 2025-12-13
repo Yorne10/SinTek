@@ -35,11 +35,35 @@ class ConfigureFlow extends Component
     public $validationWarnings = [];
     public $isFlowValid = false;
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $process_id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($process_id)
     {
         $this->process_id = $process_id;
         $this->loadProcess();
     }
+
+    /**
+
+     * Load process.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadProcess()
     {
@@ -72,15 +96,45 @@ class ConfigureFlow extends Component
         $this->validateFlow();
     }
 
+    /**
+
+     * Updated initial step id.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedInitialStepId()
     {
         $this->validateFlow();
     }
 
+    /**
+
+     * Updated connections.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedConnections()
     {
         $this->validateFlow();
     }
+
+    /**
+
+     * Validate flow.
+
+     *
+
+     * @return void
+
+     */
 
     public function validateFlow()
     {
@@ -240,6 +294,16 @@ class ConfigureFlow extends Component
         return $orders;
     }
 
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
+
     public function save()
     {
         $this->validateFlow();
@@ -291,6 +355,16 @@ class ConfigureFlow extends Component
 
         return redirect()->route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps', ['process_id' => $this->process_id]);
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

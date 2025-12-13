@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class Transactions extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.examples.transactions')->layout('layouts.app');

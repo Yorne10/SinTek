@@ -22,6 +22,13 @@ use App\Services\ActivityLogger;
 
 class NotificationService
 {
+    /**
+     * List all resources.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $userId = $request->user()->users_id;
@@ -50,6 +57,20 @@ class NotificationService
             'data' => $notifications,
         ]);
     }
+
+    /**
+
+     * Mark as read.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function markAsRead(Request $request)
     {

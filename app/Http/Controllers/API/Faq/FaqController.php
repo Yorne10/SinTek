@@ -22,31 +22,57 @@ use Illuminate\Http\Request;
 class FaqController extends RestfulController
 {
     protected FaqService $faqService;
+    /**
+     * Create a new instance.
+     *
+     * @param FaqService $faqService
+     */
 
     public function __construct(FaqService $faqService)
     {
         $this->faqService = $faqService;
     }
+    /**
+     * get Categories.
+     */
 
     public function getCategories()
     {
         return $this->faqService->getCategories();
     }
+    /**
+     * get All Faqs.
+     */
 
     public function getAllFaqs()
     {
         return $this->faqService->getAllFaqs();
     }
+    /**
+     * get Faqs By Category.
+     *
+     * @param int $categoryId
+     */
 
     public function getFaqsByCategory(int $categoryId)
     {
         return $this->faqService->getFaqsByCategory($categoryId);
     }
+    /**
+     * search Faqs.
+     *
+     * @param Request $request
+     */
 
     public function searchFaqs(Request $request)
     {
         return $this->faqService->searchFaqs($request);
     }
+    /**
+     * get Faq By Id.
+     *
+     * @param int $faqId
+     */
 
     public function getFaqById(int $faqId)
     {

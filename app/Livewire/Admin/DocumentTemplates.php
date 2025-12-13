@@ -19,6 +19,11 @@ use Livewire\Component;
 
 class DocumentTemplates extends Component
 {
+    /**
+     * Render the component view.
+     *
+     * @return \Illuminate\View\View
+     */
     public function render()
     {
         return view('modules.admin.document-templates')->layout('layouts.app');

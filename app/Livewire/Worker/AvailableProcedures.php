@@ -34,15 +34,45 @@ class AvailableProcedures extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Updating category filter.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingCategoryFilter()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
 
     public function clearFilters()
     {
@@ -50,6 +80,16 @@ class AvailableProcedures extends Component
         $this->categoryFilter = '';
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {
@@ -78,6 +118,20 @@ class AvailableProcedures extends Component
             'processes' => $processes,
         ])->layout('layouts.app');
     }
+
+    /**
+
+     * Start procedure.
+
+     *
+
+     * @param mixed $processId
+
+     *
+
+     * @return void
+
+     */
 
     public function startProcedure($processId)
     {

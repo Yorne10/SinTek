@@ -22,6 +22,11 @@ use Illuminate\Http\Request;
 
 class FaqService
 {
+    /**
+     * Get categories.
+     *
+     * @return void
+     */
     public function getCategories(): JsonResponse
     {
         try {
@@ -54,6 +59,16 @@ class FaqService
             ], 500);
         }
     }
+
+    /**
+
+     * Get all faqs.
+
+     *
+
+     * @return void
+
+     */
 
     public function getAllFaqs(): JsonResponse
     {
@@ -94,6 +109,20 @@ class FaqService
             ], 500);
         }
     }
+
+    /**
+
+     * Get faqs by category.
+
+     *
+
+     * @param int $categoryId
+
+     *
+
+     * @return void
+
+     */
 
     public function getFaqsByCategory(int $categoryId): JsonResponse
     {
@@ -138,6 +167,20 @@ class FaqService
             ], 500);
         }
     }
+
+    /**
+
+     * Search faqs.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function searchFaqs(Request $request): JsonResponse
     {
@@ -186,6 +229,20 @@ class FaqService
             ], 500);
         }
     }
+
+    /**
+
+     * Get faq by id.
+
+     *
+
+     * @param int $faqId
+
+     *
+
+     * @return void
+
+     */
 
     public function getFaqById(int $faqId): JsonResponse
     {

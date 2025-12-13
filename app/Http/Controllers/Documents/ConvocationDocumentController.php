@@ -24,15 +24,55 @@ class ConvocationDocumentController extends RestfulController
 {
     protected ConvocationDocumentService $convocationDocumentService;
 
+    /**
+
+     * Create a new instance.
+
+     *
+
+     * @param ConvocationDocumentService $convocationDocumentService
+
+     */
+
     public function __construct(ConvocationDocumentService $convocationDocumentService)
     {
         $this->convocationDocumentService = $convocationDocumentService;
     }
 
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function show(Request $request, $id)
     {
         return $this->convocationDocumentService->show($id);
     }
+
+    /**
+
+     * Download.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+
+     */
 
     public function download($id)
     {

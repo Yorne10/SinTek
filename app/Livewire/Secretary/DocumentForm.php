@@ -39,6 +39,20 @@ class DocumentForm extends Component
     public $archivo_actual;
     public $status = 'active';
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($id = null): void
     {
         if ($id) {
@@ -55,12 +69,36 @@ class DocumentForm extends Component
         }
     }
 
+    /**
+
+     * Updated sin fecha vigencia.
+
+     *
+
+     * @param mixed $value
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedSinFechaVigencia($value)
     {
         if ($value) {
             $this->fecha_vigencia = null;
         }
     }
+
+    /**
+
+     * Toggle status.
+
+     *
+
+     * @return void
+
+     */
 
     public function toggleStatus()
     {
@@ -103,6 +141,16 @@ class DocumentForm extends Component
         'archivo.mimes' => 'El archivo debe ser un PDF',
         'archivo.max' => 'El archivo no debe superar los 10MB',
     ];
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save(): void
     {
@@ -232,6 +280,16 @@ class DocumentForm extends Component
         }
     }
 
+    /**
+
+     * Delete the specified resource.
+
+     *
+
+     * @return void
+
+     */
+
     public function delete(): void
     {
         if (!$this->documentId) {
@@ -268,6 +326,16 @@ class DocumentForm extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

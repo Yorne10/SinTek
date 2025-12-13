@@ -51,6 +51,22 @@ class CreateStep extends Component
     // Query string parameters
     protected $queryString = ['process_id', 'step_id'];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $process_id
+
+     * @param mixed $step_id
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($process_id = null, $step_id = null)
     {
         $this->procesos = Process::where('active', 1)->orderBy('name')->get();
@@ -64,6 +80,16 @@ class CreateStep extends Component
             $this->loadAvailableSteps();
         }
     }
+
+    /**
+
+     * Load step.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadStep()
     {
@@ -89,6 +115,16 @@ class CreateStep extends Component
         }
     }
 
+    /**
+
+     * Updated process id.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedProcessId()
     {
         if ($this->process_id && !$this->isEditing) {
@@ -96,16 +132,50 @@ class CreateStep extends Component
         }
     }
 
+    /**
+
+     * Updated step type.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedStepType()
     {
         $this->activarRamificacion = $this->step_type === 'conditional';
     }
+
+    /**
+
+     * Add document.
+
+     *
+
+     * @return void
+
+     */
 
     public function addDocument()
     {
         $this->documents[] = ['title' => ''];
         $this->requires_documents = true;
     }
+
+    /**
+
+     * Remove document.
+
+     *
+
+     * @param mixed $index
+
+     *
+
+     * @return void
+
+     */
 
     public function removeDocument($index)
     {
@@ -115,6 +185,16 @@ class CreateStep extends Component
             $this->requires_documents = false;
         }
     }
+
+    /**
+
+     * Load available steps.
+
+     *
+
+     * @return void
+
+     */
 
     public function loadAvailableSteps()
     {
@@ -128,6 +208,16 @@ class CreateStep extends Component
             $this->availableSteps = $query->get();
         }
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save()
     {
@@ -245,6 +335,16 @@ class CreateStep extends Component
             );
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

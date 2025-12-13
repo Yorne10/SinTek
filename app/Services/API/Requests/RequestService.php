@@ -27,6 +27,13 @@ use App\Services\ActivityLogger;
 
 class RequestService
 {
+    /**
+     * List all resources.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $user = $request->user();
@@ -86,6 +93,20 @@ class RequestService
             'count' => $requests->count(),
         ]);
     }
+
+    /**
+
+     * Store a newly created resource.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function store(Request $request)
     {
@@ -161,6 +182,22 @@ class RequestService
         }
     }
 
+    /**
+
+     * Display the specified resource.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function show(Request $request, $id)
     {
         $user = $request->user();
@@ -209,6 +246,22 @@ class RequestService
             ],
         ]);
     }
+
+    /**
+
+     * Next step.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function nextStep(Request $request, $id)
     {
@@ -300,6 +353,22 @@ class RequestService
             ], 500);
         }
     }
+
+    /**
+
+     * Conditional step.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function conditionalStep(Request $request, $id)
     {
@@ -404,6 +473,22 @@ class RequestService
         }
     }
 
+    /**
+
+     * Upload document.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
+
     public function uploadDocument(Request $request, $id)
     {
         $validated = $request->validate([
@@ -479,6 +564,22 @@ class RequestService
             ], 500);
         }
     }
+
+    /**
+
+     * Cancel.
+
+     *
+
+     * @param Request $request
+
+     * @param mixed $id
+
+     *
+
+     * @return void
+
+     */
 
     public function cancel(Request $request, $id)
     {

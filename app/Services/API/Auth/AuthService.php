@@ -24,6 +24,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
+    /**
+     * Register a new user account.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -58,6 +65,20 @@ class AuthService
             ]
         ], 201);
     }
+
+    /**
+
+     * Register a new worker account.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return void
+
+     */
 
     public function registerWorker(Request $request)
     {
@@ -97,6 +118,20 @@ class AuthService
             ]
         ], 201);
     }
+
+    /**
+
+     * Authenticate user and generate access token.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function login(Request $request)
     {
@@ -146,6 +181,20 @@ class AuthService
         ], 200);
     }
 
+    /**
+
+     * Revoke authentication token and log out user.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -155,6 +204,20 @@ class AuthService
             'message' => 'Cierre de sesión exitoso'
         ], 200);
     }
+
+    /**
+
+     * Get authenticated user information.
+
+     *
+
+     * @param Request $request
+
+     *
+
+     * @return \Illuminate\Http\JsonResponse
+
+     */
 
     public function me(Request $request)
     {

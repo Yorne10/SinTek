@@ -35,14 +35,41 @@ class ResetPassword extends Component
     public $wrongEmail = false;
     public $urlId='';
 
+    /**
+
+     * Updated email.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatedEmail()
     {
         $this->validate(['email'=>'required|email|exists:users']);
     }
+    /**
+     * Initialize component state.
+     *
+     * @param mixed $id
+     *
+     * @return void
+     */
     public function mount($id) {
         $existingUser = User::find($id);
         $this->urlId = intval($existingUser->id);
     }
+
+    /**
+
+     * Reset password.
+
+     *
+
+     * @return void
+
+     */
 
     public function resetPassword() {
         $this->validate();
@@ -58,6 +85,16 @@ class ResetPassword extends Component
             $this->wrongEmail = true;
         }
     }
+    
+    /**
+    
+     * Render the component view.
+    
+     *
+    
+     * @return \Illuminate\View\View
+    
+     */
     
     public function render()
     {

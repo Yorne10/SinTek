@@ -37,10 +37,38 @@ class FaqManagement extends Component
         }
     }
 
+    /**
+
+     * Move up.
+
+     *
+
+     * @param mixed $categoryId
+
+     *
+
+     * @return void
+
+     */
+
     public function moveUp($categoryId)
     {
         $this->moveCategory($categoryId, 'up');
     }
+
+    /**
+
+     * Move down.
+
+     *
+
+     * @param mixed $categoryId
+
+     *
+
+     * @return void
+
+     */
 
     public function moveDown($categoryId)
     {
@@ -77,16 +105,46 @@ class FaqManagement extends Component
         }
     }
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
 
     public function clearFilters()
     {
         $this->search = '';
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

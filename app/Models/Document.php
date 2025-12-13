@@ -36,10 +36,30 @@ class Document extends Model
         'file_content',
     ];
 
+    /**
+
+     * Request.
+
+     *
+
+     * @return void
+
+     */
+
     public function request()
     {
         return $this->belongsTo(Request::class, 'request_id', 'request_id');
     }
+
+    /**
+
+     * Step.
+
+     *
+
+     * @return void
+
+     */
 
     public function step()
     {

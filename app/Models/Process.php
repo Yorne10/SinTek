@@ -38,15 +38,45 @@ class Process extends Model
         'active' => 'boolean',
     ];
 
+    /**
+
+     * Creator.
+
+     *
+
+     * @return void
+
+     */
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by', 'users_id');
     }
 
+    /**
+
+     * Steps.
+
+     *
+
+     * @return void
+
+     */
+
     public function steps()
     {
         return $this->hasMany(Step::class, 'process_id', 'process_id');
     }
+
+    /**
+
+     * Requests.
+
+     *
+
+     * @return void
+
+     */
 
     public function requests()
     {

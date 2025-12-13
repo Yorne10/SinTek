@@ -83,20 +83,60 @@ class User extends Authenticatable
         return $this->hasOne(Worker::class, 'user_id', 'users_id');
     }
 
+    /**
+
+     * Created processes.
+
+     *
+
+     * @return void
+
+     */
+
     public function createdProcesses()
     {
         return $this->hasMany(Process::class, 'created_by', 'users_id');
     }
+
+    /**
+
+     * Request steps.
+
+     *
+
+     * @return void
+
+     */
 
     public function requestSteps()
     {
         return $this->hasMany(RequestStep::class, 'user_id', 'users_id');
     }
 
+    /**
+
+     * Notifications.
+
+     *
+
+     * @return void
+
+     */
+
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'user_id', 'users_id');
     }
+
+    /**
+
+     * Logs.
+
+     *
+
+     * @return void
+
+     */
 
     public function logs()
     {
@@ -111,20 +151,68 @@ class User extends Authenticatable
         return $this->role === 'worker';
     }
 
+    /**
+
+     * Is secretary.
+
+     *
+
+     * @return void
+
+     */
+
     public function isSecretary(): bool
     {
         return $this->role === 'secretary';
     }
+
+    /**
+
+     * Is admin.
+
+     *
+
+     * @return void
+
+     */
 
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
+    /**
+
+     * Has role.
+
+     *
+
+     * @param string $role
+
+     *
+
+     * @return void
+
+     */
+
     public function hasRole(string $role): bool
     {
         return $this->role === $role;
     }
+
+    /**
+
+     * Has any role.
+
+     *
+
+     * @param array $roles
+
+     *
+
+     * @return void
+
+     */
 
     public function hasAnyRole(array $roles): bool
     {

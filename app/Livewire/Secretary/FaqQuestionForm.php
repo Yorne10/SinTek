@@ -50,6 +50,22 @@ class FaqQuestionForm extends Component
         'faqOrder.max' => 'El orden no puede exceder el máximo disponible.',
     ];
 
+    /**
+
+     * Initialize component state.
+
+     *
+
+     * @param mixed $categoryId
+
+     * @param mixed $faqId
+
+     *
+
+     * @return void
+
+     */
+
     public function mount($categoryId, $faqId = null): void
     {
         $this->categoryId = $categoryId;
@@ -69,6 +85,16 @@ class FaqQuestionForm extends Component
             $this->originalOrder = $this->maxOrder;
         }
     }
+
+    /**
+
+     * Save the data.
+
+     *
+
+     * @return void
+
+     */
 
     public function save(): void
     {
@@ -147,6 +173,16 @@ class FaqQuestionForm extends Component
         }
     }
 
+    /**
+
+     * Delete faq.
+
+     *
+
+     * @return void
+
+     */
+
     public function deleteFaq(): void
     {
         if (!$this->faqId) {
@@ -179,6 +215,16 @@ class FaqQuestionForm extends Component
             $this->dispatch('faq-error', type: 'error', title: 'Error', message: 'No se pudo eliminar la pregunta.');
         }
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {

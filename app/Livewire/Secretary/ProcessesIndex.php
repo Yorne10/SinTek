@@ -29,21 +29,61 @@ class ProcessesIndex extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    /**
+
+     * Updating search.
+
+     *
+
+     * @return void
+
+     */
+
     public function updatingSearch()
     {
         $this->resetPage();
     }
+
+    /**
+
+     * Updating status filter.
+
+     *
+
+     * @return void
+
+     */
 
     public function updatingStatusFilter()
     {
         $this->resetPage();
     }
 
+    /**
+
+     * Clear filters.
+
+     *
+
+     * @return void
+
+     */
+
     public function clearFilters()
     {
         $this->reset(['search', 'statusFilter']);
         $this->resetPage();
     }
+
+    /**
+
+     * Render the component view.
+
+     *
+
+     * @return \Illuminate\View\View
+
+     */
 
     public function render()
     {
@@ -69,6 +109,20 @@ class ProcessesIndex extends Component
             'processes' => $processes
         ])->layout('layouts.app');
     }
+
+    /**
+
+     * Toggle process status.
+
+     *
+
+     * @param int $processId
+
+     *
+
+     * @return void
+
+     */
 
     public function toggleProcessStatus(int $processId): void
     {
