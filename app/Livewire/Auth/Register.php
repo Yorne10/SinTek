@@ -63,8 +63,11 @@ class Register extends Component
         }
     }
 
-    public function updatedEmail() { $this->validate(['email'=>'required|email|unique:users,email']); }
-    
+    public function updatedEmail()
+    {
+        $this->validate(['email' => 'required|email|unique:users,email']);
+    }
+
     public function register()
     {
         $validated = $this->validate();
@@ -101,11 +104,12 @@ class Register extends Component
             // Parse budget_keys into Position rows
             $keys = preg_split('/[\n,;]+/', (string) $this->budget_keys);
             foreach ($keys as $key) {
-                $clave = trim($key);
-                if ($clave === '') continue;
+                $budgetKey = trim($key);
+                if ($budgetKey === '')
+                    continue;
                 Position::create([
                     'worker_id' => $worker->id,
-                    'clave_presupuestal' => $clave,
+                    'clave_presupuestal' => $budgetKey,
                     'plaza' => null,
                     'puesto' => null,
                 ]);
@@ -125,7 +129,7 @@ class Register extends Component
                 $user->sendEmailVerificationNotification();
             } catch (\Throwable $e) {
                 // Log but do not break registration if mail is misconfigured
-                logger()->warning('Email verification not sent: '.$e->getMessage());
+                logger()->warning('Email verification not sent: ' . $e->getMessage());
             }
         }
 

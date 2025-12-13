@@ -92,18 +92,18 @@ use App\Http\Controllers\Auth\FallbackAuthController;
 $slug = config('proj.slug');
 $namePrefix = config('proj.route_name_prefix', 'proj');
 
-// Redireccin base a login dentro del prefijo
+// Base redirect to login within prefix
 Route::redirect('/', "/p/{$slug}/login");
-
-// Verificacin de correo (enlace firmado, sin exigir sesin)
-Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['signed'])
-    ->name('verification.verify');
 
 Route::prefix("p/{$slug}")
     ->as($namePrefix . '.')
     ->group(function () use ($namePrefix) {
-        // Pblico
+        // Email verification (signed route, no session required)
+        Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)
+            ->middleware(['signed'])
+            ->name('auth.verify');
+
+        // Public routes
         Route::get('/register', Register::class)->name('auth.register');
         Route::post('/register', [FallbackAuthController::class, 'register'])->name('auth.register.submit');
 
@@ -111,7 +111,7 @@ Route::prefix("p/{$slug}")
         Route::post('/login', [FallbackAuthController::class, 'login'])->name('auth.login.submit');
         Route::post('/logout', [FallbackAuthController::class, 'logout'])->name('auth.logout');
 
-        // Ruta para sesión expirada
+        // Route for expired session
         Route::view('/session-expired', 'errors.session-expired')->name('errors.session-expired');
 
         // Fallback for GET logout (e.g. refresh) -> Redirect to session expired
@@ -122,28 +122,28 @@ Route::prefix("p/{$slug}")
         Route::get('/forgot-password', ForgotPassword::class)->name('auth.forgot-password');
         Route::get('/reset-password/{id}', ResetPassword::class)->name('auth.reset-password')->middleware('signed');
 
-        // Errores y pginas informativas
+        // Errors and informational pages
         Route::get('/404', Err404::class)->name('errors.404');
         Route::get('/500', Err500::class)->name('errors.500');
         Route::get('/upgrade-to-pro', UpgradeToPro::class)->name('marketing.upgrade-to-pro');
 
-        // Privado
+        // Private routes (authenticated)
         Route::middleware('auth')->group(function () {
             Route::get('/dashboard', Dashboard::class)->name('dashboard.index');
             Route::get('/profile', Profile::class)->name('profile.index');
 
-            // Rutas para documentos de convocatorias
+            // Routes for convocation documents
             Route::get('/convocation-document/{id}', [ConvocationDocumentController::class, 'show'])->name('convocation-document.show');
             Route::get('/convocation-document/{id}/download', [ConvocationDocumentController::class, 'download'])->name('convocation-document.download');
 
-            // Rutas para documentos institucionales
+            // Routes for institutional documents
             Route::get('/institutional-document/{id}', [InstitutionalDocumentController::class, 'show'])->name('institutional-document.show');
             Route::get('/institutional-document/{id}/download', [InstitutionalDocumentController::class, 'download'])->name('institutional-document.download');
 
-            // Preguntas frecuentes (compartido entre todos los roles)
+            // Frequently asked questions (shared among all roles)
             Route::get('/faq', Faq::class)->name('faq');
 
-            // Rutas para trabajadores (workers)
+            // Routes for workers
             Route::middleware(['role:worker'])->group(function () {
                 Route::get('/available-procedures', AvailableProcedures::class)->name('worker.available-procedures');
                 Route::get('/my-procedures', MyProcedures::class)->name('worker.my-procedures');
@@ -154,9 +154,9 @@ Route::prefix("p/{$slug}")
                 Route::get('/worker-notifications', WorkerNotifications::class)->name('worker.notifications');
             });
 
-            // Rutas para secretarios/operadores
+            // Routes for secretaries/operators
             Route::middleware(['role:secretary'])->group(function () {
-                // Funciones de secretara
+                // Secretary functions
                 Route::get('/validate-steps', ValidateSteps::class)->name('secretary.validate-steps');
                 Route::get('/search-workers', SearchWorkers::class)->name('secretary.search-workers');
                 Route::get('/secretary/calls', SecretaryCallsIndex::class)->name('secretary.calls');
@@ -183,14 +183,14 @@ Route::prefix("p/{$slug}")
                 Route::get('/worker/{id}/procedures', \App\Livewire\Secretary\WorkerProceduresHistory::class)->name('secretary.worker-procedures');
             });
 
-            // Rutas para administradores (gestin de usuarios y sistema)
+            // Routes for administrators (user and system management)
             Route::middleware(['role:admin'])->group(function () {
                 Route::get('/configuration', Settings::class)->name('admin.configuration');
                 Route::get('/activity-log', AuditLog::class)->name('admin.activity-log');
                 Route::view('/alerts-preview', 'modules.admin.alerts-preview')->name('admin.alerts-preview');
             });
 
-            // Rutas compartidas: admin Y secretary (gestin de procesos)
+            // Shared routes: admin AND secretary (process management)
             Route::middleware(['role:admin,secretary'])->group(function () {
                 Route::get('/create-process', CreateProcess::class)->name('admin.create-process');
                 Route::get('/define-steps/{process_id?}', DefineSteps::class)->name('admin.define-steps');

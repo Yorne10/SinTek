@@ -21,6 +21,6 @@ class Lock extends Component
 {
     public function render()
     {
-        return view('lock')->layout('layouts.app');
+        return view('modules.auth.lock')->layout('layouts.app');
     }
 }

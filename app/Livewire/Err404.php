@@ -21,6 +21,6 @@ class Err404 extends Component
 {
     public function render()
     {
-        return view('404')->layout('layouts.app');
+        return view('errors.404')->layout('layouts.app');
     }
 }

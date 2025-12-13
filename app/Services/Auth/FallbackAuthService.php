@@ -93,13 +93,13 @@ class FallbackAuthService
 
             $keys = preg_split('/[\n,;]+/', (string) $data['budget_keys']);
             foreach ($keys as $key) {
-                $clave = trim($key);
-                if ($clave === '') {
+                $budgetKey = trim($key);
+                if ($budgetKey === '') {
                     continue;
                 }
                 Position::create([
                     'worker_id' => $worker->id,
-                    'clave_presupuestal' => $clave,
+                    'clave_presupuestal' => $budgetKey,
                 ]);
             }
         });

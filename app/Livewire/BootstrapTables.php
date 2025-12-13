@@ -21,6 +21,6 @@ class BootstrapTables extends Component
 {
     public function render()
     {
-        return view('bootstrap-tables')->layout('layouts.app');
+        return view('modules.examples.bootstrap-tables')->layout('layouts.app');
     }
 }
