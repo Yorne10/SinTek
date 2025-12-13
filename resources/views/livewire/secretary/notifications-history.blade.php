@@ -5,6 +5,11 @@ File: notifications-history.blade.php
 Created on: 12/12/2025
 Created by: Codex
 Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
 <div>

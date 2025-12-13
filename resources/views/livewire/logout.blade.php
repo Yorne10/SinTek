@@ -8,8 +8,8 @@ Approved by: Alfonso Angel Garcia Hernandez
 
 Changelog:
 - ID: <ID> | Date: dd/mm/yyyy
-  Modified by: <Developer name>
-  Description: <Brief description of change>
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
 {{-- Vista movida a modules/logout.blade.php --}}

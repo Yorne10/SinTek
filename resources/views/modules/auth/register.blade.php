@@ -8,12 +8,10 @@ Approved by: Alfonso Angel Garcia Hernandez
 
 Changelog:
 - ID: <ID> | Date: dd/mm/yyyy
-  Modified by: <Developer name>
-  Description: <Brief description of change>
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 @section('title', 'Crear cuenta - ' . config('app.name'))
 

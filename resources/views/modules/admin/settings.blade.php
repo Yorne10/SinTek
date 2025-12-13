@@ -1,19 +1,17 @@
 {{--
-    Company: CETAM
-    Project: ST
-    File: settings.blade.php
-    Created on: 04/11/2025
-    Created by: Alfonso Angel Garcia Hernandez
-    Approved by: Alfonso Angel Garcia Hernandez
+Company: CETAM
+Project: ST
+File: settings.blade.php
+Created on: 04/11/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 
-    Changelog:
-    - ID: <ID> | Date: dd/mm/yyyy
-      Modified by: <Developer name>
-      Description: <Brief description of change>
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN nico elemento raz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">

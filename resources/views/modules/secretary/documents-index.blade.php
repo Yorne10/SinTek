@@ -1,15 +1,15 @@
 {{--
-    Company: CETAM
-    Project: ST
-    File: documents-index.blade.php
-    Created on: 04/12/2025
-    Created by: Alfonso Angel García Hernández
-    Approved by: Alfonso Angel García Hernández
+Company: CETAM
+Project: ST
+File: documents-index.blade.php
+Created on: 04/12/2025
+Created by: Alfonso Angel García Hernández
+Approved by: Alfonso Angel García Hernández
 
-    Changelog:
-    - ID: <ID> | Date: dd/mm/yyyy
-      Modified by: <Developer name>
-      Description: <Brief description of change>
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 <div>
     {{-- Page Header --}}

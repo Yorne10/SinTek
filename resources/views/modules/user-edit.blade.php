@@ -1,15 +1,15 @@
 {{--
-    Company: CETAM
-    Project: ST
-    File: user-edit.blade.php
-    Created on: 01/12/2025
-    Created by: Claude AI
-    Approved by: Alfonso Angel Garcia Hernandez
+Company: CETAM
+Project: ST
+File: user-edit.blade.php
+Created on: 01/12/2025
+Created by: Claude AI
+Approved by: Alfonso Angel Garcia Hernandez
 
-    Changelog:
-        - ID: <ID> | Date: dd/mm/yyyy
-        Modified by: <Developer name>
-        Description: <Brief description of change>
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
 

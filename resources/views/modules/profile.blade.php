@@ -5,10 +5,13 @@ File: profile.blade.php
 Created on: 20/11/2025
 Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">

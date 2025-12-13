@@ -1,10 +1,15 @@
 {{-- 
-* Company: CETAM
-* Project: ST
-* File: faq-questions.blade.php
-* Created on: 09/12/2025
-* Created by: Codex
-* Approved by: Alfonso Angel GarcÌa Hern·ndez
+Company: CETAM
+Project: ST
+File: faq-questions.blade.php
+Created on: 09/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">

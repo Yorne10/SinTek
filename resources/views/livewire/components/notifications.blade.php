@@ -1,15 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: notifications.blade.php
-* Created on: 04/12/2025
-* Created by: Claude Code
-* Approved by: Alfonso Angel Garcia Hernandez
-*
-* Changelog:
-* - ID: 001 | Modified on: 04/12/2025 |
-* Modified by: Claude Code |
-* Description: Componente Livewire para notificaciones con actualización automática cada 10 segundos
+Company: CETAM
+Project: ST
+File: notifications.blade.php
+Created on: 04/12/2025
+Created by: Claude Code
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
 <div>
