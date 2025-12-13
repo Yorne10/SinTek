@@ -7,7 +7,7 @@ Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
+{{-- Nota Livewire: esta vista debe tener UN ├║nico elemento ra├¡z --}}
 {{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
@@ -24,14 +24,14 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </ol>
             </nav>
             <h2 class="h4">Mi perfil</h2>
-            <p class="mb-0">Gestiona tu información personal y mantén tus datos actualizados.</p>
+            <p class="mb-0">Gestiona tu informaci├│n personal y mant├®n tus datos actualizados.</p>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
-                <h2 class="h5 mb-4">Información general</h2>
+                <h2 class="h5 mb-4">Informaci├│n general</h2>
                 <form id="profileForm" action="#" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -45,7 +45,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label for="email">Correo electrónico <span class="text-danger">*</span></label>
+                                <label for="email">Correo electr├│nico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" type="email" placeholder="correo@institucion.com" required>
                                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -54,7 +54,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </div>
 
                     @if($user->role === 'worker')
-                        <h2 class="h5 my-4">Información personal del trabajador</h2>
+                        <h2 class="h5 my-4">Informaci├│n personal del trabajador</h2>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
@@ -89,9 +89,9 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="phone">Teléfono</label>
+                                    <label for="phone">Tel├®fono</label>
                                     <input wire:model="phone" class="form-control @error('phone') is-invalid @enderror"
-                                        id="phone" type="text" placeholder="Número de teléfono">
+                                        id="phone" type="text" placeholder="N├║mero de tel├®fono">
                                     @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -99,10 +99,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
-                                    <label for="address">Dirección</label>
+                                    <label for="address">Direcci├│n</label>
                                     <textarea wire:model="address"
                                         class="form-control @error('address') is-invalid @enderror" id="address" rows="3"
-                                        placeholder="Dirección completa"></textarea>
+                                        placeholder="Direcci├│n completa"></textarea>
                                     @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -198,7 +198,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     <div class="mb-2">
                                         @icon('jobCredential', 'fa-2x')
                                     </div>
-                                    <p class="small mb-0">Aún no registras claves presupuestales.</p>
+                                    <p class="small mb-0">A├║n no registras claves presupuestales.</p>
                                 </div>
                             </div>
                         @endif
@@ -233,7 +233,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             @if($user->role === 'worker' && $worker)
                 <div class="card border-0 shadow mt-4">
                     <div class="card-body">
-                        <h2 class="h6 mb-3">Información del trabajador</h2>
+                        <h2 class="h6 mb-3">Informaci├│n del trabajador</h2>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">CURP:</span>
@@ -256,7 +256,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 </span>
                             </li>
                             <li class="list-group-item px-0 d-flex justify-content-between">
-                                <span class="text-gray-600">Teléfono:</span>
+                                <span class="text-gray-600">Tel├®fono:</span>
                                 <span class="fw-bold">{{ $worker->phone ?? 'No especificado' }}</span>
                             </li>
                         </ul>
@@ -268,7 +268,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             @if($user->role === 'worker')
                 <div class="card border-0 shadow mt-4">
                     <div class="card-body">
-                        <h2 class="h6 mb-3">Información importante</h2>
+                        <h2 class="h6 mb-3">Informaci├│n importante</h2>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item px-0">
                                 <div class="d-flex align-items-start">
@@ -303,11 +303,11 @@ Approved by: Alfonso Angel Garcia Hernandez
         // Botn de guardar con confirmacin
         document.getElementById('saveProfileBtn').addEventListener('click', function () {
             swalWithBootstrapButtons.fire({
-                title: '¿Estás seguro?',
-                text: '¿Deseas guardar los cambios realizados en tu perfil?',
+                title: '┬┐Est├ís seguro?',
+                text: '┬┐Deseas guardar los cambios realizados en tu perfil?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, guardar',
+                confirmButtonText: 'S├¡, guardar',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
             }).then((result) => {
@@ -322,7 +322,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             swalWithBootstrapButtons.fire({
                 icon: 'warning',
                 title: 'Modo Demo',
-                text: 'No puedes realizar esta acción en la versión de demostración.',
+                text: 'No puedes realizar esta acci├│n en la versi├│n de demostraci├│n.',
                 showConfirmButton: true
             });
         @endif
