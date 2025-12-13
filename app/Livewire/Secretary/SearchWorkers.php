@@ -8,6 +8,9 @@
  * Approved by: Alfonso Angel García Hernández
  *
  * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Secretary;

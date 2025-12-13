@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: web.php
+ * Created on: 10/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 use App\Livewire\BootstrapTables;
 use App\Livewire\Components\Buttons;

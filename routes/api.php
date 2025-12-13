@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: api.php
+ * Created on: 10/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\AuthController;

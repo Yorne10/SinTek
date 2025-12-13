@@ -3,7 +3,7 @@
 * Project: ST
 * File: documents-index.blade.php
 * Created on: 04/12/2025
-* Created by: Claude Code
+* Created by: Alfonso Angel Garcia Hernandez
 * Approved by: Alfonso Angel Garcia Hernandez
 --}}
 
@@ -71,11 +71,14 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $document->title }}</span>
+                                    <span
+                                        class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $document->title }}</span>
                                 </div>
                             </td>
                             <td><span class="fw-normal">{{ ucfirst($document->category ?? 'N/A') }}</span></td>
-                            <td><span class="fw-normal">{{ $document->effective_date ? \Illuminate\Support\Carbon::parse($document->effective_date)->format('d/m/Y') : 'N/A' }}</span></td>
+                            <td><span
+                                    class="fw-normal">{{ $document->effective_date ? \Illuminate\Support\Carbon::parse($document->effective_date)->format('d/m/Y') : 'N/A' }}</span>
+                            </td>
                             <td class="text-start" style="width: 12%; min-width: 72px;">
                                 <div class="btn-group position-static">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
@@ -83,8 +86,8 @@
                                         @icon('menu', 'icon icon-xs')
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                        <button class="dropdown-item d-flex align-items-center view-document-detail" type="button"
-                                            data-title="{{ $document->title }}"
+                                        <button class="dropdown-item d-flex align-items-center view-document-detail"
+                                            type="button" data-title="{{ $document->title }}"
                                             data-category="{{ ucfirst($document->category ?? 'N/A') }}"
                                             data-description="{{ $document->description ?? 'Sin descripción' }}"
                                             data-version="{{ $document->version ?? 'N/A' }}"
@@ -126,11 +129,11 @@
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
             @php
                 $isPaginated = $documents instanceof \Illuminate\Contracts\Pagination\Paginator;
-                $from = $isPaginated ? ($documents->firstItem() ?? 0) : ($documents->isEmpty() ? 0 : 1);
-                $to = $isPaginated ? ($documents->lastItem() ?? 0) : $documents->count();
+                $from = $isPaginated ? $documents->firstItem() ?? 0 : ($documents->isEmpty() ? 0 : 1);
+                $to = $isPaginated ? $documents->lastItem() ?? 0 : $documents->count();
                 $total = $isPaginated ? $documents->total() : $documents->count();
             @endphp
-            @if($isPaginated && $documents->hasPages())
+            @if ($isPaginated && $documents->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $documents->links('components.pagination-users') }}
                 </nav>
@@ -143,7 +146,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary',
@@ -153,7 +156,7 @@
             });
 
             // Event listener para ver detalles
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (e.target.closest('.view-document-detail')) {
                     e.preventDefault();
                     const button = e.target.closest('.view-document-detail');

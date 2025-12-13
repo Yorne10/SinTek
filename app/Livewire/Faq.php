@@ -4,8 +4,13 @@
  * Project: ST
  * File: PreguntasFrecuentes.php
  * Created on: 24/11/2025
- * Modified by: Codex
+ * Modified by: Alfonso Angel García Hernández
  * Approved by: Alfonso Angel García Hernández
+ * 
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire;

@@ -8,9 +8,9 @@
  * Approved by: Alfonso Angel García Hernández
  *
  * Changelog:
- * - ID: <ID> | Modified on: 22/11/2025 |
- *   Modified by: Codex |
- *   Description: Envío de notificaciones manuales a uno o varios trabajadores.
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Secretary;

@@ -5,7 +5,12 @@
  * File: FaqManagement.php
  * Created on: 24/11/2025
  * Created by: Codex
- * Approved by: Alfonso Angel GarcÍa HernÁndez
+ * Approved by: Alfonso Angel GarcÍa Hernández
+ * 
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Secretary;

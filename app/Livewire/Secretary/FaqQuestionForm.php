@@ -6,6 +6,10 @@
  * Created on: 10/12/2025
  * Created by: Codex
  * Approved by: Alfonso Angel Garcia Hernandez
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Secretary;

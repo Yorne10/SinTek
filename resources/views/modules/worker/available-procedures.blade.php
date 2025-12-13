@@ -3,7 +3,7 @@
 * Project: ST
 * File: available-procedures.blade.php
 * Created on: 04/12/2025
-* Created by: Claude Code
+* Created by: Alfonso Angel Garcia Hernandez
 * Approved by: Alfonso Angel Garcia Hernandez
 --}}
 

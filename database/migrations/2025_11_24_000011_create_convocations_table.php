@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: 2025_11_24_000011_create_convocations_table.php
+ * Created on: 12/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

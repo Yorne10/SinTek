@@ -3,7 +3,7 @@ Company: CETAM
 Project: ST
 File: configure-flow.blade.php
 Created on: 12/12/2025
-Created by: Claude Code
+Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
 --}}
 

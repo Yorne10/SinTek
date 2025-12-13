@@ -4,8 +4,13 @@
  * Project: ST
  * File: NotificationsHistory.php
  * Created on: 12/12/2025
- * Created by: Codex
+ * Created by: Alfonso Angel Garcia Hernandez
  * Approved by: Alfonso Angel Garcia Hernandez
+ * 
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
  */
 
 namespace App\Livewire\Secretary;
