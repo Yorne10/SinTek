@@ -62,7 +62,7 @@ class EditProcess extends Component
 
     public function mount($process_id = null)
     {
-        // Si se proporciona un process_id desde la ruta, usarlo
+        // If  proporciona un process_id desde la ruta, usarlo
         if ($process_id) {
             $this->selectedProcessId = $process_id;
             $this->loadProcess();
@@ -100,7 +100,7 @@ class EditProcess extends Component
             $this->selectedProcess = Process::with('creator')->find($this->selectedProcessId);
 
             if ($this->selectedProcess) {
-                // Cargar los datos en las propiedades públicas
+                // Load los datos en las propiedades públicas
                 $this->name = $this->selectedProcess->name;
                 $this->description = $this->selectedProcess->description;
                 $this->category = $this->selectedProcess->category;
@@ -128,11 +128,11 @@ class EditProcess extends Component
         try {
             $process = Process::with('steps')->find($this->selectedProcessId);
 
-            // Si se está intentando activar, validar el flujo
+            // If  está intentando activar, validar el flujo
             if ($this->active && !$process->active) {
                 $steps = $process->steps;
 
-                // Verificar que haya al menos un paso
+                // Verify que haya al menos un paso
                 if ($steps->count() === 0) {
                     $this->dispatch(
                         'process-error',
@@ -142,7 +142,7 @@ class EditProcess extends Component
                     return;
                 }
 
-                // Verificar paso inicial
+                // Verify paso inicial
                 $initialSteps = $steps->where('is_initial_step', true);
                 if ($initialSteps->count() === 0) {
                     $this->dispatch(
@@ -153,7 +153,7 @@ class EditProcess extends Component
                     return;
                 }
 
-                // Verificar paso final
+                // Verify final step
                 $finalSteps = $steps->where('step_type', 'final');
                 if ($finalSteps->count() === 0) {
                     $this->dispatch(
@@ -164,7 +164,7 @@ class EditProcess extends Component
                     return;
                 }
 
-                // Verificar que todos los pasos estén vinculados
+                // Verify que todos los pasos estén vinculados
                 $unlinkedSteps = $steps->where('is_linked', false);
                 if ($unlinkedSteps->count() > 0) {
                     $unlinkedNames = $unlinkedSteps->pluck('title')->take(3)->implode(', ');

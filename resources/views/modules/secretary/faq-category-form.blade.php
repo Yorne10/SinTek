@@ -265,7 +265,7 @@ Changelog:
                 });
             });
 
-            // Para categorias SIN FAQs - solo question
+            // For categorias SIN FAQs - solo question
             Livewire.on('category-no-faqs', () => {
                 swalWithBootstrapButtons.fire({
                     icon: 'question',

@@ -228,7 +228,7 @@ class Profile extends Component
             ]);
         }
 
-        // Verificar si ya tiene esta clave
+        // Verify si ya tiene esta clave
         if ($this->worker->positions()->where('positions.positions_id', $positionId)->exists()) {
             $this->dispatch(
                 'profile-notify',

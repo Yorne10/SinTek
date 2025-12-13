@@ -12,7 +12,7 @@ Changelog:
     Description: <Brief description of change>
 --}}
 <div>
-    {{-- Breadcrumb y Header --}}
+    {{-- Breadcrumb and Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
@@ -78,7 +78,7 @@ Changelog:
                     <p class="text-muted small mb-0">Progreso y pasos completados</p>
                 </div>
                 <div class="card-body p-4">
-                    {{-- Barra de progreso --}}
+                    {{-- Progress bar --}}
                     @php
                         $totalSteps = $request->requestSteps->count();
                         $completedSteps = $request->requestSteps->where('request_step_status', 'completed')->count();
@@ -95,7 +95,7 @@ Changelog:
                         </div>
                     </div>
 
-                    {{-- Timeline de pasos --}}
+                    {{-- Steps timeline --}}
                     <div class="timeline timeline-one-side mt-4">
                         @foreach ($allSteps as $step)
                             @php
@@ -106,7 +106,7 @@ Changelog:
                             <div class="timeline-item">
                                 <div class="timeline-item-content">
                                     <div class="d-flex">
-                                        {{-- Icono del paso --}}
+                                        {{-- Icon del paso --}}
                                         <div class="me-3">
                                             @if ($status === 'completed')
                                                 <span class="icon-shape icon-sm bg-success text-white rounded-circle">

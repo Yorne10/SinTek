@@ -59,11 +59,11 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'No autenticado'], 401);
             }
-            // Si viene de una petición Ajax/Livewire, redirigir a sesión expirada
+            // If viene de una petición Ajax/Livewire, redirigir a sesión expirada
             if ($request->ajax() || $request->wantsJson() || $request->is('livewire/*')) {
                 return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
             }
-            // Si es una petición normal, redirigir al login
+            // If it is una petición normal, redirigir al login
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         });
     }

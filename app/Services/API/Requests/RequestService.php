@@ -604,7 +604,7 @@ class RequestService
             ], 404);
         }
 
-        // Validar que el trámite pueda ser cancelado
+        // Validate que el trámite pueda ser cancelado
         if (in_array($req->status, ['completado', 'cancelado', 'rechazado'])) {
             return response()->json([
                 'success' => false,
@@ -614,7 +614,7 @@ class RequestService
 
         DB::beginTransaction();
         try {
-            // Actualizar el estado del trámite
+            // Update el estado del trámite
             $req->status = 'cancelado';
             $req->save();
 

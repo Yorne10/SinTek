@@ -38,7 +38,7 @@ class Convocations extends Component
 
     public function render()
     {
-        // Obtener solo convocatorias activas y próximas
+        // Get solo convocatorias activas y próximas
         $convocations = Convocation::with('documents')
             ->whereIn('status', ['activa', 'proxima', 'permanente'])
             ->orderByRaw("FIELD(status, 'activa', 'permanente', 'proxima')")

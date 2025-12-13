@@ -133,11 +133,11 @@ class FaqQuestionForm extends Component
             );
 
             if ($isEditing) {
-                // En edición: redirigir después de mostrar alerta
+                // In edición: redirigir después de mostrar alerta
                 $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.questions', $this->categoryId);
                 $this->dispatch('faq-saved', type: 'success', title: 'Éxito', message: $message, redirect: $redirect);
             } else {
-                // En creación: limpiar formulario y quedarse
+                // In creación: limpiar formulario y quedarse
                 $this->reset(['faqQuestion', 'faqAnswer']);
                 $this->maxOrder = Faq::where('faq_category_id', $this->categoryId)->count() + 1;
                 $this->faqOrder = $this->maxOrder;

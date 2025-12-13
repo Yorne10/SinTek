@@ -65,7 +65,7 @@ Changelog:
         </div>
     </div>
 
-    {{-- Listado en cards (una por fila) --}}
+    {{-- Listdo en cards (una por fila) --}}
     <div class="row g-3">
         @forelse($convocatorias as $convocatoria)
             @php

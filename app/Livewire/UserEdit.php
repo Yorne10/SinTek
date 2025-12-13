@@ -63,7 +63,7 @@ class UserEdit extends Component
         $this->role = $user->role;
         $this->is_active = $user->is_active;
 
-        // Si es worker, cargar datos adicionales
+        // If it is worker, cargar datos adicionales
         if ($user->role === 'worker' && $user->worker) {
             $this->curp = $user->worker->curp ?? '';
             $this->rfc = $user->worker->rfc ?? '';
@@ -131,7 +131,7 @@ class UserEdit extends Component
 
             $user->save();
 
-            // Si es worker, actualizar datos adicionales
+            // If it is worker, actualizar datos adicionales
             if ($this->role === 'worker') {
                 Worker::updateOrCreate(
                     ['user_id' => $user->users_id],

@@ -120,7 +120,7 @@ class Notifications extends Component
 
     public function updatedSendToAll($value): void
     {
-        // Si se activa "enviar a todos", limpiar selección individual
+        // If  activa "enviar a todos", limpiar selección individual
         if ($value) {
             $this->selectedUsers = [];
             $this->workerSearch = '';

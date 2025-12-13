@@ -74,7 +74,7 @@ class MyProcedures extends Component
     {
         $user = Auth::user();
 
-        // Obtener el worker asociado al usuario
+        // Get el worker asociado al usuario
         $worker = Worker::where('user_id', $user->users_id)->first();
 
         if (!$worker) {
@@ -107,7 +107,7 @@ class MyProcedures extends Component
             $query->where('status', $this->statusFilter);
         }
 
-        // Obtener trámites paginados
+        // Get trámites paginados
         $requests = $query->orderBy('created_at', 'desc')
             ->paginate(10);
 

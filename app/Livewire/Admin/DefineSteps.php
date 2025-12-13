@@ -99,7 +99,7 @@ class DefineSteps extends Component
         if ($this->selectedProcess) {
             $this->steps = $this->selectedProcess->steps;
         } else {
-            // Si no se encuentra, limpiar para evitar mostrar otro proceso.
+            // If no se encuentra, limpiar para evitar mostrar otro proceso.
             $this->steps = [];
         }
     }

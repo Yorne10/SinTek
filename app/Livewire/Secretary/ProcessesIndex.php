@@ -129,11 +129,11 @@ class ProcessesIndex extends Component
         try {
             $process = Process::with('steps')->findOrFail($processId);
 
-            // Si se está intentando activar, validar el flujo
+            // If  está intentando activar, validar el flujo
             if (!$process->active) {
                 $steps = $process->steps;
 
-                // Verificar que haya al menos un paso
+                // Verify que haya al menos un paso
                 if ($steps->count() === 0) {
                     $this->dispatch(
                         'processes-notify',
@@ -144,7 +144,7 @@ class ProcessesIndex extends Component
                     return;
                 }
 
-                // Verificar paso inicial
+                // Verify paso inicial
                 $initialSteps = $steps->where('is_initial_step', true);
                 if ($initialSteps->count() === 0) {
                     $this->dispatch(
@@ -156,7 +156,7 @@ class ProcessesIndex extends Component
                     return;
                 }
 
-                // Verificar paso final
+                // Verify final step
                 $finalSteps = $steps->where('step_type', 'final');
                 if ($finalSteps->count() === 0) {
                     $this->dispatch(
@@ -168,7 +168,7 @@ class ProcessesIndex extends Component
                     return;
                 }
 
-                // Verificar que todos los pasos estén vinculados
+                // Verify que todos los pasos estén vinculados
                 $unlinkedSteps = $steps->where('is_linked', false);
                 if ($unlinkedSteps->count() > 0) {
                     $unlinkedNames = $unlinkedSteps->pluck('title')->take(3)->implode(', ');

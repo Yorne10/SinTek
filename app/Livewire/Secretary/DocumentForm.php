@@ -115,8 +115,8 @@ class DocumentForm extends Component
             'fecha_vigencia' => $this->sin_fecha_vigencia ? 'nullable|date' : 'required|date',
         ];
 
-        // Si es nuevo documento, el archivo es obligatorio
-        // Si es edición, el archivo es opcional
+        // If it is nuevo documento, el archivo es obligatorio
+        // If it is edición, el archivo es opcional
         if ($this->documentId) {
             $rules['archivo'] = 'nullable|file|mimes:pdf|max:10240';
         } else {
@@ -155,7 +155,7 @@ class DocumentForm extends Component
     public function save(): void
     {
         try {
-            // Validar campos
+            // Validate campos
             $validated = $this->validate();
 
             Log::info('DocumentForm::save - Validación exitosa', [

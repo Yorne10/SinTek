@@ -79,7 +79,7 @@ class FaqCategoryForm extends Component
             $this->categoryOrder = $category->order;
             $this->originalOrder = $category->order;
         } else {
-            // En alta, proponer el siguiente orden disponible
+            // In alta, proponer el siguiente orden disponible
             $this->categoryOrder = $this->maxOrder;
             $this->originalOrder = $this->maxOrder;
         }
@@ -131,11 +131,11 @@ class FaqCategoryForm extends Component
             );
 
             if ($isEditing) {
-                // En edición: redirigir después de mostrar alerta
+                // In edición: redirigir después de mostrar alerta
                 $redirect = route(config('proj.route_name_prefix', 'proj') . '.faq.categories');
                 $this->dispatch('category-saved', type: 'success', title: 'Éxito', message: $message, redirect: $redirect);
             } else {
-                // En creación: limpiar formulario y quedarse
+                // In creación: limpiar formulario y quedarse
                 $this->reset(['categoryName', 'categoryDescription']);
                 $this->maxOrder = FaqCategory::count() + 1;
                 $this->categoryOrder = $this->maxOrder;
@@ -245,7 +245,7 @@ class FaqCategoryForm extends Component
         try {
             $category = FaqCategory::findOrFail($this->categoryId);
 
-            // Eliminar FAQs asociadas primero
+            // Delete FAQs asociadas primero
             $category->faqs()->delete();
 
             // Luego eliminar la categoría

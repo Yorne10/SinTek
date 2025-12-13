@@ -187,7 +187,7 @@ class ConvocationForm extends Component
             }
 
             if ($this->convocationId) {
-                // Actualizar convocatoria existente
+                // Update convocatoria existente
                 $convocatoria = Convocation::findOrFail($this->convocationId);
                 $convocatoria->update([
                     'title' => $this->titulo,
@@ -205,7 +205,7 @@ class ConvocationForm extends Component
 
                 $message = 'La convocatoria ha sido actualizada exitosamente.';
             } else {
-                // Crear nueva convocatoria
+                // Create nueva convocatoria
                 $convocatoria = Convocation::create([
                     'title' => $this->titulo,
                     'description' => $this->descripcion,
@@ -223,7 +223,7 @@ class ConvocationForm extends Component
                 $message = 'La convocatoria ha sido publicada exitosamente.';
             }
 
-            // Guardar documentos si existen
+            // Save documentos si existen
             if (!empty($this->documentos)) {
                 foreach ($this->documentos as $index => $documento) {
                     if (isset($documento['archivo']) && $documento['archivo'] && isset($documento['titulo']) && $documento['titulo']) {

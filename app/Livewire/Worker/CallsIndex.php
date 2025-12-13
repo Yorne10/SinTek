@@ -86,7 +86,7 @@ class CallsIndex extends Component
 
     public function render()
     {
-        // Obtener solo convocatorias activas y próximas
+        // Get solo convocatorias activas y próximas
         $convocatorias = Convocation::with('documents')
             ->whereIn('status', ['activa', 'proxima', 'permanente'])
             ->when($this->search, function ($query) {

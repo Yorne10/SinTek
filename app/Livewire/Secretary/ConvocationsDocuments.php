@@ -125,7 +125,7 @@ class ConvocationsDocuments extends Component
                 }
             }
 
-            // Crear la convocatoria
+            // Create la convocatoria
             $convocatoria = Convocation::create([
                 'title' => $this->titulo,
                 'description' => $this->descripcion,
@@ -140,7 +140,7 @@ class ConvocationsDocuments extends Component
                 $user?->users_id
             );
 
-            // Guardar documentos si existen
+            // Save documentos si existen
             if (!empty($this->documentos)) {
                 foreach ($this->documentos as $documento) {
                     if (isset($documento['archivo']) && $documento['archivo']) {

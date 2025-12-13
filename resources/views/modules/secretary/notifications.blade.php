@@ -40,7 +40,7 @@ Changelog:
     </div>
 
     <div class="row">
-        {{-- Formulario: ocupa dos columnas a la izquierda --}}
+        {{-- Form: ocupa dos columnas a la izquierda --}}
         <div class="col-12 col-xl-8">
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">

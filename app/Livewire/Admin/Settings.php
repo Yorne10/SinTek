@@ -68,10 +68,10 @@ class Settings extends Component
 
     public function mount()
     {
-        // Verificar si el modo mantenimiento está activo
+        // Verify si el modo mantenimiento está activo
         $this->maintenanceMode = app()->isDownForMaintenance();
 
-        // Cargar valores de configuración desde la base de datos
+        // Load valores de configuración desde la base de datos
         $this->institution_name = \App\Models\SystemSetting::getValue('institution_name', config('app.institution_name', 'CETAM'));
         $this->system_name = \App\Models\SystemSetting::getValue('system_name', config('app.name', 'SinTek'));
         $this->contact_email = \App\Models\SystemSetting::getValue('contact_email', config('mail.from.address', 'contacto@cetam.gob.mx'));

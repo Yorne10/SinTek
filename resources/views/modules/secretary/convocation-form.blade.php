@@ -266,7 +266,7 @@ Changelog:
             e.preventDefault();
             const isEdit = {{ $convocationId ? 'true' : 'false' }};
 
-            // Si los archivos se están cargando, mostrar mensaje de espera
+            // If los archivos se están cargando, mostrar mensaje de espera
             if (fileUploading) {
                 Swal.fire({
                     title: 'Cargando archivos...',
@@ -291,7 +291,7 @@ Changelog:
                 return;
             }
 
-            // Si todo está bien, mostrar confirmación
+            // If todo está bien, mostrar confirmación
             showConfirmation();
 
             function showConfirmation() {

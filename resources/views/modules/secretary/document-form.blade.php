@@ -39,7 +39,7 @@ Changelog:
         </div>
     </div>
 
-    {{-- Formulario --}}
+    {{-- Form --}}
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="card card-body border-0 shadow mb-4">
@@ -305,7 +305,7 @@ Changelog:
             e.preventDefault();
             const isEdit = {{ $documentId ? 'true' : 'false' }};
 
-            // Si el archivo se está cargando, mostrar mensaje de espera
+            // If el archivo se está cargando, mostrar mensaje de espera
             if (fileUploading) {
                 Swal.fire({
                     title: 'Archivo en proceso',

@@ -124,7 +124,7 @@ Changelog:
                                         $totalSteps = $this->getTotalSteps($req);
                                         $progressPct = $this->getProgressPercentage($req);
 
-                                        // Si el trámite está marcado como completado pero los pasos no reflejan el avance, ajustamos la visualización.
+                                        // If el trámite está marcado como completado pero los pasos no reflejan el avance, ajustamos la visualización.
                                         if ($isCompleted) {
                                             if ($totalSteps > 0) {
                                                 $completedSteps = $totalSteps;

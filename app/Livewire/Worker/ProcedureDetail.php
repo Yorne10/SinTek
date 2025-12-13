@@ -81,7 +81,7 @@ class ProcedureDetail extends Component
             ->where('request_step_status', 'in_progress')
             ->first();
 
-        // Cargar todos los pasos del proceso para el timeline completo
+        // Load todos los pasos del proceso para el timeline completo
         $this->allSteps = Step::where('process_id', $this->request->process_id)
             ->orderBy('order', 'asc')
             ->get();

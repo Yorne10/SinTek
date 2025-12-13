@@ -110,7 +110,7 @@ class AvailableProcedures extends Component
             $query->where('category', $this->categoryFilter);
         }
 
-        // Obtener trámites paginados
+        // Get trámites paginados
         $processes = $query->orderBy('name', 'asc')
             ->paginate(12);
 
@@ -137,7 +137,7 @@ class AvailableProcedures extends Component
     {
         $user = Auth::user();
 
-        // Obtener el worker asociado al usuario
+        // Get el worker asociado al usuario
         $worker = Worker::where('user_id', $user->users_id)->first();
 
         if (!$worker) {
@@ -145,7 +145,7 @@ class AvailableProcedures extends Component
             return;
         }
 
-        // Verificar que el proceso existe y está activo
+        // Verify que el proceso existe y está activo
         $process = Process::with('steps')->find($processId);
 
         if (!$process || !$process->active) {
