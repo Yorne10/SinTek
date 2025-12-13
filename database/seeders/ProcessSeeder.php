@@ -42,11 +42,9 @@ class ProcessSeeder extends Seeder
 
         $step1_1 = Step::create([
             'process_id' => $process1->process_id,
-            'order' => 1,
             'title' => 'Llenar solicitud',
             'instruction' => 'Ingrese sus datos personales y especifique el tipo de constancia requerida',
-            'step_type' => 'normal',
-            'responsible_role' => 'worker',
+            'step_type' => 'initial',
             'requires_documents' => false,
             'is_initial_step' => true,
             'active' => true,
@@ -54,22 +52,18 @@ class ProcessSeeder extends Seeder
 
         $step1_2 = Step::create([
             'process_id' => $process1->process_id,
-            'order' => 2,
             'title' => 'Revisión de documentos',
             'instruction' => 'Verificar que los datos sean correctos y que el trabajador esté activo',
-            'step_type' => 'normal',
-            'responsible_role' => 'secretary',
+            'step_type' => 'initial',
             'requires_documents' => false,
             'active' => true,
         ]);
 
         $step1_3 = Step::create([
             'process_id' => $process1->process_id,
-            'order' => 3,
             'title' => 'Emisión de constancia',
             'instruction' => 'Generar el documento oficial con sello y firma autorizada',
-            'step_type' => 'finalization',
-            'responsible_role' => 'admin',
+            'step_type' => 'final',
             'requires_documents' => false,
             'finalization_message' => 'Su constancia laboral ha sido generada exitosamente. Puede descargarla desde la sección de documentos.',
             'active' => true,
@@ -94,11 +88,9 @@ class ProcessSeeder extends Seeder
 
         $step2_1 = Step::create([
             'process_id' => $process2->process_id,
-            'order' => 1,
             'title' => 'Solicitar vacaciones',
             'instruction' => 'Seleccione las fechas deseadas para su período vacacional (mínimo 15 días de anticipación)',
-            'step_type' => 'normal',
-            'responsible_role' => 'worker',
+            'step_type' => 'initial',
             'requires_documents' => false,
             'is_initial_step' => true,
             'active' => true,
@@ -106,22 +98,18 @@ class ProcessSeeder extends Seeder
 
         $step2_2 = Step::create([
             'process_id' => $process2->process_id,
-            'order' => 2,
             'title' => 'Aprobación del coordinador',
             'instruction' => 'Verificar que no haya conflictos de calendario y que el trabajador tenga días disponibles',
-            'step_type' => 'normal',
-            'responsible_role' => 'secretary',
+            'step_type' => 'initial',
             'requires_documents' => false,
             'active' => true,
         ]);
 
         $step2_3 = Step::create([
             'process_id' => $process2->process_id,
-            'order' => 3,
             'title' => 'Autorización final',
             'instruction' => 'Registrar el período vacacional en el sistema y notificar al trabajador',
-            'step_type' => 'finalization',
-            'responsible_role' => 'admin',
+            'step_type' => 'final',
             'requires_documents' => false,
             'finalization_message' => 'Su solicitud de vacaciones ha sido aprobada. Consulte su correo para más detalles.',
             'active' => true,
@@ -146,11 +134,9 @@ class ProcessSeeder extends Seeder
 
         $step3_1 = Step::create([
             'process_id' => $process3->process_id,
-            'order' => 1,
             'title' => 'Crear reporte',
             'instruction' => 'Detalle el problema, ubicación y urgencia. Adjunte fotos si es posible',
-            'step_type' => 'normal',
-            'responsible_role' => 'worker',
+            'step_type' => 'initial',
             'requires_documents' => true,
             'is_initial_step' => true,
             'active' => true,
@@ -169,22 +155,18 @@ class ProcessSeeder extends Seeder
 
         $step3_2 = Step::create([
             'process_id' => $process3->process_id,
-            'order' => 2,
             'title' => 'Evaluación técnica',
             'instruction' => 'Evaluar la gravedad y determinar prioridad de atención',
-            'step_type' => 'normal',
-            'responsible_role' => 'secretary',
+            'step_type' => 'initial',
             'requires_documents' => false,
             'active' => true,
         ]);
 
         $step3_3 = Step::create([
             'process_id' => $process3->process_id,
-            'order' => 3,
             'title' => 'Ejecución de mantenimiento',
             'instruction' => 'Realizar el mantenimiento correctivo o preventivo según sea el caso',
-            'step_type' => 'finalization',
-            'responsible_role' => 'secretary',
+            'step_type' => 'final',
             'requires_documents' => false,
             'finalization_message' => 'El mantenimiento ha sido completado. Gracias por su reporte.',
             'active' => true,
@@ -209,11 +191,9 @@ class ProcessSeeder extends Seeder
 
         $step4_1 = Step::create([
             'process_id' => $process4->process_id,
-            'order' => 1,
             'title' => 'Solicitud de cambio',
             'instruction' => 'Indique su horario actual, horario deseado y justificación',
-            'step_type' => 'normal',
-            'responsible_role' => 'worker',
+            'step_type' => 'initial',
             'requires_documents' => true,
             'is_initial_step' => true,
             'active' => true,
@@ -231,23 +211,19 @@ class ProcessSeeder extends Seeder
 
         $step4_2 = Step::create([
             'process_id' => $process4->process_id,
-            'order' => 2,
             'title' => '¿Es por motivos médicos?',
             'instruction' => 'Revisar la documentación médica adjunta',
             'step_type' => 'conditional',
             'condition_question' => '¿La solicitud está justificada por motivos médicos?',
-            'responsible_role' => 'secretary',
             'requires_documents' => false,
             'active' => true,
         ]);
 
         $step4_3_yes = Step::create([
             'process_id' => $process4->process_id,
-            'order' => 3,
             'title' => 'Aprobación inmediata',
             'instruction' => 'Aprobar el cambio y notificar al coordinador del área',
-            'step_type' => 'finalization',
-            'responsible_role' => 'admin',
+            'step_type' => 'final',
             'requires_documents' => false,
             'finalization_message' => 'Su cambio de horario ha sido aprobado por motivos médicos.',
             'active' => true,
@@ -255,11 +231,9 @@ class ProcessSeeder extends Seeder
 
         $step4_3_no = Step::create([
             'process_id' => $process4->process_id,
-            'order' => 4,
             'title' => 'Evaluación del coordinador',
             'instruction' => 'Evaluar si el cambio es viable sin afectar operaciones',
-            'step_type' => 'finalization',
-            'responsible_role' => 'admin',
+            'step_type' => 'final',
             'requires_documents' => false,
             'finalization_message' => 'Su solicitud de cambio de horario ha sido evaluada y procesada.',
             'active' => true,

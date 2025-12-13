@@ -32,17 +32,13 @@ class DefineSteps extends Component
 
     public function mount($process_id = null)
     {
-        // Si se proporciona un process_id desde la ruta, usarlo
+        // Usar siempre el proceso que llega por la ruta. Si no hay, no forzamos otro.
         if ($process_id) {
             $this->selectedProcessId = $process_id;
             $this->loadProcess();
         } else {
-            // Seleccionar el primer proceso disponible por defecto
-            $firstProcess = Process::where('active', 1)->first();
-            if ($firstProcess) {
-                $this->selectedProcessId = $firstProcess->process_id;
-                $this->loadProcess();
-            }
+            $this->selectedProcess = null;
+            $this->steps = [];
         }
     }
 
@@ -53,16 +49,24 @@ class DefineSteps extends Component
 
     public function loadProcess()
     {
-        if ($this->selectedProcessId) {
-            $this->selectedProcess = Process::with([
-                'steps' => function ($query) {
-                    $query->orderBy('order', 'asc')->with('requiredDocuments');
-                }
-            ])->find($this->selectedProcessId);
+        if (!$this->selectedProcessId) {
+            $this->selectedProcess = null;
+            $this->steps = [];
+            return;
+        }
 
-            if ($this->selectedProcess) {
-                $this->steps = $this->selectedProcess->steps;
-            }
+        $this->selectedProcess = Process::with([
+            'steps' => function ($query) {
+                $query->orderBy('created_at', 'asc')->with('requiredDocuments');
+            },
+            'creator'
+        ])->find($this->selectedProcessId);
+
+        if ($this->selectedProcess) {
+            $this->steps = $this->selectedProcess->steps;
+        } else {
+            // Si no se encuentra, limpiar para evitar mostrar otro proceso.
+            $this->steps = [];
         }
     }
 
@@ -101,9 +105,8 @@ class DefineSteps extends Component
     public function getStepTypeLabel($conditionType)
     {
         $types = [
-            'form' => 'Formulario',
-            'approval' => 'Aprobación',
-            'upload' => 'Carga de archivos',
+            'initial' => 'Paso inicial',
+            'conditional' => 'Condicional',
             'final' => 'Final',
         ];
 
@@ -113,13 +116,12 @@ class DefineSteps extends Component
     public function getStepTypeBadge($conditionType)
     {
         $badges = [
-            'form' => 'info',
-            'approval' => 'warning',
-            'upload' => 'secondary',
+            'initial' => 'primary',
+            'conditional' => 'warning',
             'final' => 'success',
         ];
 
-        return $badges[$conditionType] ?? 'primary';
+        return $badges[$conditionType] ?? 'info';
     }
 }
 

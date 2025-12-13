@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('steps', function (Blueprint $table) {
             $table->id('step_id');
             $table->foreignId('process_id')->constrained('processes', 'process_id')->onDelete('cascade');
-            $table->integer('order')->nullable();
             $table->string('title');
             $table->text('instruction');
-            $table->enum('step_type', ['normal', 'conditional', 'finalization'])->default('normal');
+            $table->enum('step_type', ['initial', 'conditional', 'final'])->default('initial');
             $table->text('condition_question')->nullable();
-            $table->string('responsible_role')->nullable();
             $table->boolean('requires_documents')->default(false);
             $table->foreignId('next_step_id')->nullable()->constrained('steps', 'step_id')->onDelete('set null');
             $table->foreignId('next_yes')->nullable()->constrained('steps', 'step_id')->onDelete('set null');

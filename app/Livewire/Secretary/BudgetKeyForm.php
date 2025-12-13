@@ -53,6 +53,15 @@ class BudgetKeyForm extends Component
             'position_name' => 'required|string|max:150',
         ], $this->messages);
 
+        // Limit of 10 budget keys per employee (user)
+        if (!$isEditing) {
+            $existingCount = Position::where('user_id', $user->users_id)->count();
+            if ($existingCount >= 10) {
+                $this->addError('budget_key', 'Has alcanzado el límite de 10 claves presupuestales.');
+                return;
+            }
+        }
+
         Position::updateOrCreate(
             ['positions_id' => $this->budget_key_id],
             [

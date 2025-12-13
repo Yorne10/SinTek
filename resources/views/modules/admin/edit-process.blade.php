@@ -63,10 +63,11 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="process_code">Código del proceso</label>
-                                <input class="form-control" id="process_code" type="text"
-                                    value="{{ $process_code ?? 'N/A' }}" readonly>
-                                <small class="form-text text-muted">El código del proceso no puede ser modificado una vez
-                                    creado.</small>
+                                <input wire:model="process_code" class="form-control" id="process_code" type="text"
+                                    placeholder="Ej: SOL-VAC-001">
+                                @error('process_code')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
@@ -98,31 +99,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                             </div>
                         </div>
 
-                        <hr class="my-4">
-                        <h2 class="h5 mb-3">Configuración</h2>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-check form-switch">
-                                    <input wire:model="active" class="form-check-input" type="checkbox" id="process_active">
-                                    <label class="form-check-label" for="process_active">
-                                        Proceso activo
-                                    </label>
-                                </div>
-                                <small class="form-text text-muted">Los trabajadores podrán iniciar este proceso si está
-                                    activo.</small>
-                            </div>
-                        </div>
-
-                        <hr class="my-4">
-
                         <div class="row align-items-center mt-4">
                             <div class="col">
                                 <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit"
                                     wire:loading.attr="disabled">
                                     <span wire:loading.remove wire:target="updateProcess">
                                         @icon('save', 'me-2')
-                                        Guardar cambios
+                                        Actualizar proceso
                                     </span>
                                     <span wire:loading wire:target="updateProcess">
                                         <span class="spinner-border spinner-border-sm me-2" role="status"
@@ -146,79 +129,23 @@ Approved by: Alfonso Angel Garcia Hernandez
             </div>
 
             <div class="col-12 col-xl-4">
-                <div class="card card-body shadow border-0 mb-4">
-                    <h2 class="h5 mb-4">Información importante</h2>
-                    <div class="mb-3">
-                        <h3 class="h6 mb-2">
-                            @icon('help', 'me-1 text-info')
-                            Modificar información
-                        </h3>
-                        <p class="small text-gray-700">Puedes cambiar cualquier campo del proceso excepto el código, que
-                            es único y permanente.</p>
-                    </div>
-                    <div class="mb-3">
-                        <h3 class="h6 mb-2">
-                            @icon('help', 'me-1 text-info')
-                            Desactivar vs Eliminar
-                        </h3>
-                        <p class="small text-gray-700">Si solo deseas pausar temporalmente el proceso, desmarca la opción
-                            "Proceso activo" en lugar de eliminarlo.</p>
-                    </div>
-                    <div>
-                        <h3 class="h6 mb-2">
-                            @icon('help', 'me-1 text-info')
-                            Modificar pasos
-                        </h3>
-                        <p class="small text-gray-700">Para modificar los pasos del proceso, dirígete a la sección
-                            "Definir pasos" en el menú de administración.</p>
+                <div class="card border-0 shadow">
+                    <div class="card-body">
+                        <h2 class="h6 mb-3">Información importante</h2>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item px-0">
+                                <div class="d-flex align-items-start">
+                                    @icon('info', 'fa-xs text-info me-3')
+                                    <div>
+                                        <h3 class="h6">Modificar pasos</h3>
+                                        <p class="text-gray-700 small mb-0">Para modificar los pasos del proceso, dirígete a
+                                            la sección "Definir pasos" en el menú de administración.</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
-                @if ($selectedProcess->created_at)
-                    <div class="card border-0 shadow">
-                        <div class="card-body">
-                            <h2 class="h6 mb-3">Información del proceso</h2>
-                            <ul class="list-group list-group-flush list my--3">
-                                <li class="list-group-item px-0">
-                                    <div class="row align-items-center">
-                                        <div class="col-auto">
-                                            <span
-                                                class="badge bg-tertiary text-dark">{{ $selectedProcess->created_at->format('d/m/Y') }}</span>
-                                        </div>
-                                        <div class="col">
-                                            <small class="text-gray-700">Proceso creado</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                @if ($selectedProcess->updated_at && $selectedProcess->updated_at != $selectedProcess->created_at)
-                                    <li class="list-group-item px-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <span
-                                                    class="badge bg-tertiary text-dark">{{ $selectedProcess->updated_at->format('d/m/Y') }}</span>
-                                            </div>
-                                            <div class="col">
-                                                <small class="text-gray-700">Última modificación</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endif
-                                @if ($selectedProcess->creator)
-                                    <li class="list-group-item px-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <span class="badge bg-primary">{{ $selectedProcess->creator->name }}</span>
-                                            </div>
-                                            <div class="col">
-                                                <small class="text-gray-700">Creado por</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endif
-                            </ul>
-                        </div>
-                    </div>
-                @endif
             </div>
         </div>
     @else
@@ -303,6 +230,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                         title: event.title || 'Proceso actualizado',
                         text: event.message || 'El proceso se actualizó correctamente.',
                         confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        if (event.redirect) {
+                            window.location.href = event.redirect;
+                        }
                     });
                 });
 

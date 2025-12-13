@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Company: CETAM
 Project: ST
 File: faq-category-form.blade.php
@@ -17,20 +17,19 @@ Approved by: Alfonso Angel Garcia Hernandez
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">Secretaría</li>
+                    <li class="breadcrumb-item">Secretaria</li>
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}">
                             Preguntas frecuentes
                         </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        {{ $categoryId ? 'Editar' : 'Nueva' }} categoría
+                        {{ $categoryId ? 'Editar' : 'Nueva' }} categoria
                     </li>
                 </ol>
             </nav>
-            <h2 class="h4">{{ $categoryId ? 'Editar' : 'Nueva' }} Categoría</h2>
-            <p class="mb-0">{{ $categoryId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} categoría de preguntas
-                frecuentes.</p>
+            <h2 class="h4">{{ $categoryId ? 'Editar' : 'Nueva' }} Categoria</h2>
+            <p class="mb-0">{{ $categoryId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} categoria de preguntas frecuentes.</p>
         </div>
     </div>
 
@@ -39,49 +38,35 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="col-12 col-xl-8">
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
-                    <h2 class="h5 mb-4">Información de la categoría</h2>
+                    <h2 class="h5 mb-4">Informacion de la categoria</h2>
                     <form wire:submit.prevent="save">
                         <div class="row">
                             <div class="col-md-8 mb-3">
-                                <label for="categoryName" class="form-label">Nombre de la categoría <span
-                                        class="text-danger">*</span></label>
-                                <input wire:model="categoryName" type="text"
-                                    class="form-control @error('categoryName') is-invalid @enderror" id="categoryName"
-                                    placeholder="Ej: Trámites generales">
+                                <label for="categoryName" class="form-label">Nombre de la categoria <span class="text-danger">*</span></label>
+                                <input wire:model="categoryName" type="text" class="form-control @error('categoryName') is-invalid @enderror" id="categoryName" placeholder="Ej: Tramites generales">
                                 @error('categoryName') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="categoryOrder" class="form-label">Orden de visualización <span
-                                        class="text-danger">*</span></label>
-                                <input wire:model="categoryOrder" type="number"
-                                    class="form-control @error('categoryOrder') is-invalid @enderror" id="categoryOrder"
-                                    min="1" max="{{ $maxOrder }}" placeholder="1">
+                                <label for="categoryOrder" class="form-label">Orden de visualizacion <span class="text-danger">*</span></label>
+                                <input wire:model="categoryOrder" type="number" class="form-control @error('categoryOrder') is-invalid @enderror" id="categoryOrder" min="1" max="{{ $maxOrder }}" placeholder="1">
                                 @error('categoryOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label for="categoryDescription" class="form-label">Descripción <span
-                                        class="text-danger">*</span></label>
-                                <textarea wire:model="categoryDescription"
-                                    class="form-control @error('categoryDescription') is-invalid @enderror"
-                                    id="categoryDescription" rows="3"
-                                    placeholder="Descripción breve de la categoría..."></textarea>
-                                @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                <label for="categoryDescription" class="form-label">Descripcion <span class="text-danger">*</span></label>
+                                <textarea wire:model="categoryDescription" class="form-control @error('categoryDescription') is-invalid @enderror" id="categoryDescription" rows="3" placeholder="Descripcion breve de la categoria..."></textarea>
+                                @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn"
-                                            data-max="{{ $maxOrder }}"
-                                            data-original="{{ $originalOrder ?? $categoryOrder }}">
+                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn" data-max="{{ $maxOrder }}" data-original="{{ $originalOrder ?? $categoryOrder }}">
                                             @icon('save', 'icon-xs me-1')
-                                            {{ $categoryId ? 'Actualizar' : 'Guardar' }} categoría
+                                            {{ $categoryId ? 'Actualizar' : 'Guardar' }} categoria
                                         </button>
-                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}"
-                                            class="btn btn-gray-300">
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}" class="btn btn-gray-300">
                                             Cancelar
                                         </a>
                                     </div>
@@ -89,7 +74,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         <div>
                                             <button type="button" id="deleteCategoryBtn" class="btn btn-danger">
                                                 @icon('delete', 'icon-xs me-1')
-                                                Eliminar categoría
+                                                Eliminar categoria
                                             </button>
                                         </div>
                                     @endif
@@ -105,7 +90,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
-                    <h2 class="h6 mb-3">Información importante</h2>
+                    <h2 class="h6 mb-3">Informacion importante</h2>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item px-0">
                             <div class="d-flex align-items-start">
@@ -122,20 +107,9 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="d-flex align-items-start">
                                 @icon('info', 'fa-xs text-info me-3')
                                 <div>
-                                    <h3 class="h6">Orden de visualización</h3>
+                                    <h3 class="h6">Orden de visualizacion</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Las categorías se mostrarán ordenadas de menor a mayor número.
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item px-0">
-                            <div class="d-flex align-items-start">
-                                @icon('info', 'fa-xs text-info me-3')
-                                <div>
-                                    <h3 class="h6">Eliminar categoría</h3>
-                                    <p class="text-gray-700 small mb-0">
-                                        Solo se pueden eliminar categorías sin preguntas asociadas.
+                                        Las categorias se mostraran ordenadas de menor a mayor numero.
                                     </p>
                                 </div>
                             </div>
@@ -169,11 +143,11 @@ Approved by: Alfonso Angel Garcia Hernandez
         });
 
         const confirmQuestion = () => swalWithBootstrapButtons.fire({
-            title: isEdit ? '¿Actualizar categoría?' : '¿Guardar categoría?',
-            text: isEdit ? '¿Deseas actualizar los detalles de esta categoría?' : '¿Deseas crear esta categoría?',
+            title: isEdit ? '¿Actualizar categoria?' : '¿Guardar categoria?',
+            text: isEdit ? '¿Deseas actualizar los detalles de esta categoria?' : '¿Deseas crear esta categoria?',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
+            confirmButtonText: isEdit ? 'Si, actualizar' : 'Si, guardar',
             cancelButtonText: 'Cancelar',
             reverseButtons: true
         });
@@ -194,7 +168,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             };
 
             if (desired > max) {
-                confirmFlow(`El orden solicitado supera el máximo (${max}). Se ajustará al último número secuencial.`)
+                confirmFlow(`El orden solicitado supera el maximo (${max}). Se ajustara al ultimo numero secuencial.`)
                     .then(() => {
                         orderInput.value = max;
                         @this.set('categoryOrder', max);
@@ -217,7 +191,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                 const payload = Array.isArray(detail) ? detail[0] : detail || {};
                 swalWithBootstrapButtons.fire({
                     icon: payload.type || 'success',
-                    title: payload.title || 'Éxito',
+                    title: payload.title || 'Exito',
                     text: payload.message || '',
                     confirmButtonText: 'Entendido'
                 }).then(() => {
@@ -244,17 +218,17 @@ Approved by: Alfonso Angel Garcia Hernandez
                 // Primero warning informativo
                 swalWithBootstrapButtons.fire({
                     icon: 'warning',
-                    title: 'Atención',
-                    text: `Esta categoría tiene ${count} pregunta(s) frecuente(s) asociada(s) que también se eliminarán.`,
+                    title: 'Atencion',
+                    text: `Esta categoria tiene ${count} pregunta(s) frecuente(s) asociada(s) que tambien se eliminaran.`,
                     confirmButtonText: 'Entendido'
                 }).then(() => {
-                    // Después question de confirmación
+                    // Despues question de confirmacion
                     swalWithBootstrapButtons.fire({
                         icon: 'question',
-                        title: '¿Eliminar categoría?',
-                        text: '¿Estás seguro de eliminar esta categoría y sus preguntas frecuentes?',
+                        title: '¿Eliminar categoria?',
+                        text: '¿Estas seguro de eliminar esta categoria y sus preguntas frecuentes?',
                         showCancelButton: true,
-                        confirmButtonText: 'Sí, eliminar',
+                        confirmButtonText: 'Si, eliminar',
                         cancelButtonText: 'Cancelar',
                         reverseButtons: true
                     }).then((result) => {
@@ -265,14 +239,14 @@ Approved by: Alfonso Angel Garcia Hernandez
                 });
             });
 
-            // Para categorías SIN FAQs - solo question
+            // Para categorias SIN FAQs - solo question
             Livewire.on('category-no-faqs', () => {
                 swalWithBootstrapButtons.fire({
                     icon: 'question',
-                    title: '¿Eliminar categoría?',
-                    text: '¿Estás seguro de eliminar esta categoría? Esta acción no se puede deshacer.',
+                    title: '¿Eliminar categoria?',
+                    text: '¿Estas seguro de eliminar esta categoria? Esta accion no se puede deshacer.',
                     showCancelButton: true,
-                    confirmButtonText: 'Sí, eliminar',
+                    confirmButtonText: 'Si, eliminar',
                     cancelButtonText: 'Cancelar',
                     reverseButtons: true
                 }).then((result) => {

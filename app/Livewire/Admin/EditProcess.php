@@ -136,6 +136,7 @@ class EditProcess extends Component
             $process->update([
                 'name' => $this->name,
                 'description' => $this->description,
+                'process_code' => $this->process_code,
                 'category' => $this->category,
                 'department' => $this->department,
                 'active' => $this->active ?? false,
@@ -152,7 +153,8 @@ class EditProcess extends Component
             $this->dispatch(
                 'process-updated',
                 title: 'Proceso actualizado',
-                message: 'El proceso se actualizó correctamente.'
+                message: 'El proceso se actualizó correctamente.',
+                redirect: route(config('proj.route_name_prefix', 'proj') . '.secretary.processes')
             );
 
             // Recargar el proceso

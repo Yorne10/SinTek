@@ -147,35 +147,14 @@ Approved by: Alfonso Angel Garcia Hernandez
                     {{-- Procesos --}}
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-gray-600">Procesos activos</span>
+                            <span class="text-gray-600">Procesos disponibles</span>
                             <span class="h5 mb-0 fw-bold text-success">{{ $activeProcesses }}</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $totalProcesses > 0 ? ($activeProcesses / $totalProcesses * 100) : 0 }}%">
-                            </div>
-                        </div>
-                        <small class="text-gray-500">{{ $totalProcesses }} procesos totales</small>
-                    </div>
-
-                    {{-- Usuarios por Rol --}}
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-gray-600 small">Administradores</span>
-                            <span class="fw-bold">{{ $usersByRole['admin'] }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-gray-600 small">Secretarios</span>
-                            <span class="fw-bold">{{ $usersByRole['secretary'] }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-gray-600 small">Trabajadores</span>
-                            <span class="fw-bold">{{ $usersByRole['worker'] }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 </div>
