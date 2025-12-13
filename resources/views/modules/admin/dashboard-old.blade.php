@@ -33,14 +33,13 @@
         </div>
     </div>
 
-    {{-- Métricas principales --}}
     <div class="row">
-        {{-- Total de Usuarios --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
                                 @icon('userGroup', 'icon')
                             </div>
@@ -59,12 +58,12 @@
             </div>
         </div>
 
-        {{-- Procesos Activos --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-success rounded me-4 me-sm-0">
                                 @icon('documentSign', 'icon')
                             </div>
@@ -83,12 +82,12 @@
             </div>
         </div>
 
-        {{-- Trámites en Proceso --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-warning rounded me-4 me-sm-0">
                                 @icon('pending', 'icon')
                             </div>
@@ -107,12 +106,12 @@
             </div>
         </div>
 
-        {{-- Convocatorias Activas --}}
         <div class="col-12 col-sm-6 col-xl-3 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="icon-shape icon-shape-info rounded me-4 me-sm-0">
                                 @icon('documentSign', 'icon')
                             </div>
@@ -132,9 +131,8 @@
         </div>
     </div>
 
-    {{-- Distribución y estadísticas --}}
+
     <div class="row">
-        {{-- Distribución de Usuarios por Rol --}}
         <div class="col-12 col-xl-4 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-header">
@@ -148,7 +146,8 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ $totalUsers > 0 ? ($usersByRole['admin'] / $totalUsers * 100) : 0 }}%"></div>
+                                style="width: {{ $totalUsers > 0 ? ($usersByRole['admin'] / $totalUsers) * 100 : 0 }}%">
+                            </div>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -158,7 +157,8 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ $totalUsers > 0 ? ($usersByRole['secretary'] / $totalUsers * 100) : 0 }}%"></div>
+                                style="width: {{ $totalUsers > 0 ? ($usersByRole['secretary'] / $totalUsers) * 100 : 0 }}%">
+                            </div>
                         </div>
                     </div>
                     <div class="mb-0">
@@ -168,14 +168,14 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-primary" role="progressbar"
-                                style="width: {{ $totalUsers > 0 ? ($usersByRole['worker'] / $totalUsers * 100) : 0 }}%"></div>
+                                style="width: {{ $totalUsers > 0 ? ($usersByRole['worker'] / $totalUsers) * 100 : 0 }}%">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Distribución de Trámites --}}
         <div class="col-12 col-xl-4 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-header">
@@ -192,7 +192,7 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($completedRequests / $total * 100) }}%"></div>
+                                style="width: {{ ($completedRequests / $total) * 100 }}%"></div>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -202,7 +202,7 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ ($inProgressRequests / $total * 100) }}%"></div>
+                                style="width: {{ ($inProgressRequests / $total) * 100 }}%"></div>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -212,7 +212,7 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-info" role="progressbar"
-                                style="width: {{ ($pendingRequests / $total * 100) }}%"></div>
+                                style="width: {{ ($pendingRequests / $total) * 100 }}%"></div>
                         </div>
                     </div>
                     <div class="mb-0">
@@ -222,14 +222,13 @@
                         </div>
                         <div class="progress" style="height: 10px;">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ ($rejectedRequests / $total * 100) }}%"></div>
+                                style="width: {{ ($rejectedRequests / $total) * 100 }}%"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Actividad Reciente --}}
         <div class="col-12 col-xl-4 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-header">
@@ -243,7 +242,8 @@
                             </div>
                             <div class="flex-grow-1">
                                 <div class="small fw-bold">{{ $log->user->name ?? 'Sistema' }}</div>
-                                <div class="small text-gray-600">{{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
+                                <div class="small text-gray-600">
+                                    {{ \App\Services\ActivityLogger::getActionLabel($log->action ?? '') }}</div>
                                 <div class="small text-gray-500">{{ $log->created_at->diffForHumans() }}</div>
                             </div>
                         </div>
@@ -267,7 +267,6 @@
         </div>
     </div>
 
-    {{-- Estadísticas adicionales --}}
     <div class="row">
         <div class="col-12 mb-4">
             <div class="card border-0 shadow">
@@ -303,7 +302,7 @@
                                 </div>
                                 <div>
                                     <span class="h5 mb-0 fw-bold text-info">
-                                        {{ $totalRequests > 0 ? number_format(($completedRequests / $totalRequests * 100), 1) : 0 }}%
+                                        {{ $totalRequests > 0 ? number_format(($completedRequests / $totalRequests) * 100, 1) : 0 }}%
                                     </span>
                                 </div>
                             </div>

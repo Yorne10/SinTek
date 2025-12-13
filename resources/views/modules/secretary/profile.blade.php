@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: profile.blade.php
-* Created on: 06/11/2025
-* Created by: Alfonso Angel Garcia Hernandez
-* Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: profile.blade.php
+    Created on: 06/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -32,7 +37,7 @@
 
         <div class="row">
             <div class="col-12 col-xl-8">
-                @if($showSavedAlert)
+                @if ($showSavedAlert)
                     <div class="alert alert-success" role="alert">
                         ¡Cambios guardados con éxito!
                     </div>
@@ -44,15 +49,15 @@
                             <div class="col-md-6 mb-3">
                                 <div>
                                     <label for="first_name">Nombre(s)</label>
-                                    <input wire:model="user.first_name" class="form-control" id="first_name" type="text"
-                                        placeholder="Ingresa tu nombre" required>
+                                    <input wire:model="user.first_name" class="form-control" id="first_name"
+                                        type="text" placeholder="Ingresa tu nombre" required>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div>
                                     <label for="last_name">Apellidos</label>
-                                    <input wire:model="user.last_name" class="form-control" id="last_name" type="text"
-                                        placeholder="Ingresa tus apellidos">
+                                    <input wire:model="user.last_name" class="form-control" id="last_name"
+                                        type="text" placeholder="Ingresa tus apellidos">
                                 </div>
                             </div>
                         </div>
@@ -64,7 +69,9 @@
                                         placeholder="correo@institucion.com" disabled>
                                     <small class="form-text text-muted">El correo no puede ser modificado</small>
                                 </div>
-                                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="gender">Género</label>
@@ -75,7 +82,8 @@
                                     <option value="Male">Masculino</option>
                                     <option value="Other">Otro</option>
                                 </select>
-                                @error('user.gender') <div class="invalid-feedback">{{ $message }}</div>
+                                @error('user.gender')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -87,7 +95,8 @@
                                     <input wire:model="user.address" class="form-control" id="address" type="text"
                                         placeholder="Calle y colonia">
                                 </div>
-                                @error('user.address') <div class="invalid-feedback">{{ $message }}</div>
+                                @error('user.address')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-sm-3 mb-3">
@@ -96,7 +105,8 @@
                                     <input wire:model="user.number" class="form-control" id="number" type="number"
                                         placeholder="No.">
                                 </div>
-                                @error('user.number') <div class="invalid-feedback">{{ $message }}</div>
+                                @error('user.number')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -107,7 +117,9 @@
                                     <input wire:model="user.city" class="form-control" id="city" type="text"
                                         placeholder="Ciudad">
                                 </div>
-                                @error('user.city') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('user.city')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -116,13 +128,15 @@
                                         placeholder="CP">
                                 </div>
                             </div>
-                            @error('user.ZIP') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('user.ZIP')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mt-3">
                             <button type="submit" class="btn btn-gray-800 mt-2 animate-up-2">Guardar cambios</button>
                         </div>
                     </form>
-                    @if($showDemoNotification)
+                    @if ($showDemoNotification)
                         <div class="alert alert-info mt-2" role="alert">
                             No puedes realizar esta acción en la versión demo.
                         </div>
@@ -139,7 +153,7 @@
                                 <img src="{{ asset('assets/img/team/profile-picture-3.jpg') }}"
                                     class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Profile Picture">
                                 <h4 class="h3">
-                                    {{  auth()->user()->first_name ? auth()->user()->first_name . ' ' . auth()->user()->last_name : 'Username'}}
+                                    {{ auth()->user()->first_name ? auth()->user()->first_name . ' ' . auth()->user()->last_name : 'Username' }}
                                 </h4>
                                 <h5 class="fw-normal">Equipo de secretaría</h5>
                                 <p class="text-gray mb-4">{{ auth()->user()->city ?? 'Ciudad' }}</p>

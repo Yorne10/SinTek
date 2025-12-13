@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: documents-index.blade.php
-* Created on: 04/12/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
+    Company: CETAM
+    Project: ST
+    File: documents-index.blade.php
+    Created on: 04/12/2025
+    Created by: Alfonso Angel García Hernández
+    Approved by: Alfonso Angel García Hernández
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     {{-- Page Header --}}
@@ -96,7 +101,7 @@
                                     class="fw-normal">{{ $document->effective_date ? $document->effective_date->format('d/m/Y') : 'Sin vigencia' }}</span>
                             </td>
                             <td>
-                                @if($document->status === 'active')
+                                @if ($document->status === 'active')
                                     <span class="fw-bold text-success">Activo</span>
                                 @else
                                     <span class="fw-bold text-warning">Inactivo</span>
@@ -143,7 +148,7 @@
                                             type="button" wire:loading.attr="disabled" wire:target="toggleStatus">
                                             <span class="spinner-border spinner-border-sm me-2" role="status"
                                                 aria-hidden="true" wire:loading wire:target="toggleStatus"></span>
-                                            @icon($isActive ? 'error' : 'success', "dropdown-icon " . ($isActive ? 'text-warning' : 'text-success') . " me-2")
+                                            @icon($isActive ? 'error' : 'success', 'dropdown-icon ' . ($isActive ? 'text-warning' : 'text-success') . ' me-2')
                                             {{ $isActive ? 'Desactivar' : 'Activar' }}
                                         </button>
                                     </div>
@@ -166,7 +171,7 @@
         </div>
         <div
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($documents->hasPages())
+            @if ($documents->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $documents->links('components.pagination-users') }}
                 </nav>
@@ -180,7 +185,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalMixin = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary'
@@ -202,7 +207,7 @@
 
         // Ver detalles del documento
         document.querySelectorAll('.view-doc-detail').forEach(btn => {
-            btn.addEventListener('click', function () {
+            btn.addEventListener('click', function() {
                 const title = this.dataset.docTitle;
                 const description = this.dataset.docDescription;
                 const category = this.dataset.docCategory;

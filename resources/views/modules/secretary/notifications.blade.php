@@ -1,10 +1,15 @@
 {{-- 
-Company: CETAM
-Project: ST
-File: notifications.blade.php
-Created on: 04/11/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: notifications.blade.php
+    Created on: 04/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -24,11 +29,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                             Notificaciones
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $notificationId ? 'Editar' : 'Enviar' }} notificación</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $notificationId ? 'Editar' : 'Enviar' }}
+                        notificación</li>
                 </ol>
             </nav>
             <h2 class="h4">{{ $notificationId ? 'Editar' : 'Enviar' }} notificación</h2>
-            <p class="mb-0">{{ $notificationId ? 'Actualiza los detalles de la' : 'Envía' }} notificación{{ $notificationId ? '' : ' a los trabajadores' }}.</p>
+            <p class="mb-0">{{ $notificationId ? 'Actualiza los detalles de la' : 'Envía' }}
+                notificación{{ $notificationId ? '' : ' a los trabajadores' }}.</p>
         </div>
     </div>
 
@@ -42,12 +49,10 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="row">
                             {{-- Título --}}
                             <div class="col-md-12 mb-3">
-                                <label for="title" class="form-label">Título <span class="text-danger">*</span></label>
-                                <input type="text"
-                                    class="form-control @error('title') is-invalid @enderror"
-                                    id="title"
-                                    wire:model="title"
-                                    placeholder="Ej: Actualización importante">
+                                <label for="title" class="form-label">Título <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                    id="title" wire:model="title" placeholder="Ej: Actualización importante">
                                 @error('title')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -55,12 +60,9 @@ Approved by: Alfonso Angel Garcia Hernandez
 
                             {{-- Mensaje --}}
                             <div class="col-md-12 mb-3">
-                                <label for="message" class="form-label">Mensaje <span class="text-danger">*</span></label>
-                                <textarea
-                                    class="form-control @error('message') is-invalid @enderror"
-                                    id="message"
-                                    wire:model="message"
-                                    rows="4"
+                                <label for="message" class="form-label">Mensaje <span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control @error('message') is-invalid @enderror" id="message" wire:model="message" rows="4"
                                     placeholder="Escribe el mensaje que verán los trabajadores..."></textarea>
                                 @error('message')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -70,55 +72,52 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 </small>
                             </div>
 
-                            @if(!$notificationId)
+                            @if (!$notificationId)
                                 {{-- Búsqueda de trabajadores --}}
-                                @if(!$sendToAll)
-                                <div class="col-md-12 mb-3">
-                                    <label for="workerSearch" class="form-label">Buscar trabajador</label>
-                                    <input type="text"
-                                        class="form-control"
-                                        id="workerSearch"
-                                        wire:model.live.debounce.400ms="workerSearch"
-                                        placeholder="Buscar por nombre o correo...">
-                                </div>
-
-                                {{-- Resultados de búsqueda --}}
-                                @if($filteredWorkers->isNotEmpty())
+                                @if (!$sendToAll)
                                     <div class="col-md-12 mb-3">
-                                        <label class="form-label small text-muted">Resultados de búsqueda:</label>
-                                        <div class="list-group" style="max-height: 200px; overflow-y: auto;">
-                                            @foreach($filteredWorkers as $worker)
-                                                <button type="button"
-                                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                                                    wire:click="addUser({{ $worker->users_id }})">
-                                                    <div>
-                                                        <div class="fw-bold small">{{ $worker->name }}</div>
-                                                        <div class="text-muted small">{{ $worker->email }}</div>
-                                                    </div>
-                                                    @icon('add', 'text-primary')
-                                                </button>
-                                            @endforeach
-                                        </div>
+                                        <label for="workerSearch" class="form-label">Buscar trabajador</label>
+                                        <input type="text" class="form-control" id="workerSearch"
+                                            wire:model.live.debounce.400ms="workerSearch"
+                                            placeholder="Buscar por nombre o correo...">
                                     </div>
-                                @endif
 
-                                {{-- Usuarios seleccionados --}}
-                                @if($selectedWorkers->isNotEmpty())
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Destinatarios seleccionados:</label>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            @foreach($selectedWorkers as $worker)
-                                                <span class="badge bg-secondary d-flex align-items-center gap-2">
+                                    {{-- Resultados de búsqueda --}}
+                                    @if ($filteredWorkers->isNotEmpty())
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label small text-muted">Resultados de búsqueda:</label>
+                                            <div class="list-group" style="max-height: 200px; overflow-y: auto;">
+                                                @foreach ($filteredWorkers as $worker)
                                                     <button type="button"
-                                                        class="btn-close btn-close-white btn-sm"
-                                                        wire:click="removeUser({{ $worker->users_id }})"
-                                                        aria-label="Remove"></button>
-                                                    {{ $worker->name }}
-                                                </span>
-                                            @endforeach
+                                                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                                                        wire:click="addUser({{ $worker->users_id }})">
+                                                        <div>
+                                                            <div class="fw-bold small">{{ $worker->name }}</div>
+                                                            <div class="text-muted small">{{ $worker->email }}</div>
+                                                        </div>
+                                                        @icon('add', 'text-primary')
+                                                    </button>
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    </div>
-                                @endif
+                                    @endif
+
+                                    {{-- Usuarios seleccionados --}}
+                                    @if ($selectedWorkers->isNotEmpty())
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Destinatarios seleccionados:</label>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                @foreach ($selectedWorkers as $worker)
+                                                    <span class="badge bg-secondary d-flex align-items-center gap-2">
+                                                        <button type="button" class="btn-close btn-close-white btn-sm"
+                                                            wire:click="removeUser({{ $worker->users_id }})"
+                                                            aria-label="Remove"></button>
+                                                        {{ $worker->name }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
 
                                     @error('selectedUsers')
                                         <div class="col-md-12 mb-3">
@@ -130,9 +129,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 {{-- Enviar a todos (al final) --}}
                                 <div class="col-md-12 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input"
-                                            type="checkbox"
-                                            id="sendToAll"
+                                        <input class="form-check-input" type="checkbox" id="sendToAll"
                                             wire:model.live="sendToAll">
                                         <label class="form-check-label" for="sendToAll">
                                             Enviar a todos los trabajadores
@@ -145,9 +142,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <button type="button"
-                                            id="saveNotificationBtn"
-                                            class="btn btn-primary"
+                                        <button type="button" id="saveNotificationBtn" class="btn btn-primary"
                                             wire:loading.attr="disabled">
                                             @icon($notificationId ? 'save' : 'send', 'icon-xs me-1')
                                             {{ $notificationId ? 'Actualizar' : 'Enviar' }} notificación
@@ -157,7 +152,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                             Cancelar
                                         </a>
                                     </div>
-                                    @if($notificationId)
+                                    @if ($notificationId)
                                         <div>
                                             <button type="button" id="deleteNotificationBtn" class="btn btn-danger">
                                                 @icon('delete', 'icon-xs me-1')
@@ -184,7 +179,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Título conciso</h3>
-                                    <p class="text-gray-700 small mb-0">Máximo 200 caracteres para mantener claridad.</p>
+                                    <p class="text-gray-700 small mb-0">Máximo 200 caracteres para mantener claridad.
+                                    </p>
                                 </div>
                             </div>
                         </li>
@@ -193,7 +189,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Mensaje claro</h3>
-                                    <p class="text-gray-700 small mb-0">Hasta 1000 caracteres; evita copiar HTML o contenido externo.</p>
+                                    <p class="text-gray-700 small mb-0">Hasta 1000 caracteres; evita copiar HTML o
+                                        contenido externo.</p>
                                 </div>
                             </div>
                         </li>
@@ -202,7 +199,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Destinatarios</h3>
-                                    <p class="text-gray-700 small mb-0">Usa "Enviar a todos" o selecciona trabajadores específicos.</p>
+                                    <p class="text-gray-700 small mb-0">Usa "Enviar a todos" o selecciona trabajadores
+                                        específicos.</p>
                                 </div>
                             </div>
                         </li>
@@ -211,7 +209,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 @icon('info', 'fa-xs text-info me-3')
                                 <div>
                                     <h3 class="h6">Sin destinatarios, sin envío</h3>
-                                    <p class="text-gray-700 small mb-0">Debe haber al menos un destinatario o marcar el envío a todos.</p>
+                                    <p class="text-gray-700 small mb-0">Debe haber al menos un destinatario o marcar el
+                                        envío a todos.</p>
                                 </div>
                             </div>
                         </li>
@@ -224,7 +223,7 @@ Approved by: Alfonso Angel Garcia Hernandez
 
 {{-- Scripts para confirmaciones --}}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -236,12 +235,13 @@ Approved by: Alfonso Angel Garcia Hernandez
         const isEdit = {{ $notificationId ? 'true' : 'false' }};
 
         // Confirmación antes de guardar/enviar notificación
-        document.getElementById('saveNotificationBtn')?.addEventListener('click', function (e) {
+        document.getElementById('saveNotificationBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
 
             swalWithBootstrapButtons.fire({
                 title: isEdit ? '¿Actualizar notificación?' : '¿Enviar notificación?',
-                text: isEdit ? '¿Deseas actualizar los detalles de esta notificación?' : '¿Estás seguro de enviar esta notificación a los usuarios seleccionados?',
+                text: isEdit ? '¿Deseas actualizar los detalles de esta notificación?' :
+                    '¿Estás seguro de enviar esta notificación a los usuarios seleccionados?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, enviar',
@@ -255,7 +255,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         });
 
         // Confirmación antes de eliminar notificación
-        document.getElementById('deleteNotificationBtn')?.addEventListener('click', function (e) {
+        document.getElementById('deleteNotificationBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
 
             const swalWithDangerButton = Swal.mixin({

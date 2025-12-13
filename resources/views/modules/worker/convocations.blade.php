@@ -1,13 +1,15 @@
 {{-- 
- * Company: CETAM
- * Project: ST
- * File: convocations.blade.php
- * Created on: 04/11/2025
- * Created by: Alfonso Angel Garcia Hernandez
- * Approved by: Alfonso Angel Garcia Hernandez
- *
- * Changelog:
- * - ID: <ID> | Modified on: dd/mm/yyyy | Modified by: <Developer name> | Description: <Brief description of change> |
+ aCompany: CETAM
+ Project: ST
+ File: convocations.blade.php
+ Created on: 04/11/2025
+ Created by: Alfonso Angel Garcia Hernandez
+ Approved by: Alfonso Angel Garcia Hernandez
+ 
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div class="container-fluid px-0">
@@ -43,8 +45,16 @@
                                     <div>
                                         <span class="fw-semibold text-gray-600">Periodo:</span>
                                         @php
-                                            $start = $convocation->start_date ? \Illuminate\Support\Carbon::parse($convocation->start_date)->format('d/m/Y') : 'N/D';
-                                            $end = $convocation->end_date ? \Illuminate\Support\Carbon::parse($convocation->end_date)->format('d/m/Y') : 'Sin fecha fin';
+                                            $start = $convocation->start_date
+                                                ? \Illuminate\Support\Carbon::parse($convocation->start_date)->format(
+                                                    'd/m/Y',
+                                                )
+                                                : 'N/D';
+                                            $end = $convocation->end_date
+                                                ? \Illuminate\Support\Carbon::parse($convocation->end_date)->format(
+                                                    'd/m/Y',
+                                                )
+                                                : 'Sin fecha fin';
                                         @endphp
                                         <span>{{ $start }} - {{ $end }}</span>
                                     </div>
@@ -69,13 +79,14 @@
 
                         <div class="mt-3">
                             <div class="fw-semibold small text-gray-600 mb-2">Documentos</div>
-                            @if($convocation->documents->count() > 0)
+                            @if ($convocation->documents->count() > 0)
                                 <div class="d-flex flex-wrap gap-2">
-                                    @foreach($convocation->documents as $document)
-                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institutional_document_id ?? $document->id ?? $document->convocation_document_id) }}"
-                                           class="btn btn-outline-gray-600 btn-sm d-inline-flex align-items-center gap-2">
+                                    @foreach ($convocation->documents as $document)
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $document->institutional_document_id ?? ($document->id ?? $document->convocation_document_id)) }}"
+                                            class="btn btn-outline-gray-600 btn-sm d-inline-flex align-items-center gap-2">
                                             @icon('download', 'icon icon-xs')
-                                            <span class="text-truncate" style="max-width: 220px;">{{ $document->title ?? 'Documento' }}</span>
+                                            <span class="text-truncate"
+                                                style="max-width: 220px;">{{ $document->title ?? 'Documento' }}</span>
                                         </a>
                                     @endforeach
                                 </div>
@@ -98,9 +109,9 @@
     </div>
 
     {{-- Pagination footer --}}
-    @if($convocations instanceof \Illuminate\Contracts\Pagination\Paginator)
+    @if ($convocations instanceof \Illuminate\Contracts\Pagination\Paginator)
         <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-5 gap-3">
-            @if($convocations->hasPages())
+            @if ($convocations->hasPages())
                 <nav aria-label="Paginacion de convocatorias" class="mb-0">
                     {{ $convocations->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
@@ -111,7 +122,8 @@
                 $total = $convocations->total();
             @endphp
             <div class="fw-normal small ms-lg-auto">
-                Mostrando <b>{{ $from }}</b> a <b>{{ $to }}</b> de <b>{{ $total }}</b> convocatorias
+                Mostrando <b>{{ $from }}</b> a <b>{{ $to }}</b> de <b>{{ $total }}</b>
+                convocatorias
             </div>
         </div>
     @endif
@@ -131,11 +143,11 @@
                                 @icon('file', 'icon icon-xs')
                                 Reglamentos
                             </h3>
-                            @if($regulations->count() > 0)
+                            @if ($regulations->count() > 0)
                                 <div class="list-group list-group-flush">
-                                    @foreach($regulations as $doc)
+                                    @foreach ($regulations as $doc)
                                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $doc->institutional_document_id) }}"
-                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                             <div>
                                                 <div class="fw-bold">{{ $doc->title }}</div>
                                                 <small class="text-gray-600">
@@ -157,11 +169,11 @@
                                 @icon('file', 'icon icon-xs')
                                 Manuales y formatos
                             </h3>
-                            @if($manuals->count() > 0)
+                            @if ($manuals->count() > 0)
                                 <div class="list-group list-group-flush">
-                                    @foreach($manuals as $doc)
+                                    @foreach ($manuals as $doc)
                                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.institutional-document.download', $doc->institutional_document_id) }}"
-                                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                             <div>
                                                 <div class="fw-bold">{{ $doc->title }}</div>
                                                 <small class="text-gray-600">
@@ -186,11 +198,17 @@
     <div class="row">
         <div class="col-12">
             <div class="alert alert-info d-flex align-items-center" role="alert">
-                <svg class="icon icon-sm me-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                <svg class="icon icon-sm me-3" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd"></path>
                 </svg>
                 <div>
-                    <strong>&iquest;Tienes dudas?</strong> Consulta la seccion de <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq') }}" class="alert-link">Preguntas frecuentes</a> o contacta al departamento correspondiente para mas informacion sobre convocatorias y documentos.
+                    <strong>&iquest;Tienes dudas?</strong> Consulta la seccion de <a
+                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq') }}"
+                        class="alert-link">Preguntas frecuentes</a> o contacta al departamento correspondiente para mas
+                    informacion sobre convocatorias y documentos.
                 </div>
             </div>
         </div>

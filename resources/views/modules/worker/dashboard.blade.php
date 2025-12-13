@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: dashboard.blade.php
-Created on: 01/12/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: dashboard.blade.php
+    Created on: 01/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+        - ID: <ID> | Date: dd/mm/yyyy
+        Modified by: <Developer name>
+        Description: <Brief description of change>
 --}}
 
 <div>
@@ -125,11 +130,11 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <div class="d-flex justify-content-between mb-2">
                             <span class="small text-gray-600">Completados</span>
                             <span
-                                class="small fw-bold">{{ $myRequests > 0 ? round($myCompletedRequests / $myRequests * 100) : 0 }}%</span>
+                                class="small fw-bold">{{ $myRequests > 0 ? round(($myCompletedRequests / $myRequests) * 100) : 0 }}%</span>
                         </div>
                         <div class="progress mb-2" style="height: 8px;">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $myRequests > 0 ? ($myCompletedRequests / $myRequests * 100) : 0 }}%">
+                                style="width: {{ $myRequests > 0 ? ($myCompletedRequests / $myRequests) * 100 : 0 }}%">
                             </div>
                         </div>
                         <small class="text-gray-500">{{ $myCompletedRequests }} de {{ $myRequests }} trámites</small>

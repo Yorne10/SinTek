@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: notifications-history.blade.php
-Created on: 12/12/2025
-Created by: Codex
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: notifications-history.blade.php
+    Created on: 12/12/2025
+    Created by: Codex
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+        - ID: <ID> | Date: dd/mm/yyyy
+        Modified by: <Developer name>
+        Description: <Brief description of change>
 --}}
 
 <div>
@@ -89,24 +94,24 @@ Approved by: Alfonso Angel Garcia Hernandez
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse( as )
+                    @forelse($notifications as $notification)
                         <tr>
                             <td>
-                                <span class="fw-bold">{{ ->title }}</span>
+                                <span class="fw-bold">{{ $notification->title }}</span>
                             </td>
                             <td>
-                                <span class="fw-normal">{{ ->user->name ?? 'N/A' }}</span>
+                                <span class="fw-normal">{{ $notification->user->name ?? 'N/A' }}</span>
                             </td>
                             <td>
-                                <span class="fw-normal">{{ ->user->email ?? 'N/A' }}</span>
+                                <span class="fw-normal">{{ $notification->user->email ?? 'N/A' }}</span>
                             </td>
                             <td>
-                                <span class="fw-normal">{{ ->created_at->format('d/m/Y') }}</span>
+                                <span class="fw-normal">{{ $notification->created_at->format('d/m/Y') }}</span>
                                 <span class="text-gray"> - </span>
-                                <span class="fw-normal">{{ ->created_at->format('H:i') }}</span>
+                                <span class="fw-normal">{{ $notification->created_at->format('H:i') }}</span>
                             </td>
                             <td>
-                                @if(->read_at)
+                                @if($notification->read_at)
                                     <span class="fw-bold text-success">Leída</span>
                                 @else
                                     <span class="fw-bold text-warning">Pendiente</span>
@@ -120,7 +125,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                     </button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                         <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications.edit', ->notification_id) }}">
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.notifications.edit', $notification->notification_id) }}">
                                             @icon('edit', 'dropdown-icon text-gray-400 me-2')
                                             Editar
                                         </a>

@@ -112,7 +112,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <div class="mt-3">
                         <button type="button" id="saveProfileBtn" class="btn btn-primary mt-2 animate-up-2">
                             @icon('save', 'fa-xs text-white me-2')
-                            Guardar cambios
+                            Actualizar perfil
                         </button>
                     </div>
                 </form>

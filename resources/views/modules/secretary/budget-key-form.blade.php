@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: budget-key-form.blade.php
-Created on: 08/12/2025
-Created by: Claude Code
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: budget-key-form.blade.php
+    Created on: 08/12/2025
+    Created by: Claude Code
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -36,7 +41,7 @@ Approved by: Alfonso Angel Garcia Hernandez
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary me-2',
@@ -46,13 +51,15 @@ Approved by: Alfonso Angel Garcia Hernandez
             });
 
             // Confirmación antes de guardar
-            document.getElementById('saveKeyBtn')?.addEventListener('click', function (e) {
+            document.getElementById('saveKeyBtn')?.addEventListener('click', function(e) {
                 e.preventDefault();
                 const isEdit = {{ $budget_key_id ? 'true' : 'false' }};
                 swalWithBootstrapButtons.fire({
                     icon: 'question',
-                    title: isEdit ? '¿Actualizar clave presupuestal?' : '¿Guardar clave presupuestal?',
-                    text: isEdit ? '¿Deseas actualizar esta clave?' : '¿Deseas guardar esta nueva clave?',
+                    title: isEdit ? '¿Actualizar clave presupuestal?' :
+                        '¿Guardar clave presupuestal?',
+                    text: isEdit ? '¿Deseas actualizar esta clave?' :
+                        '¿Deseas guardar esta nueva clave?',
                     showCancelButton: true,
                     confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
                     cancelButtonText: 'Cancelar',
@@ -81,7 +88,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             }
 
             // Confirmación antes de eliminar
-            document.getElementById('deleteKeyBtn')?.addEventListener('click', function (e) {
+            document.getElementById('deleteKeyBtn')?.addEventListener('click', function(e) {
                 e.preventDefault();
                 swalWithBootstrapButtons.fire({
                     icon: 'question',
@@ -160,7 +167,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 Cancelar
                             </a>
                         </div>
-                        @if($budget_key_id)
+                        @if ($budget_key_id)
                             <div>
                                 <button type="button" id="deleteKeyBtn" class="btn btn-danger mt-2 animate-up-2">
                                     @icon('delete', 'fa-xs text-white me-2')

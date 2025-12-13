@@ -1,7 +1,7 @@
 {{--
     Company: CETAM
     Project: ST
-    File: gestion-tramites.blade.php
+    File: procedure-management.blade.php
     Created on: 03/11/2025
     Created by: Alfonso Angel Garcia Hernandez
     Approved by: Alfonso Angel Garcia Hernandez

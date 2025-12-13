@@ -46,7 +46,9 @@ Changelog:
                                     class="form-control @error('email') is-invalid @enderror"
                                     placeholder="correo@institucion.com" id="email" autofocus>
                             </div>
-                            @error('email') <div class="invalid-feedback d-block"> {{$message}} </div> @enderror
+                            @error('email')
+                                <div class="invalid-feedback d-block"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- End of Form -->
                         <div class="form-group">
@@ -64,7 +66,8 @@ Changelog:
                                     <input wire:model.lazy="password" type="password" placeholder="Contrase&ntilde;a"
                                         class="form-control @error('password') is-invalid @enderror" id="password">
                                 </div>
-                                @error('password') <div class="invalid-feedback d-block"> {{ $message }} </div>
+                                @error('password')
+                                    <div class="invalid-feedback d-block"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <!-- End of Form -->

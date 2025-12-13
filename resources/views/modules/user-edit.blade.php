@@ -1,14 +1,17 @@
 {{--
-Company: CETAM
-Project: ST
-File: user-edit.blade.php
-Created on: 01/12/2025
-Created by: Claude AI
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: user-edit.blade.php
+    Created on: 01/12/2025
+    Created by: Claude AI
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+        - ID: <ID> | Date: dd/mm/yyyy
+        Modified by: <Developer name>
+        Description: <Brief description of change>
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -149,7 +152,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <div class="mt-3">
                         <button type="button" id="updateUserBtn" class="btn btn-primary mt-2 animate-up-2">
                             @icon('save', 'fa-xs text-white me-2')
-                            Guardar cambios
+                            Actualizar usuario
                         </button>
                         <button type="button" wire:click="cancel" class="btn btn-gray-300 mt-2 animate-up-2">
                             Cancelar
@@ -220,10 +223,10 @@ Approved by: Alfonso Angel Garcia Hernandez
         document.getElementById('updateUserBtn').addEventListener('click', function () {
             swalWithBootstrapButtons.fire({
                 title: '¿Estás seguro?',
-                text: '¿Deseas guardar los cambios realizados?',
+                text: '¿Deseas actualizar la información de este usuario?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, guardar',
+                confirmButtonText: 'Sí, actualizar',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
             }).then((result) => {

@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: worker-procedures-history.blade.php
-* Created on: 10/12/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
+    Company: CETAM
+    Project: ST
+    File: worker-procedures-history.blade.php
+    Created on: 10/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -94,7 +99,7 @@
                             {{ $requestItem->end_date ? $requestItem->end_date->format('d/m/Y') : '-' }}
                         </td>
                         <td>
-                            @if($requestItem->status == 'completado')
+                            @if ($requestItem->status == 'completado')
                                 <span class="badge bg-success">Completado</span>
                             @elseif($requestItem->status == 'en_proceso')
                                 <span class="badge bg-warning text-dark">En proceso</span>
@@ -125,7 +130,7 @@
         </table>
         <div
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($requests->hasPages())
+            @if ($requests->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $requests->links() }}
                 </nav>

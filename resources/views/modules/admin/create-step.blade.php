@@ -1,19 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: create-step.blade.php
-Created on: 05/11/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
-
-Changelog:
-- ID: 002 | Modified on: 12/12/2025 |
-Modified by: Claude Code |
-Description: Simplified form, removed process dropdown, show process info card instead.
-
-- ID: 003 | Modified on: 12/12/2025 |
-Modified by: Claude Code |
-Description: Added SweetAlert confirmation and success alerts following application standard pattern.
+    Company: CETAM
+    Project: ST
+    File: create-step.blade.php
+    Created on: 05/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+    
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -26,7 +22,7 @@ Description: Added SweetAlert confirmation and success alerts following applicat
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    @if(auth()->user()->role === 'secretary')
+                    @if (auth()->user()->role === 'secretary')
                         <li class="breadcrumb-item">Secretaria</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
@@ -60,7 +56,7 @@ Description: Added SweetAlert confirmation and success alerts following applicat
             @php
                 $selectedProcess = App\Models\Process::find($process_id);
             @endphp
-            @if($selectedProcess)
+            @if ($selectedProcess)
                 <div class="card border-0 shadow mb-4">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
@@ -68,10 +64,10 @@ Description: Added SweetAlert confirmation and success alerts following applicat
                             <div>
                                 <h3 class="h6 mb-1">{{ $selectedProcess->name }}</h3>
                                 <p class="small text-gray mb-0">
-                                    @if($selectedProcess->process_code)
+                                    @if ($selectedProcess->process_code)
                                         CÃ³digo: {{ $selectedProcess->process_code }}
                                     @endif
-                                    @if($selectedProcess->category)
+                                    @if ($selectedProcess->category)
                                         | CategorÃ­a: {{ ucfirst($selectedProcess->category) }}
                                     @endif
                                 </p>
@@ -88,9 +84,11 @@ Description: Added SweetAlert confirmation and success alerts following applicat
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="title">TÃ­tulo del paso <span class="text-danger">*</span></label>
-                            <input class="form-control @error('title') is-invalid @enderror" id="title" type="text"
-                                placeholder="Ej: RevisiÃ³n de documentos" wire:model="title">
-                            @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <input class="form-control @error('title') is-invalid @enderror" id="title"
+                                type="text" placeholder="Ej: RevisiÃ³n de documentos" wire:model="title">
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -104,46 +102,53 @@ Description: Added SweetAlert confirmation and success alerts following applicat
                                 <option value="conditional">Condicional</option>
                                 <option value="final">Final</option>
                             </select>
-                            @error('step_type') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('step_type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="instruction">Instrucciones</label>
-                            <textarea class="form-control @error('instruction') is-invalid @enderror" id="instruction"
-                                rows="4" placeholder="Instrucciones detalladas para completar este paso..."
-                                wire:model="instruction"></textarea>
-                            @error('instruction') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <textarea class="form-control @error('instruction') is-invalid @enderror" id="instruction" rows="4"
+                                placeholder="Instrucciones detalladas para completar este paso..." wire:model="instruction"></textarea>
+                            @error('instruction')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                             <small class="form-text text-muted">Estas instrucciones serÃ¡n mostradas al usuario
                                 responsable.</small>
                         </div>
                     </div>
 
                     {{-- Final step message --}}
-                    @if($step_type === 'final')
+                    @if ($step_type === 'final')
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="finalization_message">Mensaje de finalizaciÃ³n</label>
-                                <textarea class="form-control @error('finalization_message') is-invalid @enderror"
-                                    id="finalization_message" rows="3"
-                                    placeholder="Mensaje que se mostrarÃ¡ al usuario cuando el proceso termine..."
+                                <textarea class="form-control @error('finalization_message') is-invalid @enderror" id="finalization_message"
+                                    rows="3" placeholder="Mensaje que se mostrarÃ¡ al usuario cuando el proceso termine..."
                                     wire:model="finalization_message"></textarea>
-                                @error('finalization_message') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('finalization_message')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     @endif
 
                     {{-- Conditional step question --}}
-                    @if($step_type === 'conditional')
+                    @if ($step_type === 'conditional')
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="condition_question">Pregunta condicional</label>
                                 <input class="form-control @error('condition_question') is-invalid @enderror"
                                     id="condition_question" type="text" placeholder="Ej: Â¿Se aprueba la solicitud?"
                                     wire:model="condition_question">
-                                @error('condition_question') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                <small class="form-text text-muted">Pregunta que determinarÃ¡ el siguiente paso segÃºn la
+                                @error('condition_question')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">Pregunta que determinarÃ¡ el siguiente paso segÃºn
+                                    la
                                     respuesta.</small>
                             </div>
                         </div>
@@ -163,11 +168,11 @@ Description: Added SweetAlert confirmation and success alerts following applicat
                         </div>
                     </div>
 
-                    @if($requires_documents)
+                    @if ($requires_documents)
                         <div class="card border-light shadow-sm mb-3">
                             <div class="card-body">
-                                @if(count($documents) > 0)
-                                    @foreach($documents as $index => $doc)
+                                @if (count($documents) > 0)
+                                    @foreach ($documents as $index => $doc)
                                         <div class="d-flex align-items-center mb-2">
                                             <input type="text" class="form-control form-control-sm me-2"
                                                 placeholder="Nombre del documento requerido"
@@ -239,7 +244,7 @@ Description: Added SweetAlert confirmation and success alerts following applicat
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -251,13 +256,14 @@ Description: Added SweetAlert confirmation and success alerts following applicat
         // ConfirmaciÃ³n antes de guardar
         const saveBtn = document.getElementById('saveStepBtn');
         if (saveBtn) {
-            saveBtn.addEventListener('click', function (e) {
+            saveBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 console.log('BotÃ³n de guardar clickeado');
                 const isEditing = {{ $isEditing ? 'true' : 'false' }};
                 swalWithBootstrapButtons.fire({
                     title: isEditing ? 'Â¿Actualizar paso?' : 'Â¿Crear paso?',
-                    text: isEditing ? 'Â¿Deseas actualizar este paso?' : 'Â¿Deseas crear este nuevo paso?',
+                    text: isEditing ? 'Â¿Deseas actualizar este paso?' :
+                        'Â¿Deseas crear este nuevo paso?',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: isEditing ? 'SÃ­, actualizar' : 'SÃ­, crear',
@@ -273,7 +279,8 @@ Description: Added SweetAlert confirmation and success alerts following applicat
                                 console.error('Error al llamar save:', error);
                                 swalWithBootstrapButtons.fire({
                                     title: 'Error',
-                                    text: 'OcurriÃ³ un error al procesar la solicitud: ' + (error.message || error),
+                                    text: 'OcurriÃ³ un error al procesar la solicitud: ' +
+                                        (error.message || error),
                                     icon: 'error',
                                     confirmButtonText: 'Entendido'
                                 });

@@ -1,10 +1,15 @@
 {{-- 
-Company: CETAM
-Project: ST
-File: definir-pasos.blade.php
-Created on: 04/11/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: define-steps.blade.php
+    Created on: 04/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -17,7 +22,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    @if(auth()->user()->role === 'secretary')
+                    @if (auth()->user()->role === 'secretary')
                         <li class="breadcrumb-item">Secretaria</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
@@ -46,27 +51,28 @@ Approved by: Alfonso Angel Garcia Hernandez
         <div class="col-12 col-xl-8">
             <div class="card border-0 shadow">
                 <div class="card-body d-flex flex-column gap-3">
-                    @if($selectedProcess)
+                    @if ($selectedProcess)
                         <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
                             <h3 class="h5 mb-2">{{ $selectedProcess->name }}</h3>
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.configure-flow', ['process_id' => $selectedProcessId]) }}"
-                               class="btn btn-secondary btn-sm d-inline-flex align-items-center text-white">
+                                class="btn btn-secondary btn-sm d-inline-flex align-items-center text-white">
                                 @icon('process', 'icon-xs me-2 text-white')
                                 Configurar flujo
                             </a>
                         </div>
 
-                        @if($selectedProcess->description)
-                            <p class="mb-1"><span>Descripcion: </span><span>{{ $selectedProcess->description }}</span></p>
+                        @if ($selectedProcess->description)
+                            <p class="mb-1"><span>Descripcion: </span><span>{{ $selectedProcess->description }}</span>
+                            </p>
                         @endif
 
-                        @if($selectedProcess->process_code)
+                        @if ($selectedProcess->process_code)
                             <p class="mb-1"><span>Codigo: </span><span>{{ $selectedProcess->process_code }}</span></p>
                         @endif
 
                         <p class="mb-0">
                             <span>Estado: </span>
-                            @if($selectedProcess->active)
+                            @if ($selectedProcess->active)
                                 <span class="text-success fw-bold">Activo</span>
                             @else
                                 <span class="text-warning fw-bold">Inactivo</span>
@@ -103,9 +109,9 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 
-    {{-- Tabla de pasos - Ancho completo --}}
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center"
+            style="table-layout: fixed;">
             <colgroup>
                 <col style="width: 35%">
                 <col style="width: 18%">
@@ -123,14 +129,16 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </tr>
             </thead>
             <tbody>
-                @if($selectedProcess && count($steps) > 0)
-                    @foreach($steps as $step)
+                @if ($selectedProcess && count($steps) > 0)
+                    @foreach ($steps as $step)
                         <tr>
                             <td>
                                 <div class="d-block">
-                                    <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $step->title }}</span>
-                                    @if($step->instruction)
-                                        <div class="small text-gray text-truncate">{{ Str::limit($step->instruction, 80) }}</div>
+                                    <span
+                                        class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $step->title }}</span>
+                                    @if ($step->instruction)
+                                        <div class="small text-gray text-truncate">
+                                            {{ Str::limit($step->instruction, 80) }}</div>
                                     @endif
                                 </div>
                             </td>
@@ -140,7 +148,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 </span>
                             </td>
                             <td>
-                                @if($step->is_initial_step)
+                                @if ($step->is_initial_step)
                                     <span class="badge bg-primary">Paso inicial</span>
                                 @elseif($step->is_linked)
                                     <span class="badge bg-success">Vinculado</span>
@@ -149,13 +157,14 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 @endif
                             </td>
                             <td>
-                                @if($step->requiredDocuments->count() > 0)
+                                @if ($step->requiredDocuments->count() > 0)
                                     <div class="small">
-                                        @foreach($step->requiredDocuments->take(2) as $doc)
+                                        @foreach ($step->requiredDocuments->take(2) as $doc)
                                             <span class="badge bg-secondary me-1 mb-1">{{ $doc->title }}</span>
                                         @endforeach
-                                        @if($step->requiredDocuments->count() > 2)
-                                            <span class="badge bg-gray-300 text-dark">+{{ $step->requiredDocuments->count() - 2 }}</span>
+                                        @if ($step->requiredDocuments->count() > 2)
+                                            <span
+                                                class="badge bg-gray-300 text-dark">+{{ $step->requiredDocuments->count() - 2 }}</span>
                                         @endif
                                     </div>
                                 @else

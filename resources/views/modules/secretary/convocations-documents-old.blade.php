@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: convocatorias-documentos.blade.php
-* Created on: 04/11/2025
-* Created by: Alfonso Angel Garca Hernndez
-* Approved by: Alfonso Angel Garca Hernndez
+    Company: CETAM
+    Project: ST
+    File: convocatorias-documentos.blade.php
+    Created on: 04/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     {{-- Page Header --}}
@@ -50,15 +55,18 @@
                                 <input wire:model="titulo" type="text"
                                     class="form-control @error('titulo') is-invalid @enderror" id="titulo"
                                     placeholder="Ej: Convocatoria para plaza de coordinador administrativo">
-                                @error('titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('titulo')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
                                 <label for="descripcion" class="form-label">Descripción *</label>
-                                <textarea wire:model="descripcion"
-                                    class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
+                                <textarea wire:model="descripcion" class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
                                     rows="4" placeholder="Descripción detallada de la convocatoria..."></textarea>
-                                @error('descripcion') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('descripcion')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
@@ -75,38 +83,46 @@
                                 <label for="fecha_inicio" class="form-label">Fecha de inicio *</label>
                                 <input wire:model="fecha_inicio" type="date"
                                     class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio">
-                                @error('fecha_inicio') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('fecha_inicio')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="fecha_fin" class="form-label">Fecha de fin</label>
                                 <input wire:model="fecha_fin" type="date"
                                     class="form-control @error('fecha_fin') is-invalid @enderror" id="fecha_fin"
-                                    @if($convocatoria_permanente) disabled @endif>
+                                    @if ($convocatoria_permanente) disabled @endif>
                                 <small class="form-text text-muted">Dejar vacío si es permanente</small>
-                                @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('fecha_fin')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Documentos (PDF) <span
                                         class="text-muted small">(Opcional)</span></label>
-                                @foreach($documentos as $index => $documento)
+                                @foreach ($documentos as $index => $documento)
                                     <div class="row mb-2" wire:key="doc-{{ $index }}">
                                         <div class="col-md-5">
                                             <input type="text" wire:model="documentos.{{ $index }}.titulo"
                                                 class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
                                                 placeholder="Título del documento">
-                                            @error('documentos.' . $index . '.titulo') <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div> @enderror
+                                            @error('documentos.' . $index . '.titulo')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6">
                                             <input type="file" wire:model="documentos.{{ $index }}.archivo"
                                                 class="form-control @error('documentos.' . $index . '.archivo') is-invalid @enderror"
                                                 accept=".pdf">
-                                            @error('documentos.' . $index . '.archivo') <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div> @enderror
+                                            @error('documentos.' . $index . '.archivo')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-1">
                                             <button type="button" wire:click="removeDocumento({{ $index }})"
@@ -121,7 +137,8 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <button type="button" wire:click="addDocumento" class="btn btn-sm btn-outline-primary">
+                                <button type="button" wire:click="addDocumento"
+                                    class="btn btn-sm btn-outline-primary">
                                     <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -192,7 +209,7 @@
                                         <td>
                                             <span
                                                 class="fw-normal small">{{ $convocatoria->start_date ? $convocatoria->start_date->format('d/m/Y') : 'N/A' }}</span>
-                                            @if($convocatoria->end_date)
+                                            @if ($convocatoria->end_date)
                                                 <span class="text-gray"> - </span>
                                                 <span
                                                     class="fw-normal small">{{ $convocatoria->end_date->format('d/m/Y') }}</span>
@@ -201,7 +218,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($convocatoria->status === 'activa')
+                                            @if ($convocatoria->status === 'activa')
                                                 <span class="fw-bold text-success">Activa</span>
                                             @elseif($convocatoria->status === 'cerrada')
                                                 <span class="fw-bold text-secondary">Cerrada</span>
@@ -210,23 +227,24 @@
                                             @elseif($convocatoria->status === 'permanente')
                                                 <span class="fw-bold text-info">Permanente</span>
                                             @else
-                                                <span class="fw-bold text-gray-600">{{ ucfirst($convocatoria->status) }}</span>
+                                                <span
+                                                    class="fw-bold text-gray-600">{{ ucfirst($convocatoria->status) }}</span>
                                             @endif
                                         </td>
                                         <td>
-                                            @if($convocatoria->documents->count() > 0)
+                                            @if ($convocatoria->documents->count() > 0)
                                                 <div class="d-flex gap-1">
                                                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.show', $convocatoria->documents->first()->convocation_document_id) }}"
                                                         target="_blank" class="btn btn-sm btn-outline-primary">
-                                                        <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                                            xmlns="http://www.w3.org/2000/svg">
+                                                        <svg class="icon icon-xs" fill="currentColor"
+                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                                             <path fill-rule="evenodd"
                                                                 d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
                                                                 clip-rule="evenodd"></path>
                                                         </svg>
                                                     </a>
-                                                    @if($convocatoria->documents->count() > 1)
+                                                    @if ($convocatoria->documents->count() > 1)
                                                         <span
                                                             class="small text-gray align-self-center">+{{ $convocatoria->documents->count() - 1 }}</span>
                                                     @endif
@@ -239,7 +257,8 @@
                                             <div class="btn-group">
                                                 <button
                                                     class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
                                                     <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -247,10 +266,12 @@
                                                         </path>
                                                     </svg>
                                                 </button>
-                                                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                                <div
+                                                    class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                                        <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor"
-                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <svg class="dropdown-icon text-gray-400 me-2"
+                                                            fill="currentColor" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                                             <path fill-rule="evenodd"
                                                                 d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
@@ -259,8 +280,9 @@
                                                         Ver detalles
                                                     </a>
                                                     <a class="dropdown-item d-flex align-items-center" href="#">
-                                                        <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor"
-                                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <svg class="dropdown-icon text-gray-400 me-2"
+                                                            fill="currentColor" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
                                                             <path
                                                                 d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
                                                             </path>
@@ -277,7 +299,8 @@
                                             <div class="text-gray-500">
                                                 <i class="fa-solid fa-table-list fa-2x mb-3"></i>
                                                 <p class="fw-bold">No hay convocatorias para mostrar</p>
-                                                <p class="small">Crea tu primera convocatoria usando el formulario superior
+                                                <p class="small">Crea tu primera convocatoria usando el formulario
+                                                    superior
                                                 </p>
                                             </div>
                                         </td>
@@ -286,7 +309,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @if($convocatorias->hasPages())
+                    @if ($convocatorias->hasPages())
                         <div class="card-footer px-3 border-0 d-flex justify-content-between align-items-center">
                             <nav>{{ $convocatorias->links() }}</nav>
                             <div class="fw-normal small">
@@ -320,7 +343,7 @@
                     </button>
                 </div>
 
-                @if($showInstitutionalForm)
+                @if ($showInstitutionalForm)
                     <div class="card-body border-bottom bg-light">
                         <form wire:submit.prevent="saveInstitutionalDocument">
                             <div class="row">
@@ -329,31 +352,37 @@
                                     <input wire:model="doc_titulo" type="text"
                                         class="form-control @error('doc_titulo') is-invalid @enderror" id="doc_titulo"
                                         placeholder="Ej: Reglamento Interior de Trabajo">
-                                    @error('doc_titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('doc_titulo')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="doc_categoria" class="form-label">Categoría *</label>
                                     <select wire:model="doc_categoria"
-                                        class="form-select @error('doc_categoria') is-invalid @enderror" id="doc_categoria">
+                                        class="form-select @error('doc_categoria') is-invalid @enderror"
+                                        id="doc_categoria">
                                         <option value="reglamento">Reglamento</option>
                                         <option value="manual">Manual</option>
                                         <option value="lineamiento">Lineamiento</option>
                                         <option value="codigo">Código</option>
                                         <option value="otro">Otro</option>
                                     </select>
-                                    @error('doc_categoria') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('doc_categoria')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="doc_version" class="form-label">Versión *</label>
                                     <input wire:model="doc_version" type="text"
-                                        class="form-control @error('doc_version') is-invalid @enderror" id="doc_version"
-                                        placeholder="1.0">
-                                    @error('doc_version') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        class="form-control @error('doc_version') is-invalid @enderror"
+                                        id="doc_version" placeholder="1.0">
+                                    @error('doc_version')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="doc_descripcion" class="form-label">Descripción (opcional)</label>
-                                    <textarea wire:model="doc_descripcion" class="form-control" id="doc_descripcion"
-                                        rows="2"></textarea>
+                                    <textarea wire:model="doc_descripcion" class="form-control" id="doc_descripcion" rows="2"></textarea>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="doc_fecha_vigencia" class="form-label">Fecha de vigencia</label>
@@ -363,9 +392,11 @@
                                 <div class="col-md-3 mb-3">
                                     <label for="doc_archivo" class="form-label">Archivo PDF *</label>
                                     <input wire:model="doc_archivo" type="file"
-                                        class="form-control @error('doc_archivo') is-invalid @enderror" id="doc_archivo"
-                                        accept=".pdf">
-                                    @error('doc_archivo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                        class="form-control @error('doc_archivo') is-invalid @enderror"
+                                        id="doc_archivo" accept=".pdf">
+                                    @error('doc_archivo')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text text-muted">Max 10MB</small>
                                 </div>
                                 <div class="col-12">
@@ -389,8 +420,8 @@
                         @forelse($institutionalDocuments as $document)
                             <div class="list-group-item d-flex align-items-center justify-content-between px-3 py-3">
                                 <div class="d-flex align-items-center">
-                                    <svg class="icon icon-lg text-danger me-3" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="icon icon-lg text-danger me-3" fill="currentColor"
+                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
                                             d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
                                             clip-rule="evenodd"></path>
@@ -398,7 +429,8 @@
                                     <div>
                                         <h3 class="h6 mb-1">{{ $document->title }}</h3>
                                         <p class="small text-gray-500 mb-0">
-                                            {{ $document->created_at->format('d/m/Y') }} {{ $document->file_size_human }}
+                                            {{ $document->created_at->format('d/m/Y') }}
+                                            {{ $document->file_size_human }}
                                             <span class="fw-bold text-success">{{ ucfirst($document->status) }}</span>
                                             v{{ $document->version }}
                                         </p>
@@ -436,8 +468,8 @@
                                                 data-doc-id="{{ $document->institutional_document_id }}"
                                                 data-doc-title="{{ $document->title }}">Archivar</a></li>
                                     </ul>
-                                    </div>
                                 </div>
+                            </div>
                         @empty
                             <div class="text-center py-5">
                                 <i class="fa-solid fa-file fa-2x text-gray-400 mb-3"></i>
@@ -446,7 +478,7 @@
                             </div>
                         @endforelse
                     </div>
-                    @if($institutionalDocuments->hasPages())
+                    @if ($institutionalDocuments->hasPages())
                         <div class="card-footer px-3 border-0 d-flex justify-content-between align-items-center">
                             <nav>{{ $institutionalDocuments->links() }}</nav>
                             <div class="fw-normal small">
@@ -463,7 +495,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -473,7 +505,7 @@
         });
 
         // Botón crear convocatoria con confirmación
-        document.getElementById('createConvBtn')?.addEventListener('click', function (e) {
+        document.getElementById('createConvBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             swalWithBootstrapButtons.fire({
                 title: 'Crear convocatoria?',
@@ -491,7 +523,7 @@
         });
 
         // Botón guardar documento institucional
-        document.getElementById('saveDocBtn')?.addEventListener('click', function (e) {
+        document.getElementById('saveDocBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             swalWithBootstrapButtons.fire({
                 title: 'Guardar documento?',
@@ -509,7 +541,7 @@
         });
 
         // Event listener para archivar documentos
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (e.target.closest('.archive-doc-btn')) {
                 e.preventDefault();
                 const button = e.target.closest('.archive-doc-btn');

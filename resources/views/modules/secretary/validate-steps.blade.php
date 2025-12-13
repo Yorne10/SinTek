@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: validate-steps.blade.php
-* Created on: 04/11/2025
-* Created by: Alfonso Angel García Hernández
-* Approved by: Alfonso Angel García Hernández
+    Company: CETAM
+    Project: ST
+    File: validate-steps.blade.php
+    Created on: 04/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -49,8 +54,7 @@
 
                     <div class="mb-4">
                         <label for="observations" class="form-label">Observaciones</label>
-                        <textarea class="form-control" id="observations" rows="3"
-                            placeholder="Escribe aquí cualquier observación..."></textarea>
+                        <textarea class="form-control" id="observations" rows="3" placeholder="Escribe aquí cualquier observación..."></textarea>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">

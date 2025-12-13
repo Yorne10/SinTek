@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: faq-category-form.blade.php
-Created on: 10/12/2025
-Created by: Codex
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: faq-category-form.blade.php
+    Created on: 10/12/2025
+    Created by: Codex
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     {{-- Page Header --}}
@@ -29,7 +34,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </ol>
             </nav>
             <h2 class="h4">{{ $categoryId ? 'Editar' : 'Nueva' }} Categoria</h2>
-            <p class="mb-0">{{ $categoryId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} categoria de preguntas frecuentes.</p>
+            <p class="mb-0">{{ $categoryId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} categoria de
+                preguntas frecuentes.</p>
         </div>
     </div>
 
@@ -42,35 +48,52 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <form wire:submit.prevent="save">
                         <div class="row">
                             <div class="col-md-8 mb-3">
-                                <label for="categoryName" class="form-label">Nombre de la categoria <span class="text-danger">*</span></label>
-                                <input wire:model="categoryName" type="text" class="form-control @error('categoryName') is-invalid @enderror" id="categoryName" placeholder="Ej: Tramites generales">
-                                @error('categoryName') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <label for="categoryName" class="form-label">Nombre de la categoria <span
+                                        class="text-danger">*</span></label>
+                                <input wire:model="categoryName" type="text"
+                                    class="form-control @error('categoryName') is-invalid @enderror" id="categoryName"
+                                    placeholder="Ej: Tramites generales">
+                                @error('categoryName')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label for="categoryOrder" class="form-label">Orden de visualizacion <span class="text-danger">*</span></label>
-                                <input wire:model="categoryOrder" type="number" class="form-control @error('categoryOrder') is-invalid @enderror" id="categoryOrder" min="1" max="{{ $maxOrder }}" placeholder="1">
-                                @error('categoryOrder') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <label for="categoryOrder" class="form-label">Orden de visualizacion <span
+                                        class="text-danger">*</span></label>
+                                <input wire:model="categoryOrder" type="number"
+                                    class="form-control @error('categoryOrder') is-invalid @enderror" id="categoryOrder"
+                                    min="1" max="{{ $maxOrder }}" placeholder="1">
+                                @error('categoryOrder')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
-                                <label for="categoryDescription" class="form-label">Descripcion <span class="text-danger">*</span></label>
-                                <textarea wire:model="categoryDescription" class="form-control @error('categoryDescription') is-invalid @enderror" id="categoryDescription" rows="3" placeholder="Descripcion breve de la categoria..."></textarea>
-                                @error('categoryDescription') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                <label for="categoryDescription" class="form-label">Descripcion <span
+                                        class="text-danger">*</span></label>
+                                <textarea wire:model="categoryDescription" class="form-control @error('categoryDescription') is-invalid @enderror"
+                                    id="categoryDescription" rows="3" placeholder="Descripcion breve de la categoria..."></textarea>
+                                @error('categoryDescription')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn" data-max="{{ $maxOrder }}" data-original="{{ $originalOrder ?? $categoryOrder }}">
+                                        <button type="button" class="btn btn-primary" id="saveCategoryBtn"
+                                            data-max="{{ $maxOrder }}"
+                                            data-original="{{ $originalOrder ?? $categoryOrder }}">
                                             @icon('save', 'icon-xs me-1')
                                             {{ $categoryId ? 'Actualizar' : 'Guardar' }} categoria
                                         </button>
-                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}" class="btn btn-gray-300">
+                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}"
+                                            class="btn btn-gray-300">
                                             Cancelar
                                         </a>
                                     </div>
-                                    @if($categoryId)
+                                    @if ($categoryId)
                                         <div>
                                             <button type="button" id="deleteCategoryBtn" class="btn btn-danger">
                                                 @icon('delete', 'icon-xs me-1')
@@ -122,7 +145,7 @@ Approved by: Alfonso Angel Garcia Hernandez
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -144,7 +167,8 @@ Approved by: Alfonso Angel Garcia Hernandez
 
         const confirmQuestion = () => swalWithBootstrapButtons.fire({
             title: isEdit ? '¿Actualizar categoria?' : '¿Guardar categoria?',
-            text: isEdit ? '¿Deseas actualizar los detalles de esta categoria?' : '¿Deseas crear esta categoria?',
+            text: isEdit ? '¿Deseas actualizar los detalles de esta categoria?' :
+                '¿Deseas crear esta categoria?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: isEdit ? 'Si, actualizar' : 'Si, guardar',
@@ -152,7 +176,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             reverseButtons: true
         });
 
-        saveBtn?.addEventListener('click', function (e) {
+        saveBtn?.addEventListener('click', function(e) {
             e.preventDefault();
             const orderInput = document.getElementById('categoryOrder');
             const desired = parseInt(orderInput.value || '1', 10);
@@ -168,7 +192,9 @@ Approved by: Alfonso Angel Garcia Hernandez
             };
 
             if (desired > max) {
-                confirmFlow(`El orden solicitado supera el maximo (${max}). Se ajustara al ultimo numero secuencial.`)
+                confirmFlow(
+                        `El orden solicitado supera el maximo (${max}). Se ajustara al ultimo numero secuencial.`
+                        )
                     .then(() => {
                         orderInput.value = max;
                         @this.set('categoryOrder', max);
@@ -180,7 +206,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             proceed();
         });
         // Confirmation before delete - llama al backend que decide el flujo
-        document.getElementById('deleteCategoryBtn')?.addEventListener('click', function (e) {
+        document.getElementById('deleteCategoryBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             @this.call('deleteCategory');
         });
@@ -214,7 +240,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             Livewire.on('category-has-faqs', (detail) => {
                 const payload = Array.isArray(detail) ? detail[0] : detail || {};
                 const count = payload.count || 0;
-                
+
                 // Primero warning informativo
                 swalWithBootstrapButtons.fire({
                     icon: 'warning',

@@ -1,18 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: notifications.blade.php
-* Created on: 04/12/2025
-* Created by: Alfonso Angel Garcia Hernandez
-* Approved by: Alfonso Angel Garcia Hernandez
-*
-* Changelog:
-* - ID: 001 | Modified on: 04/12/2025 |
-* Modified by: Claude Code |
-* Description: Refactored notifications table to match users table design with actions menu
-* - ID: 002 | Modified on: 12/12/2025 |
-* Modified by: Claude Code |
-* Description: Updated breadcrumb navigation and added status filter following system standards
+    Company: CETAM
+    Project: ST
+    File: notifications.blade.php
+    Created on: 04/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+        - ID: <ID> | Date: dd/mm/yyyy
+        Modified by: <Developer name>
+        Description: <Brief description of change>
 --}}
 
 <div wire:poll.10s="refreshList">
@@ -59,7 +56,8 @@
     </div>
 
     <div class="card card-body shadow border-0 table-wrapper table-responsive overflow-visible">
-        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center"
+            style="table-layout: fixed;">
             <colgroup>
                 <col style="width: 26%">
                 <col style="width: 34%">
@@ -80,10 +78,12 @@
                 @forelse ($notifications as $notification)
                     <tr wire:key="notification-{{ $notification->notification_id }}">
                         <td class="text-start">
-                            <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $notification->title ?? 'Sin t&iacute;tulo' }}</span>
+                            <span
+                                class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $notification->title ?? 'Sin t&iacute;tulo' }}</span>
                         </td>
                         <td class="text-start">
-                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $notification->message }}</span>
+                            <span
+                                class="fw-normal text-truncate d-inline-block w-100">{{ $notification->message }}</span>
                         </td>
                         <td class="text-start">
                             @if ($notification->read_at)
@@ -93,12 +93,14 @@
                             @endif
                         </td>
                         <td class="text-start">
-                            <span class="fw-normal">{{ optional($notification->created_at)->format('d/m/Y H:i') }}</span>
+                            <span
+                                class="fw-normal">{{ optional($notification->created_at)->format('d/m/Y H:i') }}</span>
                         </td>
                         <td class="text-start" style="width: 12%; min-width: 72px;">
                             <div class="btn-group">
                                 <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+                                    data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-haspopup="true"
+                                    aria-expanded="false">
                                     @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
@@ -115,11 +117,12 @@
                                     </button>
                                     @if (!$notification->read_at)
                                         <div role="separator" class="dropdown-divider my-1"></div>
-                                        <button class="dropdown-item text-primary d-flex align-items-center" type="button"
+                                        <button class="dropdown-item text-primary d-flex align-items-center"
+                                            type="button"
                                             wire:click="markAsRead({{ $notification->notification_id }})"
                                             wire:loading.attr="disabled" wire:target="markAsRead">
-                                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                                                wire:loading wire:target="markAsRead"></span>
+                                            <span class="spinner-border spinner-border-sm me-2" role="status"
+                                                aria-hidden="true" wire:loading wire:target="markAsRead"></span>
                                             @icon('success', 'dropdown-icon text-primary me-2')
                                             Marcar como le&iacute;da
                                         </button>
@@ -134,7 +137,8 @@
                             <div class="d-flex flex-column align-items-center justify-content-center text-gray-500">
                                 @icon('notification', 'fa-2x mb-3')
                                 <p class="fw-bold mb-1">No hay notificaciones para mostrar</p>
-                                <p class="small mb-0">Aqu&iacute; aparecer&aacute;n los mensajes relacionados con tus tr&aacute;mites</p>
+                                <p class="small mb-0">Aqu&iacute; aparecer&aacute;n los mensajes relacionados con tus
+                                    tr&aacute;mites</p>
                             </div>
                         </td>
                     </tr>
@@ -143,7 +147,7 @@
         </table>
         <div
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($notifications->hasPages())
+            @if ($notifications->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $notifications->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
@@ -156,7 +160,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary me-2',
@@ -166,7 +170,7 @@
             });
 
             // Event listener to view notification details
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (e.target.closest('.view-notification-detail')) {
                     e.preventDefault();
                     const button = e.target.closest('.view-notification-detail');

@@ -27,11 +27,14 @@
                             {{ $category->name }}
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $faqId ? 'Editar pregunta' : 'Nueva pregunta' }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ $faqId ? 'Editar pregunta' : 'Nueva pregunta' }}</li>
                 </ol>
             </nav>
             <h2 class="h4">{{ $faqId ? 'Editar pregunta' : 'Nueva pregunta' }}</h2>
-            <p class="mb-0">{{ $faqId ? 'Modifica los datos de la pregunta frecuente.' : 'Completa el formulario para agregar una nueva pregunta frecuente.' }}</p>
+            <p class="mb-0">
+                {{ $faqId ? 'Modifica los datos de la pregunta frecuente.' : 'Completa el formulario para agregar una nueva pregunta frecuente.' }}
+            </p>
         </div>
     </div>
 
@@ -44,8 +47,9 @@
                         <div class="row">
                             <div class="col-md-8 mb-3">
                                 <label for="faqQuestion">Pregunta <span class="text-danger">*</span></label>
-                                <input wire:model="faqQuestion" type="text" class="form-control @error('faqQuestion') is-invalid @enderror"
-                                    id="faqQuestion" placeholder="Ej: ¿Cómo inicio un trámite?">
+                                <input wire:model="faqQuestion" type="text"
+                                    class="form-control @error('faqQuestion') is-invalid @enderror" id="faqQuestion"
+                                    placeholder="Ej: ¿Cómo inicio un trámite?">
                                 @error('faqQuestion')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -53,8 +57,9 @@
 
                             <div class="col-md-4 mb-3">
                                 <label for="faqOrder">Orden de visualización <span class="text-danger">*</span></label>
-                                <input wire:model="faqOrder" type="number" class="form-control @error('faqOrder') is-invalid @enderror"
-                                    id="faqOrder" placeholder="1" min="1" max="{{ $maxOrder }}">
+                                <input wire:model="faqOrder" type="number"
+                                    class="form-control @error('faqOrder') is-invalid @enderror" id="faqOrder"
+                                    placeholder="1" min="1" max="{{ $maxOrder }}">
                                 @error('faqOrder')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -62,8 +67,8 @@
 
                             <div class="col-md-12 mb-3">
                                 <label for="faqAnswer">Respuesta <span class="text-danger">*</span></label>
-                                <textarea wire:model="faqAnswer" class="form-control @error('faqAnswer') is-invalid @enderror"
-                                    id="faqAnswer" rows="6" placeholder="Ingresa una respuesta clara y breve"></textarea>
+                                <textarea wire:model="faqAnswer" class="form-control @error('faqAnswer') is-invalid @enderror" id="faqAnswer"
+                                    rows="6" placeholder="Ingresa una respuesta clara y breve"></textarea>
                                 @error('faqAnswer')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -72,7 +77,8 @@
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <button type="button" id="saveQuestionBtn" data-max="{{ $maxOrder }}" class="btn btn-primary">
+                                        <button type="button" id="saveQuestionBtn" data-max="{{ $maxOrder }}"
+                                            class="btn btn-primary">
                                             @icon('save', 'icon-xs me-1')
                                             {{ $faqId ? 'Actualizar pregunta' : 'Guardar pregunta' }}
                                         </button>
@@ -81,10 +87,9 @@
                                             Cancelar
                                         </a>
                                     </div>
-                                    @if($faqId)
+                                    @if ($faqId)
                                         <div>
-                                            <button type="button" id="deleteFaqBtn"
-                                                class="btn btn-danger">
+                                            <button type="button" id="deleteFaqBtn" class="btn btn-danger">
                                                 @icon('delete', 'icon-xs me-1')
                                                 Eliminar pregunta
                                             </button>
@@ -144,7 +149,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -183,7 +188,7 @@
         // Confirmación antes de eliminar
         const deleteFaqBtn = document.getElementById('deleteFaqBtn');
         if (deleteFaqBtn) {
-            deleteFaqBtn.addEventListener('click', function () {
+            deleteFaqBtn.addEventListener('click', function() {
                 swalWithBootstrapButtons.fire({
                     title: '¿Eliminar pregunta?',
                     text: '¿Estás seguro de eliminar esta pregunta? Esta acción no se puede deshacer.',
@@ -203,7 +208,7 @@
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalMixin = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -214,9 +219,9 @@
 
         const saveBtn = document.getElementById('saveQuestionBtn');
         const isEdit = {{ $faqId ? 'true' : 'false' }};
-        
+
         if (saveBtn) {
-            saveBtn.addEventListener('click', function (e) {
+            saveBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 const orderInput = document.getElementById('faqOrder');
                 const desired = parseInt(orderInput.value || '1', 10);
@@ -226,7 +231,8 @@
                     swalMixin.fire({
                         icon: 'question',
                         title: isEdit ? '¿Actualizar pregunta?' : '¿Guardar pregunta?',
-                        text: isEdit ? '¿Deseas actualizar los datos de esta pregunta?' : '¿Deseas guardar esta nueva pregunta?',
+                        text: isEdit ? '¿Deseas actualizar los datos de esta pregunta?' :
+                            '¿Deseas guardar esta nueva pregunta?',
                         showCancelButton: true,
                         confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
                         cancelButtonText: 'Cancelar',

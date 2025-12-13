@@ -36,14 +36,18 @@ Changelog:
                             <label for="first_name">Nombre(s)</label>
                             <input wire:model="first_name" id="first_name" type="text" class="form-control"
                                 placeholder="Nombre(s)" required>
-                            @error('first_name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            @error('first_name')
+                                <div class="invalid-feedback"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- Apellidos -->
                         <div class="form-group mb-3">
                             <label for="last_name">Apellidos</label>
                             <input wire:model="last_name" id="last_name" type="text" class="form-control"
                                 placeholder="Apellidos" required>
-                            @error('last_name') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            @error('last_name')
+                                <div class="invalid-feedback"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- Correo institucional -->
                         <div class="form-group mb-3">
@@ -59,14 +63,18 @@ Changelog:
                                 <input wire:model="email" id="email" type="email" class="form-control"
                                     placeholder="correo@institucion.com" required>
                             </div>
-                            @error('email') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            @error('email')
+                                <div class="invalid-feedback"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- CURP -->
                         <div class="form-group mb-3">
                             <label for="curp">CURP</label>
                             <input wire:model="curp" id="curp" type="text" class="form-control"
                                 placeholder="Ej: PEGA800101HDFRRN09" maxlength="18" required>
-                            @error('curp') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            @error('curp')
+                                <div class="invalid-feedback"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- Sexo -->
                         <div class="form-group mb-3">
@@ -76,14 +84,18 @@ Changelog:
                                 <option value="M">Masculino</option>
                                 <option value="F">Femenino</option>
                             </select>
-                            @error('gender') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            @error('gender')
+                                <div class="invalid-feedback"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- Claves presupuestales -->
                         <div class="form-group mb-3">
                             <label for="budget_keys">Claves presupuestales</label>
                             <textarea wire:model="budget_keys" id="budget_keys" class="form-control" rows="3"
                                 placeholder="Describe tus claves presupuestales" required></textarea>
-                            @error('budget_keys') <div class="invalid-feedback"> {{ $message }} </div> @enderror
+                            @error('budget_keys')
+                                <div class="invalid-feedback"> {{ $message }} </div>
+                            @enderror
                         </div>
                         <!-- Contraseña -->
                         <div class="form-group mb-3">

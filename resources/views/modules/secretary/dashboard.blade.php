@@ -1,10 +1,15 @@
 {{-- 
-* Company: CETAM
-* Project: ST
-* File: dashboard.blade.php
-* Created on: 01/12/2025
-* Created by: Alfonso Angel Garcia Hernandez
-* Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: dashboard.blade.php
+    Created on: 01/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -24,7 +29,8 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('documentSign', 'fa-3x text-info')
                             </div>
@@ -47,7 +53,8 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('pending', 'fa-3x text-warning')
                             </div>
@@ -70,7 +77,8 @@
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
-                        <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                        <div
+                            class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                             <div class="me-4 me-sm-0">
                                 @icon('success', 'fa-3x text-success')
                             </div>
@@ -108,7 +116,7 @@
                     </div>
                     <div class="progress mb-3" style="height: 8px;">
                         <div class="progress-bar bg-warning" role="progressbar"
-                            style="width: {{ $totalRequests > 0 ? ($inProgressRequests / $totalRequests * 100) : 0 }}%">
+                            style="width: {{ $totalRequests > 0 ? ($inProgressRequests / $totalRequests) * 100 : 0 }}%">
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -117,7 +125,7 @@
                     </div>
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-success" role="progressbar"
-                            style="width: {{ $totalRequests > 0 ? ($completedRequests / $totalRequests * 100) : 0 }}%">
+                            style="width: {{ $totalRequests > 0 ? ($completedRequests / $totalRequests) * 100 : 0 }}%">
                         </div>
                     </div>
                 </div>

@@ -29,11 +29,13 @@
             <p class="mb-0">{{ $category->description ?? 'Gestiona las preguntas frecuentes de esta categorÌa.' }}</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}" class="btn btn-sm btn-gray-200 d-inline-flex align-items-center me-2">
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}"
+                class="btn btn-sm btn-gray-200 d-inline-flex align-items-center me-2">
                 @icon('back', 'me-2')
                 Volver
             </a>
-            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.question.create', $categoryId) }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.question.create', $categoryId) }}"
+                class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
                 @icon('add', 'me-2')
                 Nueva pregunta
             </a>
@@ -44,11 +46,12 @@
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">
                 <span class="input-group-text">@icon('search', 'icon icon-xs')</span>
-                <input wire:model.live.debounce.400ms="search" type="text"
-                    class="form-control" placeholder="Buscar preguntas">
+                <input wire:model.live.debounce.400ms="search" type="text" class="form-control"
+                    placeholder="Buscar preguntas">
             </div>
             <div class="ms-auto">
-                <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                <button wire:click="clearFilters"
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
                     @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
@@ -79,23 +82,20 @@
                             <span class="fw-bold text-gray-900">{{ $faq->question }}</span>
                         </td>
                         <td>
-                            <span class="fw-normal text-truncate d-inline-block w-100">{{ Str::limit($faq->answer, 100) }}</span>
+                            <span
+                                class="fw-normal text-truncate d-inline-block w-100">{{ Str::limit($faq->answer, 100) }}</span>
                         </td>
                         <td><span class="fw-bold text-gray-900">{{ $faq->order }}</span></td>
                         <td class="text-start" style="width: 12%; min-width: 72px;">
                             <div class="btn-group position-static">
-                                <button
-                                    class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <button class="dropdown-item d-flex align-items-center view-faq-detail"
-                                        type="button"
-                                        data-faq-question="{{ $faq->question }}"
-                                        data-faq-answer="{{ $faq->answer }}"
-                                        data-faq-order="{{ $faq->order }}">
+                                        type="button" data-faq-question="{{ $faq->question }}"
+                                        data-faq-answer="{{ $faq->answer }}" data-faq-order="{{ $faq->order }}">
                                         @icon('view', 'dropdown-icon text-gray-400 me-2')
                                         Ver detalles
                                     </button>
@@ -121,8 +121,9 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($faqs->hasPages())
+        <div
+            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            @if ($faqs->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $faqs->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
@@ -149,7 +150,7 @@
         });
     });
 
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
         if (e.target.closest('.view-faq-detail')) {
             e.preventDefault();
             const button = e.target.closest('.view-faq-detail');
@@ -177,5 +178,3 @@
         }
     });
 </script>
-
-

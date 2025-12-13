@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: processes-index.blade.php
-* Created on: 04/12/2025
-* Created by: Alfonso Angel Garcia Hernandez
-* Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: processes-index.blade.php
+    Created on: 04/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -50,7 +55,8 @@
                 </select>
             </div>
             <div class="ms-auto">
-                <button wire:click="clearFilters" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                <button wire:click="clearFilters"
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
                     @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
@@ -115,9 +121,9 @@
                                         data-process-name="{{ $process->name }}"
                                         data-process-active="{{ $process->active ? '1' : '0' }}"
                                         wire:loading.attr="disabled" wire:target="toggleProcessStatus">
-                                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
-                                            wire:loading wire:target="toggleProcessStatus"></span>
-                                        @icon($process->active ? 'warning' : 'success', "dropdown-icon {{ $process->active ? 'text-warning' : 'text-success' }} me-2")
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"
+                                            aria-hidden="true" wire:loading wire:target="toggleProcessStatus"></span>
+                                        @icon($process->active ? 'warning' : 'success', 'dropdown-icon {{ $process->active ? 'text-warning' : 'text-success' }} me-2')
                                         {{ $process->active ? 'Desactivar' : 'Activar' }}
                                     </button>
                                 </div>
@@ -154,7 +160,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary me-2',
@@ -164,7 +170,7 @@
             });
 
             // Event listener for toggle status buttons
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (e.target.closest('.toggle-process-status')) {
                     e.preventDefault();
                     const button = e.target.closest('.toggle-process-status');

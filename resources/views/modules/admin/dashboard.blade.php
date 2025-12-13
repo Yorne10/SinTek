@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: dashboard.blade.php
-Created on: 01/12/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: dashboard.blade.php
+    Created on: 01/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -18,7 +23,6 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 
-    {{-- Métricas principales --}}
     <div class="row">
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
@@ -93,9 +97,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 
-    {{-- Contenido principal --}}
     <div class="row">
-        {{-- Actividad Reciente --}}
         <div class="col-12 col-lg-7 mb-4">
             <div class="card border-0 shadow h-100">
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
@@ -137,14 +139,12 @@ Approved by: Alfonso Angel Garcia Hernandez
             </div>
         </div>
 
-        {{-- Resumen --}}
         <div class="col-12 col-lg-5 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-header border-bottom">
                     <h2 class="fs-5 fw-bold mb-0">Resumen General</h2>
                 </div>
                 <div class="card-body">
-                    {{-- Procesos --}}
                     <div class="mb-4 pb-4 border-bottom">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-gray-600">Procesos disponibles</span>

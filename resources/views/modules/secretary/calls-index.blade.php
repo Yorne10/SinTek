@@ -1,10 +1,15 @@
 {{-- 
-* Company: CETAM
-* Project: ST
-* File: calls-index.blade.php
-* Created on: 04/12/2025
-* Created by: Alfonso Angel Garcia Hernandez
-* Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: calls-index.blade.php
+    Created on: 04/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     {{-- Page Header --}}
@@ -43,7 +48,8 @@
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por estado:</span>
-                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;" aria-label="Filtrar por estado">
+                <select wire:model.live="statusFilter" class="form-select" style="min-width: 200px;"
+                    aria-label="Filtrar por estado">
                     <option value="">Todos</option>
                     <option value="activa">Activa</option>
                     <option value="proxima">Próxima</option>
@@ -90,14 +96,14 @@
                                     {{ $convocation->start_date ? $convocation->start_date->format('d/m/Y') : 'N/D' }}
                                 </span>
                                 <span class="text-gray"> - </span>
-                                @if($convocation->end_date)
+                                @if ($convocation->end_date)
                                     <span class="fw-normal">{{ $convocation->end_date->format('d/m/Y') }}</span>
                                 @else
                                     <span class="fw-normal text-gray-500">—</span>
                                 @endif
                             </td>
                             <td>
-                                @if($convocation->status === 'activa')
+                                @if ($convocation->status === 'activa')
                                     <span class="fw-bold text-success">Activa</span>
                                 @elseif($convocation->status === 'cerrada')
                                     <span class="fw-bold text-danger">Cerrada</span>
@@ -127,14 +133,15 @@
                                             @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver detalles
                                         </button>
-                                        @if($convocation->documents->count() > 0)
+                                        @if ($convocation->documents->count() > 0)
                                             <div class="dropdown-divider"></div>
                                             <h6 class="dropdown-header">Documentos</h6>
-                                            @foreach($convocation->documents as $doc)
+                                            @foreach ($convocation->documents as $doc)
                                                 <a class="dropdown-item d-flex align-items-center"
                                                     href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}">
                                                     @icon('download', 'dropdown-icon text-gray-400 me-2')
-                                                    <span class="small">{{ Str::limit($doc->file_name ?? 'Documento', 40) }}</span>
+                                                    <span
+                                                        class="small">{{ Str::limit($doc->file_name ?? 'Documento', 40) }}</span>
                                                 </a>
                                             @endforeach
                                         @else
@@ -165,7 +172,7 @@
         </div>
         <div
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($convocations->hasPages())
+            @if ($convocations->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $convocations->links('components.pagination-users') }}
                 </nav>
@@ -179,7 +186,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -189,7 +196,7 @@
         });
 
         // Event listener para ver detalles de la convocatoria
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (e.target.closest('.view-convocatoria-detail')) {
                 e.preventDefault();
                 const button = e.target.closest('.view-convocatoria-detail');
@@ -220,4 +227,3 @@
         });
     });
 </script>
-

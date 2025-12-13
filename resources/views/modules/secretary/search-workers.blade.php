@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: search-workers.blade.php
-Created on: 04/11/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: search-workers.blade.php
+    Created on: 04/11/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -89,59 +94,64 @@ Approved by: Alfonso Angel Garcia Hernandez
                 @forelse($workers as $worker)
                     <tr>
                         <td class="text-start">
-                            <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $worker->user->name }}</span>
+                            <span
+                                class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $worker->user->name }}</span>
                         </td>
                         <td class="text-start">
                             <span class="small text-truncate d-inline-block w-100">{{ $worker->user->email }}</span>
                         </td>
                         <td class="text-start">
-                            @if($worker->curp)
-                                <span class="font-monospace small text-truncate d-inline-block w-100">{{ $worker->curp }}</span>
+                            @if ($worker->curp)
+                                <span
+                                    class="font-monospace small text-truncate d-inline-block w-100">{{ $worker->curp }}</span>
                             @else
-                                <span class="text-gray-500 small text-truncate d-inline-block w-100">No especificado</span>
+                                <span class="text-gray-500 small text-truncate d-inline-block w-100">No
+                                    especificado</span>
                             @endif
                         </td>
                         <td class="text-start">
-                            @if($worker->rfc)
-                                <span class="font-monospace small text-truncate d-inline-block w-100">{{ $worker->rfc }}</span>
+                            @if ($worker->rfc)
+                                <span
+                                    class="font-monospace small text-truncate d-inline-block w-100">{{ $worker->rfc }}</span>
                             @else
-                                <span class="text-gray-500 small text-truncate d-inline-block w-100">No especificado</span>
+                                <span class="text-gray-500 small text-truncate d-inline-block w-100">No
+                                    especificado</span>
                             @endif
                         </td>
                         <td class="text-start">
-                            @if($worker->user->is_active)
+                            @if ($worker->user->is_active)
                                 <span class="fw-bold text-success">Activo</span>
                             @else
                                 <span class="fw-bold text-warning">Inactivo</span>
                             @endif
                         </td>
-                            <td class="text-start" style="width: 12%; min-width: 72px;">
-                                <div class="btn-group position-static">
-                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @icon('menu', 'icon icon-xs')
+                        <td class="text-start" style="width: 12%; min-width: 72px;">
+                            <div class="btn-group position-static">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @icon('menu', 'icon icon-xs')
+                                </button>
+                                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                    <button class="dropdown-item d-flex align-items-center view-worker-detail"
+                                        type="button" data-worker-name="{{ $worker->user->name }}"
+                                        data-worker-email="{{ $worker->user->email }}"
+                                        data-worker-active="{{ $worker->user->is_active ? '1' : '0' }}"
+                                        data-worker-curp="{{ $worker->curp ?? 'N/A' }}"
+                                        data-worker-rfc="{{ $worker->rfc ?? 'N/A' }}"
+                                        data-worker-phone="{{ $worker->phone ?? 'N/A' }}"
+                                        data-worker-budget-keys="{{ $worker->positions->pluck('budget_key')->filter()->implode(', ') ?? 'S/D' }}"
+                                        data-worker-address="{{ $worker->address ?? 'N/A' }}">
+                                        @icon('view', 'dropdown-icon text-gray-400 me-2')
+                                        Ver detalles
                                     </button>
-                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                        <button class="dropdown-item d-flex align-items-center view-worker-detail" type="button"
-                                            data-worker-name="{{ $worker->user->name }}"
-                                            data-worker-email="{{ $worker->user->email }}"
-                                            data-worker-active="{{ $worker->user->is_active ? '1' : '0' }}"
-                                            data-worker-curp="{{ $worker->curp ?? 'N/A' }}"
-                                            data-worker-rfc="{{ $worker->rfc ?? 'N/A' }}"
-                                            data-worker-phone="{{ $worker->phone ?? 'N/A' }}"
-                                            data-worker-budget-keys="{{ $worker->positions->pluck('budget_key')->filter()->implode(', ') ?? 'S/D' }}"
-                                            data-worker-address="{{ $worker->address ?? 'N/A' }}">
-                                            @icon('view', 'dropdown-icon text-gray-400 me-2')
-                                            Ver detalles
-                                        </button>
-                                        <a class="dropdown-item d-flex align-items-center"
-                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}">
-                                            @icon('documentSign', 'dropdown-icon text-gray-400 me-2')
-                                            Ver historial de trámites
-                                        </a>
-                                    </div>
+                                    <a class="dropdown-item d-flex align-items-center"
+                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}">
+                                        @icon('documentSign', 'dropdown-icon text-gray-400 me-2')
+                                        Ver historial de trámites
+                                    </a>
                                 </div>
-                            </td>
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -158,7 +168,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         </table>
         <div
             class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($workers->hasPages())
+            @if ($workers->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $workers->links() }}
                 </nav>
@@ -171,7 +181,7 @@ Approved by: Alfonso Angel Garcia Hernandez
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary',
@@ -181,7 +191,7 @@ Approved by: Alfonso Angel Garcia Hernandez
             });
 
             // Event listener para ver detalles
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (e.target.closest('.view-worker-detail')) {
                     e.preventDefault();
                     const button = e.target.closest('.view-worker-detail');

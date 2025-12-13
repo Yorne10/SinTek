@@ -1,11 +1,18 @@
 {{--
-Company: CETAM
-Project: ST
-File: configure-flow.blade.php
-Created on: 12/12/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: configure-flow.blade.php
+    Created on: 12/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+    
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
+
+
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -39,7 +46,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         </div>
     </div>
 
-    @if($process)
+    @if ($process)
         <div class="row">
             <div class="col-12 col-xl-8">
                 {{-- Process Info --}}
@@ -51,7 +58,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <h3 class="h6 mb-1">{{ $process->name }}</h3>
                                 <p class="small text-gray mb-0">
                                     {{ $process->process_code ?? 'Sin código' }}
-                                    @if($isFlowValid)
+                                    @if ($isFlowValid)
                                         <span class="badge bg-success ms-2">✅ Flujo válido</span>
                                     @else
                                         <span class="badge bg-warning text-dark ms-2">⚠️ Flujo incompleto</span>
@@ -71,7 +78,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <label for="initialStep" class="form-label">Selecciona el primer paso del proceso:</label>
                         <select class="form-select" id="initialStep" wire:model.live="initialStepId">
                             <option value="">-- Seleccionar paso inicial --</option>
-                            @foreach($steps->where('step_type', '!=', 'final') as $step)
+                            @foreach ($steps->where('step_type', '!=', 'final') as $step)
                                 <option value="{{ $step->step_id }}">
                                     {{ $step->title }}
                                 </option>
@@ -88,13 +95,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <h2 class="h5 mb-0">Configurar conexiones</h2>
                     </div>
                     <div class="card-body p-0">
-                        @if($steps->count() > 0)
-                            @foreach($steps as $step)
+                        @if ($steps->count() > 0)
+                            @foreach ($steps as $step)
                                 <div class="border-bottom p-3 {{ $step->step_id == $initialStepId ? 'bg-light' : '' }}">
                                     <div class="d-flex align-items-start justify-content-between mb-2">
                                         <div class="d-flex align-items-center">
                                             {{-- Step Type Icon --}}
-                                            @if($step->step_type === 'form')
+                                            @if ($step->step_type === 'form')
                                                 <span class="badge bg-info me-2">📝</span>
                                             @elseif($step->step_type === 'approval')
                                                 <span class="badge bg-warning text-dark me-2">✓✗</span>
@@ -113,21 +120,22 @@ Approved by: Alfonso Angel Garcia Hernandez
                                         </div>
 
                                         <div>
-                                            @if($step->step_id == $initialStepId)
+                                            @if ($step->step_id == $initialStepId)
                                                 <span class="badge bg-primary">Paso inicial</span>
                                             @endif
-                                            @if($step->is_linked)
+                                            @if ($step->is_linked)
                                                 <span class="badge bg-success">Vinculado</span>
                                             @endif
                                         </div>
                                     </div>
 
-                                    @if($step->step_type === 'final')
+                                    @if ($step->step_type === 'final')
                                         {{-- Final steps don't need next step --}}
                                         <div class="alert alert-success py-2 mb-0">
                                             <small>@icon('success', 'me-1') Este es un paso final. Termina el proceso.</small>
-                                            @if($step->finalization_message)
-                                                <div class="mt-1 small fst-italic">"{{ Str::limit($step->finalization_message, 80) }}"</div>
+                                            @if ($step->finalization_message)
+                                                <div class="mt-1 small fst-italic">
+                                                    "{{ Str::limit($step->finalization_message, 80) }}"</div>
                                             @endif
                                         </div>
                                     @elseif($step->step_type === 'approval' && $step->condition_question)
@@ -145,11 +153,11 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                 <select class="form-select form-select-sm"
                                                     wire:model.live="connections.{{ $step->step_id }}.next_yes">
                                                     <option value="">-- Seleccionar --</option>
-                                                    @foreach($steps->where('step_id', '!=', $step->step_id) as $targetStep)
-                                                        <option value="{{ $targetStep->step_id }}">
+                                                    @foreach ($steps->where('step_id', '!=', $step->step_id) as $targetStep)
+<option value="{{ $targetStep->step_id }}">
                                                             {{ $targetStep->title }}
                                                         </option>
-                                                    @endforeach
+@endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
@@ -159,26 +167,28 @@ Approved by: Alfonso Angel Garcia Hernandez
                                                 <select class="form-select form-select-sm"
                                                     wire:model.live="connections.{{ $step->step_id }}.next_no">
                                                     <option value="">-- Seleccionar --</option>
-                                                    @foreach($steps->where('step_id', '!=', $step->step_id) as $targetStep)
-                                                        <option value="{{ $targetStep->step_id }}">
+                                                    @foreach ($steps->where('step_id', '!=', $step->step_id) as $targetStep)
+<option value="{{ $targetStep->step_id }}">
                                                             {{ $targetStep->title }}
                                                         </option>
-                                                    @endforeach
+@endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                    @else
-                                        {{-- Normal step - single next --}}
+@else
+{{-- Normal step - single next --}}
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <label class="form-label small">Paso siguiente:</label>
                                                 <select class="form-select form-select-sm"
                                                     wire:model.live="connections.{{ $step->step_id }}.next_step_id">
                                                     <option value="">-- Seleccionar siguiente paso --</option>
-                                                    @foreach($steps->where('step_id', '!=', $step->step_id) as $targetStep)
+                                                    @foreach ($steps->where('step_id', '!=', $step->step_id) as $targetStep)
                                                         <option value="{{ $targetStep->step_id }}">
                                                             {{ $targetStep->title }}
-                                                            @if($targetStep->step_type === 'final') (Final) @endif
+                                                            @if ($targetStep->step_type === 'final')
+                                                                (Final)
+                                                            @endif
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -222,28 +232,28 @@ Approved by: Alfonso Angel Garcia Hernandez
                         <h2 class="h5 mb-0">Validación del flujo</h2>
                     </div>
                     <div class="card-body">
-                        @if(count($validationErrors) === 0 && count($validationWarnings) === 0)
+                        @if (count($validationErrors) === 0 && count($validationWarnings) === 0)
                             <div class="alert alert-success mb-0">
                                 <strong>✅ Flujo válido</strong>
                                 <p class="small mb-0">Todas las conexiones están configuradas correctamente.</p>
                             </div>
                         @else
-                            @if(count($validationErrors) > 0)
+                            @if (count($validationErrors) > 0)
                                 <div class="alert alert-danger">
                                     <strong>❌ Errores</strong>
                                     <ul class="mb-0 small ps-3">
-                                        @foreach($validationErrors as $error)
+                                        @foreach ($validationErrors as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
                             @endif
 
-                            @if(count($validationWarnings) > 0)
+                            @if (count($validationWarnings) > 0)
                                 <div class="alert alert-warning mb-0">
                                     <strong>⚠️ Advertencias</strong>
                                     <ul class="mb-0 small ps-3">
-                                        @foreach($validationWarnings as $warning)
+                                        @foreach ($validationWarnings as $warning)
                                             <li>{{ $warning }}</li>
                                         @endforeach
                                     </ul>

@@ -1,10 +1,15 @@
 {{--
-Company: CETAM
-Project: ST
-File: document-form.blade.php
-Created on: 01/12/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: document-form.blade.php
+    Created on: 01/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     {{-- Encabezado --}}
@@ -29,7 +34,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                 </ol>
             </nav>
             <h2 class="h4">{{ $documentId ? 'Editar' : 'Nuevo' }} Documento Institucional</h2>
-            <p class="mb-0">{{ $documentId ? 'Actualiza los datos del' : 'Sube un nuevo' }} documento institucional</p>
+            <p class="mb-0">{{ $documentId ? 'Actualiza los datos del' : 'Sube un nuevo' }} documento institucional
+            </p>
         </div>
     </div>
 
@@ -58,15 +64,18 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <input wire:model="titulo" type="text"
                                 class="form-control @error('titulo') is-invalid @enderror" id="titulo"
                                 placeholder="Ej: Reglamento Interior de Trabajo">
-                            @error('titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('titulo')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-12 mb-3">
                             <label for="descripcion" class="form-label">Descripción (opcional)</label>
-                            <textarea wire:model="descripcion"
-                                class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
+                            <textarea wire:model="descripcion" class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
                                 rows="3" placeholder="Breve descripción del documento..."></textarea>
-                            @error('descripcion') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('descripcion')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -83,7 +92,9 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 <option value="codigo">Código</option>
                                 <option value="otro">Otro</option>
                             </select>
-                            @error('categoria') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('categoria')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-4 mb-3">
@@ -91,17 +102,23 @@ Approved by: Alfonso Angel Garcia Hernandez
                             <input wire:model="version" type="text"
                                 class="form-control @error('version') is-invalid @enderror" id="version"
                                 placeholder="Ej: 1.0">
-                            @error('version') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('version')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label for="fecha_vigencia" class="form-label">
-                                Fecha de Vigencia @if(!$sin_fecha_vigencia)<span class="text-danger">*</span>@endif
+                                Fecha de Vigencia @if (!$sin_fecha_vigencia)
+                                    <span class="text-danger">*</span>
+                                @endif
                             </label>
                             <input wire:model="fecha_vigencia" type="date"
                                 class="form-control @error('fecha_vigencia') is-invalid @enderror" id="fecha_vigencia"
                                 {{ $sin_fecha_vigencia ? 'disabled' : '' }}>
-                            @error('fecha_vigencia') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('fecha_vigencia')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                             <div class="form-check mt-2">
                                 <input wire:model.live="sin_fecha_vigencia" class="form-check-input" type="checkbox"
                                     id="sin_fecha_vigencia">
@@ -112,15 +129,13 @@ Approved by: Alfonso Angel Garcia Hernandez
                         </div>
                     </div>
 
-                    @if($documentId)
+                    @if ($documentId)
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="status">Estado</label>
                                 <div class="form-check form-switch mt-2">
-                                    <input class="form-check-input" type="checkbox" 
-                                        id="status"
-                                        {{ $status === 'active' ? 'checked' : '' }}
-                                        wire:click="toggleStatus">
+                                    <input class="form-check-input" type="checkbox" id="status"
+                                        {{ $status === 'active' ? 'checked' : '' }} wire:click="toggleStatus">
                                     <label class="form-check-label" for="status">
                                         Documento activo
                                     </label>
@@ -133,21 +148,26 @@ Approved by: Alfonso Angel Garcia Hernandez
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="archivo" class="form-label">
-                                Archivo PDF @if(!$documentId)<span class="text-danger">*</span>@else(opcional para
-                                mantener el actual)@endif
+                                Archivo PDF @if (!$documentId)
+                                    <span class="text-danger">*</span>
+                                @else(opcional para
+                                    mantener el actual)
+                                @endif
                             </label>
-                            @if($documentId && $archivo_actual)
+                            @if ($documentId && $archivo_actual)
                                 <div class="small text-secondary mb-2">
                                     {{ $archivo_actual }}
                                 </div>
                             @endif
                             <input wire:model="archivo" type="file"
-                                class="form-control @error('archivo') is-invalid @enderror" id="archivo" accept=".pdf"
-                                x-data
+                                class="form-control @error('archivo') is-invalid @enderror" id="archivo"
+                                accept=".pdf" x-data
                                 x-on:livewire-upload-start="window.dispatchEvent(new CustomEvent('file-uploading'))"
                                 x-on:livewire-upload-finish="window.dispatchEvent(new CustomEvent('file-uploaded'))"
                                 x-on:livewire-upload-error="window.dispatchEvent(new CustomEvent('file-uploaded'))">
-                            @error('archivo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('archivo')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                             <div wire:loading wire:target="archivo" class="text-primary small mt-1">
                                 <span class="spinner-border spinner-border-sm me-1" role="status"></span>
                                 Cargando archivo...
@@ -166,7 +186,7 @@ Approved by: Alfonso Angel Garcia Hernandez
                                 Cancelar
                             </a>
                         </div>
-                        @if($documentId)
+                        @if ($documentId)
                             <div>
                                 <button type="button" id="deleteDocBtn" class="btn btn-danger mt-2 animate-up-2">
                                     @icon('delete', 'fa-xs text-white me-2')
@@ -227,7 +247,7 @@ Approved by: Alfonso Angel Garcia Hernandez
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -265,7 +285,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                 icon: 'success',
                 confirmButtonText: 'Entendido'
             }).then(() => {
-                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
+                window.location.href =
+                    "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
             });
         });
 
@@ -280,7 +301,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         });
 
         // Confirmación antes de guardar
-        document.getElementById('saveDocBtn')?.addEventListener('click', function (e) {
+        document.getElementById('saveDocBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             const isEdit = {{ $documentId ? 'true' : 'false' }};
 
@@ -305,7 +326,8 @@ Approved by: Alfonso Angel Garcia Hernandez
             function showConfirmation() {
                 swalWithBootstrapButtons.fire({
                     title: isEdit ? '¿Actualizar documento?' : '¿Guardar documento?',
-                    text: isEdit ? '¿Deseas actualizar los datos de este documento?' : '¿Deseas subir este documento institucional?',
+                    text: isEdit ? '¿Deseas actualizar los datos de este documento?' :
+                        '¿Deseas subir este documento institucional?',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
@@ -320,7 +342,7 @@ Approved by: Alfonso Angel Garcia Hernandez
         });
 
         // Confirmación antes de eliminar
-        document.getElementById('deleteDocBtn')?.addEventListener('click', function (e) {
+        document.getElementById('deleteDocBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             swalWithBootstrapButtons.fire({
                 title: '¿Eliminar documento?',
@@ -349,7 +371,8 @@ Approved by: Alfonso Angel Garcia Hernandez
                 icon: 'success',
                 confirmButtonText: 'Entendido'
             }).then(() => {
-                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
+                window.location.href =
+                    "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
             });
         });
     });

@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: convocation-form.blade.php
-* Created on: 01/12/2025
-* Created by: Alfonso Angel Garcia Hernandez
-* Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: convocation-form.blade.php
+    Created on: 01/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 <div>
     {{-- Page Header --}}
@@ -29,7 +34,8 @@
                 </ol>
             </nav>
             <h2 class="h4">{{ $convocationId ? 'Editar' : 'Nueva' }} Convocatoria</h2>
-            <p class="mb-0">{{ $convocationId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} convocatoria en el
+            <p class="mb-0">{{ $convocationId ? 'Actualiza los detalles de la' : 'Crea una nueva' }} convocatoria en
+                el
                 sistema.</p>
         </div>
     </div>
@@ -42,13 +48,15 @@
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     @endif
                     @if (session('error'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                         </div>
                     @endif
                     <h2 class="h5 mb-4">Información de la convocatoria</h2>
@@ -60,16 +68,19 @@
                                 <input wire:model="titulo" type="text"
                                     class="form-control @error('titulo') is-invalid @enderror" id="titulo"
                                     placeholder="Ej: Convocatoria para coordinador administrativo">
-                                @error('titulo') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('titulo')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
                                 <label for="descripcion" class="form-label">Descripción <span
                                         class="text-danger">*</span></label>
-                                <textarea wire:model="descripcion"
-                                    class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
+                                <textarea wire:model="descripcion" class="form-control @error('descripcion') is-invalid @enderror" id="descripcion"
                                     rows="4" placeholder="Descripción detallada de la convocatoria..."></textarea>
-                                @error('descripcion') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('descripcion')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-12 mb-3">
@@ -88,50 +99,65 @@
                                         class="text-danger">*</span></label>
                                 <input wire:model="fecha_inicio" type="date"
                                     class="form-control @error('fecha_inicio') is-invalid @enderror" id="fecha_inicio">
-                                @error('fecha_inicio') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('fecha_inicio')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="fecha_fin" class="form-label">Fecha de fin
-                                    @if(!$convocatoria_permanente)<span class="text-danger">*</span>@endif</label>
+                                    @if (!$convocatoria_permanente)
+                                        <span class="text-danger">*</span>
+                                    @endif
+                                </label>
                                 <input wire:model="fecha_fin" type="date"
                                     class="form-control @error('fecha_fin') is-invalid @enderror" id="fecha_fin"
-                                    @if($convocatoria_permanente) disabled @endif>
-                                @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @if ($convocatoria_permanente) disabled @endif>
+                                @error('fecha_fin')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
-                            @if(!$convocationId)
+                            @if (!$convocationId)
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label">Documentos (PDF) <span
                                             class="text-muted small">(Opcional)</span></label>
-                                    @foreach($documentos as $index => $documento)
+                                    @foreach ($documentos as $index => $documento)
                                         <div class="row mb-2" wire:key="doc-{{ $index }}">
                                             <div class="col-md-5">
-                                                <input type="text" wire:model="documentos.{{ $index }}.titulo"
+                                                <input type="text"
+                                                    wire:model="documentos.{{ $index }}.titulo"
                                                     class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
                                                     placeholder="Título del documento">
-                                                @error('documentos.' . $index . '.titulo') <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div> @enderror
+                                                @error('documentos.' . $index . '.titulo')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="file" wire:model="documentos.{{ $index }}.archivo"
+                                                <input type="file"
+                                                    wire:model="documentos.{{ $index }}.archivo"
                                                     class="form-control @error('documentos.' . $index . '.archivo') is-invalid @enderror"
                                                     accept=".pdf" x-data
                                                     x-on:livewire-upload-start="window.dispatchEvent(new CustomEvent('file-uploading'))"
                                                     x-on:livewire-upload-finish="window.dispatchEvent(new CustomEvent('file-uploaded'))"
                                                     x-on:livewire-upload-error="window.dispatchEvent(new CustomEvent('file-uploaded'))">
-                                                @error('documentos.' . $index . '.archivo') <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div> @enderror
+                                                @error('documentos.' . $index . '.archivo')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                                 <div wire:loading wire:target="documentos.{{ $index }}.archivo"
                                                     class="text-primary small mt-1">
-                                                    <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                                                    <span class="spinner-border spinner-border-sm me-1"
+                                                        role="status"></span>
                                                     Cargando archivo...
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
-                                                <button type="button" wire:click="removeDocumento({{ $index }})"
+                                                <button type="button"
+                                                    wire:click="removeDocumento({{ $index }})"
                                                     class="btn btn-sm btn-danger">
                                                     @icon('delete', 'icon-xs')
                                                 </button>
@@ -160,7 +186,7 @@
                                         Cancelar
                                     </a>
                                 </div>
-                                @if($convocationId)
+                                @if ($convocationId)
                                     <div>
                                         <button type="button" id="deleteConvBtn" class="btn btn-danger">
                                             @icon('delete', 'fa-xs text-white me-2')
@@ -212,7 +238,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -236,7 +262,7 @@
         });
 
         // Confirmation before save
-        document.getElementById('saveConvBtn')?.addEventListener('click', function (e) {
+        document.getElementById('saveConvBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             const isEdit = {{ $convocationId ? 'true' : 'false' }};
 
@@ -271,7 +297,8 @@
             function showConfirmation() {
                 swalWithBootstrapButtons.fire({
                     title: isEdit ? '¿Actualizar convocatoria?' : '¿Guardar convocatoria?',
-                    text: isEdit ? '¿Deseas actualizar los detalles de esta convocatoria?' : '¿Deseas publicar esta convocatoria?',
+                    text: isEdit ? '¿Deseas actualizar los detalles de esta convocatoria?' :
+                        '¿Deseas publicar esta convocatoria?',
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: isEdit ? 'Sí, actualizar' : 'Sí, guardar',
@@ -300,7 +327,7 @@
         });
 
         // Confirmación antes de eliminar
-        document.getElementById('deleteConvBtn')?.addEventListener('click', function (e) {
+        document.getElementById('deleteConvBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
             swalWithBootstrapButtons.fire({
                 title: '¿Eliminar convocatoria?',
@@ -329,7 +356,8 @@
                 icon: 'success',
                 confirmButtonText: 'Entendido'
             }).then(() => {
-                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}";
+                window.location.href =
+                    "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}";
             });
         });
 

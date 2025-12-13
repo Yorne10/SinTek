@@ -1,19 +1,17 @@
 {{--
-Company: CETAM
-Project: ST
-File: forgot-password.blade.php
-Created on: 01/12/2025
-Created by: Alfonso Angel Garcia Hernandez
-Approved by: Alfonso Angel Garcia Hernandez
+    Company: CETAM
+    Project: ST
+    File: forgot-password.blade.php
+    Created on: 01/12/2025
+    Created by: Alfonso Angel Garcia Hernandez
+    Approved by: Alfonso Angel Garcia Hernandez
 
-Changelog:
-- ID: <ID> | Date: dd/mm/yyyy
-  Modified by: <Developer name>
-  Description: <Brief description of change>
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
 --}}
 
-{{-- Nota Livewire: esta vista debe tener UN único elemento raíz --}}
-{{-- El layout se aplica desde el componente con ->layout('layouts.app') --}}
 
 <section class="vh-lg-100 mt-4 mt-lg-0 bg-soft d-flex align-items-center">
     <div class="container">

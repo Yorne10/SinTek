@@ -1,10 +1,15 @@
 {{--
-* Company: CETAM
-* Project: ST
-* File: process-detail.blade.php
-* Created on: 10/12/2025
-* Created by: Claude Code
-* Approved by: Alfonso Angel García Hernández
+    Company: CETAM
+    Project: ST
+    File: process-detail.blade.php
+    Created on: 10/12/2025
+    Created by: Claude Code
+    Approved by: Alfonso Angel García Hernández
+
+    Changelog:
+    - ID: <ID> | Date: dd/mm/yyyy
+      Modified by: <Developer name>
+      Description: <Brief description of change>
 --}}
 
 <div>
@@ -77,7 +82,7 @@
                             <p class="fw-bold text-gray-700 mb-1">Estado</p>
                         </div>
                         <div class="col-md-8">
-                            @if($process->active)
+                            @if ($process->active)
                                 <span class="badge bg-success">Activo</span>
                             @else
                                 <span class="badge bg-warning">Inactivo</span>
@@ -102,10 +107,10 @@
                     <span class="badge bg-info">{{ $process->steps->count() }} pasos</span>
                 </div>
                 <div class="card-body">
-                    @if($process->steps->count() > 0)
+                    @if ($process->steps->count() > 0)
                         <div class="timeline timeline-one-side" data-timeline-content="axis"
                             data-timeline-axis-style="dashed">
-                            @foreach($process->steps as $index => $step)
+                            @foreach ($process->steps as $index => $step)
                                 <div class="timeline-block mb-3">
                                     <span
                                         class="timeline-step badge-{{ $loop->first ? 'success' : ($loop->last ? 'primary' : 'info') }}">
@@ -182,7 +187,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-gray-600">Estado del proceso</span>
                             <span>
-                                @if($process->active)
+                                @if ($process->active)
                                     <span class="badge bg-success">Activo</span>
                                 @else
                                     <span class="badge bg-warning">Inactivo</span>
