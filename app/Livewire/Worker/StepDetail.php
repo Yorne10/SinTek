@@ -197,7 +197,7 @@ class StepDetail extends Component
         // No next step found - complete the request
         $this->request->update([
             'status' => 'completed',
-            'completed_at' => now(),
+            'end_date' => now(),
         ]);
 
         $this->dispatch(

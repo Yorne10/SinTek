@@ -28,16 +28,13 @@ class Request extends Model
         'worker_id',
         'process_id',
         'status',
-        'current_step_id',
         'start_date',
-        'submitted_at',
-        'completed_at',
+        'end_date',
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
-        'submitted_at' => 'datetime',
-        'completed_at' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     /**

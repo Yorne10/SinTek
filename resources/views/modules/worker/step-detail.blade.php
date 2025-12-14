@@ -367,6 +367,19 @@ Description: Created step detail view for worker step actions
                     }
        });
             });
+
+            // Listen for connection errors
+            Livewire.hook('request', ({ fail }) => {
+                fail(({ status, preventDefault }) => {
+                    preventDefault();
+                    swalWithBootstrapButtons.fire({
+                        icon: 'error',
+                        title: 'Error de conexión',
+                        text: 'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e intenta de nuevo.',
+                        confirmButtonText: 'Entendido'
+                    });
+                });
+            });
         }
     });
 </script>
