@@ -127,8 +127,10 @@ Changelog:
                                                     </button>
                                                     <div
                                                         class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                                        <a class="dropdown-item d-flex align-items-center"
-                                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $req->request_id]) }}">
+                                                        <a class="dropdown-item d-flex align-items-center view-details-btn"
+                                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $req->request_id]) }}"
+                                                            data-process-active="{{ $req->process->active ? '1' : '0' }}"
+                                                            data-process-name="{{ $req->process->name }}">
                                                             @icon('view', 'dropdown-icon text-gray-400 me-2')
                                                             Ver detalles
                                                         </a>
@@ -168,3 +170,33 @@ Changelog:
                     </div>
                 </div>
             </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-gray'
+                },
+                buttonsStyling: false
+            });
+
+            document.querySelectorAll('.view-details-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    const isActive = this.getAttribute('data-process-active') === '1';
+                    const processName = this.getAttribute('data-process-name');
+                    const href = this.getAttribute('href');
+
+                    if (!isActive) {
+                        e.preventDefault();
+                        swalWithBootstrapButtons.fire({
+                            title: 'Proceso inactivo',
+                            text: `El proceso "${processName}" se encuentra temporalmente inactivo. No podrás avanzar hasta que se reactive.`,
+                            icon: 'warning',
+                            confirmButtonText: 'Entendido'
+                        });
+                    }
+                });
+            });
+        });
+    </script>

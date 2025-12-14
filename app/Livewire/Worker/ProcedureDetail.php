@@ -209,6 +209,47 @@ class ProcedureDetail extends Component
     }
 
     /**
+     * Cancel the current procedure.
+     */
+    public function cancelProcedure(): void
+    {
+        if (!$this->request || $this->request->status !== 'in_progress') {
+            session()->flash('error', 'El trámite no se puede cancelar en este estado.');
+            return;
+        }
+
+        // Marcar paso en progreso como cancelado (opcional)
+        $inProgressStep = $this->request->requestSteps->where('request_step_status', 'in_progress')->first();
+        if ($inProgressStep) {
+            $inProgressStep->update([
+                'request_step_status' => 'cancelled',
+                'step_date' => Carbon::now(),
+            ]);
+        }
+
+        $this->request->update([
+            'status' => 'cancelled',
+            'end_date' => Carbon::now(),
+        ]);
+
+        ActivityLogger::log(
+            'tramite.cancelado',
+            "Trámite cancelado: '{$this->request->process->name}'",
+            Auth::id()
+        );
+
+        $this->dispatch(
+            'procedure-updated',
+            type: 'success',
+            title: 'Cancelado',
+            message: 'El trámite fue cancelado.',
+            redirect: route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures')
+        );
+
+        $this->loadRequest();
+    }
+
+    /**
 
      * Conditional step.
 

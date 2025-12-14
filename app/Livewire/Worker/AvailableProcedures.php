@@ -31,8 +31,26 @@ class AvailableProcedures extends Component
 
     public $search = '';
     public $categoryFilter = '';
+    public $departmentFilter = '';
 
     protected $paginationTheme = 'bootstrap';
+
+    // Opciones para filtros
+    public array $categoryOptions = [
+        'Administrativo',
+        'Operativo',
+        'Finanzas',
+        'Recursos Humanos',
+        'Tecnologia',
+    ];
+
+    public array $departmentOptions = [
+        'Administracion',
+        'Finanzas',
+        'Recursos Humanos',
+        'Sistemas',
+        'Juridico',
+    ];
 
     /**
 
@@ -66,6 +84,21 @@ class AvailableProcedures extends Component
 
     /**
 
+     * Updating department filter.
+
+     *
+
+     * @return void
+
+     */
+
+    public function updatingDepartmentFilter()
+    {
+        $this->resetPage();
+    }
+
+    /**
+
      * Clear filters.
 
      *
@@ -78,6 +111,7 @@ class AvailableProcedures extends Component
     {
         $this->search = '';
         $this->categoryFilter = '';
+        $this->departmentFilter = '';
         $this->resetPage();
     }
 
@@ -108,6 +142,11 @@ class AvailableProcedures extends Component
         // Aplicar filtro de categoría si existe
         if ($this->categoryFilter) {
             $query->where('category', $this->categoryFilter);
+        }
+
+        // Aplicar filtro de área si existe
+        if ($this->departmentFilter) {
+            $query->where('department', $this->departmentFilter);
         }
 
         // Get trámites paginados
@@ -150,6 +189,21 @@ class AvailableProcedures extends Component
 
         if (!$process || !$process->active) {
             session()->flash('error', 'El trámite no está disponible.');
+            return;
+        }
+
+        // Check if worker already has an active request for this process
+        $existingActiveRequest = WorkerRequest::where('worker_id', $worker->workers_id)
+            ->where('process_id', $processId)
+            ->whereIn('status', ['pending', 'in_progress'])
+            ->first();
+
+        if ($existingActiveRequest) {
+            $this->dispatch(
+                'procedure-error',
+                title: 'Trámite ya en curso',
+                message: "Ya tienes un trámite de '{$process->name}' en proceso. Debes completarlo o cancelarlo antes de iniciar otro."
+            );
             return;
         }
 

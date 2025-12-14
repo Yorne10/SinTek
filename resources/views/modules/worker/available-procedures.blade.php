@@ -81,13 +81,21 @@ Changelog:
                                 wire:model.live.debounce.300ms="search">
                         </div>
                         <div class="d-flex align-items-center text-nowrap">
-                            <span class="small text-gray-600 me-2">Filtrar por categoria:</span>
-                            <select class="form-select" wire:model.live="categoryFilter" style="min-width: 200px;">
-                                <option value="">Todas las categorias</option>
-                                <option value="personal">Gestion personal</option>
-                                <option value="administrativo">Administrativo</option>
-                                <option value="laboral">Laboral</option>
-                                <option value="academico">Academico</option>
+                            <span class="small text-gray-600 me-2">Categoría:</span>
+                            <select class="form-select" wire:model.live="categoryFilter" style="min-width: 180px;">
+                                <option value="">Todas</option>
+                                @foreach ($categoryOptions as $option)
+                                    <option value="{{ $option }}">{{ $option }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="d-flex align-items-center text-nowrap">
+                            <span class="small text-gray-600 me-2">Área:</span>
+                            <select class="form-select" wire:model.live="departmentFilter" style="min-width: 180px;">
+                                <option value="">Todas</option>
+                                @foreach ($departmentOptions as $option)
+                                    <option value="{{ $option }}">{{ $option }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="ms-auto">

@@ -87,10 +87,10 @@ class Dashboard extends Component
 
             // Solicitudes/Trámites
             'totalRequests' => TramiteRequest::count(),
-            'pendingRequests' => TramiteRequest::where('status', 'pendiente')->count(),
-            'inProgressRequests' => TramiteRequest::where('status', 'en_proceso')->count(),
-            'completedRequests' => TramiteRequest::where('status', 'completado')->count(),
-            'rejectedRequests' => TramiteRequest::where('status', 'rechazado')->count(),
+            'pendingRequests' => TramiteRequest::where('status', 'pending')->count(),
+            'inProgressRequests' => TramiteRequest::where('status', 'in_progress')->count(),
+            'completedRequests' => TramiteRequest::where('status', 'completed')->count(),
+            'rejectedRequests' => TramiteRequest::where('status', 'rejected')->count(),
 
             // Estadísticas del mes actual
             'requestsThisMonth' => TramiteRequest::whereMonth('created_at', Carbon::now()->month)
@@ -115,9 +115,9 @@ class Dashboard extends Component
     {
         $data = [
             'totalRequests' => TramiteRequest::count(),
-            'pendingRequests' => TramiteRequest::where('status', 'pendiente')->count(),
-            'inProgressRequests' => TramiteRequest::where('status', 'en_proceso')->count(),
-            'completedRequests' => TramiteRequest::where('status', 'completado')->count(),
+            'pendingRequests' => TramiteRequest::where('status', 'pending')->count(),
+            'inProgressRequests' => TramiteRequest::where('status', 'in_progress')->count(),
+            'completedRequests' => TramiteRequest::where('status', 'completed')->count(),
             'totalConvocations' => Convocation::count(),
             'activeConvocations' => Convocation::where('status', 'activa')->count(),
         ];
@@ -133,13 +133,13 @@ class Dashboard extends Component
         $data = [
             'myRequests' => TramiteRequest::where('worker_id', $workerId)->count(),
             'myPendingRequests' => TramiteRequest::where('worker_id', $workerId)
-                ->where('status', 'pendiente')
+                ->where('status', 'pending')
                 ->count(),
             'myInProgressRequests' => TramiteRequest::where('worker_id', $workerId)
-                ->where('status', 'en_proceso')
+                ->where('status', 'in_progress')
                 ->count(),
             'myCompletedRequests' => TramiteRequest::where('worker_id', $workerId)
-                ->where('status', 'completado')
+                ->where('status', 'completed')
                 ->count(),
             'availableProcesses' => Process::where('active', 1)->count(),
             'activeConvocations' => Convocation::where('status', 'activa')->count(),

@@ -49,9 +49,9 @@ Changelog:
             </div>
             <div class="d-flex align-items-center text-nowrap">
                 <span class="small text-gray-600 me-2">Filtrar por rol:</span>
-                <select wire:model.live="roleFilter" class="form-select" style="min-width: 200px;"
+                <select wire:model.live="roleFilter" class="form-select" style="width: auto;"
                     aria-label="Filtrar por rol">
-                    <option value="">Todos los roles</option>
+                    <option value="">Todos</option>
                     <option value="admin">Administrador</option>
                     <option value="secretary">Secretario</option>
                     <option value="worker">Trabajador</option>

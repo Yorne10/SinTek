@@ -38,9 +38,12 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
         {{-- Main column: Procedure steps --}}
         <div class="col-12 col-xl-8 mb-4">
             <div class="card border-0 shadow">
-                <div class="card-header bg-white border-0">
-                    <h2 class="fs-5 fw-bold mb-0">Seguimiento del trámite</h2>
-                    <p class="text-muted small mb-0">Pasos completados y paso actual</p>
+                <div
+                    class="card-header bg-white border-0 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <div>
+                        <h2 class="fs-5 fw-bold mb-0">Seguimiento del trámite</h2>
+                        <p class="text-muted small mb-0">Pasos completados y paso actual</p>
+                    </div>
                 </div>
                 <div class="card-body p-4">
                     @php
@@ -92,16 +95,12 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                 <div class="timeline-item {{ $isCurrent ? 'current-step' : '' }}">
                                     <div class="timeline-item-content">
                                         <div class="d-flex">
-                                            {{-- Step icon --}}
+                                            {{-- Step number --}}
                                             <div class="me-3">
                                                 @if ($status === 'completed')
-                                                    <span class="icon-shape icon-sm bg-success text-white rounded-circle">
-                                                        @icon('check', 'icon-xs')
-                                                    </span>
-                                                @elseif($isCurrent)
-                                                    <span class="icon-shape icon-sm bg-info text-white rounded-circle">
-                                                        @icon('clock', 'icon-xs')
-                                                    </span>
+                                                    <span class="fw-bold text-success">{{ $loop->iteration }}</span>
+                                                @else
+                                                    <span class="fw-bold">{{ $loop->iteration }}</span>
                                                 @endif
                                             </div>
 
@@ -142,6 +141,16 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                     </div>
                                 </div>
                             @endforeach
+                        </div>
+                    @endif
+
+                    @if ($request->status === 'in_progress')
+                        <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                            <button type="button"
+                                class="btn btn-danger btn-sm d-inline-flex align-items-center cancel-procedure-btn">
+                                @icon('cancel', 'me-2 text-white')
+                                <span class="text-white">Cancelar trámite</span>
+                            </button>
                         </div>
                     @endif
                 </div>
@@ -213,15 +222,6 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                         </p>
                     </div>
 
-                    {{-- Action buttons --}}
-                    @if ($request->status === 'in_progress')
-                        <div class="mt-4 pt-3 border-top">
-                            <button type="button" class="btn btn-outline-danger btn-sm w-100 cancel-procedure-btn">
-                                @icon('times', 'me-2')
-                                Cancelar trámite
-                            </button>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -237,6 +237,17 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                 buttonsStyling: false
             });
 
+            // Check if process is inactive and show warning
+            const processActive = @json($request->process->active ?? true);
+            if (!processActive) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Proceso inactivo',
+                    text: 'El proceso de este trámite se encuentra temporalmente inactivo. No podrás avanzar hasta que se reactive.',
+                    icon: 'warning',
+                    confirmButtonText: 'Entendido'
+                });
+            }
+
             // Cancel procedure button
             document.addEventListener('click', function (e) {
                 if (e.target.closest('.cancel-procedure-btn')) {
@@ -245,11 +256,11 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                     swalWithBootstrapButtons.fire({
                         title: '¿Cancelar trámite?',
                         text: 'Esta acción no se puede deshacer. ¿Estás seguro de que deseas cancelar este trámite?',
-                        icon: 'warning',
+                        icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Sí, cancelar',
-                        cancelButtonText: 'No, mantener',
-                        reverseButtons: true
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: false
                     }).then((result) => {
                         if (result.isConfirmed) {
                             @this.call('cancelProcedure');

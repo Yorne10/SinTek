@@ -91,7 +91,9 @@ class DefineSteps extends Component
 
         $this->selectedProcess = Process::with([
             'steps' => function ($query) {
-                $query->orderBy('created_at', 'asc')->with('requiredDocuments');
+                $query->orderByRaw('COALESCE(`order`, 9999) asc')
+                    ->orderBy('created_at', 'asc')
+                    ->with('requiredDocuments');
             },
             'creator'
         ])->find($this->selectedProcessId);
@@ -237,4 +239,3 @@ class DefineSteps extends Component
         return $badges[$conditionType] ?? 'info';
     }
 }
-

@@ -70,6 +70,7 @@ Changelog:
                     $prefix . '.admin.create-process',
                     $prefix . '.admin.define-steps',
                     $prefix . '.admin.create-step',
+                    $prefix . '.admin.edit-step',
                     $prefix . '.admin.modify-process',
                     $prefix . '.admin.manage-procedures',
                     $prefix . '.admin.requests',
@@ -78,6 +79,7 @@ Changelog:
                     $prefix . '.admin.activity-log',
                     $prefix . '.admin.configuration',
                     $prefix . '.admin.alerts-preview',
+                    $prefix . '.admin.configure-flow',
                     // Shared routes
                     $prefix . '.faq',
                 ])
@@ -112,6 +114,8 @@ Changelog:
                 <main class="content">
                     {{-- TopBar --}}
                     @include('layouts.topbar')
+                    {{-- Alerta de error de conexión con la base de datos --}}
+                    {{-- Alerta de error de conexión deshabilitada para evitar overlay molesto --}}
                     @hasSection('page')
                         @yield('page')
                     @else
@@ -135,18 +139,7 @@ Changelog:
                 @include('layouts.footer2')
 
                 {{-- Keep Alive Script for Auth Pages --}}
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        // Ping server every 30 seconds to keep session alive on login/register pages
-                        setInterval(function () {
-                            fetch(window.location.href, {
-                                method: 'HEAD',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                }
-                            }).catch(e => console.error('Keep-alive failed', e));
-                        }, 30000);
-                    });
+                <script>                 document.addEventListener('DOMContentLoaded', function () {                     // Ping server every 30 seconds to keep session alive on login/register pages                     setInterval(function () {                         fetch(window.location.href, {                             method: 'HEAD',                             headers: {                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'                             }                         }).catch(e => console.error('Keep-alive failed', e));                     }, 30000);                 });
                 </script>
             @elseif($isMinimalShell)
                 @hasSection('page')

@@ -122,8 +122,7 @@ Changelog:
                                     class="btn btn-gray-300 mt-2 animate-up-2">Cancelar</a>
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-danger mt-2" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#deleteProcessModal">
+                                <button class="btn btn-danger mt-2" type="button" id="deleteProcessBtn">
                                     @icon('delete', 'me-2')
                                     Eliminar proceso
                                 </button>
@@ -265,6 +264,29 @@ Changelog:
                     });
                 });
             }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteBtn = document.getElementById('deleteProcessBtn');
+            if (!deleteBtn) return;
+
+            deleteBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'question',
+                    title: '¿Eliminar proceso?',
+                    text: 'Esta acción eliminará la configuración y los pasos del proceso. Los trámites activos seguirán existiendo pero no se podrán iniciar nuevos.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('deleteProcess');
+                    }
+                });
+            });
         });
     </script>
 </div>

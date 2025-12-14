@@ -26,6 +26,7 @@ class ConfigureFlow extends Component
     public $process;
     public $steps = [];
     public $initialStepId = null;
+    public $displaySteps = [];
 
     // Flow connections - indexed by step_id
     public $connections = [];
@@ -82,7 +83,8 @@ class ConfigureFlow extends Component
 
         // Load current configuration
         foreach ($this->steps as $step) {
-            if ($step->is_initial_step) {
+            // Permitir que el paso marcado como inicial o con tipo inicial sea tomado como inicial
+            if ($step->is_initial_step || $step->step_type === 'initial') {
                 $this->initialStepId = $step->step_id;
             }
 
@@ -94,6 +96,7 @@ class ConfigureFlow extends Component
         }
 
         $this->validateFlow();
+        $this->refreshDisplayState();
     }
 
     /**
@@ -109,6 +112,7 @@ class ConfigureFlow extends Component
     public function updatedInitialStepId()
     {
         $this->validateFlow();
+        $this->refreshDisplayState();
     }
 
     /**
@@ -124,6 +128,7 @@ class ConfigureFlow extends Component
     public function updatedConnections()
     {
         $this->validateFlow();
+        $this->refreshDisplayState();
     }
 
     /**
@@ -142,6 +147,9 @@ class ConfigureFlow extends Component
         $this->validationWarnings = [];
         $this->isFlowValid = true;
 
+        // Alcanzables desde inicial
+        $reachable = $this->initialStepId ? $this->getReachableSteps() : [];
+
         // 1. Check initial step
         if (!$this->initialStepId) {
             $this->validationErrors[] = 'No hay paso inicial definido';
@@ -156,14 +164,19 @@ class ConfigureFlow extends Component
 
         // 2. Check all non-final steps have next step
         foreach ($this->steps as $step) {
+            // Si no es alcanzable desde el inicial, no bloquea la validación (solo se marcará advertencia)
+            if ($this->initialStepId && !in_array($step->step_id, $reachable)) {
+                continue;
+            }
+
             if ($step->step_type === 'final') {
                 continue; // Final steps don't need next step
             }
 
             $conn = $this->connections[$step->step_id] ?? [];
 
-            // Check if step has condition_question (conditional)
-            $hasConditional = $step->step_type === 'approval' && $step->condition_question;
+            // Paso condicional
+            $hasConditional = $step->step_type === 'conditional';
 
             if ($hasConditional) {
                 // Conditional steps need both branches
@@ -193,10 +206,23 @@ class ConfigureFlow extends Component
 
         // 4. Detect orphan steps (not reachable from initial)
         if ($this->initialStepId) {
-            $reachable = $this->getReachableSteps();
             foreach ($this->steps as $step) {
                 if (!in_array($step->step_id, $reachable)) {
                     $this->validationWarnings[] = "El paso '{$step->title}' no es alcanzable desde el paso inicial";
+                }
+            }
+        }
+
+        // 5. Validar que todos los caminos alcanzables llegan a un final
+        if ($this->initialStepId) {
+            $reachable = $this->getReachableSteps();
+            $memo = [];
+            foreach ($reachable as $stepId) {
+                if (!$this->leadsToFinal($stepId, $memo)) {
+                    $step = $this->steps->firstWhere('step_id', $stepId);
+                    $title = $step ? $step->title : "Paso {$stepId}";
+                    $this->validationErrors[] = "El camino desde '{$title}' no llega a un paso Final";
+                    $this->isFlowValid = false;
                 }
             }
         }
@@ -227,7 +253,7 @@ class ConfigureFlow extends Component
 
             $conn = $this->connections[$currentId] ?? [];
 
-            $hasConditional = $step->step_type === 'approval' && $step->condition_question;
+            $hasConditional = $step->step_type === 'conditional';
 
             if ($hasConditional) {
                 if (!empty($conn['next_yes']) && !in_array($conn['next_yes'], $visited)) {
@@ -249,49 +275,165 @@ class ConfigureFlow extends Component
     protected function calculateOrder(): array
     {
         if (!$this->initialStepId) {
-            return [];
+            // Sin inicial, mantener un orden estable basado en la posiciГіn actual
+            $orders = [];
+            foreach ($this->steps->values() as $i => $step) {
+                $orders[$step->step_id] = 1000 + $i;
+            }
+            return $orders;
         }
 
-        $orders = [];
-        $visited = [];
-        $queue = [['id' => $this->initialStepId, 'order' => 1]];
+        $orders = [$this->initialStepId => 1];
+        $stepCount = $this->steps->count();
 
-        while (!empty($queue)) {
-            $current = array_shift($queue);
-            $currentId = $current['id'];
-            $currentOrder = $current['order'];
+        // Iterative relaxation to ensure a node shared by varios padres tome el máximo nivel
+        for ($i = 0; $i < $stepCount; $i++) {
+            $changed = false;
+            foreach ($this->steps as $step) {
+                if (!isset($orders[$step->step_id])) {
+                    continue;
+                }
+                $currentOrder = $orders[$step->step_id];
 
-            if (in_array($currentId, $visited)) {
+                if ($step->step_type === 'final') {
+                    continue;
+                }
+
+                $conn = $this->connections[$step->step_id] ?? [];
+                $hasConditional = $step->step_type === 'conditional';
+
+                if ($hasConditional) {
+                    foreach (['next_yes', 'next_no'] as $targetKey) {
+                        $targetId = $conn[$targetKey] ?? null;
+                        if ($targetId) {
+                            $nextOrder = $currentOrder + 1;
+                            if (($orders[$targetId] ?? 0) < $nextOrder) {
+                                $orders[$targetId] = $nextOrder;
+                                $changed = true;
+                            }
+                        }
+                    }
+                } else {
+                    $targetId = $conn['next_step_id'] ?? null;
+                    if ($targetId) {
+                        $nextOrder = $currentOrder + 1;
+                        if (($orders[$targetId] ?? 0) < $nextOrder) {
+                            $orders[$targetId] = $nextOrder;
+                            $changed = true;
+                        }
+                    }
+                }
+            }
+            if (!$changed) {
+                break;
+            }
+        }
+
+        // Pasos no alcanzados o sin orden: colocarlos al final de forma estable
+        $maxOrder = $orders ? max($orders) : 0;
+        foreach ($this->steps->values() as $idx => $step) {
+            if (isset($orders[$step->step_id])) {
                 continue;
             }
-
-            $visited[] = $currentId;
-            $orders[$currentId] = $currentOrder;
-
-            $step = $this->steps->firstWhere('step_id', $currentId);
-
-            if (!$step || $step->step_type === 'final') {
-                continue;
-            }
-
-            $conn = $this->connections[$currentId] ?? [];
-            $hasConditional = $step->step_type === 'approval' && $step->condition_question;
-
-            if ($hasConditional) {
-                if (!empty($conn['next_yes']) && !in_array($conn['next_yes'], $visited)) {
-                    $queue[] = ['id' => $conn['next_yes'], 'order' => $currentOrder + 1];
-                }
-                if (!empty($conn['next_no']) && !in_array($conn['next_no'], $visited)) {
-                    $queue[] = ['id' => $conn['next_no'], 'order' => $currentOrder + 1];
-                }
-            } else {
-                if (!empty($conn['next_step_id']) && !in_array($conn['next_step_id'], $visited)) {
-                    $queue[] = ['id' => $conn['next_step_id'], 'order' => $currentOrder + 1];
-                }
-            }
+            $maxOrder++;
+            // usar maxOrder + indice para mantener estabilidad relativa
+            $orders[$step->step_id] = $maxOrder + ($idx / 1000);
         }
 
         return $orders;
+    }
+
+    /**
+     * Recalcula flags de vinculado y el orden de visualización dinámico.
+     */
+    protected function refreshDisplayState(): void
+    {
+        $reachable = $this->getReachableSteps();
+
+        // Actualizar flag de vinculado en los pasos en memoria
+        $this->steps = $this->steps->map(function ($step) use ($reachable) {
+            $step->is_linked = in_array($step->step_id, $reachable);
+            return $step;
+        });
+
+        // Orden para mostrar pasos: derivado del flujo (mayor de los padres)
+        $orders = $this->calculateOrder();
+
+        // Indice base para mantener orden estable cuando hay empates
+        $baseIndex = [];
+        foreach ($this->steps->values() as $idx => $st) {
+            $baseIndex[$st->step_id] = $idx;
+        }
+
+        $this->displaySteps = $this->steps->sortBy(function ($step) use ($orders, $baseIndex) {
+            // Paso inicial siempre primero
+            if ($step->is_initial_step || $step->step_type === 'initial') {
+                return [0, $baseIndex[$step->step_id] ?? 0];
+            }
+            return [
+                $orders[$step->step_id] ?? 9999,
+                $baseIndex[$step->step_id] ?? 9999,
+            ];
+        })->values();
+    }
+
+    /**
+     * Determina si desde un paso alcanzable hay al menos un camino a un paso final.
+     */
+    protected function leadsToFinal(int $stepId, array &$memo, array $visiting = []): bool
+    {
+        if (isset($memo[$stepId])) {
+            return $memo[$stepId];
+        }
+
+        if (in_array($stepId, $visiting)) {
+            // ciclo, considerar que no llega a final para evitar loop infinito
+            return false;
+        }
+
+        $step = $this->steps->firstWhere('step_id', $stepId);
+        if (!$step) {
+            return false;
+        }
+
+        if ($step->step_type === 'final') {
+            $memo[$stepId] = true;
+            return true;
+        }
+
+        $visiting[] = $stepId;
+        $conn = $this->connections[$stepId] ?? [];
+        $hasConditional = $step->step_type === 'conditional';
+
+        $targets = [];
+        if ($hasConditional) {
+            if (!empty($conn['next_yes'])) {
+                $targets[] = (int) $conn['next_yes'];
+            }
+            if (!empty($conn['next_no'])) {
+                $targets[] = (int) $conn['next_no'];
+            }
+        } else {
+            if (!empty($conn['next_step_id'])) {
+                $targets[] = (int) $conn['next_step_id'];
+            }
+        }
+
+        // Si no hay siguientes y no es final, no llega a final
+        if (empty($targets)) {
+            $memo[$stepId] = false;
+            return false;
+        }
+
+        foreach ($targets as $targetId) {
+            if ($this->leadsToFinal($targetId, $memo, $visiting)) {
+                $memo[$stepId] = true;
+                return true;
+            }
+        }
+
+        $memo[$stepId] = false;
+        return false;
     }
 
     /**
@@ -314,7 +456,7 @@ class ConfigureFlow extends Component
         // Save all steps
         foreach ($this->steps as $step) {
             $conn = $this->connections[$step->step_id] ?? [];
-            $hasConditional = $step->step_type === 'approval' && $step->condition_question;
+            $hasConditional = $step->step_type === 'conditional';
 
             $stepModel = Step::find($step->step_id);
             if ($stepModel) {
@@ -353,7 +495,16 @@ class ConfigureFlow extends Component
             $user?->users_id
         );
 
-        return redirect()->route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps', ['process_id' => $this->process_id]);
+        // Emitir evento para mostrar alerta de éxito y redirigir a definir pasos
+        $this->dispatch(
+            'flow-saved',
+            type: 'success',
+            title: 'Flujo guardado',
+            message: 'La configuración del flujo se actualizó correctamente.',
+            redirect: route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps', ['process_id' => $this->process_id])
+        );
+
+        return null;
     }
 
     /**

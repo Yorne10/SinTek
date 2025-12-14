@@ -101,11 +101,19 @@ Changelog:
                                             @icon('menu', 'icon icon-xs')
                                         </button>
                                         <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                            <a class="dropdown-item d-flex align-items-center"
-                                                href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.process.detail', ['processId' => $process->process_id]) }}">
+                                            <button type="button"
+                                                class="dropdown-item d-flex align-items-center view-process-detail"
+                                                data-process-name="{{ $process->name }}"
+                                                data-process-code="{{ $process->process_code ?? 'N/A' }}"
+                                                data-process-description="{{ $process->description ?? 'Sin descripción' }}"
+                                                data-process-category="{{ $process->category ?? 'N/A' }}"
+                                                data-process-department="{{ $process->department ?? 'N/A' }}"
+                                                data-process-active="{{ $process->active ? 'Activo' : 'Inactivo' }}"
+                                                data-process-steps="{{ $process->steps->count() }}"
+                                                data-process-created="{{ $process->created_at->format('d/m/Y') }}">
                                                 @icon('view', 'dropdown-icon text-gray-400 me-2')
                                                 Ver detalles
-                                            </a>
+                                            </button>
                                             <a class="dropdown-item d-flex align-items-center"
                                                 href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.modify-process', ['process_id' => $process->process_id]) }}">
                                                 @icon('edit', 'dropdown-icon text-gray-400 me-2')
@@ -182,11 +190,11 @@ Changelog:
                                 const processName = button.getAttribute('data-process-name');
                                 const isActive = button.getAttribute('data-process-active') === '1';
 
-                                const actionTitle = isActive ? 'Deactivate Process' : 'Activate Process';
-                                const actionText = isActive ?
-                                    `Are you sure you want to deactivate process ${processName}? It will not be available for new requests.` :
-                                    `Are you sure you want to activate process ${processName}? It will be available for new requests.`;
-                                const confirmText = isActive ? 'Yes, deactivate' : 'Yes, activate';
+                                const actionTitle = isActive ? '¿Desactivar proceso?' : '¿Activar proceso?';
+                                const actionText = isActive
+                                    ? `¿Seguro que deseas desactivar el proceso "${processName}"? No estará disponible para nuevas solicitudes.`
+                                    : `¿Seguro que deseas activar el proceso "${processName}"? Estará disponible para nuevas solicitudes.`;
+                                const confirmText = isActive ? 'Sí, desactivar' : 'Sí, activar';
 
                                 swalWithBootstrapButtons.fire({
                                     title: actionTitle,
@@ -204,15 +212,53 @@ Changelog:
                             }
                         });
 
+                        // Event listener for view process detail buttons
+                        document.addEventListener('click', function (e) {
+                            if (e.target.closest('.view-process-detail')) {
+                                e.preventDefault();
+                                const button = e.target.closest('.view-process-detail');
+                                const name = button.getAttribute('data-process-name');
+                                const code = button.getAttribute('data-process-code');
+                                const description = button.getAttribute('data-process-description');
+                                const category = button.getAttribute('data-process-category');
+                                const department = button.getAttribute('data-process-department');
+                                const active = button.getAttribute('data-process-active');
+                                const steps = button.getAttribute('data-process-steps');
+                                const created = button.getAttribute('data-process-created');
+
+                                const statusClass = active === 'Activo' ? 'text-success' : 'text-warning';
+
+                                const htmlContent = `
+                                    <div class="text-start">
+                                        <p class="mb-2"><span class="fw-bold">Código:</span> ${code}</p>
+                                        <p class="mb-2"><span class="fw-bold">Descripción:</span> ${description}</p>
+                                        <p class="mb-2"><span class="fw-bold">Categoría:</span> ${category}</p>
+                                        <p class="mb-2"><span class="fw-bold">Área:</span> ${department}</p>
+                                        <p class="mb-2"><span class="fw-bold">Estado:</span> <span class="${statusClass} fw-bold">${active}</span></p>
+                                        <p class="mb-2"><span class="fw-bold">Pasos:</span> ${steps}</p>
+                                        <p class="mb-0"><span class="fw-bold">Creado:</span> ${created}</p>
+                                    </div>
+                                `;
+
+                                swalWithBootstrapButtons.fire({
+                                    title: name,
+                                    html: htmlContent,
+                                    icon: 'info',
+                                    confirmButtonText: 'Cerrar',
+                                    width: '500px'
+                                });
+                            }
+                        });
+
                         // Listen for process notification event
                         if (window.Livewire) {
                             Livewire.on('processes-notify', (event) => {
                                 const detail = event || {};
                                 const iconType = detail.type || 'success';
-                                const confirmText = iconType === 'warning' ? 'Understood' : 'OK';
+                                const confirmText = iconType === 'warning' ? 'Entendido' : 'OK';
                                 swalWithBootstrapButtons.fire({
                                     icon: iconType,
-                                    title: detail.title || 'Notice',
+                                    title: detail.title || 'Aviso',
                                     text: detail.message || '',
                                     confirmButtonText: confirmText,
                                     showConfirmButton: true

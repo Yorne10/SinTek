@@ -141,6 +141,10 @@ Route::prefix("p/{$slug}")
             Route::get('/institutional-document/{id}', [InstitutionalDocumentController::class, 'show'])->name('institutional-document.show');
             Route::get('/institutional-document/{id}/download', [InstitutionalDocumentController::class, 'download'])->name('institutional-document.download');
 
+            // Routes for step provided documents
+            Route::get('/step-provided-document/{id}', [\App\Http\Controllers\StepProvidedDocumentController::class, 'show'])->name('step-provided-document.show');
+            Route::get('/step-provided-document/{id}/download', [\App\Http\Controllers\StepProvidedDocumentController::class, 'download'])->name('step-provided-document.download');
+
             // Frequently asked questions (shared among all roles)
             Route::get('/faq', Faq::class)->name('faq');
 
@@ -203,6 +207,7 @@ Route::prefix("p/{$slug}")
                 Route::get('/define-steps/{process_id?}', DefineSteps::class)->name('admin.define-steps');
                 Route::get('/configure-flow/{process_id}', ConfigureFlow::class)->name('admin.configure-flow');
                 Route::get('/create-step', CreateStep::class)->name('admin.create-step');
+                Route::get('/edit-step/{step_id}', CreateStep::class)->name('admin.edit-step');
                 Route::get('/modify-process/{process_id?}', EditProcess::class)->name('admin.modify-process');
                 Route::get('/manage-procedures', ProcedureManagement::class)->name('admin.manage-procedures');
                 Route::get('/requests', Requests::class)->name('admin.requests');

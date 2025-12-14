@@ -154,4 +154,14 @@ class Step extends Model
     {
         return $this->hasMany(StepRequiredDocument::class, 'step_id', 'step_id');
     }
+
+    /**
+     * Provided documents - documents given to users at this step.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function providedDocuments()
+    {
+        return $this->hasMany(StepProvidedDocument::class, 'step_id', 'step_id');
+    }
 }
