@@ -150,13 +150,11 @@ Changelog:
                             <label for="archivo" class="form-label">
                                 Archivo PDF @if (!$documentId)
                                     <span class="text-danger">*</span>
-                                @else(opcional para
-                                    mantener el actual)
                                 @endif
                             </label>
-                            @if ($documentId && $archivo_actual)
-                                <div class="small text-secondary mb-2">
-                                    {{ $archivo_actual }}
+                            @if ($documentId)
+                                <div class="small mb-2">
+                                    Ya hay un documento cargado. Deja vacío el selector si no deseas cambiarlo.
                                 </div>
                             @endif
                             <input wire:model="archivo" type="file"

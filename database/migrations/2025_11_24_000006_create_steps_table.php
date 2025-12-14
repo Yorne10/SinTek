@@ -29,7 +29,8 @@ return new class extends Migration
             $table->foreignId('process_id')->constrained('processes', 'process_id')->onDelete('cascade');
             $table->string('title');
             $table->text('instruction');
-            $table->enum('step_type', ['initial', 'conditional', 'final'])->default('initial');
+            $table->unsignedInteger('order')->nullable();
+            $table->enum('step_type', ['initial', 'conditional', 'final', 'normal'])->default('initial');
             $table->text('condition_question')->nullable();
             $table->boolean('requires_documents')->default(false);
             $table->foreignId('next_step_id')->nullable()->constrained('steps', 'step_id')->onDelete('set null');

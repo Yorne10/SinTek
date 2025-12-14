@@ -118,24 +118,47 @@ Changelog:
                                 @enderror
                             </div>
 
-                            @if (!$convocationId)
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Documentos (PDF) <span
-                                            class="text-muted small">(Opcional)</span></label>
-                                    @foreach ($documentos as $index => $documento)
-                                        <div class="row mb-2" wire:key="doc-{{ $index }}">
-                                            <div class="col-md-5">
-                                                <input type="text"
-                                                    wire:model="documentos.{{ $index }}.titulo"
-                                                    class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
-                                                    placeholder="Título del documento">
-                                                @error('documentos.' . $index . '.titulo')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
+                            <div class="col-md-12 mb-3">
+                                <h2 class="h5 mb-3">Documentos de la convocatoria</h2>
+
+                                @if ($convocationId && !empty($documentosExistentes))
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold small">Documentos actuales</label>
+                                        @foreach ($documentosExistentes as $docExistente)
+                                            <div class="mb-2 d-flex justify-content-between align-items-center small" wire:key="existing-doc-{{ $docExistente['id'] }}">
+                                                <div>
+                                                    <span>Título del documento:</span>
+                                                    <span class="ms-1">{{ $docExistente['titulo'] }}</span>
+                                                </div>
+                                                <button type="button"
+                                                    class="btn btn-sm btn-danger btn-delete-doc"
+                                                    data-doc-id="{{ $docExistente['id'] }}">
+                                                    @icon('delete', 'icon-xs')
+                                                </button>
                                             </div>
-                                            <div class="col-md-6">
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                <label class="form-label">{{ $convocationId ? 'Agregar nuevos documentos' : 'Documentos (PDF)' }} <span
+                                        class="text-muted small">(Opcional)</span></label>
+
+                                @foreach ($documentos as $index => $documento)
+                                    <div class="mb-3" wire:key="doc-{{ $index }}">
+                                        <label class="form-label small">Título del documento</label>
+                                        <input type="text"
+                                            wire:model="documentos.{{ $index }}.titulo"
+                                            class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
+                                            placeholder="Ej: Convocatoria 2025">
+                                        @error('documentos.' . $index . '.titulo')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+
+                                        <label class="form-label small mt-2">Archivo PDF</label>
+                                        <div class="d-flex gap-2 align-items-start">
+                                            <div class="flex-grow-1">
                                                 <input type="file"
                                                     wire:model="documentos.{{ $index }}.archivo"
                                                     class="form-control @error('documentos.' . $index . '.archivo') is-invalid @enderror"
@@ -155,24 +178,23 @@ Changelog:
                                                     Cargando archivo...
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
-                                                <button type="button"
-                                                    wire:click="removeDocumento({{ $index }})"
-                                                    class="btn btn-sm btn-danger">
-                                                    @icon('delete', 'icon-xs')
-                                                </button>
-                                            </div>
+                                            <button type="button"
+                                                wire:click="removeDocumento({{ $index }})"
+                                                class="btn btn-sm btn-danger">
+                                                @icon('delete', 'icon-xs')
+                                            </button>
                                         </div>
-                                    @endforeach
-                                    <div class="mt-3">
-                                        <button type="button" wire:click="addDocumento"
-                                            class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
-                                            @icon('add', 'icon-xs me-1')
-                                            Agregar documento
-                                        </button>
                                     </div>
+                                @endforeach
+
+                                <div class="mt-3">
+                                    <button type="button" wire:click="addDocumento"
+                                        class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                                        @icon('add', 'icon-xs me-1')
+                                        Agregar documento
+                                    </button>
                                 </div>
-                            @endif
+                            </div>
 
                             <div
                                 class="col-md-12 d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
@@ -223,13 +245,26 @@ Changelog:
                             <div class="d-flex align-items-start">
                                 @icon('file', 'fa-xs text-info me-3')
                                 <div>
-                                    <h3 class="h6">Documento</h3>
+                                    <h3 class="h6">Documentos</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Sube los archivos PDF necesarios para la convocatoria. Máximo 10 MB.
+                                        Sube los archivos PDF necesarios para la convocatoria. Máximo 10 MB por archivo.
                                     </p>
                                 </div>
                             </div>
                         </li>
+                        @if ($convocationId)
+                            <li class="list-group-item px-0">
+                                <div class="d-flex align-items-start">
+                                    @icon('info', 'fa-xs text-info me-3')
+                                    <div>
+                                        <h3 class="h6">Gestión de documentos</h3>
+                                        <p class="text-gray-700 small mb-0">
+                                            Puedes eliminar documentos existentes y agregar nuevos documentos a esta convocatoria.
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -368,6 +403,45 @@ Changelog:
                 text: data.message || 'Ocurrió un error.',
                 icon: 'error',
                 confirmButtonText: 'Aceptar'
+            });
+        });
+
+        // Confirmación antes de marcar documento para eliminar
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-delete-doc')) {
+                e.preventDefault();
+                const btn = e.target.closest('.btn-delete-doc');
+                const docId = btn.getAttribute('data-doc-id');
+
+                swalWithBootstrapButtons.fire({
+                    title: '¿Eliminar documento?',
+                    text: 'El documento será eliminado al actualizar la convocatoria.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'btn btn-danger me-2',
+                        cancelButton: 'btn btn-gray'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        @this.call('removeDocumentoExistente', docId);
+                    }
+                });
+            }
+        });
+
+        // Escuchar evento de documento marcado para eliminar
+        Livewire.on('documento-marcado-eliminar', (data) => {
+            swalWithBootstrapButtons.fire({
+                title: data.title || 'Documento marcado',
+                text: data.message || 'El documento será eliminado al actualizar.',
+                icon: 'info',
+                confirmButtonText: 'Entendido',
+                timer: 2000,
+                timerProgressBar: true
             });
         });
     });

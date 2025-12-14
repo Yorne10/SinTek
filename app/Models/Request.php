@@ -29,11 +29,13 @@ class Request extends Model
         'process_id',
         'status',
         'current_step_id',
+        'start_date',
         'submitted_at',
         'completed_at',
     ];
 
     protected $casts = [
+        'start_date' => 'datetime',
         'submitted_at' => 'datetime',
         'completed_at' => 'datetime',
     ];
@@ -81,5 +83,15 @@ class Request extends Model
     public function currentStep()
     {
         return $this->belongsTo(Step::class, 'current_step_id', 'step_id');
+    }
+
+    /**
+     * Request steps.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function requestSteps()
+    {
+        return $this->hasMany(RequestStep::class, 'request_id', 'request_id');
     }
 }

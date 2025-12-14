@@ -156,14 +156,10 @@ class AvailableProcedures extends Component
         try {
             DB::beginTransaction();
 
-            // Generate unique request code
-            $requestCode = 'REQ-' . strtoupper(uniqid());
-
             // Create request
             $request = WorkerRequest::create([
                 'worker_id' => $worker->workers_id,
                 'process_id' => $process->process_id,
-                'request_code' => $requestCode,
                 'status' => 'in_progress',
                 'start_date' => now(),
             ]);
@@ -179,19 +175,28 @@ class AvailableProcedures extends Component
 
             DB::commit();
 
-            // Log activity - SAME MESSAGE AS API
+            // Log activity
             ActivityLogger::log(
                 'tramite.iniciar',
-                "Trámite iniciado: '{$process->name}' - Código: {$requestCode}",
+                "Trámite iniciado: '{$process->name}' - ID: {$request->request_id}",
                 $user->users_id
             );
 
-            session()->flash('success', 'Trámite iniciado exitosamente.');
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $request->request_id]);
+            // Dispatch success event for SweetAlert
+            $this->dispatch(
+                'procedure-started',
+                title: '¡Trámite iniciado!',
+                message: "El trámite '{$process->name}' ha sido iniciado exitosamente.",
+                redirectUrl: route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $request->request_id])
+            );
 
         } catch (\Exception $e) {
             DB::rollBack();
-            session()->flash('error', 'Ocurrió un error al iniciar el trámite: ' . $e->getMessage());
+            $this->dispatch(
+                'procedure-error',
+                title: 'Error',
+                message: 'Ocurrió un error al iniciar el trámite: ' . $e->getMessage()
+            );
         }
     }
 }

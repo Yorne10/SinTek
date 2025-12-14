@@ -57,10 +57,9 @@ class RequestService
         if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('request_code', 'like', '%' . $search . '%')
-                    ->orWhereHas('process', function ($processQuery) use ($search) {
-                        $processQuery->where('name', 'like', '%' . $search . '%');
-                    });
+                $q->whereHas('process', function ($processQuery) use ($search) {
+                    $processQuery->where('name', 'like', '%' . $search . '%');
+                });
             });
         }
 
@@ -69,7 +68,6 @@ class RequestService
             ->map(function ($req) {
                 return [
                     'request_id' => $req->request_id,
-                    'request_code' => $req->request_code,
                     'status' => $req->status,
                     'process' => [
                         'id' => $req->process->process_id,
@@ -135,10 +133,7 @@ class RequestService
 
         DB::beginTransaction();
         try {
-            $requestCode = 'REQ-' . strtoupper(uniqid());
-
             $newRequest = WorkerRequest::create([
-                'request_code' => $requestCode,
                 'worker_id' => $worker->workers_id,
                 'process_id' => $process->process_id,
                 'status' => 'pendiente',
@@ -159,7 +154,7 @@ class RequestService
 
             ActivityLogger::log(
                 'tramite.iniciar',
-                "Trámite iniciado: '{$process->name}' - Código: {$newRequest->request_code}",
+                "Trámite iniciado: '{$process->name}' - ID: {$newRequest->request_id}",
                 $user->users_id
             );
 
@@ -168,7 +163,6 @@ class RequestService
                 'message' => 'Tr?mite creado exitosamente',
                 'data' => [
                     'request_id' => $newRequest->request_id,
-                    'request_code' => $newRequest->request_code,
                 ]
             ], 201);
         } catch (\Exception $e) {
@@ -225,7 +219,6 @@ class RequestService
             'success' => true,
             'data' => [
                 'request_id' => $req->request_id,
-                'request_code' => $req->request_code,
                 'status' => $req->status,
                 'process' => [
                     'id' => $req->process->process_id,
@@ -631,7 +624,7 @@ class RequestService
             // Log activity
             ActivityLogger::log(
                 'tramite.cancelado',
-                "Trámite cancelado: '{$req->process->name}' - Código: {$req->request_code}",
+                "Trámite cancelado: '{$req->process->name}' - ID: {$req->request_id}",
                 $user->users_id
             );
 
@@ -640,7 +633,6 @@ class RequestService
                 'message' => 'Trámite cancelado exitosamente',
                 'data' => [
                     'request_id' => $req->request_id,
-                    'request_code' => $req->request_code,
                     'status' => $req->status,
                 ]
             ], 200);

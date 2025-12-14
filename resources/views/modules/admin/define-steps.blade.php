@@ -115,7 +115,6 @@ Changelog:
             <colgroup>
                 <col style="width: 35%">
                 <col style="width: 18%">
-                <col style="width: 15%">
                 <col style="width: 20%">
                 <col style="width: 12%; min-width: 72px;">
             </colgroup>
@@ -124,7 +123,6 @@ Changelog:
                     <th class="border-0 rounded-start">Paso</th>
                     <th class="border-0">Tipo</th>
                     <th class="border-0">Estado</th>
-                    <th class="border-0">Docs. Requeridos</th>
                     <th class="border-0 rounded-end">Acciones</th>
                 </tr>
             </thead>
@@ -143,32 +141,24 @@ Changelog:
                                 </div>
                             </td>
                             <td>
-                                <span class="badge bg-{{ $this->getStepTypeBadge($step->step_type) }}">
-                                    {{ $this->getStepTypeLabel($step->step_type) }}
-                                </span>
+                                @php
+                                    $displayType = $step->step_type_display ?? $step->step_type;
+                                    $typeClass = match ($displayType) {
+                                        'initial' => 'text-success',
+                                        'final' => 'text-danger',
+                                        'conditional' => 'text-warning',
+                                        default => 'text-info',
+                                    };
+                                @endphp
+                                <span class="fw-bold {{ $typeClass }}">{{ $this->getStepTypeLabel($displayType) }}</span>
                             </td>
                             <td>
                                 @if ($step->is_initial_step)
-                                    <span class="badge bg-primary">Paso inicial</span>
+                                    <span class="fw-bold text-primary">Paso inicial</span>
                                 @elseif($step->is_linked)
-                                    <span class="badge bg-success">Vinculado</span>
+                                    <span class="fw-bold text-success">Vinculado</span>
                                 @else
-                                    <span class="badge bg-warning text-dark">Sin vincular</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($step->requiredDocuments->count() > 0)
-                                    <div class="small">
-                                        @foreach ($step->requiredDocuments->take(2) as $doc)
-                                            <span class="badge bg-secondary me-1 mb-1">{{ $doc->title }}</span>
-                                        @endforeach
-                                        @if ($step->requiredDocuments->count() > 2)
-                                            <span
-                                                class="badge bg-gray-300 text-dark">+{{ $step->requiredDocuments->count() - 2 }}</span>
-                                        @endif
-                                    </div>
-                                @else
-                                    <span class="small text-muted">-</span>
+                                    <span class="fw-bold text-warning">Sin vincular</span>
                                 @endif
                             </td>
                             <td>

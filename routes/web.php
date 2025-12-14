@@ -154,6 +154,7 @@ Route::prefix("p/{$slug}")
                 Route::get('/available-procedures', AvailableProcedures::class)->name('worker.available-procedures');
                 Route::get('/my-procedures', MyProcedures::class)->name('worker.my-procedures');
                 Route::get('/procedure-detail/{id}', \App\Livewire\Worker\ProcedureDetail::class)->name('worker.procedure-detail');
+                Route::get('/step-detail/{requestId}/{stepId}', \App\Livewire\Worker\StepDetail::class)->name('worker.step-detail');
                 Route::get('/calls', CallsIndex::class)->name('worker.calls');
                 Route::get('/convocations', CallsIndex::class)->name('worker.convocations');
                 Route::get('/documents', \App\Livewire\Worker\DocumentsIndex::class)->name('worker.documents');

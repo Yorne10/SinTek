@@ -34,6 +34,8 @@ class ConvocationForm extends Component
     public $fecha_fin;
     public $convocatoria_permanente = false;
     public $documentos = [];
+    public $documentosExistentes = [];
+    public $documentosAEliminar = [];
 
     /**
 
@@ -53,12 +55,20 @@ class ConvocationForm extends Component
     {
         if ($id) {
             $this->convocationId = $id;
-            $convocation = Convocation::findOrFail($id);
+            $convocation = Convocation::with('documents')->findOrFail($id);
             $this->titulo = $convocation->title;
             $this->descripcion = $convocation->description;
             $this->fecha_inicio = $convocation->start_date?->format('Y-m-d');
             $this->fecha_fin = $convocation->end_date?->format('Y-m-d');
             $this->convocatoria_permanente = !$convocation->end_date;
+
+            // Cargar documentos existentes
+            $this->documentosExistentes = $convocation->documents->map(function ($doc) {
+                return [
+                    'id' => $doc->convocation_document_id,
+                    'titulo' => $doc->file_name,
+                ];
+            })->toArray();
         }
     }
 
@@ -91,7 +101,7 @@ class ConvocationForm extends Component
             'fecha_inicio' => 'required|date',
             'fecha_fin' => $this->convocatoria_permanente ? 'nullable|date|after_or_equal:fecha_inicio' : 'required|date|after_or_equal:fecha_inicio',
             'documentos.*.titulo' => 'required_with:documentos.*.archivo|string|max:150',
-            'documentos.*.archivo' => 'required_with:documentos.*.titulo|file|mimes:pdf|max:5120',
+            'documentos.*.archivo' => 'required_with:documentos.*.titulo|file|mimes:pdf|max:10240',
         ];
     }
 
@@ -104,7 +114,7 @@ class ConvocationForm extends Component
         'documentos.*.titulo.required_with' => 'El título del documento es obligatorio.',
         'documentos.*.archivo.required_with' => 'Debe seleccionar un archivo PDF.',
         'documentos.*.archivo.mimes' => 'El archivo debe ser un PDF.',
-        'documentos.*.archivo.max' => 'El archivo no debe superar los 5MB.',
+        'documentos.*.archivo.max' => 'El archivo no debe superar los 10MB.',
     ];
 
     /**
@@ -141,6 +151,39 @@ class ConvocationForm extends Component
         unset($this->documentos[$index]);
         $this->documentos = array_values($this->documentos);
     }
+
+    /**
+
+     * Remove documento existente.
+
+     *
+
+     * @param mixed $documentoId
+
+     *
+
+     * @return void
+
+     */
+
+    public function removeDocumentoExistente($documentoId)
+    {
+        // Marcar para eliminar (solo se eliminará al guardar)
+        $this->documentosAEliminar[] = $documentoId;
+
+        // Quitar de la lista visual
+        $this->documentosExistentes = array_filter($this->documentosExistentes, function($doc) use ($documentoId) {
+            return $doc['id'] != $documentoId;
+        });
+        $this->documentosExistentes = array_values($this->documentosExistentes);
+
+        $this->dispatch('documento-marcado-eliminar', [
+            'type' => 'info',
+            'title' => 'Documento marcado',
+            'message' => 'El documento será eliminado al actualizar la convocatoria.'
+        ]);
+    }
+
 
     /**
 
@@ -197,6 +240,24 @@ class ConvocationForm extends Component
                     'status' => $status,
                 ]);
 
+                // Eliminar documentos marcados para eliminar
+                if (!empty($this->documentosAEliminar)) {
+                    foreach ($this->documentosAEliminar as $docId) {
+                        try {
+                            $documento = ConvocationDocument::find($docId);
+                            if ($documento) {
+                                $documento->delete();
+                                Log::info('Documento eliminado', ['id' => $docId]);
+                            }
+                        } catch (\Exception $e) {
+                            Log::error('Error al eliminar documento', [
+                                'id' => $docId,
+                                'error' => $e->getMessage()
+                            ]);
+                        }
+                    }
+                }
+
                 ActivityLogger::log(
                     'convocatoria.editar',
                     "Convocatoria editada: '{$convocatoria->title}'",
@@ -223,7 +284,7 @@ class ConvocationForm extends Component
                 $message = 'La convocatoria ha sido publicada exitosamente.';
             }
 
-            // Save documentos si existen
+            // Save documentos (tanto en creación como en edición)
             if (!empty($this->documentos)) {
                 foreach ($this->documentos as $index => $documento) {
                     if (isset($documento['archivo']) && $documento['archivo'] && isset($documento['titulo']) && $documento['titulo']) {
@@ -275,6 +336,9 @@ class ConvocationForm extends Component
                     redirect: null
                 );
             } else {
+                // Limpiar documentos nuevos y lista de eliminación después de actualizar
+                $this->reset(['documentos', 'documentosAEliminar']);
+
                 $this->dispatch(
                     'convocation-saved',
                     type: 'success',

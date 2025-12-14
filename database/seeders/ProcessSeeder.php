@@ -16,6 +16,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use App\Models\Process;
 use App\Models\Step;
 use App\Models\StepRequiredDocument;
@@ -57,7 +58,7 @@ class ProcessSeeder extends Seeder
             'process_id' => $process1->process_id,
             'title' => 'Revisión de documentos',
             'instruction' => 'Verificar que los datos sean correctos y que el trabajador esté activo',
-            'step_type' => 'initial',
+            'step_type' => 'normal',
             'requires_documents' => false,
             'active' => true,
         ]);
@@ -103,7 +104,7 @@ class ProcessSeeder extends Seeder
             'process_id' => $process2->process_id,
             'title' => 'Aprobación del coordinador',
             'instruction' => 'Verificar que no haya conflictos de calendario y que el trabajador tenga días disponibles',
-            'step_type' => 'initial',
+            'step_type' => 'normal',
             'requires_documents' => false,
             'active' => true,
         ]);
@@ -160,7 +161,7 @@ class ProcessSeeder extends Seeder
             'process_id' => $process3->process_id,
             'title' => 'Evaluación técnica',
             'instruction' => 'Evaluar la gravedad y determinar prioridad de atención',
-            'step_type' => 'initial',
+            'step_type' => 'normal',
             'requires_documents' => false,
             'active' => true,
         ]);
@@ -249,10 +250,98 @@ class ProcessSeeder extends Seeder
             'next_no' => $step4_3_no->step_id,
         ]);
 
+        // Normalizar inicial y calcular orden
+        $this->normalizeInitialAndOrder($process1);
+        $this->normalizeInitialAndOrder($process2);
+        $this->normalizeInitialAndOrder($process3);
+        $this->normalizeInitialAndOrder($process4);
+
         $this->command->info('✅ Procesos creados: 4');
         $this->command->info('   - Constancia Laboral (3 pasos lineales)');
         $this->command->info('   - Solicitud de Vacaciones (3 pasos lineales)');
         $this->command->info('   - Reporte de Mantenimiento (3 pasos + documentos)');
         $this->command->info('   - Cambio de Horario (4 pasos condicionales)');
+    }
+
+    /**
+     * Garantiza un único paso inicial y calcula el campo order por niveles (BFS).
+     */
+    protected function normalizeInitialAndOrder(Process $process): void
+    {
+        /** @var Collection<int,Step> $steps */
+        $steps = Step::where('process_id', $process->process_id)->get()->keyBy('step_id');
+        if ($steps->isEmpty()) {
+            return;
+        }
+
+        // Un solo inicial
+        $initialFound = false;
+        foreach ($steps as $step) {
+            if ($step->is_initial_step || $step->step_type === 'initial') {
+                if ($initialFound) {
+                    $step->is_initial_step = false;
+                    if ($step->step_type === 'initial') {
+                        $step->step_type = 'normal';
+                    }
+                } else {
+                    $initialFound = true;
+                    $step->is_initial_step = true;
+                    $step->step_type = 'initial';
+                }
+                $step->save();
+            }
+        }
+
+        if (!$initialFound) {
+            /** @var Step $first */
+            $first = $steps->first();
+            $first->is_initial_step = true;
+            $first->step_type = 'initial';
+            $first->save();
+        }
+
+        // Releer con cambios
+        $steps = Step::where('process_id', $process->process_id)->get()->keyBy('step_id');
+
+        // Calcular orden con BFS
+        $queue = [];
+        foreach ($steps as $step) {
+            $step->order = null;
+            if ($step->is_initial_step) {
+                $step->order = 1;
+                $queue[] = $step;
+            }
+        }
+
+        while ($queue) {
+            /** @var Step $current */
+            $current = array_shift($queue);
+            $nextOrder = ($current->order ?? 0) + 1;
+            $targets = array_filter([
+                $current->next_step_id,
+                $current->next_yes,
+                $current->next_no,
+            ]);
+            foreach ($targets as $targetId) {
+                if (!$steps->has($targetId)) {
+                    continue;
+                }
+                $target = $steps[$targetId];
+                if ($target->order === null || $target->order > $nextOrder) {
+                    $target->order = $nextOrder;
+                    $queue[] = $target;
+                }
+            }
+        }
+
+        // Pasos no alcanzados
+        $maxOrder = $steps->pluck('order')->filter()->max() ?? 0;
+        foreach ($steps as $step) {
+            if ($step->order === null) {
+                $maxOrder++;
+                $step->order = $maxOrder;
+            }
+            $step->save();
+        }
     }
 }

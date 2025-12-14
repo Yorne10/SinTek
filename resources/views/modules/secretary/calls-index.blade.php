@@ -133,20 +133,22 @@ Changelog:
                                             @icon('view', 'dropdown-icon text-gray-400 me-2')
                                             Ver detalles
                                         </button>
-                                        @if ($convocation->documents->count() > 0)
-                                            <div class="dropdown-divider"></div>
-                                            <h6 class="dropdown-header">Documentos</h6>
-                                            @foreach ($convocation->documents as $doc)
-                                                <a class="dropdown-item d-flex align-items-center"
-                                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id) }}">
-                                                    @icon('download', 'dropdown-icon text-gray-400 me-2')
-                                                    <span
-                                                        class="small">{{ Str::limit($doc->file_name ?? 'Documento', 40) }}</span>
-                                                </a>
-                                            @endforeach
-                                        @else
-                                            <span class="dropdown-item small text-gray-500">Sin documentos</span>
-                                        @endif
+                                        @php
+                                            $docsPayload = $convocation->documents->map(function ($doc) {
+                                                return [
+                                                    'name' => $doc->file_name ?? 'Documento',
+                                                    'show' => route(config('proj.route_name_prefix', 'proj') . '.convocation-document.show', $doc->convocation_doc_id),
+                                                    'download' => route(config('proj.route_name_prefix', 'proj') . '.convocation-document.download', $doc->convocation_doc_id),
+                                                ];
+                                            })->values()->toArray();
+                                        @endphp
+                                        <button class="dropdown-item d-flex align-items-center open-docs-modal"
+                                            type="button"
+                                            data-conv-title="{{ $convocation->title }}"
+                                            data-docs='@json($docsPayload)'>
+                                            @icon('file', 'dropdown-icon text-gray-400 me-2')
+                                            Documentos
+                                        </button>
                                         <a class="dropdown-item d-flex align-items-center"
                                             href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.convocation.edit', $convocation->convocation_id) }}">
                                             @icon('edit', 'dropdown-icon text-gray-400 me-2')
@@ -185,6 +187,7 @@ Changelog:
     </div>
 </div>
 
+@section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -224,6 +227,82 @@ Changelog:
                     showConfirmButton: true
                 });
             }
+            if (e.target.closest('.open-docs-modal')) {
+                e.preventDefault();
+                const button = e.target.closest('.open-docs-modal');
+                const title = button.getAttribute('data-conv-title') || 'Documentos';
+                const docsRaw = button.getAttribute('data-docs') || '[]';
+                let docs = [];
+                try {
+                    docs = JSON.parse(docsRaw);
+                } catch (err) {
+                    docs = [];
+                }
+
+                if (!docs.length) {
+                    swalWithBootstrapButtons.fire({
+                        title: `Documentos - ${title}`,
+                        html: '<div class="text-center text-gray-500 py-2">Sin documentos</div>',
+                        icon: 'info',
+                        confirmButtonText: 'Cerrar',
+                        showConfirmButton: true,
+                    });
+                    return;
+                }
+
+                const listHtml = docs.map((doc) => {
+                    const name = doc.name || 'Documento';
+                    const showUrl = doc.show || '#';
+                    const downloadUrl = doc.download || '#';
+                    return `
+                        <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                            <div class="me-3">
+                                <div class="fw-bold text-gray-800">${name}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
+                                    @icon('file', 'me-2') Abrir
+                                </a>
+                                <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
+                                    @icon('download', 'me-2') Descargar
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                swalWithBootstrapButtons.fire({
+                    title: `Documentos - ${title}`,
+                    html: `<div class="list-group list-group-flush">${listHtml}</div>`,
+                    icon: 'info',
+                    confirmButtonText: 'Cerrar',
+                    showConfirmButton: true,
+                });
+            }
+        });
+
+        // Evitar que los botones del swal queden focuseados en gris después del clic
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.swal2-popup .btn-outline-secondary');
+            if (btn) {
+                setTimeout(() => btn.blur(), 50);
+            }
         });
     });
 </script>
+<style>
+    /* SweetAlert document buttons hover: text + icon in white */
+    .swal2-popup .btn-outline-secondary:hover,
+    .swal2-popup .btn-outline-secondary:active,
+    .swal2-popup .btn-outline-secondary:focus-visible {
+        background-color: var(--bs-secondary, #6c757d) !important;
+        border-color: var(--bs-secondary, #6c757d) !important;
+        color: #fff !important;
+    }
+    .swal2-popup .btn-outline-secondary:hover .icon,
+    .swal2-popup .btn-outline-secondary:active .icon,
+    .swal2-popup .btn-outline-secondary:focus-visible .icon {
+        color: #fff !important;
+    }
+</style>
+@endsection

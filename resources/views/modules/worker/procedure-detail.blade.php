@@ -7,9 +7,9 @@ Created by: Alfonso Angel Garcia Hernandez
 Approved by: Alfonso Angel Garcia Hernandez
 
 Changelog:
-    - ID: <ID> | Date: dd/mm/yyyy
-    Modified by: <Developer name>
-    Description: <Brief description of change>
+- ID: 001 | Date: 13/12/2025
+Modified by: Alfonso Angel Garcia Hernandez
+Description: Redesigned view - removed folio, progress bar, help card. Added 'Go to step' button.
 --}}
 <div>
     {{-- Breadcrumb and Header --}}
@@ -30,176 +30,125 @@ Changelog:
                 </ol>
             </nav>
             <h2 class="h4">{{ $request->process->name }}</h2>
-            <p class="mb-0">Folio: <span class="fw-bold">#{{ $request->request_id }}</span></p>
         </div>
-        <div class="btn-toolbar mb-2 mb-md-0">
-            @if ($request->status === 'completed')
-                <span class="fw-bold text-success">
-                    <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    Completado
-                </span>
-            @elseif($request->status === 'in_progress')
-                <span class="fw-bold text-info">
-                    <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    En proceso
-                </span>
-            @elseif($request->status === 'pending')
-                <span class="fw-bold text-warning">
-                    <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    Pendiente
-                </span>
-            @else
-                <span class="fw-bold text-gray-600">{{ ucfirst($request->status) }}</span>
-            @endif
-        </div>
+
     </div>
 
     <div class="row">
-        {{-- Columna principal: Pasos del trámite --}}
+        {{-- Main column: Procedure steps --}}
         <div class="col-12 col-xl-8 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-header bg-white border-0">
                     <h2 class="fs-5 fw-bold mb-0">Seguimiento del trámite</h2>
-                    <p class="text-muted small mb-0">Progreso y pasos completados</p>
+                    <p class="text-muted small mb-0">Pasos completados y paso actual</p>
                 </div>
                 <div class="card-body p-4">
-                    {{-- Progress bar --}}
                     @php
-                        $totalSteps = $request->requestSteps->count();
-                        $completedSteps = $request->requestSteps->where('request_step_status', 'completed')->count();
-                        $progress = $totalSteps > 0 ? round(($completedSteps / $totalSteps) * 100) : 0;
+                        // Get completed steps
+                        $completedSteps = $request->requestSteps->where('request_step_status', 'completed');
+
+                        // Get current step (in_progress OR first pending if no in_progress)
+                        $currentStep = $request->requestSteps->where('request_step_status', 'in_progress')->first();
+
+                        // If no step is in_progress, find the first pending step as current
+                        if (!$currentStep) {
+                            $firstPendingStep = $request->requestSteps
+                                ->where('request_step_status', 'pending')
+                                ->sortBy(function ($reqStep) use ($allSteps) {
+                                    $step = $allSteps->where('step_id', $reqStep->step_id)->first();
+                                    return $step ? $step->order : 999;
+                                })
+                                ->first();
+                            $currentStep = $firstPendingStep;
+                        }
+
+                        // Combine completed and current
+                        $visibleStepIds = $completedSteps->pluck('step_id')->toArray();
+                        if ($currentStep) {
+                            $visibleStepIds[] = $currentStep->step_id;
+                        }
+
+                        // Filter allSteps to show only visible ones
+                        $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds);
                     @endphp
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-semibold text-gray-800">Progreso general</span>
-                            <span class="fw-bold text-primary">{{ $progress }}%</span>
+
+                    @if($visibleSteps->isEmpty())
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                @icon('tasks', 'fa-3x text-gray-400')
+                            </div>
+                            <p class="text-muted">No hay pasos visibles en este momento.</p>
                         </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress }}%"
-                                aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-
-                    {{-- Steps timeline --}}
-                    <div class="timeline timeline-one-side mt-4">
-                        @foreach ($allSteps as $step)
-                            @php
-                                $requestStep = $request->requestSteps->where('step_id', $step->step_id)->first();
-                                $status = $requestStep ? $requestStep->request_step_status : 'pending';
-                                $isCurrent = $status === 'in_progress';
-                            @endphp
-                            <div class="timeline-item">
-                                <div class="timeline-item-content">
-                                    <div class="d-flex">
-                                        {{-- Icon del paso --}}
-                                        <div class="me-3">
-                                            @if ($status === 'completed')
-                                                <span class="icon-shape icon-sm bg-success text-white rounded-circle">
-                                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                            clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </span>
-                                            @elseif($status === 'in_progress')
-                                                <span class="icon-shape icon-sm bg-info text-white rounded-circle">
-                                                    <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                                            clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </span>
-                                            @else
-                                                <span
-                                                    class="icon-shape icon-sm bg-gray-200 text-gray-600 rounded-circle">
-                                                    {{ $step->order }}
-                                                </span>
-                                            @endif
-                                        </div>
-
-                                        {{-- Contenido del paso --}}
-                                        <div class="flex-grow-1">
-                                            <div class="mb-2">
-                                                <h6 class="mb-1 fw-bold">{{ $step->title }}</h6>
-                                                @if ($step->description)
-                                                    <p class="text-gray-600 mb-2">{{ $step->description }}</p>
-                                                @endif
-
-                                                @if ($step->instructions)
-                                                    <div class="alert alert-light mb-2" role="alert">
-                                                        <small class="fw-semibold">Instrucciones: </small>
-                                                        <small>{{ $step->instructions }}</small>
-                                                    </div>
+                    @else
+                        {{-- Steps timeline --}}
+                        <div class="timeline timeline-one-side">
+                            @foreach ($visibleSteps as $step)
+                                @php
+                                    $requestStep = $request->requestSteps->where('step_id', $step->step_id)->first();
+                                    $status = $requestStep ? $requestStep->request_step_status : 'pending';
+                                    // Mark as current if in_progress OR if it's pending and is the currentStep
+                                    $isCurrent = $status === 'in_progress' || ($currentStep && $currentStep->step_id == $step->step_id && $status === 'pending');
+                                @endphp
+                                <div class="timeline-item {{ $isCurrent ? 'current-step' : '' }}">
+                                    <div class="timeline-item-content">
+                                        <div class="d-flex">
+                                            {{-- Step icon --}}
+                                            <div class="me-3">
+                                                @if ($status === 'completed')
+                                                    <span class="icon-shape icon-sm bg-success text-white rounded-circle">
+                                                        @icon('check', 'icon-xs')
+                                                    </span>
+                                                @elseif($isCurrent)
+                                                    <span class="icon-shape icon-sm bg-info text-white rounded-circle">
+                                                        @icon('clock', 'icon-xs')
+                                                    </span>
                                                 @endif
                                             </div>
 
-                                            {{-- Acciones del paso actual --}}
-                                            @if ($isCurrent)
-                                                <div class="mt-3">
-                                                    @if ($step->condition_type === 'upload')
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Subir documento requerido</label>
-                                                            <input type="file" class="form-control"
-                                                                wire:model="file">
-                                                            @error('file')
-                                                                <span class="text-danger small">{{ $message }}</span>
-                                                            @enderror
-                                                        </div>
-                                                        <button type="button" class="btn btn-primary btn-sm"
-                                                            wire:click="uploadFile" wire:loading.attr="disabled"
-                                                            wire:target="uploadFile, file">
-                                                            <span wire:loading.remove wire:target="uploadFile">Subir y
-                                                                Completar</span>
-                                                            <span wire:loading
-                                                                wire:target="uploadFile">Subiendo...</span>
-                                                        </button>
-                                                    @elseif($step->condition_type === 'conditional')
-                                                        <button type="button"
-                                                            class="btn btn-success btn-sm me-2 next-step-btn"
-                                                            data-action="yes">
-                                                            Sí / Aprobar
-                                                        </button>
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-sm reject-step-btn"
-                                                            data-action="no">
-                                                            No / Rechazar
-                                                        </button>
-                                                    @else
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-sm continue-step-btn">
-                                                            Continuar al siguiente paso
-                                                        </button>
+                                            {{-- Step content --}}
+                                            <div class="flex-grow-1">
+                                                <div class="mb-2">
+                                                    <h6 class="mb-1 fw-bold">
+                                                        {{ $step->title }}
+                                                        @if($isCurrent)
+                                                            <span class="badge bg-info ms-2">Paso actual</span>
+                                                        @endif
+                                                    </h6>
+                                                    @if ($step->description)
+                                                        <p class="text-gray-600 mb-2">{{ $step->description }}</p>
+                                                    @endif
+
+                                                    @if ($status === 'completed' && $requestStep && $requestStep->step_date)
+                                                        <small class="text-success">
+                                                            @icon('check', 'me-1')
+                                                            Completado el
+                                                            {{ \Carbon\Carbon::parse($requestStep->step_date)->format('d/m/Y H:i') }}
+                                                        </small>
                                                     @endif
                                                 </div>
-                                            @endif
+
+                                                {{-- Current step action button --}}
+                                                @if ($isCurrent)
+                                                    <div class="mt-3">
+                                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.step-detail', ['requestId' => $request->request_id, 'stepId' => $step->step_id]) }}"
+                                                            class="btn btn-secondary">
+                                                            Ir al paso
+                                                            @icon('arrowRight', 'ms-2')
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
 
-        {{-- Columna lateral: Información del trámite --}}
+        {{-- Sidebar: Procedure information --}}
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow mb-4">
                 <div class="card-header bg-white border-0">
@@ -253,140 +202,88 @@ Changelog:
                             @if ($request->status === 'completed')
                                 <span class="fw-bold text-success">Completado</span>
                             @elseif($request->status === 'in_progress')
-                                <span class="fw-bold text-info">En proceso</span>
+                                <span class="fw-bold text-warning">En proceso</span>
                             @elseif($request->status === 'pending')
                                 <span class="fw-bold text-warning">Pendiente</span>
+                            @elseif($request->status === 'cancelled')
+                                <span class="fw-bold text-danger">Cancelado</span>
                             @else
                                 <span class="fw-bold text-gray-600">{{ ucfirst($request->status) }}</span>
                             @endif
                         </p>
                     </div>
 
-                    <div>
-                        <small class="text-gray-600 d-block mb-1">Pasos completados</small>
-                        <p class="mb-2 fw-semibold">{{ $completedSteps }} / {{ $totalSteps }}</p>
-                        <div class="progress" style="height: 6px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $progress }}%">
-                            </div>
+                    {{-- Action buttons --}}
+                    @if ($request->status === 'in_progress')
+                        <div class="mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-danger btn-sm w-100 cancel-procedure-btn">
+                                @icon('times', 'me-2')
+                                Cancelar trámite
+                            </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Card de ayuda --}}
-            <div class="card border-0 shadow">
-                <div class="card-body">
-                    <div class="d-flex align-items-start">
-                        <svg class="icon icon-sm text-info me-3 flex-shrink-0" fill="currentColor"
-                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                        <div>
-                            <h6 class="fw-bold mb-2">Necesitas ayuda?</h6>
-                            <p class="small text-muted mb-2">Si tienes dudas sobre tu trámite,
-                                contacta al área de
-                                Recursos Humanos.</p>
-                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq') }}"
-                                class="btn btn-sm btn-outline-info">
-                                Ver preguntas frecuentes
-                            </a>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-primary me-2',
-                cancelButton: 'btn btn-gray'
-            },
-            buttonsStyling: false
-        });
-
-        // Botón continuar paso normal
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.continue-step-btn')) {
-                e.preventDefault();
-
-                swalWithBootstrapButtons.fire({
-                    title: '¿Continuar al siguiente paso?',
-                    text: 'Se marcará este paso como completado y avanzarás al siguiente.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, continuar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        @this.call('nextStep');
-                    }
-                });
-            }
-        });
-
-        // Botón paso condicional - Aprobar
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.next-step-btn')) {
-                e.preventDefault();
-                const action = e.target.closest('.next-step-btn').getAttribute('data-action');
-
-                swalWithBootstrapButtons.fire({
-                    title: '¿Aprobar y continuar?',
-                    text: 'Se aprobará este paso y se continuará con el flujo.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, aprobar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        @this.call('conditionalStep', action);
-                    }
-                });
-            }
-        });
-
-        // Botón paso condicional - Rechazar
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.reject-step-btn')) {
-                e.preventDefault();
-                const action = e.target.closest('.reject-step-btn').getAttribute('data-action');
-
-                swalWithBootstrapButtons.fire({
-                    title: '¿Rechazar este paso?',
-                    text: 'Se rechazará este paso y se tomará la acción alternativa.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, rechazar',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        @this.call('conditionalStep', action);
-                    }
-                });
-            }
-        });
-
-        // Listener para notificaciones de Livewire
-        if (window.Livewire) {
-            Livewire.on('step-updated', (event) => {
-                const detail = event || {};
-                swalWithBootstrapButtons.fire({
-                    icon: detail.type || 'success',
-                    title: detail.title || 'Actualizado',
-                    text: detail.message || '',
-                    confirmButtonText: 'Aceptar'
-                });
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-gray'
+                },
+                buttonsStyling: false
             });
+
+            // Cancel procedure button
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('.cancel-procedure-btn')) {
+                    e.preventDefault();
+
+                    swalWithBootstrapButtons.fire({
+                        title: '¿Cancelar trámite?',
+                        text: 'Esta acción no se puede deshacer. ¿Estás seguro de que deseas cancelar este trámite?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, cancelar',
+                        cancelButtonText: 'No, mantener',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            @this.call('cancelProcedure');
+                        }
+                    });
+                }
+            });
+
+            // Listener for Livewire notifications
+            if (window.Livewire) {
+                Livewire.on('procedure-updated', (event) => {
+                    const detail = event || {};
+                    swalWithBootstrapButtons.fire({
+                        icon: detail.type || 'success',
+                        title: detail.title || 'Actualizado',
+                        text: detail.message || '',
+                        confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        if (detail.redirect) {
+                            window.location.href = detail.redirect;
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .current-step {
+            background-color: rgba(var(--bs-info-rgb), 0.05);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-left: -1rem;
+            margin-right: -1rem;
         }
-    });
-</script>
+    </style>
+</div>

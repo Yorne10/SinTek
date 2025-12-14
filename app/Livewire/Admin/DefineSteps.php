@@ -98,6 +98,32 @@ class DefineSteps extends Component
 
         if ($this->selectedProcess) {
             $this->steps = $this->selectedProcess->steps;
+
+            // Solo un paso inicial visible: el primero marcado se mantiene, el resto se muestra como no inicial
+            $initialFound = false;
+            $initialTypeFound = false;
+            $this->steps = $this->steps->transform(function ($step) use (&$initialFound, &$initialTypeFound) {
+                if ($step->is_initial_step) {
+                    if ($initialFound) {
+                        $step->is_initial_step = false;
+                    } else {
+                        $initialFound = true;
+                    }
+                }
+
+                // Solo un tipo "inicial" en la columna Tipo; los demás se muestran como "normal"
+                if ($step->step_type === 'initial') {
+                    if ($initialTypeFound) {
+                        $step->step_type_display = 'normal';
+                    } else {
+                        $step->step_type_display = 'initial';
+                        $initialTypeFound = true;
+                    }
+                } else {
+                    $step->step_type_display = $step->step_type;
+                }
+                return $step;
+            });
         } else {
             // If no se encuentra, limpiar para evitar mostrar otro proceso.
             $this->steps = [];
@@ -180,6 +206,7 @@ class DefineSteps extends Component
             'initial' => 'Paso inicial',
             'conditional' => 'Condicional',
             'final' => 'Final',
+            'normal' => 'Normal',
         ];
 
         return $types[$conditionType] ?? ucfirst($conditionType);
