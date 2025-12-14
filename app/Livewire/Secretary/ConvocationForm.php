@@ -62,10 +62,10 @@ class ConvocationForm extends Component
             $this->fecha_fin = $convocation->end_date?->format('Y-m-d');
             $this->convocatoria_permanente = !$convocation->end_date;
 
-            // Cargar documentos existentes
+            // Cargar documentos existentes con id correcto
             $this->documentosExistentes = $convocation->documents->map(function ($doc) {
                 return [
-                    'id' => $doc->convocation_document_id,
+                    'id' => $doc->convocation_doc_id ?? $doc->convocation_document_id ?? $doc->convocation_docs_id,
                     'titulo' => $doc->file_name,
                 ];
             })->toArray();
@@ -168,6 +168,11 @@ class ConvocationForm extends Component
 
     public function removeDocumentoExistente($documentoId)
     {
+        $documentoId = (int) $documentoId;
+        if (!$documentoId) {
+            return;
+        }
+
         // Marcar para eliminar (solo se eliminará al guardar)
         $this->documentosAEliminar[] = $documentoId;
 

@@ -83,69 +83,95 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                             <p class="text-muted">No hay pasos visibles en este momento.</p>
                         </div>
                     @else
-                        {{-- Steps timeline --}}
-                        <div class="timeline timeline-one-side">
-                            @foreach ($visibleSteps as $step)
-                                @php
-                                    $requestStep = $request->requestSteps->where('step_id', $step->step_id)->first();
-                                    $status = $requestStep ? $requestStep->request_step_status : 'pending';
-                                    // Mark as current if in_progress OR if it's pending and is the currentStep
-                                    $isCurrent = $status === 'in_progress' || ($currentStep && $currentStep->step_id == $step->step_id && $status === 'pending');
-                                @endphp
-                                <div class="timeline-item {{ $isCurrent ? 'current-step' : '' }}">
-                                    <div class="timeline-item-content">
-                                        <div class="d-flex">
+                        {{-- Steps table --}}
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap mb-0 rounded align-items-center">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="border-0 rounded-start" style="width: 10%">#</th>
+                                        <th class="border-0" style="width: 50%">Paso</th>
+                                        <th class="border-0" style="width: 20%">Estado</th>
+                                        <th class="border-0 rounded-end" style="width: 20%">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($visibleSteps as $step)
+                                        @php
+                                            $requestStep = $request->requestSteps->where('step_id', $step->step_id)->first();
+                                            $status = $requestStep ? $requestStep->request_step_status : 'pending';
+                                            $isCurrent = $status === 'in_progress' || ($currentStep && $currentStep->step_id == $step->step_id && $status === 'pending');
+                                        @endphp
+                                        <tr>
                                             {{-- Step number --}}
-                                            <div class="me-3">
+                                            <td>
                                                 @if ($status === 'completed')
                                                     <span class="fw-bold text-success">{{ $loop->iteration }}</span>
                                                 @else
                                                     <span class="fw-bold">{{ $loop->iteration }}</span>
                                                 @endif
-                                            </div>
+                                            </td>
 
-                                            {{-- Step content --}}
-                                            <div class="flex-grow-1">
-                                                <div class="mb-2">
-                                                    <h6 class="mb-1 fw-bold">
-                                                        {{ $step->title }}
-                                                        @if($isCurrent)
-                                                            <span class="badge bg-info ms-2">Paso actual</span>
-                                                        @endif
-                                                    </h6>
-                                                    @if ($step->description)
-                                                        <p class="text-gray-600 mb-2">{{ $step->description }}</p>
-                                                    @endif
-
+                                            {{-- Step title --}}
+                                            <td>
+                                                <div>
+                                                    <span class="fw-bold text-gray-900">{{ $step->title }}</span>
                                                     @if ($status === 'completed' && $requestStep && $requestStep->step_date)
+                                                        <br>
                                                         <small class="text-success">
                                                             @icon('check', 'me-1')
-                                                            Completado el
                                                             {{ \Carbon\Carbon::parse($requestStep->step_date)->format('d/m/Y H:i') }}
                                                         </small>
                                                     @endif
                                                 </div>
+                                            </td>
 
-                                                {{-- Current step action button --}}
-                                                @if ($isCurrent)
-                                                    <div class="mt-3">
-                                                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.step-detail', ['requestId' => $request->request_id, 'stepId' => $step->step_id]) }}"
-                                                            class="btn btn-secondary">
-                                                            Ir al paso
-                                                            @icon('arrowRight', 'ms-2')
-                                                        </a>
-                                                    </div>
+                                            {{-- Status --}}
+                                            <td>
+                                                @if ($status === 'completed')
+                                                    <span class="text-success fw-bold">Completado</span>
+                                                @elseif ($isCurrent)
+                                                    <span class="text-info fw-bold">Paso actual</span>
+                                                @else
+                                                    <span class="text-secondary fw-bold">Pendiente</span>
                                                 @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                                            </td>
+
+
+                                            {{-- Action menu --}}
+                                            <td>
+                                                @if ($status === 'completed' || $isCurrent)
+                                                                                <div class="btn-group position-static">
+                                                                                    <button
+                                                                                        class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                        @icon('menu', 'icon icon-xs')
+                                                                                    </button>
+                                                                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                                                                        <a class="dropdown-item d-flex align-items-center" href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.step-detail', [
+                                                        'requestId' => $request->request_id,
+                                                        'stepId' => $step->step_id,
+                                                        'readonly' => $status === 'completed' ? 'true' : 'false'
+                                                    ]) }}">
+                                                                                            @icon('checkList', 'dropdown-icon text-gray-400 me-2')
+                                                                                            @if ($status === 'completed')
+                                                                                                Ver paso
+                                                                                            @else
+                                                                                                Ir al paso
+                                                                                            @endif
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     @endif
 
                     @if ($request->status === 'in_progress')
-                        <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                        <div class="d-flex justify-content-end mt-4 pt-3">
                             <button type="button"
                                 class="btn btn-danger btn-sm d-inline-flex align-items-center cancel-procedure-btn">
                                 @icon('cancel', 'me-2 text-white')
@@ -287,14 +313,4 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
             }
         });
     </script>
-
-    <style>
-        .current-step {
-            background-color: rgba(var(--bs-info-rgb), 0.05);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-left: -1rem;
-            margin-right: -1rem;
-        }
-    </style>
 </div>

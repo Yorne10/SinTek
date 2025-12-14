@@ -130,10 +130,10 @@ Changelog:
                                                     <span>Título del documento:</span>
                                                     <span class="ms-1">{{ $docExistente['titulo'] }}</span>
                                                 </div>
-                                                <button type="button"
-                                                    class="btn btn-sm btn-danger btn-delete-doc"
-                                                    data-doc-id="{{ $docExistente['id'] }}">
-                                                    @icon('delete', 'icon-xs')
+                                            <button type="button"
+                                                class="btn btn-sm btn-danger btn-delete-doc"
+                                                data-doc-id="{{ $docExistente['id'] }}">
+                                                @icon('delete', 'icon-xs')
                                                 </button>
                                             </div>
                                         @endforeach
@@ -439,9 +439,7 @@ Changelog:
                 title: data.title || 'Documento marcado',
                 text: data.message || 'El documento será eliminado al actualizar.',
                 icon: 'info',
-                confirmButtonText: 'Entendido',
-                timer: 2000,
-                timerProgressBar: true
+                confirmButtonText: 'Entendido'
             });
         });
     });

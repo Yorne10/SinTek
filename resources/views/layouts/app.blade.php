@@ -37,6 +37,7 @@ Changelog:
                     $prefix . '.worker.available-procedures',
                     $prefix . '.worker.my-procedures',
                     $prefix . '.worker.procedure-detail',
+                    $prefix . '.worker.step-detail',
                     $prefix . '.worker.convocations',
                     $prefix . '.worker.calls',
                     $prefix . '.worker.documents',

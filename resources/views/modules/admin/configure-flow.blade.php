@@ -153,6 +153,10 @@ Changelog:
                                                         @if ($step->is_linked)
                                                             <span class="fw-bold text-success">Vinculado</span>
                                                         @endif
+                                                        <span class="small text-muted">
+                                                            Req: {{ $step->requiredDocuments->count() ?? 0 }} |
+                                                            Prov: {{ $step->providedDocuments->count() ?? 0 }}
+                                                        </span>
                                                     </div>
                                                 </div>
 

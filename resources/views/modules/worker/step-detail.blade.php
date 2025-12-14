@@ -11,6 +11,7 @@ Changelog:
 Modified by: Alfonso Angel Garcia Hernandez
 Description: Created step detail view for worker step actions
 --}}
+
 <div>
     {{-- Breadcrumb and Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -61,7 +62,7 @@ Description: Created step detail view for worker step actions
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    {{-- Step title and description --}}
+                    {{-- Step title --}}
                     <div class="mb-4">
                         <h3 class="h5 fw-bold">{{ $step->title }}</h3>
                         @if($step->description)
@@ -70,23 +71,118 @@ Description: Created step detail view for worker step actions
                     </div>
 
                     {{-- Instructions --}}
-                    @if($step->instructions)
+                    @if($step->instruction)
                         <div class="alert alert-info mb-4" role="alert">
                             <div class="d-flex">
                                 @icon('info', 'me-2')
                                 <div>
                                     <strong>Instrucciones:</strong>
-                                    <p class="mb-0 mt-1">{{ $step->instructions }}</p>
+                                    <p class="mb-0 mt-1">{{ $step->instruction }}</p>
                                 </div>
                             </div>
                         </div>
                     @endif
 
+                    {{-- Conditional question (for conditional steps) --}}
+                    @if($step->step_type === 'conditional' && $step->condition_question)
+                        <div class="alert alert-warning mb-4" role="alert">
+                            <div class="d-flex">
+                                @icon('questionCircle', 'me-2')
+                                <div>
+                                    <strong>Pregunta a responder:</strong>
+                                    <p class="mb-0 mt-1">{{ $step->condition_question }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Required documents (if any) --}}
+                    @if($step->requiredDocuments && $step->requiredDocuments->count() > 0)
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-2">📋 Documentos requeridos para este paso:</h6>
+                            <ul class="list-group">
+                                @foreach($step->requiredDocuments as $reqDoc)
+                                    <li class="list-group-item">{{ $reqDoc->title }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- Provided documents (if any) --}}
+                    @if($step->providedDocuments && $step->providedDocuments->count() > 0)
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-2">📎 Documentos disponibles para descargar:</h6>
+                            <ul class="list-group">
+                                @foreach($step->providedDocuments as $provDoc)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ $provDoc->name ?? 'Documento' }}</span>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.step-provided-document.show', $provDoc->document_id) }}"
+                                                target="_blank" class="btn btn-outline-primary btn-sm">
+                                                @icon('view', 'icon-xs me-1')
+                                                Ver
+                                            </a>
+                                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.step-provided-document.download', $provDoc->document_id) }}"
+                                                class="btn btn-outline-secondary btn-sm">
+                                                @icon('download', 'icon-xs me-1')
+                                                Descargar
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+
                     {{-- Step actions based on type --}}
                     <div class="step-actions mt-4 pt-4 border-top">
-                        @if ($step->condition_type === 'upload')
-                            {{-- Upload document --}}
+                        @if ($step->step_type === 'conditional')
+                            {{-- CONDITIONAL STEP: Show Yes/No decision buttons --}}
+                            <h6 class="fw-bold mb-3">{{ $step->condition_question ?: 'Toma una decisión' }}</h6>
+                            <p class="text-muted mb-3">Selecciona una opción para continuar con el trámite.</p>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-success approve-btn">
+                                    @icon('check', 'me-2')
+                                    Sí / Aprobar
+                                </button>
+                                <button type="button" class="btn btn-danger reject-btn">
+                                    @icon('times', 'me-2')
+                                    No / Rechazar
+                                </button>
+                            </div>
+
+                        @elseif($step->step_type === 'final')
+                            {{-- FINAL STEP: Show completion message --}}
+                            <h6 class="fw-bold mb-3">Finalización del trámite</h6>
+                            @if($step->finalization_message)
+                                <div class="alert alert-success">
+                                    <strong>Mensaje:</strong>
+                                    <p class="mb-0 mt-2">{{ $step->finalization_message }}</p>
+                                </div>
+                            @endif
+                            <button type="button" class="btn btn-primary complete-step-btn">
+                                @icon('check', 'me-2')
+                                Finalizar trámite
+                            </button>
+
+                        @elseif($step->requires_documents)
+                            {{-- INITIAL/NORMAL STEP WITH DOCUMENT UPLOAD REQUIRED --}}
                             <h6 class="fw-bold mb-3">Subir documento requerido</h6>
+                            <p class="text-muted mb-3">Este paso requiere que subas un documento para completarlo.</p>
+
+                            {{-- Show required documents list --}}
+                            @if($step->requiredDocuments && $step->requiredDocuments->count() > 0)
+                                <div class="alert alert-info mb-3">
+                                    <strong>Documentos solicitados:</strong>
+                                    <ul class="mb-0 mt-2">
+                                        @foreach($step->requiredDocuments as $reqDoc)
+                                            <li>{{ $reqDoc->title }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="mb-3">
                                 <input type="file" class="form-control" wire:model="file">
                                 @error('file')
@@ -109,23 +205,8 @@ Description: Created step detail view for worker step actions
                                 </span>
                             </button>
 
-                        @elseif($step->condition_type === 'conditional')
-                            {{-- Conditional decision --}}
-                            <h6 class="fw-bold mb-3">Toma una decisión</h6>
-                            <p class="text-muted mb-3">Selecciona una opción para continuar con el trámite.</p>
-                            <div class="d-flex gap-2">
-                                <button type="button" class="btn btn-success approve-btn">
-                                    @icon('check', 'me-2')
-                                    Sí / Aprobar
-                                </button>
-                                <button type="button" class="btn btn-danger reject-btn">
-                                    @icon('times', 'me-2')
-                                    No / Rechazar
-                                </button>
-                            </div>
-
                         @else
-                            {{-- Normal step --}}
+                            {{-- INITIAL/NORMAL STEP: Simple completion --}}
                             <h6 class="fw-bold mb-3">Confirmar paso</h6>
                             <p class="text-muted mb-3">Una vez que hayas completado las instrucciones, haz clic en el botón
                                 para continuar.</p>
@@ -284,7 +365,7 @@ Description: Created step detail view for worker step actions
                     if (detail.redirectUrl) {
                         window.location.href = detail.redirectUrl;
                     }
-                });
+       });
             });
         }
     });

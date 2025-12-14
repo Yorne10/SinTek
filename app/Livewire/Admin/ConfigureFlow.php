@@ -70,7 +70,9 @@ class ConfigureFlow extends Component
     {
         $this->process = Process::with([
             'steps' => function ($query) {
-                $query->orderBy('order', 'asc')->orderBy('step_id', 'asc');
+                $query->orderBy('order', 'asc')
+                    ->orderBy('step_id', 'asc')
+                    ->with(['requiredDocuments', 'providedDocuments']);
             }
         ])->find($this->process_id);
 

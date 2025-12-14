@@ -22,7 +22,6 @@ use App\Models\Step;
 use App\Models\RequestStep;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Helpers\ActivityLogger;
 
 class StepDetail extends Component
 {
@@ -57,8 +56,8 @@ class StepDetail extends Component
             ->where('request_id', $requestId)
             ->firstOrFail();
 
-        // Load step
-        $this->step = Step::findOrFail($stepId);
+        // Load step with required and provided documents relations
+        $this->step = Step::with(['requiredDocuments', 'providedDocuments'])->findOrFail($stepId);
 
         // Load request step
         $this->requestStep = RequestStep::where('request_id', $requestId)
@@ -148,63 +147,65 @@ class StepDetail extends Component
             'step_response' => $response,
         ]);
 
-        // TODO: Handle conditional branching based on response
-        $this->advanceToNextStep();
+        // Handle conditional branching based on response
+        $this->advanceToNextStep($response);
     }
 
     /**
      * Advance to next step or complete request.
      *
+     * @param string|null $conditionalResponse For conditional steps: 'yes' or 'no'
      * @return void
      */
-    protected function advanceToNextStep()
+    protected function advanceToNextStep($conditionalResponse = null)
     {
-        // Find next pending step
-        $nextRequestStep = $this->request->requestSteps
-            ->where('request_step_status', 'pending')
-            ->first();
+        // Determine next step based on current step type
+        $nextStepId = null;
 
-        if ($nextRequestStep) {
-            // Activate next step
-            $nextRequestStep->update([
-                'request_step_status' => 'in_progress',
-            ]);
-
-            // Log activity
-            $user = Auth::user();
-            ActivityLogger::log(
-                'tramite.paso_completado',
-                "Paso '{$this->step->title}' completado - Avanzando al siguiente paso",
-                $user->users_id
-            );
-
-            $this->dispatch(
-                'step-completed',
-                title: '¡Paso completado!',
-                message: 'Se ha avanzado al siguiente paso.',
-                redirectUrl: route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $this->requestId])
-            );
+        if ($this->step->step_type === 'conditional' && $conditionalResponse) {
+            // For conditional steps, use next_yes or next_no
+            $nextStepId = ($conditionalResponse === 'yes')
+                ? $this->step->next_yes
+                : $this->step->next_no;
         } else {
-            // All steps completed - complete request
-            $this->request->update([
-                'status' => 'completed',
-                'completed_at' => now(),
-            ]);
-
-            $user = Auth::user();
-            ActivityLogger::log(
-                'tramite.completado',
-                "Trámite '{$this->request->process->name}' completado exitosamente",
-                $user->users_id
-            );
-
-            $this->dispatch(
-                'step-completed',
-                title: '¡Trámite completado!',
-                message: 'Has completado todos los pasos de este trámite.',
-                redirectUrl: route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures')
-            );
+            // For normal/initial/final steps, use next_step_id
+            $nextStepId = $this->step->next_step_id;
         }
+
+        if ($nextStepId) {
+            // Find the request step for the next step
+            $nextRequestStep = $this->request->requestSteps
+                ->where('step_id', $nextStepId)
+                ->first();
+
+            if ($nextRequestStep) {
+                // Activate next step
+                $nextRequestStep->update([
+                    'request_step_status' => 'in_progress',
+                ]);
+
+                $this->dispatch(
+                    'step-completed',
+                    title: '¡Paso completado!',
+                    message: 'Se ha avanzado al siguiente paso.',
+                    redirectUrl: route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $this->requestId])
+                );
+                return;
+            }
+        }
+
+        // No next step found - complete the request
+        $this->request->update([
+            'status' => 'completed',
+            'completed_at' => now(),
+        ]);
+
+        $this->dispatch(
+            'step-completed',
+            title: '¡Trámite completado!',
+            message: 'Has completado todos los pasos de este trámite.',
+            redirectUrl: route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures')
+        );
     }
 
     /**

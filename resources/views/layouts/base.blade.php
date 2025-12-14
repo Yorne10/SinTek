@@ -54,10 +54,11 @@
      @endif
 
      <!-- Favicons -->
-     <link rel="apple-touch-icon" href="{{ asset('assets/img/brand/sintek.png') }}" sizes="180x180">
-     <link rel="icon" href="{{ asset('assets/img/brand/sintek.png') }}" sizes="32x32" type="image/png">
-     <link rel="icon" href="{{ asset('assets/img/brand/sintek.png') }}" sizes="16x16" type="image/png">
-     <link rel="icon" href="{{ asset('assets/img/brand/sintek.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/brand/sintek.png') }}" sizes="180x180">
+    <link rel="icon" href="{{ asset('assets/img/brand/sintek.png') }}" sizes="32x32" type="image/png">
+    <link rel="icon" href="{{ asset('assets/img/brand/sintek.png') }}" sizes="16x16" type="image/png">
+    <link rel="icon" href="{{ asset('assets/img/brand/sintek.png') }}">
+    @stack('styles')
      <meta name="theme-color" content="#563d7c">
      <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 

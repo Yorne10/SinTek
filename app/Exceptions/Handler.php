@@ -69,77 +69,75 @@ class Handler extends ExceptionHandler
 
         // Manejo de errores de conexión con la base de datos
         $this->renderable(function (\Illuminate\Database\QueryException $e, $request) {
-            // Verificar si es un error de conexión
-            if ($this->isDatabaseConnectionError($e)) {
-                $errorMessage = 'No hay conexión con la base de datos. Por favor, contacte al administrador del sistema.';
+            // Solo tratar como error de conexión si REALMENTE es un error de conexión crítico
+            if ($this->isCriticalDatabaseError($e)) {
+                $errorMessage = 'No se pudo establecer conexión con la base de datos. Por favor, intenta nuevamente.';
 
-                // Verificar si es una petición Livewire o AJAX
+                // Para peticiones Livewire/AJAX
                 if ($request->expectsJson() || $request->is('livewire/*') || $request->header('X-Livewire')) {
-                    return response()->json([
+                    // En lugar de JSON puro, redirigir a una página de error
+                    return response()->view('errors.database-error', [
                         'message' => $errorMessage,
-                        'redirect' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
+                        'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
                     ], 503);
                 }
 
-                return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login')
-                    ->with('db_error', $errorMessage);
+                // Para peticiones normales
+                return response()->view('errors.database-error', [
+                    'message' => $errorMessage,
+                    'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
+                ], 503);
             }
+            // Si no es un error crítico, dejar que Laravel lo maneje normalmente
         });
 
         // Manejo de errores PDO (conexión fallida a nivel más bajo)
         $this->renderable(function (\PDOException $e, $request) {
-            $errorMessage = 'No hay conexión con la base de datos. Por favor, contacte al administrador del sistema.';
+            $errorMessage = 'No se pudo establecer conexión con la base de datos. Por favor, intenta nuevamente.';
 
-            // Verificar si es una petición Livewire o AJAX
-            if ($request->expectsJson() || $request->is('livewire/*') || $request->header('X-Livewire')) {
-                return response()->json([
-                    'message' => $errorMessage,
-                    'redirect' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
-                ], 503);
-            }
-
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login')
-                ->with('db_error', $errorMessage);
+            // Para peticiones Livewire/AJAX o normales, mostrar vista de error
+            return response()->view('errors.database-error', [
+                'message' => $errorMessage,
+                'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
+            ], 503);
         });
     }
 
     /**
-     * Determinar si la excepción es un error de conexión con la base de datos.
+     * Determinar si la excepción es un error de conexión CRÍTICO con la base de datos.
+     * Solo devuelve true para errores reales de conexión, no para errores de query normales.
      *
      * @param \Illuminate\Database\QueryException $e
      * @return bool
      */
-    protected function isDatabaseConnectionError(\Illuminate\Database\QueryException $e): bool
+    protected function isCriticalDatabaseError(\Illuminate\Database\QueryException $e): bool
     {
-        $connectionErrorCodes = [
+        // Códigos de error que indican problemas CRÍTICOS de conexión
+        $criticalErrorCodes = [
             2002, // Connection refused (MySQL)
             2003, // Can't connect to MySQL server
             2006, // MySQL server has gone away
-            2013, // Lost connection to MySQL server
-            1045, // Access denied
-            1049, // Unknown database
-            7,    // Connection failure (PostgreSQL)
-            '08001', // SQL Server connection failure
-            '08S01', // Communication link failure
+            2013, // Lost connection to MySQL server during query
+            1040, // Too many connections
         ];
 
         $previousException = $e->getPrevious();
         if ($previousException instanceof \PDOException) {
             $errorCode = $previousException->getCode();
-            // PDO error codes pueden ser strings o enteros
-            if (in_array($errorCode, $connectionErrorCodes) || in_array((int) $errorCode, $connectionErrorCodes)) {
+
+            // Solo considerar error crítico si el código coincide exactamente
+            if (in_array((int) $errorCode, $criticalErrorCodes, true)) {
                 return true;
             }
-            // También verificar el mensaje de error para mayor cobertura
+
+            // Verificar palabras clave específicas que indican pérdida de conexión
             $message = strtolower($previousException->getMessage());
-            if (
-                str_contains($message, 'connection') ||
-                str_contains($message, 'connect') ||
-                str_contains($message, 'refused') ||
-                str_contains($message, 'gone away') ||
-                str_contains($message, 'lost connection')
-            ) {
-                return true;
+            $criticalKeywords = ['connection refused', 'can\'t connect', 'server has gone away', 'lost connection'];
+
+            foreach ($criticalKeywords as $keyword) {
+                if (str_contains($message, $keyword)) {
+                    return true;
+                }
             }
         }
 
