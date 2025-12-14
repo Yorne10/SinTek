@@ -28,6 +28,25 @@ use Carbon\Carbon;
 class Dashboard extends Component
 {
     /**
+     * Mount the component - perform privacy terms check for workers.
+     *
+     * @return void|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+    public function mount()
+    {
+        $user = Auth::user();
+
+        // Check privacy terms acceptance for workers
+        if ($user && $user->hasRole('worker')) {
+            $worker = $user->worker;
+            if ($worker && !$worker->privacy_accepted_at) {
+                $prefix = config('proj.route_name_prefix', 'proj');
+                return redirect()->route($prefix . '.worker.privacy-terms');
+            }
+        }
+    }
+
+    /**
      * Render the component view.
      *
      * @return \Illuminate\View\View
@@ -36,7 +55,7 @@ class Dashboard extends Component
     {
         $user = Auth::user();
 
-        // Redireccionar según el rol del usuario
+        // Redirect according to user role
         if ($user->hasRole('admin')) {
             return $this->renderAdminDashboard();
         } elseif ($user->hasRole('secretary')) {
@@ -45,7 +64,7 @@ class Dashboard extends Component
             return $this->renderWorkerDashboard();
         }
 
-        // Vista por defecto si no tiene un rol específico
+        // Default view if no specific role
         return view('dashboard')->layout('layouts.app');
     }
 

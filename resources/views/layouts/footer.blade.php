@@ -28,15 +28,6 @@ Changelog:
                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq') }}">Preguntas
                         frecuentes</a>
                 </li>
-                <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#">Soporte técnico</a>
-                </li>
-                <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#">Términos de uso</a>
-                </li>
-                <li class="list-inline-item px-0 px-sm-2">
-                    <a href="#">Aviso de privacidad</a>
-                </li>
             </ul>
         </div>
     </div>

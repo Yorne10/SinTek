@@ -17,23 +17,35 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('institucional_documents', function (Blueprint $table) {
-            $table->string('version', 20)->default('1.0')->after('category');
-            $table->string('status', 20)->default('active')->after('version');
-            $table->unsignedBigInteger('uploaded_by')->nullable()->after('status');
-            $table->integer('file_size')->nullable()->after('file_content');
+            // Only add columns if they don't exist
+            if (!Schema::hasColumn('institucional_documents', 'version')) {
+                $table->string('version', 20)->default('1.0')->after('category');
+            }
+            if (!Schema::hasColumn('institucional_documents', 'status')) {
+                $table->string('status', 20)->default('active')->after('version');
+            }
+            if (!Schema::hasColumn('institucional_documents', 'uploaded_by')) {
+                $table->unsignedBigInteger('uploaded_by')->nullable()->after('status');
+            }
+            if (!Schema::hasColumn('institucional_documents', 'file_size')) {
+                $table->integer('file_size')->nullable()->after('file_content');
+            }
 
-            $table->foreign('uploaded_by')
-                ->references('users_id')
-                ->on('users')
-                ->nullOnDelete();
+            // Foreign key already exists, skip creation
+            // Uncomment only if you need to recreate the foreign key
+            // if (Schema::hasColumn('institucional_documents', 'uploaded_by')) {
+            //     $table->foreign('uploaded_by')
+            //         ->references('users_id')
+            //         ->on('users')
+            //         ->nullOnDelete();
+            // }
         });
     }
 
@@ -43,7 +55,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('institucional_documents', function (Blueprint $table) {
-            $table->dropForeign(['uploaded_by']);
+            // Only drop if exists
+            if (Schema::hasColumn('institucional_documents', 'uploaded_by')) {
+                $table->dropForeign(['uploaded_by']);
+            }
             $table->dropColumn(['version', 'status', 'uploaded_by', 'file_size']);
         });
     }

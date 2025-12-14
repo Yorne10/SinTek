@@ -31,6 +31,7 @@ class Worker extends Model
         'phone',
         'address',  // Corrected from 'adress'
         'rfc',
+        'privacy_accepted_at',
     ];
 
     /**

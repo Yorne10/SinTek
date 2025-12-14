@@ -62,14 +62,12 @@ Changelog:
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="sex">Sexo</label>
-                                    <select wire:model="sex" class="form-select @error('sex') is-invalid @enderror" id="sex"
-                                        disabled>
-                                        <option value="">No especificado</option>
+                                    <select wire:model="sex" class="form-select @error('sex') is-invalid @enderror" id="sex">
+                                        <option value="">Sin especificar</option>
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
                                     </select>
                                     @error('sex') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                    <small class="form-text text-muted">El sexo no es editable</small>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -241,11 +239,11 @@ Changelog:
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">CURP:</span>
-                                <span class="fw-bold">{{ $worker->curp ?? 'No especificado' }}</span>
+                                <span class="fw-bold">{{ $worker->curp ?: 'Sin datos' }}</span>
                             </li>
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">RFC:</span>
-                                <span class="fw-bold">{{ $worker->rfc ?? 'No especificado' }}</span>
+                                <span class="fw-bold">{{ $worker->rfc ?: 'Sin datos' }}</span>
                             </li>
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">Sexo:</span>
@@ -255,13 +253,13 @@ Changelog:
                                     @elseif($worker->sex === 'F')
                                         Femenino
                                     @else
-                                        No especificado
+                                        Sin especificar
                                     @endif
                                 </span>
                             </li>
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">Teléfono:</span>
-                                <span class="fw-bold">{{ $worker->phone ?? 'No especificado' }}</span>
+                                <span class="fw-bold">{{ $worker->phone ?: 'Sin datos' }}</span>
                             </li>
                         </ul>
                     </div>
@@ -280,7 +278,7 @@ Changelog:
                                     <div>
                                         <h6 class="mb-1">Campos no editables</h6>
                                         <p class="text-gray-600 small mb-0">
-                                            El nombre y el sexo no pueden ser modificados. Para cambios, contacta al
+                                            El nombre no puede ser modificado. Para cambios, contacta al
                                             administrador.
                                         </p>
                                     </div>
@@ -304,14 +302,14 @@ Changelog:
             buttonsStyling: false
         });
 
-        // Botón de guardar con confirmación
+        // Botón de actualización con confirmación
         document.getElementById('saveProfileBtn').addEventListener('click', function () {
             swalWithBootstrapButtons.fire({
-                title: '¿Estás seguro?',
-                text: '¿Deseas guardar los cambios realizados en tu perfil?',
+                title: '¿Actualizar perfil?',
+                text: '¿Deseas actualizar la información de tu perfil?',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, guardar',
+                confirmButtonText: 'Sí, actualizar',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true
             }).then((result) => {
@@ -366,8 +364,8 @@ Changelog:
             Livewire.on('profile-saved', () => {
                 swalWithBootstrapButtons.fire({
                     icon: 'success',
-                    title: 'Guardado!',
-                    text: 'Tu información ha sido actualizada correctamente.',
+                    title: 'Actualizado',
+                    text: 'Tu perfil se actualizó correctamente.',
                     showConfirmButton: true,
                     timer: 2000
                 });

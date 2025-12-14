@@ -34,12 +34,12 @@ Changelog:
             }
 
             Swal.fire({
-                title: '¿Sigues ahi?',
-                html: '<p>Tu sesion esta a punto de expirar debido a la inactividad.</p><p class="text-muted small mb-0">Si no respondes, seras redirigido automaticamente.</p>',
+                title: '¿Sigues ahí?',
+                html: '<p>Tu sesión está a punto de expirar debido a la inactividad.</p><p class="text-muted small mb-0">Si no respondes, serás redirigido automáticamente.</p>',
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Continuar sesion',
-                cancelButtonText: 'Cerrar sesion',
+                confirmButtonText: 'Continuar sesión',
+                cancelButtonText: 'Cerrar sesión',
                 timer: warningDuration,
                 timerProgressBar: true,
                 allowOutsideClick: false,
@@ -60,8 +60,8 @@ Changelog:
                         } else {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Sesion extendida',
-                                text: 'Tu sesion ha sido extendida exitosamente',
+                                title: 'Sesión extendida',
+                                text: 'Tu sesión ha sido extendida exitosamente',
                                 timer: 1500,
                                 showConfirmButton: false
                             });
@@ -77,7 +77,7 @@ Changelog:
         function logout() {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
-                    title: 'Cerrando sesion...',
+                    title: 'Cerrando sesión...',
                     text: 'Por favor espera',
                     icon: 'info',
                     allowOutsideClick: false,
@@ -101,7 +101,7 @@ Changelog:
             });
         }
 
-        const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+        const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
         events.forEach(event => {
             document.addEventListener(event, function () {
                 if (typeof Swal === 'undefined' || !Swal.isVisible()) {
@@ -109,6 +109,30 @@ Changelog:
                 }
             }, true);
         });
+
+        // Resetear timer en eventos de Livewire
+        if (window.Livewire) {
+            // Cuando Livewire empieza a procesar una petición
+            document.addEventListener('livewire:init', () => {
+                Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
+                    succeed(({ snapshot, effect }) => {
+                        // Resetear el timer cuando Livewire completa una acción
+                        if (typeof Swal === 'undefined' || !Swal.isVisible()) {
+                            startIdleTimer();
+                        }
+                    });
+                });
+            });
+        }
+
+        // Monitorear peticiones fetch/AJAX
+        const originalFetch = window.fetch;
+        window.fetch = function(...args) {
+            if (typeof Swal === 'undefined' || !Swal.isVisible()) {
+                startIdleTimer();
+            }
+            return originalFetch.apply(this, args);
+        };
 
         startIdleTimer();
     });

@@ -76,21 +76,17 @@ class UserCreate extends Component
                 'is_active' => true,
             ]);
 
+            // If worker, create empty worker profile (user will complete from profile)
             if ($this->role === 'worker') {
                 Worker::create([
                     'user_id' => $user->users_id,
-                    'curp' => null,
-                    'sex' => null,
-                    'phone' => null,
-                    'address' => null,
-                    'rfc' => null,
                 ]);
             }
 
-            // Save el nombre antes de limpiar
+            // Save the name before clearing
             $userName = $this->name;
 
-            // Limpiar el formulario
+            // Clear the form
             $this->reset(['name', 'email', 'role', 'password', 'password_confirmation']);
 
             $this->dispatch(

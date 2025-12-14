@@ -124,21 +124,6 @@ Changelog:
                         </div>
                         <small class="text-gray-500">publicadas actualmente</small>
                     </div>
-
-                    <div>
-                        <h6 class="text-gray-600 mb-3">Progreso</h6>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="small text-gray-600">Completados</span>
-                            <span
-                                class="small fw-bold">{{ $myRequests > 0 ? round(($myCompletedRequests / $myRequests) * 100) : 0 }}%</span>
-                        </div>
-                        <div class="progress mb-2" style="height: 8px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ $myRequests > 0 ? ($myCompletedRequests / $myRequests) * 100 : 0 }}%">
-                            </div>
-                        </div>
-                        <small class="text-gray-500">{{ $myCompletedRequests }} de {{ $myRequests }} trámites</small>
-                    </div>
                 </div>
             </div>
         </div>

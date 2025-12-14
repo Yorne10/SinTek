@@ -44,6 +44,7 @@ use App\Livewire\Worker\AvailableProcedures;
 use App\Livewire\Worker\MyProcedures;
 use App\Livewire\Worker\CallsIndex;
 use App\Livewire\Worker\Notifications as WorkerNotifications;
+use App\Livewire\Worker\AcceptPrivacyTerms;
 use App\Livewire\Admin\ProcedureManagement;
 use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\ConvocationEvents;
@@ -143,8 +144,13 @@ Route::prefix("p/{$slug}")
             // Frequently asked questions (shared among all roles)
             Route::get('/faq', Faq::class)->name('faq');
 
-            // Routes for workers
+            // Privacy terms route (must be accessible before middleware check)
             Route::middleware(['role:worker'])->group(function () {
+                Route::get('/worker/privacy-terms', AcceptPrivacyTerms::class)->name('worker.privacy-terms');
+            });
+
+            // Routes for workers (with privacy acceptance check)
+            Route::middleware(['role:worker', \App\Http\Middleware\EnsureWorkerAcceptedPrivacy::class])->group(function () {
                 Route::get('/available-procedures', AvailableProcedures::class)->name('worker.available-procedures');
                 Route::get('/my-procedures', MyProcedures::class)->name('worker.my-procedures');
                 Route::get('/procedure-detail/{id}', \App\Livewire\Worker\ProcedureDetail::class)->name('worker.procedure-detail');

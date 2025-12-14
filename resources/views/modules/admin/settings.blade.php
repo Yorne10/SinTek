@@ -40,7 +40,7 @@ Changelog:
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div>
-                                <label for="institution_name">Nombre de la institución</label>
+                                <label for="institution_name">Nombre de la institución <span class="text-danger">*</span></label>
                                 <input wire:model="institution_name"
                                     class="form-control @error('institution_name') is-invalid @enderror"
                                     id="institution_name" type="text" placeholder="Nombre de la institución">
@@ -52,7 +52,7 @@ Changelog:
                         </div>
                         <div class="col-md-6 mb-3">
                             <div>
-                                <label for="system_name">Nombre del sistema</label>
+                                <label for="system_name">Nombre del sistema <span class="text-danger">*</span></label>
                                 <input wire:model="system_name"
                                     class="form-control @error('system_name') is-invalid @enderror" id="system_name"
                                     type="text" placeholder="Nombre del sistema">
@@ -65,7 +65,7 @@ Changelog:
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div>
-                                <label for="contact_email">Correo de contacto</label>
+                                <label for="contact_email">Correo de contacto <span class="text-danger">*</span></label>
                                 <input wire:model="contact_email"
                                     class="form-control @error('contact_email') is-invalid @enderror" id="contact_email"
                                     type="email" placeholder="correo@institucion.com">
@@ -76,7 +76,7 @@ Changelog:
                         </div>
                         <div class="col-md-6 mb-3">
                             <div>
-                                <label for="contact_phone">Teléfono</label>
+                                <label for="contact_phone">Teléfono <span class="text-danger">*</span></label>
                                 <input wire:model="contact_phone"
                                     class="form-control @error('contact_phone') is-invalid @enderror" id="contact_phone"
                                     type="text" placeholder="(999) 999-9999">
@@ -104,7 +104,7 @@ Changelog:
                         <div class="col-md-6 mb-3">
                             <div>
                                 <label for="session_timeout">Tiempo de inactividad para cierre de sesión
-                                    (minutos)</label>
+                                    (minutos) <span class="text-danger">*</span></label>
                                 <input wire:model="session_timeout"
                                     class="form-control @error('session_timeout') is-invalid @enderror"
                                     id="session_timeout" type="number" placeholder="120" min="1" max="1440">
