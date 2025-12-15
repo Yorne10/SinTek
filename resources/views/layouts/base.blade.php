@@ -1,3 +1,16 @@
+{{--
+Company: CETAM
+Project: ST
+File: base.blade.php
+Created on: 14/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
+--}}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -140,8 +153,8 @@
 <body>
     @if (env('IS_DEMO'))
         <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THQTXJ7" height="0"
-                width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-THQTXJ7" height="0" width="0"
+                style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
     @endif
 
@@ -186,7 +199,8 @@
                         const confirmBtn = dom?.querySelector?.('.swal2-confirm');
                         const cancelBtn = dom?.querySelector?.('.swal2-cancel');
 
-                        if (actions && confirmBtn && cancelBtn && confirmBtn.previousElementSibling === cancelBtn) {
+                        if (actions && confirmBtn && cancelBtn && confirmBtn.previousElementSibling ===
+                            cancelBtn) {
                             actions.insertBefore(confirmBtn, cancelBtn);
                         }
                     };

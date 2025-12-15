@@ -45,8 +45,9 @@ Changelog:
                     placeholder="Buscar clave o puesto...">
             </div>
             <div class="ms-auto">
-                <button wire:click="$set('search','')" class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
-                    @icon('refresh','me-2 text-white')
+                <button wire:click="$set('search','')"
+                    class="btn btn-sm btn-secondary text-white d-inline-flex align-items-center">
+                    @icon('refresh', 'me-2 text-white')
                     Limpiar filtros
                 </button>
             </div>
@@ -68,7 +69,8 @@ Changelog:
     @endif
 
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table table-centered mb-0 rounded user-table align-items-center w-100" style="table-layout: fixed;">
+        <table class="table table-centered mb-0 rounded user-table align-items-center w-100"
+            style="table-layout: fixed;">
             <colgroup>
                 <col style="width: 45%">
                 <col style="width: 35%">
@@ -133,6 +135,3 @@ Changelog:
         </div>
     </div>
 </div>
-
-
-

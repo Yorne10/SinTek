@@ -42,7 +42,9 @@ Changelog:
                                 <label for="name">Nombre completo <span class="text-danger">*</span></label>
                                 <input wire:model="name" class="form-control @error('name') is-invalid @enderror"
                                     id="name" type="text" placeholder="Nombre completo" disabled>
-                                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                                 <small class="form-text text-muted">El nombre no es editable</small>
                             </div>
                         </div>
@@ -51,23 +53,28 @@ Changelog:
                                 <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" type="email" placeholder="correo@institucion.com" required>
-                                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
 
-                    @if($user->role === 'worker')
+                    @if ($user->role === 'worker')
                         <h2 class="h5 my-4">Información personal del trabajador</h2>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="sex">Sexo</label>
-                                    <select wire:model="sex" class="form-select @error('sex') is-invalid @enderror" id="sex">
+                                    <select wire:model="sex" class="form-select @error('sex') is-invalid @enderror"
+                                        id="sex">
                                         <option value="">Sin especificar</option>
                                         <option value="M">Masculino</option>
                                         <option value="F">Femenino</option>
                                     </select>
-                                    @error('sex') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('sex')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -75,7 +82,9 @@ Changelog:
                                     <label for="curp">CURP</label>
                                     <input wire:model="curp" class="form-control @error('curp') is-invalid @enderror"
                                         id="curp" type="text" placeholder="CURP de 18 caracteres">
-                                    @error('curp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('curp')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -83,9 +92,11 @@ Changelog:
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="rfc">RFC</label>
-                                    <input wire:model="rfc" class="form-control @error('rfc') is-invalid @enderror" id="rfc"
-                                        type="text" placeholder="RFC con homoclave">
-                                    @error('rfc') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    <input wire:model="rfc" class="form-control @error('rfc') is-invalid @enderror"
+                                        id="rfc" type="text" placeholder="RFC con homoclave">
+                                    @error('rfc')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -93,7 +104,9 @@ Changelog:
                                     <label for="phone">Teléfono</label>
                                     <input wire:model="phone" class="form-control @error('phone') is-invalid @enderror"
                                         id="phone" type="text" placeholder="Número de teléfono">
-                                    @error('phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('phone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -101,10 +114,11 @@ Changelog:
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="address">Dirección</label>
-                                    <textarea wire:model="address"
-                                        class="form-control @error('address') is-invalid @enderror" id="address" rows="3"
+                                    <textarea wire:model="address" class="form-control @error('address') is-invalid @enderror" id="address" rows="3"
                                         placeholder="Dirección completa"></textarea>
-                                    @error('address') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                    @error('address')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -119,7 +133,7 @@ Changelog:
                 </form>
             </div>
 
-            @if($user->role === 'worker')
+            @if ($user->role === 'worker')
                 <div class="card card-body border-0 shadow mb-4">
                     <h2 class="h5 mb-4">Claves presupuestales (plazas)</h2>
                     <div class="row align-items-end g-3">
@@ -129,22 +143,25 @@ Changelog:
                             <select wire:model="budgetKey" id="budgetKey"
                                 class="form-select @error('budgetKey') is-invalid @enderror">
                                 <option value="">Selecciona una clave</option>
-                                @foreach($availablePositions as $positionOption)
+                                @foreach ($availablePositions as $positionOption)
                                     <option value="{{ $positionOption['positions_id'] }}">
                                         {{ $positionOption['budget_key'] }}{{ $positionOption['position_name'] ? ' - ' . $positionOption['position_name'] : '' }}
                                     </option>
                                 @endforeach
                             </select>
                             @error('budgetKey')
-                                <div class="invalid-feedback" style="position: absolute; white-space: nowrap;">{{ $message }}</div>
+                                <div class="invalid-feedback" style="position: absolute; white-space: nowrap;">
+                                    {{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-4">
-                            <button type="button" id="addBudgetKeyBtn" class="btn btn-primary btn-sm d-inline-flex align-items-center"
+                            <button type="button" id="addBudgetKeyBtn"
+                                class="btn btn-primary btn-sm d-inline-flex align-items-center"
                                 wire:loading.attr="disabled" wire:target="addBudgetKey">
                                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"
                                     wire:loading wire:target="addBudgetKey"></span>
-                                <span wire:loading.remove wire:target="addBudgetKey">@icon('add', 'me-2') Agregar clave</span>
+                                <span wire:loading.remove wire:target="addBudgetKey">@icon('add', 'me-2') Agregar
+                                    clave</span>
                                 <span wire:loading wire:target="addBudgetKey">Agregando...</span>
                             </button>
                         </div>
@@ -152,32 +169,39 @@ Changelog:
 
                     <div class="mt-4">
                         <h6 class="text-gray-700 mb-3">Tus claves registradas</h6>
-                        @if($worker && $worker->positions && $worker->positions->count() > 0)
+                        @if ($worker && $worker->positions && $worker->positions->count() > 0)
                             <div class="table-responsive">
-                                <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
+                                <table
+                                    class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="border-0 rounded-start">Clave Presupuestal</th>
                                             <th class="border-0">Nombre del Puesto</th>
-                                            <th class="border-0 rounded-end text-center" style="width: 100px;">Acciones</th>
+                                            <th class="border-0 rounded-end text-center" style="width: 100px;">
+                                                Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($worker->positions as $position)
+                                        @foreach ($worker->positions as $position)
                                             <tr>
                                                 <td>
-                                                    <span class="fw-bold text-gray-900">{{ $position->budget_key }}</span>
+                                                    <span
+                                                        class="fw-bold text-gray-900">{{ $position->budget_key }}</span>
                                                 </td>
                                                 <td>
-                                                    <span class="fw-normal">{{ $position->position_name ?? 'Sin nombre' }}</span>
+                                                    <span
+                                                        class="fw-normal">{{ $position->position_name ?? 'Sin nombre' }}</span>
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="btn-group">
-                                                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <button
+                                                            class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
                                                             @icon('menu', 'icon icon-xs')
                                                         </button>
-                                                        <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
+                                                        <div
+                                                            class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
                                                             <button type="button"
                                                                 class="dropdown-item text-danger d-flex align-items-center"
                                                                 wire:click="removeBudgetKey({{ $position->positions_id }})"
@@ -220,7 +244,7 @@ Changelog:
                     </div>
                     <h4 class="h5 mb-2">{{ $user->name }}</h4>
                     <p class="text-gray mb-3">
-                        @if($user->role === 'admin')
+                        @if ($user->role === 'admin')
                             <span class="fw-bold text-primary">Administrador</span>
                         @elseif($user->role === 'secretary')
                             <span class="fw-bold text-secondary">Secretario(a)</span>
@@ -232,7 +256,7 @@ Changelog:
                 </div>
             </div>
 
-            @if($user->role === 'worker' && $worker)
+            @if ($user->role === 'worker' && $worker)
                 <div class="card border-0 shadow mt-4">
                     <div class="card-body">
                         <h2 class="h6 mb-3">Información del trabajador</h2>
@@ -248,7 +272,7 @@ Changelog:
                             <li class="list-group-item px-0 d-flex justify-content-between">
                                 <span class="text-gray-600">Sexo:</span>
                                 <span class="fw-bold">
-                                    @if($worker->sex === 'M')
+                                    @if ($worker->sex === 'M')
                                         Masculino
                                     @elseif($worker->sex === 'F')
                                         Femenino
@@ -267,7 +291,7 @@ Changelog:
 
             @endif
 
-            @if($user->role === 'worker')
+            @if ($user->role === 'worker')
                 <div class="card border-0 shadow mt-4">
                     <div class="card-body">
                         <h2 class="h6 mb-3">Información importante</h2>
@@ -293,7 +317,7 @@ Changelog:
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -303,7 +327,7 @@ Changelog:
         });
 
         // Botón de actualización con confirmación
-        document.getElementById('saveProfileBtn').addEventListener('click', function () {
+        document.getElementById('saveProfileBtn').addEventListener('click', function() {
             swalWithBootstrapButtons.fire({
                 title: '¿Actualizar perfil?',
                 text: '¿Deseas actualizar la información de tu perfil?',
@@ -322,7 +346,7 @@ Changelog:
         // Botón de agregar clave con confirmación
         const addBudgetKeyBtn = document.getElementById('addBudgetKeyBtn');
         if (addBudgetKeyBtn) {
-            addBudgetKeyBtn.addEventListener('click', function () {
+            addBudgetKeyBtn.addEventListener('click', function() {
                 swalWithBootstrapButtons.fire({
                     title: '¿Agregar clave presupuestal?',
                     text: '¿Estás seguro de agregar esta clave presupuestal a tu perfil?',
@@ -340,7 +364,7 @@ Changelog:
         }
 
         // Escuchar evento cuando se muestre la notificación demo
-        @if($showDemoNotification)
+        @if ($showDemoNotification)
             swalWithBootstrapButtons.fire({
                 icon: 'warning',
                 title: 'Modo Demo',
@@ -374,4 +398,3 @@ Changelog:
         }
     });
 </script>
-

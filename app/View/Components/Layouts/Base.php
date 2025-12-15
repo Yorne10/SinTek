@@ -29,9 +29,9 @@ class Base extends Component
         //
     }
 
-    // Opcional: Puedes registrar este componente con un prefijo genérico
-    // For su uso como <x-proj-layouts.base>. Sustituir 'proj' por el código real del proyecto.
-    // Ver: AppServiceProvider::boot() -> Blade::component('proj-layouts-base', Base::class)
+    // Optional: You can register this component with a generic prefix
+    // For use as <x-proj-layouts.base>. Replace 'proj' with the actual project code.
+    // See: AppServiceProvider::boot() -> Blade::component('proj-layouts-base', Base::class)
 
     /**
      * Get the view / contents that represent the component.

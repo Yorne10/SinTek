@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 class ActivityLogger
 {
     /**
-     * Registra una accion en la bitacora.
+     * Logs an action to the activity log.
      */
     public static function log(string $action, string $description, ?int $userId = null): void
     {
@@ -34,12 +34,12 @@ class ActivityLogger
     }
 
     /**
-     * Obtiene una etiqueta legible para una accion.
+     * Gets a readable label for an action.
      */
     public static function getActionLabel(string $action): string
     {
         $actions = [
-            // Worker actions - Web y API
+            // Worker actions - Web and API
             'tramite.iniciar' => 'Iniciar trámite',
             'tramite.paso.completado' => 'Completar paso de trámite',
             'tramite.completado' => 'Completar trámite',
@@ -48,24 +48,24 @@ class ActivityLogger
             'notificacion.marcar_leida' => 'Marcar notificación como leída',
             'notificacion.leida' => 'Marcar notificación como leída',
 
-            // Secretary actions - Convocatorias
+            // Secretary actions - Calls for proposals
             'convocatoria.crear' => 'Crear convocatoria',
             'convocatoria.editar' => 'Editar convocatoria',
             'convocatoria.eliminar' => 'Eliminar convocatoria',
             'convocatoria.publicar' => 'Publicar convocatoria',
 
-            // Secretary actions - Documentos institucionales
+            // Secretary actions - Institutional documents
             'documento.crear' => 'Crear documento institucional',
             'documento.editar' => 'Editar documento institucional',
             'documento.eliminar' => 'Eliminar documento institucional',
             'documento.archivar' => 'Archivar documento institucional',
 
-            // Secretary actions - Claves presupuestales
+            // Secretary actions - Budget keys
             'clave.crear' => 'Crear clave presupuestal',
             'clave.editar' => 'Editar clave presupuestal',
             'clave.eliminar' => 'Eliminar clave presupuestal',
 
-            // Secretary actions - Notificaciones y FAQs
+            // Secretary actions - Notifications and FAQs
             'notificacion.crear' => 'Crear notificación',
             'notificaciones.enviar' => 'Enviar notificaciones',
             'faq.crear' => 'Crear pregunta frecuente',
@@ -76,20 +76,20 @@ class ActivityLogger
             'faq.categoria.editar' => 'Editar categoría de FAQ',
             'faq.categoria.eliminar' => 'Eliminar categoría de FAQ',
 
-            // Admin actions - Procesos
+            // Admin actions - Processes
             'proceso.crear' => 'Crear proceso',
             'proceso.editar' => 'Editar proceso',
             'proceso.eliminar' => 'Eliminar proceso',
             'proceso.activar' => 'Activar proceso',
             'proceso.desactivar' => 'Desactivar proceso',
 
-            // Admin actions - Pasos
+            // Admin actions - Steps
             'paso.crear' => 'Crear paso',
             'paso.editar' => 'Editar paso',
             'paso.eliminar' => 'Eliminar paso',
             'paso.asignar' => 'Asignar paso a proceso',
 
-            // API actions (compatibilidad)
+            // API actions (compatibility)
             'api.login' => 'Inicio de sesión (API)',
             'api.profile' => 'Consultar perfil (API)',
             'api.convocations' => 'Consultar convocatorias (API)',

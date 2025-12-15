@@ -11,6 +11,7 @@ Changelog:
     Modified by: <Developer name>
     Description: <Brief description of change>
 --}}
+
 <div>
     {{-- Page Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -194,7 +195,7 @@ Changelog:
             if (desired > max) {
                 confirmFlow(
                         `El orden solicitado supera el maximo (${max}). Se ajustara al ultimo numero secuencial.`
-                        )
+                    )
                     .then(() => {
                         orderInput.value = max;
                         @this.set('categoryOrder', max);

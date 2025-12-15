@@ -12,6 +12,5 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/users.blade.php --}}
+{{-- View moved to modules/users.blade.php --}}
 @include('modules.users')
-

@@ -11,6 +11,7 @@ Changelog:
     Modified by: <Developer name>
     Description: <Brief description of change>
 --}}
+
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div class="d-block mb-4 mb-md-0">
@@ -75,7 +76,8 @@ Changelog:
                     </div>
 
                     <div class="mb-3">
-                        <label for="faqOrder" class="form-label">Orden de visualización <span class="text-danger">*</span></label>
+                        <label for="faqOrder" class="form-label">Orden de visualización <span
+                                class="text-danger">*</span></label>
                         <input wire:model="faqOrder" type="number" min="1"
                             class="form-control @error('faqOrder') is-invalid @enderror" id="faqOrder"
                             placeholder="Ej. 1">
@@ -107,7 +109,8 @@ Changelog:
                             <p class="mb-1"><strong>Respuesta:</strong> usa texto directo; se permite multilinea.</p>
                         </li>
                         <li class="list-group-item px-0">
-                            <p class="mb-0"><strong>Orden:</strong> define la posición en la lista (1 es la primera).</p>
+                            <p class="mb-0"><strong>Orden:</strong> define la posición en la lista (1 es la primera).
+                            </p>
                         </li>
                     </ul>
                 </div>

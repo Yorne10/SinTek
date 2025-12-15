@@ -52,7 +52,7 @@ class Login extends Component
     public function mount()
     {
         if (auth()->user()) {
-            // Redirigir al dashboard con el nuevo esquema de rutas
+            // Redirect to dashboard with new route scheme
             return redirect()->intended(route(config('proj.route_name_prefix', 'proj') . '.dashboard.index'));
         }
         // Initialize empty credentials for institutional login
@@ -79,7 +79,7 @@ class Login extends Component
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember_me)) {
             $user = User::where(['email' => $this->email])->first();
 
-            // Bloquear acceso si el usuario está inactivo
+            // Block access if user is inactive
             if (!$user->is_active) {
                 auth()->logout();
                 return $this->addError('email', 'Su cuenta ha sido deshabilitada temporalmente');
@@ -98,7 +98,7 @@ class Login extends Component
                     return $this->addError('email', __('Tu cuenta aún no ha sido aprobada por un secretario'));
                 }
             }
-            // Ya estamos autenticados por attempt(); redirigir al dashboard
+            // Already authenticated by attempt(); redirect to dashboard
             $route = config('proj.route_name_prefix', 'proj') . '.dashboard.index';
             return redirect()->route($route);
         } else {
@@ -118,7 +118,7 @@ class Login extends Component
 
     public function render()
     {
-        // Aplicar layout de la app; el contenido se inyectará vía $slot
+        // Apply app layout; content is injected via $slot
         return view('modules.auth.login')->layout('layouts.app');
     }
 }

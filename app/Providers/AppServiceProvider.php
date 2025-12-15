@@ -73,9 +73,9 @@ class AppServiceProvider extends ServiceProvider
             // Log error or ignore if DB connection fails (e.g. during migration)
         }
 
-        // Opcional: Prefijo genérico para componentes Blade
-        // Descomenta y ajusta el prefijo 'proj' por el código real del proyecto.
+        // Optional: Generic prefix for Blade components
+        // Uncomment and adjust the 'proj' prefix with the actual project code.
         // Blade::component('proj-layouts-base', \App\View\Components\Layouts\Base::class);
-        // Ahora invocable como: <x-proj-layouts-base>
+        // Now invokable as: <x-proj-layouts-base>
     }
 }

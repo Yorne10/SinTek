@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/logout.blade.php --}}
+{{-- View moved to modules/logout.blade.php --}}
 @include('modules.logout')
 

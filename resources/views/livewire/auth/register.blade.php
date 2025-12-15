@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/auth\register.blade.php --}}
+{{-- View moved to modules/auth\register.blade.php --}}
 @include('modules.auth.register')
 

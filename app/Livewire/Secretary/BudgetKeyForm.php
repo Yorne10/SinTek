@@ -75,7 +75,7 @@ class BudgetKeyForm extends Component
 
     public function save()
     {
-        // Validaciones dinámicas (único por clave)
+        // Dynamic validations (unique by key)
         $user = Auth::user();
 
         $isEditing = !empty($this->budget_key_id);
@@ -107,7 +107,7 @@ class BudgetKeyForm extends Component
             ]
         );
 
-        // Registrar en bitácora
+        // Log activity
         $successMessage = '';
         if ($isEditing) {
             ActivityLogger::log(
@@ -117,7 +117,7 @@ class BudgetKeyForm extends Component
             );
             $successMessage = 'Clave presupuestal actualizada correctamente.';
 
-            // Redirigir solo si es edición
+            // Redirect only if editing
             $redirect = route(config('proj.route_name_prefix', 'proj') . '.secretary.budget-keys');
             $this->dispatch('budget-key-saved', message: $successMessage, redirect: $redirect);
         } else {
@@ -128,10 +128,10 @@ class BudgetKeyForm extends Component
             );
             $successMessage = 'Clave presupuestal creada correctamente.';
 
-            // Limpiar formulario y quedarse en la página
+            // Clear form and stay on the page
             $this->reset(['budget_key', 'position_name']);
 
-            // Mostrar alerta sin redirect
+            // Show alert without redirect
             $this->dispatch('budget-key-saved', message: $successMessage, redirect: null);
         }
     }

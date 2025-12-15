@@ -30,7 +30,7 @@ class LogApiActivity
 
         $response = $next($request);
 
-        // Solo registramos si el controlador/servicio envió acción y descripción explícitas
+        // Only log if the controller/service sent explicit action and description
         $user = $request->user();
         $action = $request->attributes->get('log_action');
         $description = $request->attributes->get('log_description');

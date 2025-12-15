@@ -31,7 +31,7 @@ Changelog:
         </div>
     </div>
 
-    {{-- Filtros --}}
+    {{-- Filters --}}
     <div class="table-settings mb-4">
         <div class="d-flex flex-wrap gap-3 align-items-center">
             <div class="input-group fmxw-300">

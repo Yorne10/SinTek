@@ -111,7 +111,7 @@ Changelog:
                                 <span class="fw-normal">{{ $notification->created_at->format('H:i') }}</span>
                             </td>
                             <td>
-                                @if($notification->read_at)
+                                @if ($notification->read_at)
                                     <span class="fw-bold text-success">Leída</span>
                                 @else
                                     <span class="fw-bold text-warning">Pendiente</span>
@@ -150,8 +150,9 @@ Changelog:
             </table>
         </div>
 
-        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($notifications->hasPages())
+        <div
+            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            @if ($notifications->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $notifications->onEachSide(1)->links('components.pagination-users') }}
                 </nav>

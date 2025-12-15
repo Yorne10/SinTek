@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: UserFactory.php
+ * Created on: 14/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 namespace Database\Factories;
 
@@ -28,7 +41,7 @@ class UserFactory extends Factory
 
         // Generate 1-3 presupuesto keys as a comma separated list
         $keys = collect(range(1, $this->faker->numberBetween(1, 3)))
-            ->map(fn ($i) => 'CLAVE-'.strtoupper($this->faker->bothify('####-??')))
+            ->map(fn($i) => 'CLAVE-' . strtoupper($this->faker->bothify('####-??')))
             ->implode(', ');
 
         return [

@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/admin\dashboard.blade.php --}}
+{{-- View moved to modules/admin\dashboard.blade.php --}}
 @include('modules.admin.dashboard')
 

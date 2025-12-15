@@ -62,7 +62,7 @@ class ConvocationForm extends Component
             $this->fecha_fin = $convocation->end_date?->format('Y-m-d');
             $this->convocatoria_permanente = !$convocation->end_date;
 
-            // Cargar documentos existentes con id correcto
+            // Load existing documents with correct id
             $this->documentosExistentes = $convocation->documents->map(function ($doc) {
                 return [
                     'id' => $doc->convocation_doc_id ?? $doc->convocation_document_id ?? $doc->convocation_docs_id,
@@ -177,7 +177,7 @@ class ConvocationForm extends Component
         $this->documentosAEliminar[] = $documentoId;
 
         // Quitar de la lista visual
-        $this->documentosExistentes = array_filter($this->documentosExistentes, function($doc) use ($documentoId) {
+        $this->documentosExistentes = array_filter($this->documentosExistentes, function ($doc) use ($documentoId) {
             return $doc['id'] != $documentoId;
         });
         $this->documentosExistentes = array_values($this->documentosExistentes);
@@ -211,7 +211,7 @@ class ConvocationForm extends Component
             ]);
 
             $user = Auth::user();
-            // Determinar el estado de la convocatoria
+            // Determine the status of the call for proposals
             $status = 'activa';
             $today = now()->startOfDay();
             $startDate = \Carbon\Carbon::parse($this->fecha_inicio)->startOfDay();
@@ -330,7 +330,7 @@ class ConvocationForm extends Component
             $isNew = !$this->convocationId;
 
             if ($isNew) {
-                // Limpiar formulario después de crear
+                // Clear form after creation
                 $this->reset(['titulo', 'descripcion', 'fecha_inicio', 'fecha_fin', 'convocatoria_permanente', 'documentos']);
 
                 $this->dispatch(
@@ -341,7 +341,7 @@ class ConvocationForm extends Component
                     redirect: null
                 );
             } else {
-                // Limpiar documentos nuevos y lista de eliminación después de actualizar
+                // Clear new documents and deletion list after update
                 $this->reset(['documentos', 'documentosAEliminar']);
 
                 $this->dispatch(

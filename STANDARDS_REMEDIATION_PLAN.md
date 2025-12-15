@@ -1,44 +1,32 @@
-# Plan de Remediación de Estándares CETAM - SinTek
+# CETAM Standards Complete Remediation Plan
+# SinTek Project - Full Compliance Audit
 
-**Versión:** 1.0.0  
-**Fecha de Auditoría:** 14/12/2025  
-**Proyecto:** Sistema de Trámites CETAM (SinTek)  
-**Estado Actual de Cumplimiento:** ~85%  
-**Meta de Cumplimiento:** 100%
-
----
-
-## Resumen Ejecutivo
-
-Esta auditoría analiza el proyecto SinTek contra los estándares de codificación CETAM documentados en `CETAM_MASTER_STANDARDS.md`. Se identificaron las siguientes áreas de no-cumplimiento:
-
-| Área | Estado | Detalles |
-|------|--------|----------|
-| Headers de archivo (CETAM) | ⚠️ 92% | 13 archivos sin header |
-| Comentarios en inglés | ❌ 0% | 300+ comentarios en español |
-| DocBlocks | ✅ 95% | Mayoría de métodos documentados |
-| Nomenclatura | ✅ 100% | PascalCase, camelCase correctos |
-| Estructura de carpetas | ✅ 100% | Organización por módulo |
-| Rutas | ✅ 100% | Prefijo correcto sintek.* |
+**Audit Date:** 14/12/2025  
+**Project:** Sistema de Trámites CETAM (SinTek)  
+**Current Compliance:** ~80%  
+**Target Compliance:** 100%
 
 ---
 
-## Tabla de Contenidos
+## Executive Summary
 
-1. [Fase 1: Archivos sin Header CETAM](#fase-1-archivos-sin-header-cetam)
-2. [Fase 2: Traducción de Comentarios a Inglés](#fase-2-traducción-de-comentarios-a-inglés)
-3. [Fase 3: DocBlocks Faltantes](#fase-3-docblocks-faltantes)
-4. [Verificación Final](#verificación-final)
+| Category | Files Affected | Status |
+|----------|---------------|--------|
+| Files without CETAM Headers | 18 | ❌ Requires fix |
+| Spanish Comments in PHP | ~25 files, 60+ comments | ❌ Requires translation |
+| Spanish Comments in Blade | ~30 files, 40+ comments | ❌ Requires translation |
+| DocBlocks | 95%+ | ✅ Mostly compliant |
+| Naming Conventions | 100% | ✅ Compliant |
+| Directory Structure | 100% | ✅ Compliant |
+| Route Naming | 100% | ✅ Compliant |
 
 ---
 
-# Fase 1: Archivos sin Header CETAM
+# PHASE 1: FILES WITHOUT CETAM HEADERS
 
-## Prioridad: 🔴 ALTA
+**Total: 18 files**
 
-Los siguientes archivos PHP no tienen el header estándar CETAM. Estos son principalmente archivos base de Laravel que necesitan el header corporativo.
-
-### Template de Header Requerido
+## CETAM Header Template (PHP)
 
 ```php
 <?php
@@ -57,95 +45,109 @@ Los siguientes archivos PHP no tienen el header estándar CETAM. Estos son princ
  */
 ```
 
----
+## CETAM Header Template (Blade)
 
-## 1.1 Core Laravel Files (app/)
+```blade
+{{--
+Company: CETAM
+Project: ST
+File: [FILENAME]
+Created on: 14/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 
-### [MODIFY] [Controller.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Controllers/Controller.php)
-**Ubicación:** `app/Http/Controllers/Controller.php`  
-**Acción:** Agregar header CETAM antes del `<?php`
-
-### [MODIFY] [Authenticate.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/Authenticate.php)
-**Ubicación:** `app/Http/Middleware/Authenticate.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [EncryptCookies.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/EncryptCookies.php)
-**Ubicación:** `app/Http/Middleware/EncryptCookies.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [PreventRequestsDuringMaintenance.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/PreventRequestsDuringMaintenance.php)
-**Ubicación:** `app/Http/Middleware/PreventRequestsDuringMaintenance.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [RedirectIfAuthenticated.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/RedirectIfAuthenticated.php)
-**Ubicación:** `app/Http/Middleware/RedirectIfAuthenticated.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [TrimStrings.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/TrimStrings.php)
-**Ubicación:** `app/Http/Middleware/TrimStrings.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [TrustHosts.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/TrustHosts.php)
-**Ubicación:** `app/Http/Middleware/TrustHosts.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [TrustProxies.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/TrustProxies.php)
-**Ubicación:** `app/Http/Middleware/TrustProxies.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [VerifyCsrfToken.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Middleware/VerifyCsrfToken.php)
-**Ubicación:** `app/Http/Middleware/VerifyCsrfToken.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [Kernel.php (Console)](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Console/Kernel.php)
-**Ubicación:** `app/Console/Kernel.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [Kernel.php (Http)](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Http/Kernel.php)
-**Ubicación:** `app/Http/Kernel.php`  
-**Acción:** Agregar header CETAM
-
-### [MODIFY] [Handler.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Exceptions/Handler.php)
-**Ubicación:** `app/Exceptions/Handler.php`  
-**Acción:** Agregar header CETAM
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+  Modified by: <Developer name>
+  Description: <Brief description of change>
+--}}
+```
 
 ---
 
-## 1.2 Database Factories
+## 1.1 App Core Files (12 files)
 
-### [MODIFY] [UserFactory.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/database/factories/UserFactory.php)
-**Ubicación:** `database/factories/UserFactory.php`  
-**Acción:** Agregar header CETAM
+| # | File Path | Action |
+|---|-----------|--------|
+| 1 | `app/Console/Kernel.php` | Add CETAM header |
+| 2 | `app/Exceptions/Handler.php` | Add CETAM header |
+| 3 | `app/Http/Kernel.php` | Add CETAM header |
+| 4 | `app/Http/Controllers/Controller.php` | Add CETAM header |
+| 5 | `app/Http/Middleware/Authenticate.php` | Add CETAM header |
+| 6 | `app/Http/Middleware/EncryptCookies.php` | Add CETAM header |
+| 7 | `app/Http/Middleware/PreventRequestsDuringMaintenance.php` | Add CETAM header |
+| 8 | `app/Http/Middleware/RedirectIfAuthenticated.php` | Add CETAM header |
+| 9 | `app/Http/Middleware/TrimStrings.php` | Add CETAM header |
+| 10 | `app/Http/Middleware/TrustHosts.php` | Add CETAM header |
+| 11 | `app/Http/Middleware/TrustProxies.php` | Add CETAM header |
+| 12 | `app/Http/Middleware/VerifyCsrfToken.php` | Add CETAM header |
 
-### [MODIFY] [WorkerFactory.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/database/factories/WorkerFactory.php)
-**Ubicación:** `database/factories/WorkerFactory.php`  
-**Acción:** Agregar header CETAM
+## 1.2 Database Files (4 files)
 
-### [MODIFY] [RequestFactory.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/database/factories/RequestFactory.php)
-**Ubicación:** `database/factories/RequestFactory.php`  
-**Acción:** Agregar header CETAM
+| # | File Path | Action |
+|---|-----------|--------|
+| 13 | `database/factories/PositionFactory.php` | Add CETAM header |
+| 14 | `database/factories/UserFactory.php` | Add CETAM header |
+| 15 | `database/factories/WorkerFactory.php` | Add CETAM header |
+| 16 | `database/migrations/2025_12_13_155835_add_privacy_accepted_to_workers.php` | Add CETAM header |
+
+## 1.3 Routes Files (2 files)
+
+| # | File Path | Action |
+|---|-----------|--------|
+| 17 | `routes/channels.php` | Add CETAM header |
+| 18 | `routes/console.php` | Add CETAM header |
+
+## 1.4 Blade Files (2 files)
+
+| # | File Path | Action |
+|---|-----------|--------|
+| 19 | `resources/views/layouts/base.blade.php` | Add CETAM header |
+| 20 | `resources/views/modules/admin/define-steps.blade.php` | Add CETAM header |
 
 ---
 
-# Fase 2: Traducción de Comentarios a Inglés
+# PHASE 2: SPANISH TO ENGLISH COMMENT TRANSLATION
 
-## Prioridad: 🔴 ALTA
-
-**Total de comentarios a traducir:** ~350+ líneas
-
-El estándar CETAM establece:
+## Standard Rule
+Per CETAM_MASTER_STANDARDS.md Chapter 3.1:
 > - **Code:** English (variables, functions, classes)
 > - **Comments:** English
 > - **UI/Messages:** Spanish (user-facing)
 
 ---
 
-## 2.1 Servicios (app/Services/)
+## 2.1 app/Exceptions/Handler.php
 
-### [MODIFY] [ConvocationDocumentService.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Services/Documents/ConvocationDocumentService.php)
+| Line | Spanish | English |
+|------|---------|---------|
+| 41 | `// Manejo de CSRF token inválido (sesión expirada)` | `// Handle invalid CSRF token (session expired)` |
+| 49 | `// Manejo de errores de método no permitido (ej: GET en ruta POST)` | `// Handle method not allowed errors (e.g., GET on POST route)` |
+| 50 | `// Esto NO debe mostrar "sesión expirada" porque la sesión puede seguir activa` | `// This should NOT show "session expired" because the session may still be active` |
+| 55 | `// Redirigir al dashboard si está autenticado, o al login si no` | `// Redirect to dashboard if authenticated, or to login if not` |
+| 62 | `// Manejo de autenticación fallida (usuario no autenticado)` | `// Handle authentication failure (unauthenticated user)` |
+| 67 | `// If viene de una petición Ajax/Livewire, redirigir a sesión expirada` | `// If coming from an Ajax/Livewire request, redirect to session expired` |
+| 71 | `// If it is una petición normal, redirigir al login` | `// If it is a normal request, redirect to login` |
+| 75 | `// Manejo de errores de conexión con la base de datos` | `// Handle database connection errors` |
+| 77 | `// Solo tratar como error de conexión si REALMENTE es un error de conexión crítico` | `// Only treat as connection error if it is REALLY a critical connection error` |
+| 81 | `// Para peticiones Livewire/AJAX` | `// For Livewire/AJAX requests` |
+| 83 | `// En lugar de JSON puro, redirigir a una página de error` | `// Instead of pure JSON, redirect to an error page` |
+| 90 | `// Para peticiones normales` | `// For normal requests` |
+| 96 | `// Si no es un error crítico, dejar que Laravel lo maneje normalmente` | `// If not a critical error, let Laravel handle it normally` |
+| 99 | `// Manejo de errores PDO (conexión fallida a nivel más bajo)` | `// Handle PDO errors (connection failed at lower level)` |
+| 103 | `// Para peticiones Livewire/AJAX o normales, mostrar vista de error` | `// For Livewire/AJAX or normal requests, show error view` |
+| 112 | `// Determinar si la excepción es un error de conexión CRÍTICO con la base de datos` | `// Determine if the exception is a CRITICAL database connection error` |
+| 113 | `// Solo devuelve true para errores reales de conexión, no para errores de query normales` | `// Only returns true for real connection errors, not for normal query errors` |
+| 120 | `// Códigos de error que indican problemas CRÍTICOS de conexión` | `// Error codes indicating CRITICAL connection problems` |
+| 133 | `// Solo considerar error crítico si el código coincide exactamente` | `// Only consider critical error if the code matches exactly` |
+| 138 | `// Verificar palabras clave específicas que indican pérdida de conexión` | `// Check specific keywords indicating connection loss` |
 
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
+---
+
+## 2.2 app/Services/Documents/ConvocationDocumentService.php
+
+| Line | Spanish | English |
+|------|---------|---------|
 | 33 | `// Asegurar que el nombre del archivo siempre termine en .pdf` | `// Ensure the filename always ends with .pdf` |
 | 36 | `// Remover extensión existente si la hay` | `// Remove existing extension if any` |
 | 39 | `// Agregar extensión .pdf` | `// Add .pdf extension` |
@@ -155,246 +157,240 @@ El estándar CETAM establece:
 
 ---
 
-### [MODIFY] [FallbackAuthService.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Services/Auth/FallbackAuthService.php)
+## 2.3 app/Livewire/Admin/ConfigureFlow.php
 
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 168 | `// If it is una petición JSON/Ajax` | `// If it is a JSON/Ajax request (e.g., from the inactivity timer)` |
-| 169 | `// retornar JSON en lugar de redirección HTML` | `// return JSON instead of HTML redirect` |
-| 174 | `// If it is un logout manual desde el botón del sidebar` | `// If it is a manual logout from the sidebar button, redirect to login` |
-| 179 | `// If it is una petición JSON, retornar JSON incluso en error` | `// If it is a JSON request, return JSON even on error` |
-| 184 | `// If it is HTML, redirigir al login en caso de error` | `// If it is HTML, redirect to login on error` |
-
----
-
-### [MODIFY] [RequestService.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Services/API/Requests/RequestService.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 600 | `// Validate que el trámite pueda ser cancelado` | `// Validate that the request can be cancelled` |
-| 610 | `// Update el estado del trámite` | `// Update the request status` |
-| 614 | `// Cancelar todos los pasos pendientes o en progreso` | `// Cancel all pending or in-progress steps` |
-| 624 | `// Log activity` | `// Log activity` (ya está en inglés) |
+| Line | Spanish | English |
+|------|---------|---------|
+| 169 | `// Si no es alcanzable desde el inicial, no bloquea la validación` | `// If not reachable from initial, it doesn't block validation (only shows warning)` |
+| 280 | `// Sin inicial, mantener un orden estable basado en la posición actual` | `// Without initial, maintain a stable order based on current position` |
+| 341 | `// usar maxOrder + indice para mantener estabilidad relativa` | `// use maxOrder + index to maintain relative stability` |
+| 355 | `// Actualizar flag de vinculado en los pasos en memoria` | `// Update linked flag in steps in memory` |
+| 392 | `// ciclo, considerar que no llega a final para evitar loop infinito` | `// cycle, consider it doesn't reach final to avoid infinite loop` |
+| 424 | `// Si no hay siguientes y no es final, no llega a final` | `// If no next steps and not final, it doesn't reach final` |
 
 ---
 
-### [MODIFY] [ActivityLogger.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Services/ActivityLogger.php)
+## 2.4 app/Livewire/Admin/DefineSteps.php
 
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 42 | `// Worker actions - Web y API` | `// Worker actions - Web and API` |
-| 51 | `// Secretary actions - Convocatorias` | `// Secretary actions - Convocations` |
-| 57 | `// Secretary actions - Documentos institucionales` | `// Secretary actions - Institutional documents` |
-| 63 | `// Secretary actions - Claves presupuestales` | `// Secretary actions - Budget keys` |
-| 68 | `// Secretary actions - Notificaciones y FAQs` | `// Secretary actions - Notifications and FAQs` |
-| 79 | `// Admin actions - Procesos` | `// Admin actions - Processes` |
-| 86 | `// Admin actions - Pasos` | `// Admin actions - Steps` |
-| 92 | `// API actions (compatibilidad)` | `// API actions (compatibility)` |
+| Line | Spanish | English |
+|------|---------|---------|
+| 104 | `// Solo un paso inicial visible: el primero marcado se mantiene, el resto se muestra como no inicial` | `// Only one initial step visible: the first marked is kept, the rest shown as non-initial` |
+| 116 | `// Solo un tipo "inicial" en la columna Tipo; los demás se muestran como "normal"` | `// Only one "initial" type in the Type column; the rest shown as "normal"` |
 
 ---
 
-## 2.2 Providers (app/Providers/)
+## 2.5 app/Livewire/Admin/CreateStep.php
 
-### [MODIFY] [AppServiceProvider.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Providers/AppServiceProvider.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 30 | `// Load helpers` | ✅ Already in English |
-| 41 | `// Register @icon Blade directive` | ✅ Already in English |
-| 46 | `// Load system settings from database` | ✅ Already in English |
-| 73 | `// Log error or ignore if DB connection fails` | ✅ Already in English |
-| 76 | `// Opcional: Prefijo genérico para componentes Blade` | `// Optional: Generic prefix for Blade components` |
-| 77 | `// Descomenta y ajusta el prefijo 'proj' por el código real del proyecto.` | `// Uncomment and adjust the 'proj' prefix with the actual project code.` |
-| 79 | `// Ahora invocable como: <x-proj-layouts-base>` | `// Now invokable as: <x-proj-layouts-base>` |
+| Line | Spanish | English |
+|------|---------|---------|
+| 353 | `// Validar documentos proporcionados nuevos (si existen)` | `// Validate new provided documents (if any)` |
+| 439 | `// Sincronizar documentos requeridos` | `// Sync required documents` |
+| 452 | `// Sincronizar documentos proporcionados` | `// Sync provided documents` |
 
 ---
 
-## 2.3 View Components (app/View/)
+## 2.6 app/Livewire/Secretary/ProcessesIndex.php
 
-### [MODIFY] [Base.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/View/Components/Layouts/Base.php)
+| Line | Spanish | English |
+|------|---------|---------|
+| 105 | `// Si se intenta activar, validar que el flujo sea válido (inicio → final)` | `// If activating, validate that the flow is valid (start → end)` |
+| 233 | `return false; // ciclo` | `return false; // cycle detected` |
 
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
+---
+
+## 2.7 app/Livewire/Secretary/BudgetKeyForm.php
+
+| Line | Spanish | English |
+|------|---------|---------|
+| 120 | `// Redirigir solo si es edición` | `// Redirect only if editing` |
+
+---
+
+## 2.8 app/Livewire/Auth/Login.php
+
+| Line | Spanish | English |
+|------|---------|---------|
+| 55 | `// Redirigir al dashboard con el nuevo esquema de rutas` | `// Redirect to dashboard with the new route scheme` |
+
+---
+
+## 2.9 app/Http/Middleware/LogApiActivity.php
+
+| Line | Spanish | English |
+|------|---------|---------|
+| 33 | `// Solo registramos si el controlador/servicio envió acción y descripción explícitas` | `// Only log if the controller/service sent explicit action and description` |
+
+---
+
+## 2.10 app/Livewire/Profile.php
+
+| Line | Spanish | English |
+|------|---------|---------|
+| 242 | `// Agregar la relación en la tabla positions_workers` | `// Add the relationship in the positions_workers table` |
+
+---
+
+## 2.11 app/View/Components/Layouts/Base.php
+
+| Line | Spanish | English |
+|------|---------|---------|
 | 32 | `// Opcional: Puedes registrar este componente con un prefijo genérico` | `// Optional: You can register this component with a generic prefix` |
 | 33 | `// For su uso como <x-proj-layouts.base>. Sustituir 'proj' por el código real del proyecto.` | `// For use as <x-proj-layouts.base>. Replace 'proj' with the actual project code.` |
 | 34 | `// Ver: AppServiceProvider::boot() -> Blade::component(...)` | `// See: AppServiceProvider::boot() -> Blade::component(...)` |
 
 ---
 
-## 2.4 Exceptions (app/Exceptions/)
+## 2.12 app/Providers/AppServiceProvider.php
 
-### [MODIFY] [Handler.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Exceptions/Handler.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 41 | `// Manejo de CSRF token inválido (sesión expirada)` | `// Handle invalid CSRF token (session expired)` |
-| 49 | `// Manejo de errores de método no permitido` | `// Handle method not allowed errors (e.g., GET on POST route)` |
-| 50 | `// Esto NO debe mostrar "sesión expirada"...` | `// This should NOT show "session expired" because the session may still be active` |
-| 55 | `// Redirigir al dashboard si está autenticado, o al login si no` | `// Redirect to dashboard if authenticated, or to login if not` |
-| 62 | `// Manejo de autenticación fallida` | `// Handle authentication failure (unauthenticated user)` |
-| 67 | `// If viene de una petición Ajax/Livewire...` | `// If coming from an Ajax/Livewire request, redirect to session expired` |
-| 71 | `// If it is una petición normal, redirigir al login` | `// If it is a normal request, redirect to login` |
-| 75 | `// Manejo de errores de conexión con la base de datos` | `// Handle database connection errors` |
-| 77 | `// Solo tratar como error de conexión si REALMENTE es un error crítico` | `// Only treat as connection error if it is REALLY a critical error` |
-| 81 | `// Para peticiones Livewire/AJAX` | `// For Livewire/AJAX requests` |
-| 83 | `// En lugar de JSON puro, redirigir a una página de error` | `// Instead of pure JSON, redirect to an error page` |
-| 90 | `// Para peticiones normales` | `// For normal requests` |
-| 96 | `// Si no es un error crítico, dejar que Laravel lo maneje normalmente` | `// If not a critical error, let Laravel handle it normally` |
-| 99 | `// Manejo de errores PDO` | `// Handle PDO errors (failed connection at lower level)` |
-| 103 | `// Para peticiones Livewire/AJAX o normales...` | `// For Livewire/AJAX or normal requests, show error view` |
-| 112 | `// Determinar si la excepción es un error de conexión CRÍTICO` | `// Determine if the exception is a CRITICAL database connection error` |
-| 113 | `// Solo devuelve true para errores reales de conexión` | `// Only returns true for real connection errors, not normal query errors` |
-| 120 | `// Códigos de error que indican problemas CRÍTICOS de conexión` | `// Error codes indicating CRITICAL connection problems` |
-| 133 | `// Solo considerar error crítico si el código coincide exactamente` | `// Only consider critical error if the code matches exactly` |
-| 138 | `// Verificar palabras clave específicas que indican pérdida de conexión` | `// Check specific keywords indicating connection loss` |
+| Line | Spanish | English |
+|------|---------|---------|
+| 76 | `// Opcional: Prefijo genérico para componentes Blade` | `// Optional: Generic prefix for Blade components` |
+| 77 | `// Descomenta y ajusta el prefijo 'proj' por el código real del proyecto.` | `// Uncomment and adjust the 'proj' prefix with the actual project code.` |
+| 79 | `// Ahora invocable como: <x-proj-layouts-base>` | `// Now invokable as: <x-proj-layouts-base>` |
 
 ---
 
-## 2.5 Livewire Components (app/Livewire/)
+## 2.13 app/Notifications/ResetPassword.php
 
-### [MODIFY] [ConfigureFlow.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Livewire/Admin/ConfigureFlow.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 341 | `// usar maxOrder + indice para mantener estabilidad relativa` | `// use maxOrder + index to maintain relative stability` |
-| 392 | `// ciclo, considerar que no llega a final para evitar loop infinito` | `// cycle, consider that it does not reach final to avoid infinite loop` |
-
-### [MODIFY] [ProcessesIndex.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Livewire/Secretary/ProcessesIndex.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 233 | `return false; // ciclo` | `return false; // cycle detected` |
-
-### [MODIFY] [FaqQuestionForm.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Livewire/Secretary/FaqQuestionForm.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 83 | `// alta: siguiente orden disponible` | `// create: next available order` |
-
-### [MODIFY] [Notifications.php (ResetPassword)](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/app/Notifications/ResetPassword.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
-| 60 | `// Ajuste al nuevo esquema de rutas con prefijo configurable` | `// Adjust to new route scheme with configurable prefix (proj.*)` |
+| Line | Spanish | English |
+|------|---------|---------|
+| 60 | `// Ajuste al nuevo esquema de rutas con prefijo configurable (proj.*)` | `// Adjust to new route scheme with configurable prefix (proj.*)` |
 
 ---
 
-## 2.6 Blade Views (resources/views/)
+# PHASE 3: BLADE SPANISH COMMENTS TRANSLATION
 
-### Comentarios en Partials
+## 3.1 Livewire View Wrappers (19 files)
 
-Todos los partials tienen este comentario que debe traducirse:
+**Pattern to translate in each file:**
+```blade
+{{-- Vista movida a modules/[path] --}}
+```
+**Translate to:**
+```blade
+{{-- View moved to modules/[path] --}}
+```
 
+**Files affected:**
+1. `livewire/worker/detalle-t.blade.php`
+2. `livewire/worker/dashboard.blade.php`
+3. `livewire/users.blade.php`
+4. `livewire/user-create.blade.php`
+5. `livewire/upgrade-to-pro.blade.php`
+6. `livewire/secretary/dashboard.blade.php`
+7. `livewire/reset-password.blade.php`
+8. `livewire/register-example.blade.php`
+9. `livewire/profile.blade.php`
+10. `livewire/profile-example.blade.php`
+11. `livewire/logout.blade.php`
+12. `livewire/login-example.blade.php`
+13. `livewire/forgot-password.blade.php`
+14. `livewire/forgot-password-example.blade.php`
+15. `livewire/faq.blade.php`
+16. `livewire/auth/register.blade.php`
+17. `livewire/auth/login.blade.php`
+18. `livewire/admin/reportes.blade.php`
+19. `livewire/admin/dashboard.blade.php`
+
+---
+
+## 3.2 Partials (9 files)
+
+**Pattern to translate:**
 ```blade
 {{-- Wrapper para cumplir la convención de partials --}}
 ```
-
-**Traducción:**
+**Translate to:**
 ```blade
 {{-- Wrapper to comply with partials convention --}}
 ```
 
-**Archivos afectados:**
-- `partials/topbar.blade.php` (línea 15)
-- `partials/sidenav.blade.php` (línea 15)
-- `partials/sidenav-worker.blade.php` (línea 15)
-- `partials/sidenav-secretary.blade.php` (línea 15)
-- `partials/sidenav-basic.blade.php` (línea 15)
-- `partials/sidenav-admin.blade.php` (línea 15)
-- `partials/nav.blade.php` (línea 15)
-- `partials/footer2.blade.php` (línea 15)
-- `partials/footer.blade.php` (línea 15)
+**Files affected:**
+1. `partials/topbar.blade.php`
+2. `partials/sidenav.blade.php`
+3. `partials/sidenav-worker.blade.php`
+4. `partials/sidenav-secretary.blade.php`
+5. `partials/sidenav-basic.blade.php`
+6. `partials/sidenav-admin.blade.php`
+7. `partials/nav.blade.php`
+8. `partials/footer2.blade.php`
+9. `partials/footer.blade.php`
 
-### Comentarios en Livewire Views
+---
 
-#### [dashboard.blade.php (livewire/admin)](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/resources/views/livewire/admin/dashboard.blade.php)
+## 3.3 Module Views
 
-```blade
-{{-- Vista movida a modules/admin\dashboard.blade.php --}}
-```
-
-**Traducción:**
-```blade
-{{-- View moved to modules/admin/dashboard.blade.php --}}
-```
-
-### Comentarios en Modules
-
-#### [my-procedures.blade.php](file:///c:/Users/alpon/CETAM/Proyectos/SinTek/resources/views/modules/worker/my-procedures.blade.php)
-
-| Línea | Español (Actual) | Inglés (Corregido) |
-|-------|------------------|-------------------|
+### modules/worker/my-procedures.blade.php
+| Line | Spanish | English |
+|------|---------|---------|
 | 42 | `{{-- Filtros y búsqueda --}}` | `{{-- Filters and search --}}` |
 
+### modules/worker/documents-index.blade.php
+| Line | Spanish | English |
+|------|---------|---------|
+| 34 | `{{-- Filtros y tabla --}}` | `{{-- Filters and table --}}` |
+
+### modules/worker/calls-index.blade.php
+| Line | Spanish | English |
+|------|---------|---------|
+| 34 | `{{-- Filtros --}}` | `{{-- Filters --}}` |
+
+### modules/worker/profile.blade.php
+| Line | Spanish | English |
+|------|---------|---------|
+| 216 | `{{-- Plazas presupuestales --}}` | `{{-- Budget positions --}}` |
+
 ---
 
-# Fase 3: DocBlocks Faltantes
+# PHASE 4: VERIFICATION
 
-## Prioridad: 🟡 MEDIA
+## Commands to verify compliance after fixes:
 
-La mayoría de métodos públicos ya tienen DocBlocks. Verificar los siguientes archivos que podrían necesitar actualización:
-
-### Archivos a revisar:
-
-1. `app/Http/Middleware/*.php` - Verificar métodos tengan DocBlocks
-2. `app/Console/Kernel.php` - Ya tiene DocBlocks (OK)
-3. `database/factories/*.php` - Verificar métodos `definition()` y `unverified()`
-
----
-
-# Verificación Final
-
-## Checklist de Cumplimiento
-
-Después de aplicar todas las correcciones, verificar:
-
-- [ ] Todos los archivos PHP tienen header CETAM
-- [ ] Todos los comentarios `//` están en inglés
-- [ ] Todos los comentarios `{{-- --}}` en Blade están en inglés
-- [ ] DocBlocks en formato estándar con @param, @return
-- [ ] Headers de archivos Blade en formato `{{-- Company: CETAM --}}`
-
-## Comandos de Verificación
-
+### Check for remaining files without headers:
 ```powershell
-# Buscar comentarios en español restantes
-rg "// [A-ZÁÉÍÓÚ]" app/ --glob="*.php"
-rg "\{\{-- [A-ZÁÉÍÓÚ]" resources/views/ --glob="*.blade.php"
+Get-ChildItem -Path "app" -Filter "*.php" -Recurse | ForEach-Object { 
+    $content = Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue
+    if ($content -notmatch "Company: CETAM") { $_.FullName } 
+}
+```
 
-# Verificar headers CETAM
-rg "Company: CETAM" app/ --glob="*.php" -c
-rg "Company: CETAM" database/ --glob="*.php" -c
-rg "Company: CETAM" resources/views/ --glob="*.blade.php" -c
+### Check for remaining Spanish comments:
+```powershell
+Select-String -Path "app\**\*.php" -Pattern "// (Asegurar|Remover|Agregar|Manejo|Opcional|Redirigir|Solo|Para|Si|Verificar|Crear|Obtener|Actualizar|Buscar|Validar)" -Recursive
 ```
 
 ---
 
-# Estimación de Esfuerzo
+# EFFORT ESTIMATION
 
-| Fase | Archivos | Tiempo Estimado |
-|------|----------|-----------------|
-| Fase 1: Headers | 15 archivos | 30 minutos |
-| Fase 2: Traducción PHP | ~25 archivos | 2 horas |
-| Fase 2: Traducción Blade | ~20 archivos | 1 hora |
-| Fase 3: DocBlocks | ~5 archivos | 30 minutos |
-| **Total** | **~65 archivos** | **~4 horas** |
+| Phase | Files | Estimated Time |
+|-------|-------|----------------|
+| Phase 1: Add Headers | 20 files | 40 minutes |
+| Phase 2: Translate PHP comments | 13 files, ~60 comments | 1.5 hours |
+| Phase 3: Translate Blade comments | 31 files, ~40 comments | 1 hour |
+| Phase 4: Verification | - | 30 minutes |
+| **TOTAL** | **64 files** | **~3.5 hours** |
 
 ---
 
-# Priorización Recomendada
+# PRIORITY ORDER
 
-1. **Inmediato (Día 1):** 
-   - Agregar headers CETAM a archivos faltantes
-   - Traducir comentarios en Services (lógica de negocio crítica)
+1. **HIGH (Do First):**
+   - Add CETAM headers to all 20 files
+   - Translate Handler.php comments (critical error handling)
 
-2. **Corto plazo (Día 2):**
-   - Traducir comentarios en Livewire components
-   - Traducir comentarios en Exceptions/Handler.php
+2. **MEDIUM (Do Second):**
+   - Translate Livewire component comments
+   - Translate Service layer comments
 
-3. **Mediano plazo (Día 3):**
-   - Traducir comentarios en Blade views
-   - Revisar y completar DocBlocks faltantes
+3. **LOW (Do Last):**
+   - Translate Blade partial comments
+   - Clean up remaining minor comments
 
-4. **Verificación:**
-   - Ejecutar comandos de verificación
-   - Actualizar `CETAM_MASTER_STANDARDS.md` si es necesario
+---
+
+# NOTES
+
+- All UI-facing text (labels, messages, alerts) should remain in **Spanish**
+- Only code comments and documentation should be in **English**
+- DocBlocks use English descriptions with Spanish technical terms where necessary

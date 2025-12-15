@@ -1,12 +1,10 @@
-<?php
-// generated rewrite of topbar to add dynamic notifications
-?>
 {{--
 Company: CETAM
 Project: ST
 File: topbar.blade.php
 Created on: 05/11/2025
 Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
 
 Changelog:
 - ID: <ID> | Date: dd/mm/yyyy

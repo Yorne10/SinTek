@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/upgrade-to-pro.blade.php --}}
+{{-- View moved to modules/upgrade-to-pro.blade.php --}}
 @include('modules.upgrade-to-pro')
 

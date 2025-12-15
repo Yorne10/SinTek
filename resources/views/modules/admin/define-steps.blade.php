@@ -1,4 +1,18 @@
-﻿<div wire:key="define-steps-root">
+﻿{{--
+Company: CETAM
+Project: ST
+File: define-steps.blade.php
+Created on: 14/12/2025
+Created by: Alfonso Angel Garcia Hernandez
+Approved by: Alfonso Angel Garcia Hernandez
+
+Changelog:
+- ID: <ID> | Date: dd/mm/yyyy
+    Modified by: <Developer name>
+    Description: <Brief description of change>
+--}}
+
+<div wire:key="define-steps-root">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-0">
         <div class="d-block mb-4 mb-md-0">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
@@ -50,10 +64,12 @@
                                     <p class="small text-gray mb-0">Codigo: {{ $selectedProcess->process_code }}</p>
                                 @endif
                                 @if ($selectedProcess->category)
-                                    <p class="small text-gray mb-0">Categoria: {{ ucfirst($selectedProcess->category) }}</p>
+                                    <p class="small text-gray mb-0">Categoria:
+                                        {{ ucfirst($selectedProcess->category) }}</p>
                                 @endif
                                 @if ($selectedProcess->department)
-                                    <p class="small text-gray mb-0">Area responsable: {{ $selectedProcess->department }}</p>
+                                    <p class="small text-gray mb-0">Area responsable:
+                                        {{ $selectedProcess->department }}</p>
                                 @endif
                             </div>
                             <div class="text-end d-flex flex-column justify-content-between align-items-end">
@@ -101,7 +117,8 @@
     </div>
 
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center"
+            style="table-layout: fixed;">
             <colgroup>
                 <col style="width: 35%">
                 <col style="width: 18%">
@@ -133,7 +150,8 @@
                                         default => 'text-info',
                                     };
                                 @endphp
-                                <span class="fw-bold {{ $typeClass }}">{{ $this->getStepTypeLabel($displayType) }}</span>
+                                <span
+                                    class="fw-bold {{ $typeClass }}">{{ $this->getStepTypeLabel($displayType) }}</span>
                             </td>
                             <td>
                                 @if ($step->is_initial_step)
@@ -155,16 +173,32 @@
                                             $nextStep = $step->nextStep ? $step->nextStep->title : '';
                                             $nextYes = $step->nextYesStep ? $step->nextYesStep->title : '';
                                             $nextNo = $step->nextNoStep ? $step->nextNoStep->title : '';
-                                            $providedDocs = $step->providedDocuments ? $step->providedDocuments->count() : 0;
-                                            $docsPayload = $step->providedDocuments ? $step->providedDocuments->map(function ($doc) {
-                                                return [
-                                                    'name' => $doc->name ?? 'Documento',
-                                                    'show' => route(config('proj.route_name_prefix', 'proj') . '.step-provided-document.show', $doc->document_id),
-                                                    'download' => route(config('proj.route_name_prefix', 'proj') . '.step-provided-document.download', $doc->document_id),
-                                                ];
-                                            })->values()->toArray() : [];
+                                            $providedDocs = $step->providedDocuments
+                                                ? $step->providedDocuments->count()
+                                                : 0;
+                                            $docsPayload = $step->providedDocuments
+                                                ? $step->providedDocuments
+                                                    ->map(function ($doc) {
+                                                        return [
+                                                            'name' => $doc->name ?? 'Documento',
+                                                            'show' => route(
+                                                                config('proj.route_name_prefix', 'proj') .
+                                                                    '.step-provided-document.show',
+                                                                $doc->document_id,
+                                                            ),
+                                                            'download' => route(
+                                                                config('proj.route_name_prefix', 'proj') .
+                                                                    '.step-provided-document.download',
+                                                                $doc->document_id,
+                                                            ),
+                                                        ];
+                                                    })
+                                                    ->values()
+                                                    ->toArray()
+                                                : [];
                                         @endphp
-                                        <button type="button" class="dropdown-item d-flex align-items-center view-step-detail"
+                                        <button type="button"
+                                            class="dropdown-item d-flex align-items-center view-step-detail"
                                             data-step-title="{{ $step->title }}"
                                             data-step-type="{{ $step->step_type }}"
                                             data-step-type-label="{{ $this->getStepTypeLabel($step->step_type) }}"
@@ -184,7 +218,8 @@
                                         @if ($providedDocs > 0)
                                             <button type="button"
                                                 class="dropdown-item d-flex align-items-center open-step-docs-modal"
-                                                data-step-title="{{ $step->title }}" data-docs='@json($docsPayload)'>
+                                                data-step-title="{{ $step->title }}"
+                                                data-docs='@json($docsPayload)'>
                                                 @icon('file', 'dropdown-icon text-gray-400 me-2')
                                                 Documentos ({{ $providedDocs }})
                                             </button>
@@ -218,138 +253,143 @@
 </div>
 
 @push('styles')
-<style>
-    .swal2-popup .btn-outline-secondary:hover,
-    .swal2-popup .btn-outline-secondary:active,
-    .swal2-popup .btn-outline-secondary:focus-visible {
-        background-color: var(--bs-secondary, #6c757d) !important;
-        border-color: var(--bs-secondary, #6c757d) !important;
-        color: #fff !important;
-    }
-</style>
+    <style>
+        .swal2-popup .btn-outline-secondary:hover,
+        .swal2-popup .btn-outline-secondary:active,
+        .swal2-popup .btn-outline-secondary:focus-visible {
+            background-color: var(--bs-secondary, #6c757d) !important;
+            border-color: var(--bs-secondary, #6c757d) !important;
+            color: #fff !important;
+        }
+    </style>
 @endpush
 
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-primary me-2',
-                cancelButton: 'btn btn-gray'
-            },
-            buttonsStyling: false
-        });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-gray'
+                },
+                buttonsStyling: false
+            });
 
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('.view-step-detail')) {
-                e.preventDefault();
-                const button = e.target.closest('.view-step-detail');
-                const title = button.getAttribute('data-step-title');
-                const type = button.getAttribute('data-step-type');
-                const typeLabel = button.getAttribute('data-step-type-label');
-                const instruction = button.getAttribute('data-step-instruction');
-                const condition = button.getAttribute('data-step-condition');
-                const finalization = button.getAttribute('data-step-finalization');
-                const isInitial = button.getAttribute('data-step-initial');
-                const isLinked = button.getAttribute('data-step-linked');
-                const docs = button.getAttribute('data-step-docs');
-                const providedDocs = button.getAttribute('data-step-provided-docs');
-                const nextStep = button.getAttribute('data-step-next');
-                const nextYes = button.getAttribute('data-step-next-yes');
-                const nextNo = button.getAttribute('data-step-next-no');
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.view-step-detail')) {
+                    e.preventDefault();
+                    const button = e.target.closest('.view-step-detail');
+                    const title = button.getAttribute('data-step-title');
+                    const type = button.getAttribute('data-step-type');
+                    const typeLabel = button.getAttribute('data-step-type-label');
+                    const instruction = button.getAttribute('data-step-instruction');
+                    const condition = button.getAttribute('data-step-condition');
+                    const finalization = button.getAttribute('data-step-finalization');
+                    const isInitial = button.getAttribute('data-step-initial');
+                    const isLinked = button.getAttribute('data-step-linked');
+                    const docs = button.getAttribute('data-step-docs');
+                    const providedDocs = button.getAttribute('data-step-provided-docs');
+                    const nextStep = button.getAttribute('data-step-next');
+                    const nextYes = button.getAttribute('data-step-next-yes');
+                    const nextNo = button.getAttribute('data-step-next-no');
 
-                let htmlContent = `
-                    <div class="text-start">
-                        <p class="mb-2"><span class="fw-bold">Tipo:</span> ${typeLabel}</p>
-                        <p class="mb-2"><span class="fw-bold">Instrucciones:</span> ${instruction}</p>
-                `;
+                    let htmlContent = `
+                        <div class="text-start">
+                            <p class="mb-2"><span class="fw-bold">Tipo:</span> ${typeLabel}</p>
+                            <p class="mb-2"><span class="fw-bold">Instrucciones:</span> ${instruction}</p>
+                    `;
 
-                if (condition) {
-                    htmlContent += `<p class="mb-2"><span class="fw-bold">Pregunta condicional:</span> ${condition}</p>`;
-                }
+                    if (condition) {
+                        htmlContent +=
+                            `<p class="mb-2"><span class="fw-bold">Pregunta condicional:</span> ${condition}</p>`;
+                    }
 
-                if (finalization) {
-                    htmlContent += `<p class="mb-2"><span class="fw-bold">Mensaje de finalizacion:</span> ${finalization}</p>`;
-                }
+                    if (finalization) {
+                        htmlContent +=
+                            `<p class="mb-2"><span class="fw-bold">Mensaje de finalizacion:</span> ${finalization}</p>`;
+                    }
 
-                if (type === 'conditional') {
-                    htmlContent += `<p class="mb-2"><span class="fw-bold">Si:</span> ${nextYes || 'No definido'}</p>`;
-                    htmlContent += `<p class="mb-2"><span class="fw-bold">Si NO:</span> ${nextNo || 'No definido'}</p>`;
-                } else if (type !== 'final') {
-                    htmlContent += `<p class="mb-2"><span class="fw-bold">Siguiente paso:</span> ${nextStep || 'No definido'}</p>`;
-                }
+                    if (type === 'conditional') {
+                        htmlContent +=
+                            `<p class="mb-2"><span class="fw-bold">Si:</span> ${nextYes || 'No definido'}</p>`;
+                        htmlContent +=
+                            `<p class="mb-2"><span class="fw-bold">Si NO:</span> ${nextNo || 'No definido'}</p>`;
+                    } else if (type !== 'final') {
+                        htmlContent +=
+                            `<p class="mb-2"><span class="fw-bold">Siguiente paso:</span> ${nextStep || 'No definido'}</p>`;
+                    }
 
-                htmlContent += `
-                        <p class="mb-2"><span class="fw-bold">Es paso inicial:</span> ${isInitial}</p>
-                        <p class="mb-2"><span class="fw-bold">Vinculado al flujo:</span> ${isLinked}</p>
-                        <p class="mb-2"><span class="fw-bold">Documentos requeridos:</span> ${docs}</p>
-                        <p class="mb-0"><span class="fw-bold">Documentos proporcionados:</span> ${providedDocs}</p>
-                    </div>
-                `;
-
-                swalWithBootstrapButtons.fire({
-                    title: title,
-                    html: htmlContent,
-                    icon: 'info',
-                    confirmButtonText: 'Cerrar',
-                    width: '500px'
-                });
-            }
-        });
-
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('.open-step-docs-modal')) {
-                e.preventDefault();
-                const button = e.target.closest('.open-step-docs-modal');
-                const stepTitle = button.getAttribute('data-step-title') || 'Documentos';
-                const docsRaw = button.getAttribute('data-docs') || '[]';
-                let docs = [];
-                try {
-                    docs = JSON.parse(docsRaw);
-                } catch (err) {
-                    docs = [];
-                }
-
-                if (!docs.length) {
-                    swalWithBootstrapButtons.fire({
-                        title: `Documentos - ${stepTitle}`,
-                        html: '<div class="text-center text-gray-500 py-2">Sin documentos</div>',
-                        icon: 'info',
-                        confirmButtonText: 'Cerrar',
-                    });
-                    return;
-                }
-
-                const listHtml = docs.map((doc) => {
-                    const name = doc.name || 'Documento';
-                    const showUrl = doc.show || '#';
-                    const downloadUrl = doc.download || '#';
-                    return `
-                        <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
-                            <div class="me-3">
-                                <div class="fw-bold text-gray-800">${name}</div>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
-                                    Abrir
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
-                                    Descargar
-                                </a>
-                            </div>
+                    htmlContent += `
+                            <p class="mb-2"><span class="fw-bold">Es paso inicial:</span> ${isInitial}</p>
+                            <p class="mb-2"><span class="fw-bold">Vinculado al flujo:</span> ${isLinked}</p>
+                            <p class="mb-2"><span class="fw-bold">Documentos requeridos:</span> ${docs}</p>
+                            <p class="mb-0"><span class="fw-bold">Documentos proporcionados:</span> ${providedDocs}</p>
                         </div>
                     `;
-                }).join('');
 
-                swalWithBootstrapButtons.fire({
-                    title: `Documentos - ${stepTitle}`,
-                    html: `<div class="list-group list-group-flush">${listHtml}</div>`,
-                    icon: 'info',
-                    confirmButtonText: 'Cerrar',
-                    width: '550px'
-                });
-            }
+                    swalWithBootstrapButtons.fire({
+                        title: title,
+                        html: htmlContent,
+                        icon: 'info',
+                        confirmButtonText: 'Cerrar',
+                        width: '500px'
+                    });
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.open-step-docs-modal')) {
+                    e.preventDefault();
+                    const button = e.target.closest('.open-step-docs-modal');
+                    const stepTitle = button.getAttribute('data-step-title') || 'Documentos';
+                    const docsRaw = button.getAttribute('data-docs') || '[]';
+                    let docs = [];
+                    try {
+                        docs = JSON.parse(docsRaw);
+                    } catch (err) {
+                        docs = [];
+                    }
+
+                    if (!docs.length) {
+                        swalWithBootstrapButtons.fire({
+                            title: `Documentos - ${stepTitle}`,
+                            html: '<div class="text-center text-gray-500 py-2">Sin documentos</div>',
+                            icon: 'info',
+                            confirmButtonText: 'Cerrar',
+                        });
+                        return;
+                    }
+
+                    const listHtml = docs.map((doc) => {
+                        const name = doc.name || 'Documento';
+                        const showUrl = doc.show || '#';
+                        const downloadUrl = doc.download || '#';
+                        return `
+                            <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                                <div class="me-3">
+                                    <div class="fw-bold text-gray-800">${name}</div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
+                                        Abrir
+                                    </a>
+                                    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
+                                        Descargar
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    swalWithBootstrapButtons.fire({
+                        title: `Documentos - ${stepTitle}`,
+                        html: `<div class="list-group list-group-flush">${listHtml}</div>`,
+                        icon: 'info',
+                        confirmButtonText: 'Cerrar',
+                        width: '550px'
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>
 @endsection

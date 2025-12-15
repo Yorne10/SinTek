@@ -1,4 +1,17 @@
 <?php
+/**
+ * Company: CETAM
+ * Project: ST
+ * File: Handler.php
+ * Created on: 14/12/2025
+ * Created by: Alfonso Angel Garcia Hernandez
+ * Approved by: Alfonso Angel Garcia Hernandez
+ *
+ * Changelog:
+ * - ID: <ID> | Modified on: dd/mm/yyyy |
+ * Modified by: <Developer name> |
+ * Description: <Brief description of change> |
+ */
 
 namespace App\Exceptions;
 
@@ -38,7 +51,7 @@ class Handler extends ExceptionHandler
             //
         });
 
-        // Manejo de CSRF token inválido (sesión expirada)
+        // Handle invalid CSRF token (session expired)
         $this->renderable(function (\Illuminate\Session\TokenMismatchException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Sesión expirada'], 419);
@@ -46,61 +59,61 @@ class Handler extends ExceptionHandler
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
         });
 
-        // Manejo de errores de método no permitido (ej: GET en ruta POST)
-        // Esto NO debe mostrar "sesión expirada" porque la sesión puede seguir activa
+        // Handle method not allowed errors (e.g., GET on POST route)
+        // This should NOT show "session expired" because the session may still be active
         $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Método no permitido'], 405);
             }
-            // Redirigir al dashboard si está autenticado, o al login si no
+            // Redirect to dashboard if authenticated, or to login if not
             if (auth()->check()) {
                 return redirect()->route(config('proj.route_name_prefix', 'proj') . '.dashboard.index');
             }
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         });
 
-        // Manejo de autenticación fallida (usuario no autenticado)
+        // Handle authentication failure (unauthenticated user)
         $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'No autenticado'], 401);
             }
-            // If viene de una petición Ajax/Livewire, redirigir a sesión expirada
+            // If coming from an Ajax/Livewire request, redirect to session expired
             if ($request->ajax() || $request->wantsJson() || $request->is('livewire/*')) {
                 return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
             }
-            // If it is una petición normal, redirigir al login
+            // If it is a normal request, redirect to login
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         });
 
-        // Manejo de errores de conexión con la base de datos
+        // Handle database connection errors
         $this->renderable(function (\Illuminate\Database\QueryException $e, $request) {
-            // Solo tratar como error de conexión si REALMENTE es un error de conexión crítico
+            // Only treat as connection error if it is REALLY a critical connection error
             if ($this->isCriticalDatabaseError($e)) {
                 $errorMessage = 'No se pudo establecer conexión con la base de datos. Por favor, intenta nuevamente.';
 
-                // Para peticiones Livewire/AJAX
+                // For Livewire/AJAX requests
                 if ($request->expectsJson() || $request->is('livewire/*') || $request->header('X-Livewire')) {
-                    // En lugar de JSON puro, redirigir a una página de error
+                    // Instead of pure JSON, redirect to an error page
                     return response()->view('errors.database-error', [
                         'message' => $errorMessage,
                         'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
                     ], 503);
                 }
 
-                // Para peticiones normales
+                // For normal requests
                 return response()->view('errors.database-error', [
                     'message' => $errorMessage,
                     'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
                 ], 503);
             }
-            // Si no es un error crítico, dejar que Laravel lo maneje normalmente
+            // If not a critical error, let Laravel handle it normally
         });
 
-        // Manejo de errores PDO (conexión fallida a nivel más bajo)
+        // Handle PDO errors (connection failed at lower level)
         $this->renderable(function (\PDOException $e, $request) {
             $errorMessage = 'No se pudo establecer conexión con la base de datos. Por favor, intenta nuevamente.';
 
-            // Para peticiones Livewire/AJAX o normales, mostrar vista de error
+            // For Livewire/AJAX or normal requests, show error view
             return response()->view('errors.database-error', [
                 'message' => $errorMessage,
                 'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
@@ -109,15 +122,15 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Determinar si la excepción es un error de conexión CRÍTICO con la base de datos.
-     * Solo devuelve true para errores reales de conexión, no para errores de query normales.
+     * Determine if the exception is a CRITICAL database connection error.
+     * Only returns true for real connection errors, not for normal query errors.
      *
      * @param \Illuminate\Database\QueryException $e
      * @return bool
      */
     protected function isCriticalDatabaseError(\Illuminate\Database\QueryException $e): bool
     {
-        // Códigos de error que indican problemas CRÍTICOS de conexión
+        // Error codes indicating CRITICAL connection problems
         $criticalErrorCodes = [
             2002, // Connection refused (MySQL)
             2003, // Can't connect to MySQL server
@@ -130,12 +143,12 @@ class Handler extends ExceptionHandler
         if ($previousException instanceof \PDOException) {
             $errorCode = $previousException->getCode();
 
-            // Solo considerar error crítico si el código coincide exactamente
+            // Only consider critical error if the code matches exactly
             if (in_array((int) $errorCode, $criticalErrorCodes, true)) {
                 return true;
             }
 
-            // Verificar palabras clave específicas que indican pérdida de conexión
+            // Check specific keywords indicating connection loss
             $message = strtolower($previousException->getMessage());
             $criticalKeywords = ['connection refused', 'can\'t connect', 'server has gone away', 'lost connection'];
 

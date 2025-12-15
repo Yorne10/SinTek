@@ -46,7 +46,7 @@ class Profile extends Component
     public $availablePositions = [];
 
     /**
-     * Mostrar confirmación antes de agregar una clave.
+     * Show confirmation before adding a key.
      */
     public function confirmAddKey(): void
     {
@@ -228,7 +228,7 @@ class Profile extends Component
             ]);
         }
 
-        // Verify si ya tiene esta clave
+        // Check if already has this key
         if ($this->worker->positions()->where('positions.positions_id', $positionId)->exists()) {
             $this->dispatch(
                 'profile-notify',
@@ -239,7 +239,7 @@ class Profile extends Component
             return;
         }
 
-        // Agregar la relación en la tabla positions_workers
+        // Add the relationship in the positions_workers table
         $this->worker->positions()->attach($positionId);
         $this->worker = $this->worker->fresh(['positions']);
 

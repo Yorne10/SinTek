@@ -115,8 +115,8 @@ class DocumentForm extends Component
             'fecha_vigencia' => $this->sin_fecha_vigencia ? 'nullable|date' : 'required|date',
         ];
 
-        // If it is nuevo documento, el archivo es obligatorio
-        // If it is edición, el archivo es opcional
+        // If it is a new document, file is required
+        // If it is editing, file is optional
         if ($this->documentId) {
             $rules['archivo'] = 'nullable|file|mimes:pdf|max:10240';
         } else {
@@ -155,7 +155,7 @@ class DocumentForm extends Component
     public function save(): void
     {
         try {
-            // Validate campos
+            // Validate fields
             $validated = $this->validate();
 
             Log::info('DocumentForm::save - Validación exitosa', [
@@ -174,7 +174,7 @@ class DocumentForm extends Component
                 'status' => $this->status,
             ];
 
-            // Preparar archivo si existe
+            // Prepare file if exists
             if ($this->archivo) {
                 try {
                     $file = $this->archivo;
@@ -230,7 +230,7 @@ class DocumentForm extends Component
                     message: 'El documento ha sido guardado exitosamente.'
                 );
 
-                // Limpiar formulario después de crear
+                // Clear form after creation
                 $this->reset(['titulo', 'descripcion', 'categoria', 'version', 'fecha_vigencia', 'sin_fecha_vigencia', 'archivo']);
 
                 // Dispatch evento para limpiar el input file

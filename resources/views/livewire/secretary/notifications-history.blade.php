@@ -73,7 +73,8 @@ Changelog:
 
     {{-- Notifications Table --}}
     <div class="card card-body shadow border-0 table-wrapper table-responsive">
-        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center" style="table-layout: fixed;">
+        <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center"
+            style="table-layout: fixed;">
             <colgroup>
                 <col style="width: 26%">
                 <col style="width: 20%">
@@ -96,19 +97,22 @@ Changelog:
                 @forelse($notifications as $notification)
                     <tr>
                         <td>
-                            <span class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $notification->title }}</span>
+                            <span
+                                class="fw-bold text-gray-900 text-truncate d-inline-block w-100">{{ $notification->title }}</span>
                         </td>
                         <td>
-                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $notification->user->name ?? 'N/A' }}</span>
+                            <span
+                                class="fw-normal text-truncate d-inline-block w-100">{{ $notification->user->name ?? 'N/A' }}</span>
                         </td>
                         <td>
-                            <span class="fw-normal text-truncate d-inline-block w-100">{{ $notification->user->email ?? 'N/A' }}</span>
+                            <span
+                                class="fw-normal text-truncate d-inline-block w-100">{{ $notification->user->email ?? 'N/A' }}</span>
                         </td>
                         <td>
                             <span class="fw-normal">{{ $notification->created_at->format('d/m/Y') }}</span>
                         </td>
                         <td>
-                            @if($notification->read_at)
+                            @if ($notification->read_at)
                                 <span class="fw-bold text-success">Leída</span>
                             @else
                                 <span class="fw-bold text-warning">Pendiente</span>
@@ -121,8 +125,8 @@ Changelog:
                                     @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                    <button class="dropdown-item d-flex align-items-center view-notification-detail" type="button"
-                                        data-title="{{ $notification->title }}"
+                                    <button class="dropdown-item d-flex align-items-center view-notification-detail"
+                                        type="button" data-title="{{ $notification->title }}"
                                         data-message="{{ $notification->message }}"
                                         data-user-name="{{ $notification->user->name ?? 'N/A' }}"
                                         data-user-email="{{ $notification->user->email ?? 'N/A' }}"
@@ -151,8 +155,9 @@ Changelog:
                 @endforelse
             </tbody>
         </table>
-        <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if($notifications->hasPages())
+        <div
+            class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+            @if ($notifications->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
                     {{ $notifications->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
@@ -166,7 +171,7 @@ Changelog:
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary',
@@ -176,7 +181,7 @@ Changelog:
         });
 
         // Event listener para ver detalles
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (e.target.closest('.view-notification-detail')) {
                 e.preventDefault();
                 const button = e.target.closest('.view-notification-detail');

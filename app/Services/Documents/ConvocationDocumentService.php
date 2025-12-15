@@ -30,13 +30,13 @@ class ConvocationDocumentService
     {
         $document = ConvocationDocument::findOrFail($id);
 
-        // Asegurar que el nombre del archivo siempre termine en .pdf
+        // Ensure the filename always ends with .pdf
         $filename = $document->file_name ?: $document->title;
 
-        // Remover extensión existente si la hay
+        // Remove existing extension if any
         $filename = preg_replace('/\.[^.]+$/', '', $filename);
 
-        // Agregar extensión .pdf
+        // Add .pdf extension
         $filename = $filename . '.pdf';
 
         return response($document->file_content)
@@ -62,13 +62,13 @@ class ConvocationDocumentService
     {
         $document = ConvocationDocument::findOrFail($id);
 
-        // Asegurar que el nombre del archivo siempre termine en .pdf
+        // Ensure the filename always ends with .pdf
         $filename = $document->file_name ?: $document->title;
 
-        // Remover extensión existente si la hay
+        // Remove existing extension if any
         $filename = preg_replace('/\.[^.]+$/', '', $filename);
 
-        // Agregar extensión .pdf
+        // Add .pdf extension
         $filename = $filename . '.pdf';
 
         return response($document->file_content)

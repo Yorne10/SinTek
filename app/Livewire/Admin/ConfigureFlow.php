@@ -85,7 +85,7 @@ class ConfigureFlow extends Component
 
         // Load current configuration
         foreach ($this->steps as $step) {
-            // Permitir que el paso marcado como inicial o con tipo inicial sea tomado como inicial
+            // Allow the step marked as initial or with initial type to be taken as initial
             if ($step->is_initial_step || $step->step_type === 'initial') {
                 $this->initialStepId = $step->step_id;
             }
@@ -149,7 +149,7 @@ class ConfigureFlow extends Component
         $this->validationWarnings = [];
         $this->isFlowValid = true;
 
-        // Alcanzables desde inicial
+        // Reachable from initial
         $reachable = $this->initialStepId ? $this->getReachableSteps() : [];
 
         // 1. Check initial step
@@ -166,7 +166,7 @@ class ConfigureFlow extends Component
 
         // 2. Check all non-final steps have next step
         foreach ($this->steps as $step) {
-            // Si no es alcanzable desde el inicial, no bloquea la validación (solo se marcará advertencia)
+            // If not reachable from initial, it doesn't block validation (only shows warning)
             if ($this->initialStepId && !in_array($step->step_id, $reachable)) {
                 continue;
             }
@@ -177,7 +177,7 @@ class ConfigureFlow extends Component
 
             $conn = $this->connections[$step->step_id] ?? [];
 
-            // Paso condicional
+            // Conditional step
             $hasConditional = $step->step_type === 'conditional';
 
             if ($hasConditional) {
@@ -215,7 +215,7 @@ class ConfigureFlow extends Component
             }
         }
 
-        // 5. Validar que todos los caminos alcanzables llegan a un final
+        // 5. Validate that all reachable paths lead to a final step
         if ($this->initialStepId) {
             $reachable = $this->getReachableSteps();
             $memo = [];
@@ -277,7 +277,7 @@ class ConfigureFlow extends Component
     protected function calculateOrder(): array
     {
         if (!$this->initialStepId) {
-            // Sin inicial, mantener un orden estable basado en la posiciГіn actual
+            // Without initial, maintain a stable order based on current position
             $orders = [];
             foreach ($this->steps->values() as $i => $step) {
                 $orders[$step->step_id] = 1000 + $i;
@@ -288,7 +288,7 @@ class ConfigureFlow extends Component
         $orders = [$this->initialStepId => 1];
         $stepCount = $this->steps->count();
 
-        // Iterative relaxation to ensure a node shared by varios padres tome el máximo nivel
+        // Iterative relaxation to ensure a node shared by multiple parents takes the maximum level
         for ($i = 0; $i < $stepCount; $i++) {
             $changed = false;
             foreach ($this->steps as $step) {
@@ -331,14 +331,14 @@ class ConfigureFlow extends Component
             }
         }
 
-        // Pasos no alcanzados o sin orden: colocarlos al final de forma estable
+        // Unreached or unordered steps: place them at the end in a stable manner
         $maxOrder = $orders ? max($orders) : 0;
         foreach ($this->steps->values() as $idx => $step) {
             if (isset($orders[$step->step_id])) {
                 continue;
             }
             $maxOrder++;
-            // usar maxOrder + indice para mantener estabilidad relativa
+            // use maxOrder + index to maintain relative stability
             $orders[$step->step_id] = $maxOrder + ($idx / 1000);
         }
 
@@ -346,29 +346,29 @@ class ConfigureFlow extends Component
     }
 
     /**
-     * Recalcula flags de vinculado y el orden de visualización dinámico.
+     * Recalculates linked flags and dynamic display order.
      */
     protected function refreshDisplayState(): void
     {
         $reachable = $this->getReachableSteps();
 
-        // Actualizar flag de vinculado en los pasos en memoria
+        // Update linked flag in steps in memory
         $this->steps = $this->steps->map(function ($step) use ($reachable) {
             $step->is_linked = in_array($step->step_id, $reachable);
             return $step;
         });
 
-        // Orden para mostrar pasos: derivado del flujo (mayor de los padres)
+        // Order for displaying steps: derived from flow (max of parents)
         $orders = $this->calculateOrder();
 
-        // Indice base para mantener orden estable cuando hay empates
+        // Base index to maintain stable order when there are ties
         $baseIndex = [];
         foreach ($this->steps->values() as $idx => $st) {
             $baseIndex[$st->step_id] = $idx;
         }
 
         $this->displaySteps = $this->steps->sortBy(function ($step) use ($orders, $baseIndex) {
-            // Paso inicial siempre primero
+            // Initial step always first
             if ($step->is_initial_step || $step->step_type === 'initial') {
                 return [0, $baseIndex[$step->step_id] ?? 0];
             }
@@ -380,7 +380,7 @@ class ConfigureFlow extends Component
     }
 
     /**
-     * Determina si desde un paso alcanzable hay al menos un camino a un paso final.
+     * Determines if from a reachable step there is at least one path to a final step.
      */
     protected function leadsToFinal(int $stepId, array &$memo, array $visiting = []): bool
     {
@@ -389,7 +389,7 @@ class ConfigureFlow extends Component
         }
 
         if (in_array($stepId, $visiting)) {
-            // ciclo, considerar que no llega a final para evitar loop infinito
+            // cycle detected, consider it doesn't reach final to avoid infinite loop
             return false;
         }
 
@@ -421,7 +421,7 @@ class ConfigureFlow extends Component
             }
         }
 
-        // Si no hay siguientes y no es final, no llega a final
+        // If no next steps and not final, it doesn't reach final
         if (empty($targets)) {
             $memo[$stepId] = false;
             return false;
@@ -497,7 +497,7 @@ class ConfigureFlow extends Component
             $user?->users_id
         );
 
-        // Emitir evento para mostrar alerta de éxito y redirigir a definir pasos
+        // Emit event to show success alert and redirect to define steps
         $this->dispatch(
             'flow-saved',
             type: 'success',

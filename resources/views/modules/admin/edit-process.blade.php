@@ -22,7 +22,7 @@ Changelog:
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    @if(auth()->user()->role === 'secretary')
+                    @if (auth()->user()->role === 'secretary')
                         <li class="breadcrumb-item">Secretaría</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
@@ -47,7 +47,8 @@ Changelog:
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2 class="h5 mb-0">Información del proceso</h2>
                         @if (!request()->route('process_id'))
-                            <button wire:click="$set('selectedProcessId', null)" class="btn btn-sm btn-outline-secondary">
+                            <button wire:click="$set('selectedProcessId', null)"
+                                class="btn btn-sm btn-outline-secondary">
                                 @icon('edit', 'me-1')
                                 Cambiar proceso
                             </button>
@@ -96,8 +97,8 @@ Changelog:
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="process_department">Departamento responsable</label>
-                                <input wire:model="department" class="form-control" id="process_department" type="text"
-                                    placeholder="Ej: Recursos Humanos">
+                                <input wire:model="department" class="form-control" id="process_department"
+                                    type="text" placeholder="Ej: Recursos Humanos">
                                 @error('department')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -142,7 +143,8 @@ Changelog:
                                     @icon('info', 'fa-xs text-info me-3')
                                     <div>
                                         <h3 class="h6">Modificar pasos</h3>
-                                        <p class="text-gray-700 small mb-0">Para modificar los pasos del proceso, dirígete a
+                                        <p class="text-gray-700 small mb-0">Para modificar los pasos del proceso,
+                                            dirígete a
                                             la sección "Definir pasos" en el menú de administración.</p>
                                     </div>
                                 </div>
@@ -195,7 +197,8 @@ Changelog:
                                 @if ($selectedProcess->process_code)
                                     ({{ $selectedProcess->process_code }})
                                 @endif
-                                "</strong>?
+                                "
+                            </strong>?
                         </p>
                     @endif
                     <div class="alert alert-danger" role="alert">
@@ -208,7 +211,8 @@ Changelog:
                     </p>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-link text-gray-600" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-link text-gray-600"
+                        data-bs-dismiss="modal">Cancelar</button>
                     <button wire:click="deleteProcess" type="button" class="btn btn-danger"
                         wire:loading.attr="disabled">
                         <span wire:loading.remove wire:target="deleteProcess">
@@ -216,7 +220,8 @@ Changelog:
                             Eliminar proceso
                         </span>
                         <span wire:loading wire:target="deleteProcess">
-                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <span class="spinner-border spinner-border-sm me-2" role="status"
+                                aria-hidden="true"></span>
                             Eliminando...
                         </span>
                     </button>
@@ -226,7 +231,7 @@ Changelog:
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             if (window.Livewire) {
                 Livewire.on('process-updated', (event) => {
                     Swal.fire({
@@ -242,7 +247,8 @@ Changelog:
                 });
 
                 Livewire.on('process-deleted', (event) => {
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteProcessModal'));
+                    const modal = bootstrap.Modal.getInstance(document.getElementById(
+                    'deleteProcessModal'));
                     if (modal) modal.hide();
 
                     Swal.fire({
@@ -251,7 +257,8 @@ Changelog:
                         text: event.message || 'El proceso se eliminó correctamente.',
                         confirmButtonText: 'Aceptar'
                     }).then(() => {
-                        window.location.href = '{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}';
+                        window.location.href =
+                            '{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}';
                     });
                 });
 
@@ -267,11 +274,11 @@ Changelog:
         });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const deleteBtn = document.getElementById('deleteProcessBtn');
             if (!deleteBtn) return;
 
-            deleteBtn.addEventListener('click', function (e) {
+            deleteBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 Swal.fire({
                     icon: 'question',

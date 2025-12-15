@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/reset-password.blade.php --}}
+{{-- View moved to modules/reset-password.blade.php --}}
 @include('modules.reset-password')
 

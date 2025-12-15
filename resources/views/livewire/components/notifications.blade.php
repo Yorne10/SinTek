@@ -13,7 +13,7 @@ Changelog:
 --}}
 
 <div>
-    @if($isWorker)
+    @if ($isWorker)
         <div wire:poll.10s="refreshNotifications">
             <li class="nav-item dropdown">
                 <a class="nav-link text-white notification-bell dropdown-toggle"
@@ -21,7 +21,7 @@ Changelog:
                     data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                     <i
                         class="{{ icon('notification') }} fa-2x {{ $unreadCount > 0 ? 'text-secondary' : 'text-primary' }}"></i>
-                    @if($unreadCount > 0)
+                    @if ($unreadCount > 0)
                         <span class="text-secondary fw-bold ms-1">{{ $unreadCount }}</span>
                     @endif
                 </a>
@@ -31,7 +31,8 @@ Changelog:
                             class="text-center text-primary fw-bold border-bottom border-light py-3">Notificaciones</a>
                         <div style="max-height: 350px; overflow-y: auto;">
                             @forelse($notifications as $notification)
-                                <a href="{{ $notificationRoute }}" class="list-group-item list-group-item-action border-bottom">
+                                <a href="{{ $notificationRoute }}"
+                                    class="list-group-item list-group-item-action border-bottom">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="flex-grow-1">
                                             <h4 class="h6 mb-0 text-small text-truncate">
@@ -49,10 +50,12 @@ Changelog:
                                     </div>
                                 </a>
                             @empty
-                                <div class="list-group-item border-0 text-center py-4 text-gray-500">Sin notificaciones</div>
+                                <div class="list-group-item border-0 text-center py-4 text-gray-500">Sin notificaciones
+                                </div>
                             @endforelse
                         </div>
-                        <a href="{{ $notificationRoute }}" class="dropdown-item text-center fw-bold rounded-bottom py-3">
+                        <a href="{{ $notificationRoute }}"
+                            class="dropdown-item text-center fw-bold rounded-bottom py-3">
                             @icon('view', 'fa-xs text-gray-400 me-1')
                             Ver todas
                         </a>

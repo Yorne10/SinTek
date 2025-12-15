@@ -48,7 +48,9 @@ Changelog:
                                 <label for="name">Nombre completo <span class="text-danger">*</span></label>
                                 <input wire:model="name" class="form-control @error('name') is-invalid @enderror"
                                     id="name" type="text" placeholder="Nombre completo">
-                                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -56,7 +58,9 @@ Changelog:
                                 <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" type="email" placeholder="correo@institucion.com">
-                                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -64,14 +68,16 @@ Changelog:
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="role">Rol <span class="text-danger">*</span></label>
-                            <select wire:model="role" class="form-select @error('role') is-invalid @enderror" id="role"
-                                aria-label="Seleccionar rol">
+                            <select wire:model="role" class="form-select @error('role') is-invalid @enderror"
+                                id="role" aria-label="Seleccionar rol">
                                 <option value="">Seleccionar...</option>
                                 <option value="admin">Administrador</option>
                                 <option value="secretary">Secretario(a)</option>
                                 <option value="worker">Trabajador(a)</option>
                             </select>
-                            @error('role') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('role')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -83,7 +89,9 @@ Changelog:
                                 <input wire:model="password"
                                     class="form-control @error('password') is-invalid @enderror" id="password"
                                     type="password" placeholder="Contrase&ntilde;a">
-                                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                                 <small class="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
                         </div>
@@ -94,7 +102,8 @@ Changelog:
                                 <input wire:model="password_confirmation"
                                     class="form-control @error('password_confirmation') is-invalid @enderror"
                                     id="password_confirmation" type="password" placeholder="Contrase&ntilde;a">
-                                @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div>
+                                @error('password_confirmation')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -151,7 +160,7 @@ Changelog:
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -161,7 +170,7 @@ Changelog:
         });
 
         // Botón de guardar usuario con confirmación
-        document.getElementById('createUserBtn').addEventListener('click', function () {
+        document.getElementById('createUserBtn').addEventListener('click', function() {
             swalWithBootstrapButtons.fire({
                 title: '¿Guardar usuario?',
                 text: '¿Deseas guardar este usuario?',

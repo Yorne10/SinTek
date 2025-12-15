@@ -597,7 +597,7 @@ class RequestService
             ], 404);
         }
 
-        // Validate que el trámite pueda ser cancelado
+        // Validate that the request can be cancelled
         if (in_array($req->status, ['completado', 'cancelado', 'rechazado'])) {
             return response()->json([
                 'success' => false,
@@ -607,11 +607,11 @@ class RequestService
 
         DB::beginTransaction();
         try {
-            // Update el estado del trámite
+            // Update the request status
             $req->status = 'cancelado';
             $req->save();
 
-            // Cancelar todos los pasos pendientes o en progreso
+            // Cancel all pending or in-progress steps
             RequestStep::where('request_id', $req->request_id)
                 ->whereIn('request_step_status', ['pendiente', 'en_progreso'])
                 ->update([

@@ -1,4 +1,4 @@
-Ôªø{{--
+{{--
 Company: CETAM
 Project: ST
 File: procedure-detail.blade.php
@@ -23,15 +23,15 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}">Mis
-                        tr√°mites</a>
+                        tr·mites</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Detalle del tr√°mite</li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle del tr·mite</li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap mt-2">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4 mb-1">Detalles del tr√°mite</h1>
-                <p class="mb-0 text-muted">Consulta el avance de tus pasos y revisa la informaci√≥n del tr√°mite.</p>
+                <h1 class="h4 mb-1">Detalles del tr·mite</h1>
+                <p class="mb-0 text-muted">Consulta el avance de tus pasos y revisa la informaciÛn del tr·mite.</p>
             </div>
         </div>
     </div>
@@ -43,8 +43,8 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                 <div
                     class="card-header bg-white border-0 d-flex flex-wrap align-items-center justify-content-between gap-2">
                     <div>
-                        <h2 class="h6 fw-bold mb-2">Seguimiento del tr√°mite</h2>
-                        <p class="mb-1"><span class="text-muted">Tr√°mite:</span> <span
+                        <h2 class="h6 fw-bold mb-2">Seguimiento del tr·mite</h2>
+                        <p class="mb-1"><span class="text-muted">Tr·mite:</span> <span
                                 class="fw-semibold">{{ $request->process->name }}</span></p>
                         <p class="text-muted small mb-0">Pasos completados y paso actual</p>
                     </div>
@@ -73,7 +73,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                             }
                         }
 
-                        // Incluir pasos completados, en progreso o cancelados (misma l√≥gica que vista secretaria)
+                        // Incluir pasos completados, en progreso o cancelados (misma lÛgica que vista secretaria)
                         $visibleRequestSteps = $request->requestSteps->whereIn('request_step_status', ['completed', 'in_progress', 'cancelled']);
                         $visibleStepIds = $visibleRequestSteps->pluck('step_id')->toArray();
                         $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds)->sortBy('order');
@@ -95,7 +95,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                         <th class="border-0 rounded-start" style="width: 10%">#</th>
                                         <th class="border-0" style="width: 50%">Paso</th>
                                         <th class="border-0" style="width: 20%">Estado</th>
-                                        <th class="border-0 rounded-end" style="width: 20%">Acci√≥n</th>
+                                        <th class="border-0 rounded-end" style="width: 20%">AcciÛn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,7 +185,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                             <button type="button"
                                 class="btn btn-danger btn-sm d-inline-flex align-items-center cancel-procedure-btn">
                                 @icon('cancel', 'me-2 text-white')
-                                <span class="text-white">Cancelar tr√°mite</span>
+                                <span class="text-white">Cancelar tr·mite</span>
                             </button>
                         </div>
                     @endif
@@ -197,19 +197,19 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow mb-4">
                 <div class="card-header bg-white border-0">
-                    <h2 class="fs-5 fw-bold mb-0">Informaci√≥n del tr√°mite</h2>
+                    <h2 class="fs-5 fw-bold mb-0">InformaciÛn del tr·mite</h2>
                 </div>
                 <div class="card-body">
                     @if ($request->process->category)
                         <div class="mb-3">
-                            <small class="text-gray-600 d-block mb-1">Categor√≠a</small>
+                            <small class="text-gray-600 d-block mb-1">CategorÌa</small>
                             <p class="mb-0">{{ $request->process->category }}</p>
                         </div>
                     @endif
 
                     @if ($request->process->department)
                         <div class="mb-3">
-                            <small class="text-gray-600 d-block mb-1">√Årea</small>
+                            <small class="text-gray-600 d-block mb-1">¡rea</small>
                             <p class="mb-0">{{ $request->process->department }}</p>
                         </div>
                     @endif
@@ -237,7 +237,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
 
                     @if ($request->end_date)
                         <div class="mb-3">
-                            <small class="text-gray-600 d-block mb-1">Fecha de finalizaci√≥n</small>
+                            <small class="text-gray-600 d-block mb-1">Fecha de finalizaciÛn</small>
                             <p class="mb-0">{{ $request->end_date->format('d/m/Y H:i') }}</p>
                         </div>
                     @endif
@@ -279,7 +279,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
             if (!processActive) {
                 swalWithBootstrapButtons.fire({
                     title: 'Proceso inactivo',
-                    text: 'El proceso de este tr√°mite se encuentra temporalmente inactivo. No podr√°s avanzar hasta que se reactive.',
+                    text: 'El proceso de este tr·mite se encuentra temporalmente inactivo. No podr·s avanzar hasta que se reactive.',
                     icon: 'warning',
                     confirmButtonText: 'Entendido'
                 });
@@ -291,11 +291,11 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                     e.preventDefault();
 
                     swalWithBootstrapButtons.fire({
-                        title: '¬øCancelar tr√°mite?',
-                        text: 'Esta acci√≥n no se puede deshacer. ¬øEst√°s seguro de que deseas cancelar este tr√°mite?',
+                        title: 'øCancelar tr·mite?',
+                        text: 'Esta acciÛn no se puede deshacer. øEst·s seguro de que deseas cancelar este tr·mite?',
                         icon: 'question',
                         showCancelButton: true,
-                        confirmButtonText: 'S√≠, cancelar',
+                        confirmButtonText: 'SÌ, cancelar',
                         cancelButtonText: 'Cancelar',
                         reverseButtons: false
                     }).then((result) => {

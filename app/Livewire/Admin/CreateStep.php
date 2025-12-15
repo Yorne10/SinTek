@@ -27,7 +27,7 @@ class CreateStep extends Component
 {
     use WithFileUploads;
 
-    // Campos del paso
+    // Step fields
     public $step_id;
     public $process_id;
     public $title;  // Corrected from 'tittle'
@@ -46,12 +46,12 @@ class CreateStep extends Component
     public $is_linked = false;
     public $active = true;
 
-    // Control de UI
+    // UI Control
     public $activarRamificacion = false;
     public $isEditing = false;
     public $hasInitialStep = false;
 
-    // Listas
+    // Lists
     public $procesos = [];
     public $availableSteps = [];
 
@@ -322,7 +322,7 @@ class CreateStep extends Component
             $rules = [
                 'process_id' => 'required|exists:processes,process_id',
                 'title' => 'required|string|max:200',
-                // Instrucciones solo obligatorias si no es paso final
+                // Instructions only required if not a final step
                 'instruction' => $this->step_type === 'final' ? 'nullable|string|max:5000' : 'required|string|max:5000',
                 'step_type' => 'required|string|in:initial,normal,conditional,final',
                 'condition_question' => 'nullable|string',
@@ -341,7 +341,7 @@ class CreateStep extends Component
                 $rules['documents.*.title'] = 'required|string|max:150';
             }
 
-            // Validaciones adicionales por tipo
+            // Additional validations by type
             if ($this->step_type === 'conditional') {
                 $rules['condition_question'] = 'required|string|max:255';
             }
@@ -350,7 +350,7 @@ class CreateStep extends Component
                 $rules['finalization_message'] = 'required|string|max:1000';
             }
 
-            // Validar documentos proporcionados nuevos (si existen)
+            // Validate new provided documents (if any)
             if (!empty($this->providedDocuments)) {
                 $rules['providedDocuments'] = 'array';
                 $rules['providedDocuments.*.titulo'] = 'required|string|max:150';
@@ -371,7 +371,7 @@ class CreateStep extends Component
                 'providedDocuments.*.archivo.required' => 'El campo archivo del documento proporcionado es obligatorio',
             ]);
 
-            // Validaciones adicionales según el tipo
+            // Additional validations according to the type
             if ($this->step_type === 'conditional' && !trim((string) $this->condition_question)) {
                 $this->addError('condition_question', 'El campo pregunta condicional es obligatorio');
                 return;
@@ -436,7 +436,7 @@ class CreateStep extends Component
                 \Log::info('Paso creado en BD con ID: ' . $step->step_id);
             }
 
-            // Sincronizar documentos requeridos
+            // Sync required documents
             \Log::info('Sincronizando documentos requeridos...');
             StepRequiredDocument::where('step_id', $step->step_id)->delete();
             if ($this->requires_documents) {
@@ -449,7 +449,7 @@ class CreateStep extends Component
                 \Log::info('Documentos requeridos sincronizados: ' . count($this->documents));
             }
 
-            // Sincronizar documentos proporcionados
+            // Sync provided documents
             \Log::info('Sincronizando documentos proporcionados...');
 
             // Get IDs of existing documents that should remain
@@ -509,7 +509,7 @@ class CreateStep extends Component
             \Log::info('=== SAVE COMPLETADO ===');
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Error de validación: ' . json_encode($e->errors()));
-            // Los errores de validación se manejan automáticamente por Livewire
+            // Validation errors are handled automatically by Livewire
             throw $e;
         } catch (\Exception $e) {
             \Log::error('Error al guardar paso: ' . $e->getMessage());

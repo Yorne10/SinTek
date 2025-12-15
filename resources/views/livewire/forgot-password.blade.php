@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/forgot-password.blade.php --}}
+{{-- View moved to modules/forgot-password.blade.php --}}
 @include('modules.forgot-password')
 

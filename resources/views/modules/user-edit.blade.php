@@ -20,7 +20,7 @@ Changelog:
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                        @icon('home', 'fa-xs')
+                            @icon('home', 'fa-xs')
                         </a>
                     </li>
                     <li class="breadcrumb-item">Administración</li>
@@ -48,7 +48,9 @@ Changelog:
                                 <label for="name">Nombre completo <span class="text-danger">*</span></label>
                                 <input wire:model="name" class="form-control @error('name') is-invalid @enderror"
                                     id="name" type="text" placeholder="Nombre completo">
-                                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -56,7 +58,9 @@ Changelog:
                                 <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                                 <input wire:model="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" type="email" placeholder="correo@institucion.com">
-                                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -64,14 +68,16 @@ Changelog:
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="role">Rol <span class="text-danger">*</span></label>
-                            <select wire:model="role" class="form-select @error('role') is-invalid @enderror" id="role"
-                                aria-label="Seleccionar rol">
+                            <select wire:model="role" class="form-select @error('role') is-invalid @enderror"
+                                id="role" aria-label="Seleccionar rol">
                                 <option value="">Seleccionar...</option>
                                 <option value="admin">Administrador</option>
                                 <option value="secretary">Secretario(a)</option>
                                 <option value="worker">Trabajador(a)</option>
                             </select>
-                            @error('role') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            @error('role')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="is_active">Estado</label>
@@ -93,7 +99,9 @@ Changelog:
                                 <input wire:model="password"
                                     class="form-control @error('password') is-invalid @enderror" id="password"
                                     type="password" placeholder="Contrase&ntilde;a">
-                                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                                 <small class="form-text text-muted">Mínimo 8 caracteres</small>
                             </div>
                         </div>
@@ -103,13 +111,14 @@ Changelog:
                                 <input wire:model="password_confirmation"
                                     class="form-control @error('password_confirmation') is-invalid @enderror"
                                     id="password_confirmation" type="password" placeholder="Contrase&ntilde;a">
-                                @error('password_confirmation') <div class="invalid-feedback">{{ $message }}</div>
+                                @error('password_confirmation')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                     </div>
 
-                    @if($role === 'worker' && auth()->user()->role === 'worker')
+                    @if ($role === 'worker' && auth()->user()->role === 'worker')
                         <h2 class="h5 my-4">Información adicional del trabajador</h2>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -186,7 +195,8 @@ Changelog:
                                 <div>
                                     <h3 class="h6">Contraseña</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Solo se actualizará la contraseña si ingresas una nueva. De lo contrario, se mantendrá la actual.
+                                        Solo se actualizará la contraseña si ingresas una nueva. De lo contrario, se
+                                        mantendrá la actual.
                                     </p>
                                 </div>
                             </div>
@@ -210,7 +220,7 @@ Changelog:
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary me-2',
@@ -220,7 +230,7 @@ Changelog:
         });
 
         // Botón de actualizar usuario con confirmación
-        document.getElementById('updateUserBtn').addEventListener('click', function () {
+        document.getElementById('updateUserBtn').addEventListener('click', function() {
             swalWithBootstrapButtons.fire({
                 title: '¿Estás seguro?',
                 text: '¿Deseas actualizar la información de este usuario?',
@@ -245,7 +255,8 @@ Changelog:
                 confirmButtonText: 'Aceptar',
                 showConfirmButton: true
             }).then((result) => {
-                window.location.href = "{{ route(config('proj.route_name_prefix', 'proj') . '.users.index') }}";
+                window.location.href =
+                    "{{ route(config('proj.route_name_prefix', 'proj') . '.users.index') }}";
             });
         });
     });

@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/profile-example.blade.php --}}
+{{-- View moved to modules/profile-example.blade.php --}}
 @include('modules.profile-example')
 

@@ -28,17 +28,17 @@ class ConvocationsDocuments extends Component
 {
     use WithFileUploads, WithPagination;
 
-    // Form fields para convocatorias
+    // Form fields for calls for proposals
     public $titulo;
     public $descripcion;
     public $fecha_inicio;
     public $fecha_fin;
     public $convocatoria_permanente = false;
 
-    // Documents array para convocatorias
+    // Documents array for calls for proposals
     public $documentos = [];
 
-    // Form fields para documentos institucionales
+    // Form fields for institutional documents
     public $showInstitutionalForm = false;
     public $doc_titulo;
     public $doc_descripcion;
@@ -102,7 +102,7 @@ class ConvocationsDocuments extends Component
         $user = Auth::user();
 
         try {
-            // Determinar el estado de la convocatoria
+            // Determine the status of the call for proposals
             $status = 'activa';
             $today = now()->startOfDay();
             $startDate = \Carbon\Carbon::parse($this->fecha_inicio)->startOfDay();
@@ -157,7 +157,7 @@ class ConvocationsDocuments extends Component
                 }
             }
 
-            // Limpiar el formulario
+            // Clear the form
             $this->reset(['titulo', 'descripcion', 'fecha_inicio', 'fecha_fin', 'convocatoria_permanente', 'documentos']);
 
             $this->dispatch(
@@ -340,7 +340,7 @@ class ConvocationsDocuments extends Component
 
     /**
 
-     * Limpiar.
+     * Clear.
 
      *
 

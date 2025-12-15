@@ -102,7 +102,7 @@ class ProcessesIndex extends Component
         try {
             $process = Process::with('steps')->findOrFail($processId);
 
-            // Si se intenta activar, validar que el flujo sea válido (inicio → final)
+            // If activating, validate that the flow is valid (start → end)
             if (!$process->active) {
                 [$isValid, $errorMessage] = $this->validateFlow($process);
 
@@ -144,7 +144,7 @@ class ProcessesIndex extends Component
     }
 
     /**
-     * Valida que el flujo tenga inicio, finales y que los caminos alcanzables lleguen a un final.
+     * Validates that the flow has a start, finals and that reachable paths lead to a final.
      */
     protected function validateFlow(Process $process): array
     {
@@ -163,7 +163,7 @@ class ProcessesIndex extends Component
             return [false, 'El paso inicial no puede ser de tipo Final.'];
         }
 
-        $hasFinal = $steps->contains(fn ($step) => $step->step_type === 'final');
+        $hasFinal = $steps->contains(fn($step) => $step->step_type === 'final');
         if (!$hasFinal) {
             return [false, 'No hay un paso de tipo Final. Crea al menos un paso de cierre.'];
         }
@@ -190,7 +190,7 @@ class ProcessesIndex extends Component
     }
 
     /**
-     * Obtiene los pasos alcanzables desde el inicial sin bloquear por nodos aislados.
+     * Gets reachable steps from the initial without blocking by isolated nodes.
      */
     protected function getReachableSteps(int $initialId, $steps): array
     {
@@ -221,7 +221,7 @@ class ProcessesIndex extends Component
     }
 
     /**
-     * Determina si desde un paso hay al menos un camino a un final.
+     * Determines if from a step there is at least one path to a final.
      */
     protected function leadsToFinal(int $stepId, $steps, array &$memo, array $visiting = []): bool
     {
@@ -230,7 +230,7 @@ class ProcessesIndex extends Component
         }
 
         if (in_array($stepId, $visiting, true)) {
-            return false; // ciclo
+            return false; // cycle detected
         }
 
         $step = $steps->firstWhere('step_id', $stepId);
@@ -262,7 +262,7 @@ class ProcessesIndex extends Component
     }
 
     /**
-     * Obtiene los identificadores de pasos siguientes según el tipo de paso.
+     * Gets the next step identifiers according to the step type.
      */
     protected function getNextTargets($step): array
     {

@@ -40,7 +40,8 @@ Changelog:
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div>
-                                <label for="institution_name">Nombre de la institución <span class="text-danger">*</span></label>
+                                <label for="institution_name">Nombre de la institución <span
+                                        class="text-danger">*</span></label>
                                 <input wire:model="institution_name"
                                     class="form-control @error('institution_name') is-invalid @enderror"
                                     id="institution_name" type="text" placeholder="Nombre de la institución">

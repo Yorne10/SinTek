@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/register-example.blade.php --}}
+{{-- View moved to modules/register-example.blade.php --}}
 @include('modules.register-example')
 

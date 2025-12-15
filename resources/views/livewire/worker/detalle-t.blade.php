@@ -12,6 +12,6 @@ Changelog:
   Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/worker\detalle-t.blade.php --}}
+{{-- View moved to modules/worker\detalle-t.blade.php --}}
 @include('modules.worker.detalle-t')
 

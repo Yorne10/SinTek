@@ -12,5 +12,5 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/preguntas-frecuentes.blade.php --}}
+{{-- View moved to modules/preguntas-frecuentes.blade.php --}}
 @include('modules.faq')

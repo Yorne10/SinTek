@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/login-example.blade.php --}}
+{{-- View moved to modules/login-example.blade.php --}}
 @include('modules.login-example')
 

@@ -12,6 +12,6 @@ Changelog:
     Description: <Brief description of change>
 --}}
 
-{{-- Vista movida a modules/admin\reportes.blade.php --}}
+{{-- View moved to modules/admin\reportes.blade.php --}}
 @include('modules.admin.reportes')
 

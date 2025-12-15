@@ -46,7 +46,7 @@ class DefineSteps extends Component
 
     public function mount($process_id = null)
     {
-        // Usar siempre el proceso que llega por la ruta. Si no hay, no forzamos otro.
+        // Always use the process that comes from the route. If there is none, don't force another.
         if ($process_id) {
             $this->selectedProcessId = $process_id;
             $this->loadProcess();
@@ -101,7 +101,7 @@ class DefineSteps extends Component
         if ($this->selectedProcess) {
             $this->steps = $this->selectedProcess->steps;
 
-            // Solo un paso inicial visible: el primero marcado se mantiene, el resto se muestra como no inicial
+            // Only one visible initial step: the first marked is kept, the rest shown as non-initial
             $initialFound = false;
             $initialTypeFound = false;
             $this->steps = $this->steps->transform(function ($step) use (&$initialFound, &$initialTypeFound) {
@@ -113,7 +113,7 @@ class DefineSteps extends Component
                     }
                 }
 
-                // Solo un tipo "inicial" en la columna Tipo; los demás se muestran como "normal"
+                // Only one "initial" type in the Type column; the rest shown as "normal"
                 if ($step->step_type === 'initial') {
                     if ($initialTypeFound) {
                         $step->step_type_display = 'normal';
@@ -127,7 +127,7 @@ class DefineSteps extends Component
                 return $step;
             });
         } else {
-            // If no se encuentra, limpiar para evitar mostrar otro proceso.
+            // If not found, clear to avoid showing another process.
             $this->steps = [];
         }
     }
