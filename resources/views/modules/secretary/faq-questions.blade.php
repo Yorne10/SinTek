@@ -21,17 +21,17 @@ Changelog:
                             @icon('home', 'fa-xs')
                         </a>
                     </li>
-                    <li class="breadcrumb-item">SecretarÌa</li>
+                    <li class="breadcrumb-item">Secretaría</li>
                     <li class="breadcrumb-item">
                         <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}">
                             Preguntas frecuentes
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Preguntas</li>
                 </ol>
             </nav>
-            <h2 class="h4">Preguntas: {{ $category->name }}</h2>
-            <p class="mb-0">{{ $category->description ?? 'Gestiona las preguntas frecuentes de esta categorÌa.' }}</p>
+            <h2 class="h4">Preguntas frecuentes</h2>
+            <p class="mb-0">Categoría: <strong>{{ $category->name }}</strong>. {{ $category->description ?? 'Gestiona las preguntas frecuentes de esta categoría.' }}</p>
         </div>
         <div class="btn-toolbar mb-2 mb-md-0">
             <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.faq.categories') }}"

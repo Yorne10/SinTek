@@ -31,7 +31,7 @@ class Users extends Component
     protected $paginationTheme = 'bootstrap';
 
     /**
-     * Optimiza el input de b���squeda para que no dispare demasiadas peticiones.
+     * Optimiza el input de búsqueda para que no dispare demasiadas peticiones.
      */
     public function updatingSearch()
     {
