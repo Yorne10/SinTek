@@ -11,6 +11,7 @@ Changelog:
     Modified by: <Developer name>
     Description: <Brief description of change>
 --}}
+
 <div>
     {{-- Page Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -147,7 +148,8 @@ Changelog:
 
                                 @foreach ($documentos as $index => $documento)
                                     <div class="mb-3" wire:key="doc-{{ $index }}">
-                                        <label class="form-label small">Título del documento</label>
+                                        <label class="form-label small">Título del documento <span
+                                                class="text-danger">*</span></label>
                                         <input type="text" wire:model="documentos.{{ $index }}.titulo"
                                             class="form-control @error('documentos.' . $index . '.titulo') is-invalid @enderror"
                                             placeholder="Ej: Convocatoria 2025">
@@ -157,7 +159,8 @@ Changelog:
                                             </div>
                                         @enderror
 
-                                        <label class="form-label small mt-2">Archivo PDF</label>
+                                        <label class="form-label small mt-2">Archivo PDF <span
+                                                class="text-danger">*</span></label>
                                         <div class="d-flex gap-2 align-items-start">
                                             <div class="flex-grow-1">
                                                 <input type="file"
@@ -345,7 +348,7 @@ Changelog:
                 title: data.title || 'Éxito',
                 text: data.message || 'Operación completada.',
                 icon: 'success',
-                confirmButtonText: 'Entendido'
+                confirmButtonText: 'Aceptar'
             }).then(() => {
                 if (data.redirect) {
                     window.location.href = data.redirect;
@@ -381,7 +384,7 @@ Changelog:
                 title: data.title || 'Eliminada',
                 text: data.message || 'La convocatoria ha sido eliminada.',
                 icon: 'success',
-                confirmButtonText: 'Entendido'
+                confirmButtonText: 'Aceptar'
             }).then(() => {
                 window.location.href =
                     "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.calls') }}";

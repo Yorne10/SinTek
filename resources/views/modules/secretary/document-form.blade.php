@@ -282,7 +282,7 @@ Changelog:
                 title: data.title || 'Éxito',
                 text: data.message || 'Operación completada exitosamente.',
                 icon: 'success',
-                confirmButtonText: 'Entendido'
+                confirmButtonText: 'Aceptar'
             }).then(() => {
                 window.location.href =
                     "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";
@@ -295,7 +295,7 @@ Changelog:
                 title: data.title || 'Error',
                 text: data.message || 'Ocurrió un error.',
                 icon: 'error',
-                confirmButtonText: 'Aceptar'
+                confirmButtonText: 'Entendido'
             });
         });
 
@@ -368,7 +368,7 @@ Changelog:
                 title: data.title || 'Eliminado',
                 text: data.message || 'El documento ha sido eliminado.',
                 icon: 'success',
-                confirmButtonText: 'Entendido'
+                confirmButtonText: 'Aceptar'
             }).then(() => {
                 window.location.href =
                     "{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.documents') }}";

@@ -164,7 +164,8 @@ Changelog:
             @endif
             <div class="fw-normal small mt-0 mt-lg-0 ms-lg-auto">
                 Mostrando <b>{{ $notifications->firstItem() ?? 0 }}</b> a
-                <b>{{ $notifications->lastItem() ?? 0 }}</b> de <b>{{ $notifications->total() }}</b> notificaciones
+                <b>{{ $notifications->lastItem() ?? 0 }}</b> de <b>{{ $notifications->total() }}</b>
+                notificaciones
             </div>
         </div>
     </div>
@@ -214,7 +215,7 @@ Changelog:
                     title: 'Detalles de la notificación',
                     html: htmlContent,
                     icon: 'info',
-                    confirmButtonText: 'Cerrar',
+                    confirmButtonText: 'Aceptar',
                     showConfirmButton: true,
                     width: '600px'
                 });

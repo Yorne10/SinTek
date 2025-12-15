@@ -127,19 +127,19 @@ class DocumentForm extends Component
     }
 
     protected $messages = [
-        'titulo.required' => 'El título del documento es obligatorio',
+        'titulo.required' => 'El campo título es obligatorio',
         'titulo.max' => 'El título no debe exceder los 200 caracteres',
         'descripcion.max' => 'La descripción no debe exceder los 5000 caracteres',
-        'categoria.required' => 'La categoría es obligatoria',
-        'categoria.in' => 'La categoría seleccionada no es válida',
-        'version.required' => 'La versión es obligatoria',
+        'categoria.required' => 'El campo categoría es obligatorio',
+        'categoria.in' => 'La opción seleccionada en categoría no es válida',
+        'version.required' => 'El campo versión es obligatorio',
         'version.max' => 'La versión no debe exceder los 20 caracteres',
-        'fecha_vigencia.required' => 'La fecha de vigencia es obligatoria o marca "Sin fecha de vigencia"',
-        'fecha_vigencia.date' => 'La fecha de vigencia no es válida',
-        'archivo.required' => 'Debes seleccionar un archivo PDF',
-        'archivo.file' => 'El archivo seleccionado no es válido',
+        'fecha_vigencia.required' => 'El campo fecha de vigencia es obligatorio',
+        'fecha_vigencia.date' => 'La fecha de vigencia no tiene un formato válido',
+        'archivo.required' => 'El archivo es obligatorio',
+        'archivo.file' => 'El archivo no tiene un formato válido',
         'archivo.mimes' => 'El archivo debe ser un PDF',
-        'archivo.max' => 'El archivo no debe superar los 10MB',
+        'archivo.max' => 'El archivo no debe exceder los 10MB',
     ];
 
     /**

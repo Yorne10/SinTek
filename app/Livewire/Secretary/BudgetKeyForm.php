@@ -35,8 +35,8 @@ class BudgetKeyForm extends Component
         'budget_key.required' => 'El campo clave presupuestal es obligatorio',
         'budget_key.max' => 'La clave presupuestal no debe exceder los 100 caracteres',
         'budget_key.unique' => 'La clave presupuestal ya existe',
-        'position_name.required' => 'El campo nombre del puesto es obligatorio',
-        'position_name.max' => 'El nombre del puesto no debe exceder los 150 caracteres',
+        'position_name.required' => 'El campo puesto es obligatorio',
+        'position_name.max' => 'El puesto no debe exceder los 150 caracteres',
     ];
 
     /**
@@ -90,22 +90,21 @@ class BudgetKeyForm extends Component
             'position_name' => 'required|string|max:150',
         ], $this->messages);
 
-        // Limit of 10 budget keys per employee (user)
-        if (!$isEditing) {
-            $existingCount = Position::where('user_id', $user->users_id)->count();
-            if ($existingCount >= 10) {
-                $this->addError('budget_key', 'Has alcanzado el límite de 10 claves presupuestales.');
-                return;
-            }
-        }
+        // Note: Removed budget key limit per user - positions table doesn't have user_id column
 
-        Position::updateOrCreate(
-            ['positions_id' => $this->budget_key_id],
-            [
+        if ($isEditing) {
+            // Update existing record
+            Position::where('positions_id', $this->budget_key_id)->update([
                 'budget_key' => $this->budget_key,
                 'position_name' => $this->position_name,
-            ]
-        );
+            ]);
+        } else {
+            // Create new record
+            Position::create([
+                'budget_key' => $this->budget_key,
+                'position_name' => $this->position_name,
+            ]);
+        }
 
         // Log activity
         $successMessage = '';

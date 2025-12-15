@@ -11,6 +11,7 @@ Changelog:
     Modified by: <Developer name>
     Description: <Brief description of change>
 --}}
+
 <div>
     {{-- Page Header --}}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -226,17 +227,17 @@ Changelog:
                     swalWithBootstrapButtons.fire({
                         title: 'Detalles de la Convocatoria',
                         html: `
-                                <div class="text-start">
-                                    <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
-                                    <p class="mb-2"><span class="fw-bold">Descripción:</span><br>${description}</p>
-                                    <p class="mb-2"><span class="fw-bold">Fecha de inicio:</span> ${start}</p>
-                                    <p class="mb-2"><span class="fw-bold">Fecha de fin:</span> ${end}</p>
-                                    <p class="mb-2"><span class="fw-bold">Estado:</span> ${status}</p>
-                                    <p class="mb-0"><span class="fw-bold">Documentos:</span> ${docs}</p>
-                                </div>
-                            `,
+                                    <div class="text-start">
+                                        <p class="mb-2"><span class="fw-bold">Título:</span> ${title}</p>
+                                        <p class="mb-2"><span class="fw-bold">Descripción:</span><br>${description}</p>
+                                        <p class="mb-2"><span class="fw-bold">Fecha de inicio:</span> ${start}</p>
+                                        <p class="mb-2"><span class="fw-bold">Fecha de fin:</span> ${end}</p>
+                                        <p class="mb-2"><span class="fw-bold">Estado:</span> ${status}</p>
+                                        <p class="mb-0"><span class="fw-bold">Documentos:</span> ${docs}</p>
+                                    </div>
+                                `,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         showConfirmButton: true
                     });
                 }
@@ -257,7 +258,7 @@ Changelog:
                             title: `Documentos - ${title}`,
                             html: '<div class="text-center text-gray-500 py-2">Sin documentos</div>',
                             icon: 'info',
-                            confirmButtonText: 'Cerrar',
+                            confirmButtonText: 'Aceptar',
                             showConfirmButton: true,
                         });
                         return;
@@ -268,27 +269,27 @@ Changelog:
                         const showUrl = doc.show || '#';
                         const downloadUrl = doc.download || '#';
                         return `
-                                <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
-                                    <div class="me-3">
-                                        <div class="fw-bold text-gray-800">${name}</div>
+                                    <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                                        <div class="me-3">
+                                            <div class="fw-bold text-gray-800">${name}</div>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
+                                                @icon('file', 'me-2') Abrir
+                                            </a>
+                                            <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
+                                                @icon('download', 'me-2') Descargar
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="d-flex gap-2">
-                                        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
-                                            @icon('file', 'me-2') Abrir
-                                        </a>
-                                        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
-                                            @icon('download', 'me-2') Descargar
-                                        </a>
-                                    </div>
-                                </div>
-                            `;
+                                `;
                     }).join('');
 
                     swalWithBootstrapButtons.fire({
                         title: `Documentos - ${title}`,
                         html: `<div class="list-group list-group-flush">${listHtml}</div>`,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         showConfirmButton: true,
                     });
                 }

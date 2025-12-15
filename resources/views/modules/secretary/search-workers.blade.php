@@ -174,7 +174,8 @@ Changelog:
                 </nav>
             @endif
             <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
-                Mostrando <b>{{ $workers->firstItem() ?? 0 }}</b> a <b>{{ $workers->lastItem() ?? 0 }}</b> de
+                Mostrando <b>{{ $workers->firstItem() ?? 0 }}</b> a <b>{{ $workers->lastItem() ?? 0 }}</b>
+                de
                 <b>{{ $workers->total() }}</b> trabajadores
             </div>
         </div>
@@ -225,7 +226,7 @@ Changelog:
                         title: 'Detalles del trabajador',
                         html: htmlContent,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         showConfirmButton: true,
                         width: '600px'
                     });

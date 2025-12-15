@@ -86,43 +86,41 @@ class UserEdit extends Component
 
     public function updateUser()
     {
-        $this->validate([
-            'name' => 'required|string|max:150',
-            'email' => [
-                'required',
-                'email',
-                'max:150',
-                Rule::unique('users', 'email')->ignore($this->userId, 'users_id')
-            ],
-            'role' => 'required|in:admin,secretary,worker',
-            'password' => 'nullable|min:8|same:password_confirmation',
-            'curp' => 'nullable|string|max:18',
-            'rfc' => 'nullable|string|max:13',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-        ], [
-            'name.required' => 'El campo nombre es obligatorio',
-            'name.max' => 'El nombre no debe exceder los 150 caracteres',
-            'email.required' => 'El campo correo electronico es obligatorio',
-            'email.email' => 'El correo electronico debe ser valido',
-            'email.unique' => 'El correo electronico ya esta registrado',
-            'email.max' => 'El correo electronico no debe exceder los 150 caracteres',
-            'role.required' => 'El campo rol es obligatorio',
-            'role.in' => 'La opcion seleccionada en rol no es valida',
-            'password.min' => 'El campo contrasena debe tener al menos 8 caracteres',
-            'password.same' => 'Los campos contrasena y confirmar contrasena deben coincidir',
-            'curp.max' => 'El curp no debe exceder los 18 caracteres',
-            'rfc.max' => 'El rfc no debe exceder los 13 caracteres',
-            'phone.max' => 'El telefono no debe exceder los 20 caracteres',
-            'address.max' => 'La direccion no debe exceder los 255 caracteres',
-        ]);
-
         try {
-            $user = User::findOrFail($this->userId);
+            // Always enforce the persisted role so it cannot be modified from the UI or requests
+            $user = User::with('worker')->findOrFail($this->userId);
+            $this->role = $user->role;
+
+            $this->validate([
+                'name' => 'required|string|max:150',
+                'email' => [
+                    'required',
+                    'email',
+                    'max:150',
+                    Rule::unique('users', 'email')->ignore($this->userId, 'users_id')
+                ],
+                'password' => 'nullable|min:8|same:password_confirmation',
+                'curp' => 'nullable|string|max:18',
+                'rfc' => 'nullable|string|max:13',
+                'phone' => 'nullable|string|max:20',
+                'address' => 'nullable|string|max:255',
+            ], [
+                'name.required' => 'El campo nombre es obligatorio',
+                'name.max' => 'El nombre no debe exceder los 150 caracteres',
+                'email.required' => 'El campo correo electronico es obligatorio',
+                'email.email' => 'El correo electronico debe ser valido',
+                'email.unique' => 'El correo electronico ya esta registrado',
+                'email.max' => 'El correo electronico no debe exceder los 150 caracteres',
+                'password.min' => 'El campo contrasena debe tener al menos 8 caracteres',
+                'password.same' => 'Los campos contrasena y confirmar contrasena deben coincidir',
+                'curp.max' => 'El curp no debe exceder los 18 caracteres',
+                'rfc.max' => 'El rfc no debe exceder los 13 caracteres',
+                'phone.max' => 'El telefono no debe exceder los 20 caracteres',
+                'address.max' => 'La direccion no debe exceder los 255 caracteres',
+            ]);
 
             $user->name = $this->name;
             $user->email = $this->email;
-            $user->role = $this->role;
             $user->is_active = $this->is_active;
 
             if (!empty($this->password)) {

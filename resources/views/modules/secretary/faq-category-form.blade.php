@@ -220,7 +220,7 @@ Changelog:
                     icon: payload.type || 'success',
                     title: payload.title || 'Exito',
                     text: payload.message || '',
-                    confirmButtonText: 'Entendido'
+                    confirmButtonText: 'Aceptar'
                 }).then(() => {
                     if (payload.redirect) {
                         window.location.href = payload.redirect;

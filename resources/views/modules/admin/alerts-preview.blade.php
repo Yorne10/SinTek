@@ -65,7 +65,8 @@ Changelog:
                         <button type="button" class="btn btn-info text-white" data-swal="info">Info</button>
                         <button type="button" class="btn btn-secondary" data-swal="question">Question</button>
                     </div>
-                    <p class="text-muted small mt-3 mb-0">Tip: revisa que “question” sea gris y el resto respete la paleta.
+                    <p class="text-muted small mt-3 mb-0">Tip: revisa que “question” sea gris y el resto respete
+                        la paleta.
                     </p>
                 </div>
             </div>
@@ -125,7 +126,8 @@ Changelog:
                                 icon: conf.icon,
                                 title: conf.title,
                                 text: conf.text,
-                                confirmButtonText: 'Ok'
+                                confirmButtonText: (conf.icon === 'warning' || conf
+                                    .icon === 'error') ? 'Entendido' : 'Aceptar'
                             });
                         }
                     });

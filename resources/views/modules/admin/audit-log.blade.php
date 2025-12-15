@@ -189,7 +189,7 @@ Changelog:
                             </div>
                         `,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         showConfirmButton: true
                     });
                 }

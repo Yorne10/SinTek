@@ -360,15 +360,27 @@ class CreateStep extends Component
             \Log::info('Validando...');
             $this->validate($rules, [
                 'process_id.required' => 'El campo proceso es obligatorio',
-                'title.required' => 'El campo título del paso es obligatorio',
+                'process_id.exists' => 'La opción seleccionada en proceso no es válida',
+                'title.required' => 'El campo título es obligatorio',
+                'title.max' => 'El título no debe exceder los 200 caracteres',
                 'instruction.required' => 'El campo instrucciones es obligatorio',
+                'instruction.max' => 'Las instrucciones no deben exceder los 5000 caracteres',
                 'step_type.required' => 'El campo tipo de paso es obligatorio',
+                'step_type.in' => 'La opción seleccionada en tipo de paso no es válida',
                 'condition_question.required' => 'El campo pregunta condicional es obligatorio',
+                'condition_question.max' => 'La pregunta condicional no debe exceder los 255 caracteres',
                 'finalization_message.required' => 'El campo mensaje de finalización es obligatorio',
-                'documents.required' => 'El campo documentos requeridos es obligatorio',
-                'documents.*.title.required' => 'El campo nombre del documento requerido es obligatorio',
+                'finalization_message.max' => 'El mensaje de finalización no debe exceder los 1000 caracteres',
+                'documents.required' => 'Debes agregar al menos un documento requerido',
+                'documents.min' => 'Debes agregar al menos un documento requerido',
+                'documents.*.title.required' => 'El campo título del documento es obligatorio',
+                'documents.*.title.max' => 'El título del documento no debe exceder los 150 caracteres',
                 'providedDocuments.*.titulo.required' => 'El campo título del documento proporcionado es obligatorio',
-                'providedDocuments.*.archivo.required' => 'El campo archivo del documento proporcionado es obligatorio',
+                'providedDocuments.*.titulo.max' => 'El título del documento proporcionado no debe exceder los 150 caracteres',
+                'providedDocuments.*.archivo.required' => 'El archivo del documento proporcionado es obligatorio',
+                'providedDocuments.*.archivo.file' => 'El archivo del documento proporcionado es obligatorio',
+                'providedDocuments.*.archivo.mimes' => 'El archivo debe ser un PDF',
+                'providedDocuments.*.archivo.max' => 'El archivo no debe exceder los 10MB',
             ]);
 
             // Additional validations according to the type

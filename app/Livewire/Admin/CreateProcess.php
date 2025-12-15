@@ -61,12 +61,12 @@ class CreateProcess extends Component
     ];
 
     protected $messages = [
-        'name.required' => 'El campo nombre del proceso es obligatorio',
-        'name.max' => 'El nombre no debe exceder 255 caracteres',
+        'name.required' => 'El campo nombre es obligatorio',
+        'name.max' => 'El nombre no debe exceder los 255 caracteres',
         'description.required' => 'El campo descripción es obligatorio',
-        'description.max' => 'La descripción no debe exceder 2000 caracteres',
+        'description.max' => 'La descripción no debe exceder los 2000 caracteres',
         'process_code.required' => 'El campo código del proceso es obligatorio',
-        'process_code.max' => 'El código del proceso no debe exceder 50 caracteres',
+        'process_code.max' => 'El código del proceso no debe exceder los 50 caracteres',
         'category.required' => 'El campo categoría es obligatorio',
         'category.in' => 'La opción seleccionada en categoría no es válida',
         'department.required' => 'El campo área responsable es obligatorio',

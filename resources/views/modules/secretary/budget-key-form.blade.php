@@ -78,7 +78,7 @@ Changelog:
                         icon: 'success',
                         title: 'Éxito',
                         text: detail.message || 'Operación realizada correctamente.',
-                        confirmButtonText: 'Entendido'
+                        confirmButtonText: 'Aceptar'
                     }).then(() => {
                         if (detail.redirect) {
                             window.location.href = detail.redirect;
@@ -104,6 +104,29 @@ Changelog:
                     }
                 });
             });
+
+            // Handle Livewire connection/request errors (only for server errors 5xx)
+            if (window.Livewire) {
+                Livewire.hook('request', ({
+                    fail
+                }) => {
+                    fail(({
+                        status,
+                        preventDefault
+                    }) => {
+                        // Only handle server errors (5xx), not client errors
+                        if (status >= 500) {
+                            preventDefault();
+                            swalWithBootstrapButtons.fire({
+                                icon: 'error',
+                                title: 'Error de conexión',
+                                text: 'No se pudo establecer conexión con la base de datos. Por favor, intenta nuevamente.',
+                                confirmButtonText: 'Entendido'
+                            });
+                        }
+                    });
+                });
+            }
         });
     </script>
     <div class="row">
@@ -191,7 +214,8 @@ Changelog:
                                 <div>
                                     <h3 class="h6">Clave única</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        La clave presupuestal debe ser única en el sistema y no puede duplicarse.
+                                        La clave presupuestal debe ser única en el sistema y no puede
+                                        duplicarse.
                                     </p>
                                 </div>
                             </div>
@@ -202,7 +226,8 @@ Changelog:
                                 <div>
                                     <h3 class="h6">Nombre del puesto</h3>
                                     <p class="text-gray-700 small mb-0">
-                                        Será utilizado para identificar las plazas disponibles en el sistema de
+                                        Será utilizado para identificar las plazas disponibles en el sistema
+                                        de
                                         convocatorias.
                                     </p>
                                 </div>

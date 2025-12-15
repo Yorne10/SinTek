@@ -91,12 +91,12 @@ class Handler extends ExceptionHandler
             if ($this->isCriticalDatabaseError($e)) {
                 $errorMessage = 'No se pudo establecer conexión con la base de datos. Por favor, intenta nuevamente.';
 
-                // For Livewire/AJAX requests
+                // For Livewire/AJAX requests, return JSON so JS can show SweetAlert
                 if ($request->expectsJson() || $request->is('livewire/*') || $request->header('X-Livewire')) {
-                    // Instead of pure JSON, redirect to an error page
-                    return response()->view('errors.database-error', [
-                        'message' => $errorMessage,
-                        'redirectUrl' => route(config('proj.route_name_prefix', 'proj') . '.auth.login')
+                    return response()->json([
+                        'error' => true,
+                        'type' => 'database_error',
+                        'message' => $errorMessage
                     ], 503);
                 }
 

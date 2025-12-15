@@ -423,7 +423,7 @@ Changelog:
                 title: data.title || 'Éxito',
                 text: data.message || 'Operación completada.',
                 icon: 'success',
-                confirmButtonText: 'Entendido'
+                confirmButtonText: 'Aceptar'
             }).then(() => {
                 if (data.redirect) {
                     window.location.href = data.redirect;

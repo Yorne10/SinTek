@@ -242,7 +242,7 @@ Changelog:
                         title: name,
                         html: htmlContent,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         width: '500px'
                     });
                 }
@@ -253,7 +253,7 @@ Changelog:
                 Livewire.on('processes-notify', (event) => {
                     const detail = event || {};
                     const iconType = detail.type || 'success';
-                    const confirmText = iconType === 'warning' ? 'Entendido' : 'OK';
+                    const confirmText = iconType === 'warning' ? 'Entendido' : 'Aceptar';
                     swalWithBootstrapButtons.fire({
                         icon: iconType,
                         title: detail.title || 'Aviso',

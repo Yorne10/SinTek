@@ -65,11 +65,13 @@ Changelog:
                                 @endif
                                 @if ($selectedProcess->category)
                                     <p class="small text-gray mb-0">Categoria:
-                                        {{ ucfirst($selectedProcess->category) }}</p>
+                                        {{ ucfirst($selectedProcess->category) }}
+                                    </p>
                                 @endif
                                 @if ($selectedProcess->department)
                                     <p class="small text-gray mb-0">Area responsable:
-                                        {{ $selectedProcess->department }}</p>
+                                        {{ $selectedProcess->department }}
+                                    </p>
                                 @endif
                             </div>
                             <div class="text-end d-flex flex-column justify-content-between align-items-end">
@@ -294,10 +296,10 @@ Changelog:
                     const nextNo = button.getAttribute('data-step-next-no');
 
                     let htmlContent = `
-                        <div class="text-start">
-                            <p class="mb-2"><span class="fw-bold">Tipo:</span> ${typeLabel}</p>
-                            <p class="mb-2"><span class="fw-bold">Instrucciones:</span> ${instruction}</p>
-                    `;
+                            <div class="text-start">
+                                <p class="mb-2"><span class="fw-bold">Tipo:</span> ${typeLabel}</p>
+                                <p class="mb-2"><span class="fw-bold">Instrucciones:</span> ${instruction}</p>
+                        `;
 
                     if (condition) {
                         htmlContent +=
@@ -320,18 +322,18 @@ Changelog:
                     }
 
                     htmlContent += `
-                            <p class="mb-2"><span class="fw-bold">Es paso inicial:</span> ${isInitial}</p>
-                            <p class="mb-2"><span class="fw-bold">Vinculado al flujo:</span> ${isLinked}</p>
-                            <p class="mb-2"><span class="fw-bold">Documentos requeridos:</span> ${docs}</p>
-                            <p class="mb-0"><span class="fw-bold">Documentos proporcionados:</span> ${providedDocs}</p>
-                        </div>
-                    `;
+                                <p class="mb-2"><span class="fw-bold">Es paso inicial:</span> ${isInitial}</p>
+                                <p class="mb-2"><span class="fw-bold">Vinculado al flujo:</span> ${isLinked}</p>
+                                <p class="mb-2"><span class="fw-bold">Documentos requeridos:</span> ${docs}</p>
+                                <p class="mb-0"><span class="fw-bold">Documentos proporcionados:</span> ${providedDocs}</p>
+                            </div>
+                        `;
 
                     swalWithBootstrapButtons.fire({
                         title: title,
                         html: htmlContent,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         width: '500px'
                     });
                 }
@@ -355,7 +357,7 @@ Changelog:
                             title: `Documentos - ${stepTitle}`,
                             html: '<div class="text-center text-gray-500 py-2">Sin documentos</div>',
                             icon: 'info',
-                            confirmButtonText: 'Cerrar',
+                            confirmButtonText: 'Aceptar',
                         });
                         return;
                     }
@@ -365,27 +367,27 @@ Changelog:
                         const showUrl = doc.show || '#';
                         const downloadUrl = doc.download || '#';
                         return `
-                            <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
-                                <div class="me-3">
-                                    <div class="fw-bold text-gray-800">${name}</div>
+                                <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                                    <div class="me-3">
+                                        <div class="fw-bold text-gray-800">${name}</div>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
+                                            Abrir
+                                        </a>
+                                        <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
+                                            Descargar
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${showUrl}" target="_blank" rel="noopener">
-                                        Abrir
-                                    </a>
-                                    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" href="${downloadUrl}" target="_blank" rel="noopener">
-                                        Descargar
-                                    </a>
-                                </div>
-                            </div>
-                        `;
+                            `;
                     }).join('');
 
                     swalWithBootstrapButtons.fire({
                         title: `Documentos - ${stepTitle}`,
                         html: `<div class="list-group list-group-flush">${listHtml}</div>`,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         width: '550px'
                     });
                 }

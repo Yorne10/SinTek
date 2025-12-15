@@ -41,13 +41,13 @@ class FaqQuestionForm extends Component
     }
 
     protected $messages = [
-        'faqQuestion.required' => 'La pregunta es obligatoria.',
-        'faqQuestion.max' => 'La pregunta no debe exceder 255 caracteres.',
-        'faqAnswer.required' => 'La respuesta es obligatoria.',
-        'faqOrder.required' => 'El orden es obligatorio.',
-        'faqOrder.integer' => 'El orden debe ser numérico.',
-        'faqOrder.min' => 'El orden debe ser al menos 1.',
-        'faqOrder.max' => 'El orden no puede exceder el máximo disponible.',
+        'faqQuestion.required' => 'El campo pregunta es obligatorio',
+        'faqQuestion.max' => 'La pregunta no debe exceder los 255 caracteres',
+        'faqAnswer.required' => 'El campo respuesta es obligatorio',
+        'faqOrder.required' => 'El campo orden es obligatorio',
+        'faqOrder.integer' => 'El orden solo debe contener números',
+        'faqOrder.min' => 'El orden debe ser mayor que 0',
+        'faqOrder.max' => 'El orden está fuera del rango permitido',
     ];
 
     /**

@@ -68,16 +68,12 @@ Changelog:
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="role">Rol <span class="text-danger">*</span></label>
-                            <select wire:model="role" class="form-select @error('role') is-invalid @enderror"
-                                id="role" aria-label="Seleccionar rol">
-                                <option value="">Seleccionar...</option>
+                            <select wire:model="role" class="form-select" id="role" aria-label="Rol actual"
+                                disabled>
                                 <option value="admin">Administrador</option>
                                 <option value="secretary">Secretario(a)</option>
                                 <option value="worker">Trabajador(a)</option>
                             </select>
-                            @error('role')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="is_active">Estado</label>

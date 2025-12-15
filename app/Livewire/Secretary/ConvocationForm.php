@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Company: CETAM
  * Project: ST
@@ -6,7 +7,7 @@
  * Created on: 01/12/2025
  * Created by: Alfonso Angel García Hernández
  * Approved by: Alfonso Angel García Hernández
- * 
+ *
  * Changelog:
  * - ID: <ID> | Modified on: dd/mm/yyyy |
  * Modified by: <Developer name> |
@@ -18,39 +19,41 @@ namespace App\Livewire\Secretary;
 use App\Models\Convocation;
 use App\Models\ConvocationDocument;
 use App\Services\ActivityLogger;
-use Livewire\Component;
-use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ConvocationForm extends Component
 {
     use WithFileUploads;
 
     public $convocationId;
+
     public $titulo;
+
     public $descripcion;
+
     public $fecha_inicio;
+
     public $fecha_fin;
+
     public $convocatoria_permanente = false;
+
     public $documentos = [];
+
     public $documentosExistentes = [];
+
     public $documentosAEliminar = [];
 
     /**
-
      * Initialize component state.
 
      *
 
-     * @param mixed $id
-
-     *
-
+     * @param  mixed  $id
      * @return void
-
      */
-
     public function mount($id = null)
     {
         if ($id) {
@@ -60,7 +63,7 @@ class ConvocationForm extends Component
             $this->descripcion = $convocation->description;
             $this->fecha_inicio = $convocation->start_date?->format('Y-m-d');
             $this->fecha_fin = $convocation->end_date?->format('Y-m-d');
-            $this->convocatoria_permanente = !$convocation->end_date;
+            $this->convocatoria_permanente = ! $convocation->end_date;
 
             // Load existing documents with correct id
             $this->documentosExistentes = $convocation->documents->map(function ($doc) {
@@ -73,19 +76,13 @@ class ConvocationForm extends Component
     }
 
     /**
-
      * Updated convocatoria permanente.
 
      *
 
-     * @param mixed $value
-
-     *
-
+     * @param  mixed  $value
      * @return void
-
      */
-
     public function updatedConvocatoriaPermanente($value)
     {
         if ($value) {
@@ -106,46 +103,43 @@ class ConvocationForm extends Component
     }
 
     protected $messages = [
-        'titulo.required' => 'El título es obligatorio.',
-        'descripcion.required' => 'La descripción es obligatoria.',
-        'fecha_inicio.required' => 'La fecha de inicio es obligatoria.',
-        'fecha_fin.required' => 'La fecha de fin es obligatoria o marca "Convocatoria permanente".',
-        'fecha_fin.after_or_equal' => 'La fecha de fin debe ser igual o posterior a la fecha de inicio.',
-        'documentos.*.titulo.required_with' => 'El título del documento es obligatorio.',
-        'documentos.*.archivo.required_with' => 'Debe seleccionar un archivo PDF.',
-        'documentos.*.archivo.mimes' => 'El archivo debe ser un PDF.',
-        'documentos.*.archivo.max' => 'El archivo no debe superar los 10MB.',
+        'titulo.required' => 'El campo título es obligatorio',
+        'titulo.max' => 'El título no debe exceder los 150 caracteres',
+        'descripcion.required' => 'El campo descripción es obligatorio',
+        'fecha_inicio.required' => 'El campo fecha de inicio es obligatorio',
+        'fecha_inicio.date' => 'La fecha de inicio no tiene un formato válido',
+        'fecha_fin.required' => 'El campo fecha de fin es obligatorio',
+        'fecha_fin.date' => 'La fecha de fin no tiene un formato válido',
+        'fecha_fin.after_or_equal' => 'La fecha de fin debe ser igual o posterior a la fecha de inicio',
+        'documentos.*.titulo.required_with' => 'El campo título del documento es obligatorio',
+        'documentos.*.titulo.max' => 'El título del documento no debe exceder los 150 caracteres',
+        'documentos.*.archivo.required' => 'El archivo es obligatorio',
+        'documentos.*.archivo.required_with' => 'El archivo es obligatorio',
+        'documentos.*.archivo.file' => 'El archivo es obligatorio',
+        'documentos.*.archivo.mimes' => 'El archivo debe ser un PDF',
+        'documentos.*.archivo.max' => 'El archivo no debe exceder los 10MB',
     ];
 
     /**
-
      * Add documento.
 
      *
 
      * @return void
-
      */
-
     public function addDocumento()
     {
         $this->documentos[] = ['titulo' => '', 'archivo' => null];
     }
 
     /**
-
      * Remove documento.
 
      *
 
-     * @param mixed $index
-
-     *
-
+     * @param  mixed  $index
      * @return void
-
      */
-
     public function removeDocumento($index)
     {
         unset($this->documentos[$index]);
@@ -153,23 +147,17 @@ class ConvocationForm extends Component
     }
 
     /**
-
      * Remove documento existente.
 
      *
 
-     * @param mixed $documentoId
-
-     *
-
+     * @param  mixed  $documentoId
      * @return void
-
      */
-
     public function removeDocumentoExistente($documentoId)
     {
         $documentoId = (int) $documentoId;
-        if (!$documentoId) {
+        if (! $documentoId) {
             return;
         }
 
@@ -185,21 +173,13 @@ class ConvocationForm extends Component
         $this->dispatch('documento-marcado-eliminar', [
             'type' => 'info',
             'title' => 'Documento marcado',
-            'message' => 'El documento será eliminado al actualizar la convocatoria.'
+            'message' => 'El documento será eliminado al actualizar la convocatoria.',
         ]);
     }
 
-
     /**
-
      * Save the data.
-
-     *
-
-     * @return void
-
      */
-
     public function save(): void
     {
         try {
@@ -207,7 +187,7 @@ class ConvocationForm extends Component
 
             Log::info('ConvocationForm::save - Validación exitosa', [
                 'documentos_count' => count($this->documentos),
-                'es_nuevo' => !$this->convocationId
+                'es_nuevo' => ! $this->convocationId,
             ]);
 
             $user = Auth::user();
@@ -246,7 +226,7 @@ class ConvocationForm extends Component
                 ]);
 
                 // Eliminar documentos marcados para eliminar
-                if (!empty($this->documentosAEliminar)) {
+                if (! empty($this->documentosAEliminar)) {
                     foreach ($this->documentosAEliminar as $docId) {
                         try {
                             $documento = ConvocationDocument::find($docId);
@@ -257,7 +237,7 @@ class ConvocationForm extends Component
                         } catch (\Exception $e) {
                             Log::error('Error al eliminar documento', [
                                 'id' => $docId,
-                                'error' => $e->getMessage()
+                                'error' => $e->getMessage(),
                             ]);
                         }
                     }
@@ -290,7 +270,7 @@ class ConvocationForm extends Component
             }
 
             // Save documentos (tanto en creación como en edición)
-            if (!empty($this->documentos)) {
+            if (! empty($this->documentos)) {
                 foreach ($this->documentos as $index => $documento) {
                     if (isset($documento['archivo']) && $documento['archivo'] && isset($documento['titulo']) && $documento['titulo']) {
                         try {
@@ -302,7 +282,7 @@ class ConvocationForm extends Component
                                 'titulo' => $documento['titulo'],
                                 'path' => $filePath,
                                 'size' => $file->getSize(),
-                                'mime' => $file->getMimeType()
+                                'mime' => $file->getMimeType(),
                             ]);
 
                             ConvocationDocument::create([
@@ -314,20 +294,20 @@ class ConvocationForm extends Component
 
                             Log::info('Documento guardado correctamente', [
                                 'index' => $index,
-                                'titulo' => $documento['titulo']
+                                'titulo' => $documento['titulo'],
                             ]);
                         } catch (\Exception $e) {
                             Log::error('Error al procesar documento de convocatoria', [
                                 'index' => $index,
                                 'error' => $e->getMessage(),
-                                'trace' => $e->getTraceAsString()
+                                'trace' => $e->getTraceAsString(),
                             ]);
                             throw $e;
                         }
                     }
                 }
             }
-            $isNew = !$this->convocationId;
+            $isNew = ! $this->convocationId;
 
             if ($isNew) {
                 // Clear form after creation
@@ -349,37 +329,30 @@ class ConvocationForm extends Component
                     type: 'success',
                     title: 'Convocatoria actualizada',
                     message: $message,
-                    redirect: route(config('proj.route_name_prefix', 'proj') . '.secretary.calls')
+                    redirect: route(config('proj.route_name_prefix', 'proj').'.secretary.calls')
                 );
             }
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Error de validación en convocatoria', [
-                'errors' => $e->errors()
+                'errors' => $e->errors(),
             ]);
             throw $e;
         } catch (\Exception $e) {
             Log::error('Error al guardar convocatoria', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
-            session()->flash('error', 'Ocurrió un error al guardar la convocatoria: ' . $e->getMessage());
+            session()->flash('error', 'Ocurrió un error al guardar la convocatoria: '.$e->getMessage());
         }
     }
 
     /**
-
      * Delete the specified resource.
-
-     *
-
-     * @return void
-
      */
-
     public function delete(): void
     {
-        if (!$this->convocationId) {
+        if (! $this->convocationId) {
             return;
         }
 
@@ -406,7 +379,7 @@ class ConvocationForm extends Component
             );
         } catch (\Exception $e) {
             Log::error('Error al eliminar convocatoria', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
             $this->dispatch(
                 'convocation-error',
@@ -418,15 +391,12 @@ class ConvocationForm extends Component
     }
 
     /**
-
      * Render the component view.
 
      *
 
      * @return \Illuminate\View\View
-
      */
-
     public function render()
     {
         return view('modules.secretary.convocation-form')->layout('layouts.app');

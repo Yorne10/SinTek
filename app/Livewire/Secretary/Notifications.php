@@ -38,13 +38,14 @@ class Notifications extends Component
     protected $paginationTheme = 'bootstrap';
 
     protected $messages = [
-        'selectedUsers.required' => 'Selecciona al menos un usuario o marca enviar a todos.',
-        'selectedUsers.array' => 'El formato de usuarios no es válido.',
-        'selectedUsers.*.exists' => 'Alguno de los usuarios seleccionados no existe.',
-        'title.required' => 'Agrega un título para la notificación.',
-        'title.max' => 'El título no debe exceder 200 caracteres.',
-        'message.required' => 'Escribe el mensaje que verá el usuario.',
-        'message.max' => 'El mensaje es demasiado largo (máx. 1000 caracteres).',
+        'selectedUsers.required' => 'Selecciona al menos un usuario o marca enviar a todos',
+        'selectedUsers.array' => 'El formato de usuarios no es válido',
+        'selectedUsers.min' => 'Selecciona al menos un usuario',
+        'selectedUsers.*.exists' => 'La opción seleccionada en usuarios no es válida',
+        'title.required' => 'El campo título es obligatorio',
+        'title.max' => 'El título no debe exceder los 200 caracteres',
+        'message.required' => 'El campo mensaje es obligatorio',
+        'message.max' => 'El mensaje no debe exceder los 1000 caracteres',
     ];
 
     protected $queryString = ['search'];

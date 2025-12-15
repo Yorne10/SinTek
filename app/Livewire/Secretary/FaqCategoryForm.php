@@ -43,14 +43,14 @@ class FaqCategoryForm extends Component
     }
 
     protected $messages = [
-        'categoryName.required' => 'El nombre de la categoría es obligatorio.',
-        'categoryName.max' => 'El nombre no debe exceder 100 caracteres.',
-        'categoryName.unique' => 'Ya existe una categoría con este nombre.',
-        'categoryDescription.required' => 'La descripción es obligatoria.',
-        'categoryOrder.required' => 'El orden es obligatorio.',
-        'categoryOrder.integer' => 'El orden debe ser numérico.',
-        'categoryOrder.min' => 'El orden debe ser al menos 1.',
-        'categoryOrder.max' => 'El orden no puede exceder el máximo disponible.',
+        'categoryName.required' => 'El campo nombre es obligatorio',
+        'categoryName.max' => 'El nombre no debe exceder los 100 caracteres',
+        'categoryName.unique' => 'Ya existe una categoría con este nombre',
+        'categoryDescription.required' => 'El campo descripción es obligatorio',
+        'categoryOrder.required' => 'El campo orden es obligatorio',
+        'categoryOrder.integer' => 'El orden solo debe contener números',
+        'categoryOrder.min' => 'El orden debe ser mayor que 0',
+        'categoryOrder.max' => 'El orden está fuera del rango permitido',
     ];
 
     /**

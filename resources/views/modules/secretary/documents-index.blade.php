@@ -231,7 +231,7 @@ Changelog:
                             <p class="text-muted">${description}</p>
                         </div>
                     `,
-                    confirmButtonText: 'Cerrar'
+                    confirmButtonText: 'Aceptar'
                 });
             });
         });

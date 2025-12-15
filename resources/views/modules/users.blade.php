@@ -244,7 +244,7 @@ Changelog:
                         title: 'Detalles del usuario',
                         html: htmlContent,
                         icon: 'info',
-                        confirmButtonText: 'Cerrar',
+                        confirmButtonText: 'Aceptar',
                         showConfirmButton: true,
                         width: '600px'
                     });

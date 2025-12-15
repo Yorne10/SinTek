@@ -85,15 +85,15 @@ class Profile extends Component
     protected $messages = [
         'name.required' => 'El campo nombre es obligatorio',
         'name.max' => 'El nombre no debe exceder los 150 caracteres',
-        'email.required' => 'El campo correo electronico es obligatorio',
-        'email.email' => 'El correo electronico debe ser valido',
-        'email.unique' => 'El correo electronico ya esta registrado',
-        'email.max' => 'El correo electronico no debe exceder los 150 caracteres',
-        'curp.max' => 'El curp no debe exceder los 18 caracteres',
-        'rfc.max' => 'El rfc no debe exceder los 13 caracteres',
-        'phone.max' => 'El telefono no debe exceder los 20 caracteres',
-        'address.max' => 'La direccion no debe exceder los 255 caracteres',
-        'sex.in' => 'La opcion seleccionada en sexo no es valida',
+        'email.required' => 'El campo correo electrónico es obligatorio',
+        'email.email' => 'El correo electrónico no tiene un formato válido',
+        'email.unique' => 'El correo electrónico ya está registrado',
+        'email.max' => 'El correo electrónico no debe exceder los 150 caracteres',
+        'curp.max' => 'El CURP no debe exceder los 18 caracteres',
+        'rfc.max' => 'El RFC no debe exceder los 13 caracteres',
+        'phone.max' => 'El teléfono no debe exceder los 20 caracteres',
+        'address.max' => 'La dirección no debe exceder los 255 caracteres',
+        'sex.in' => 'La opción seleccionada en sexo no es válida',
     ];
 
     /**
@@ -201,8 +201,8 @@ class Profile extends Component
         $this->validate([
             'budgetKey' => 'required|integer|exists:positions,positions_id',
         ], [
-            'budgetKey.required' => 'La clave presupuestal es obligatoria.',
-            'budgetKey.exists' => 'La clave presupuestal seleccionada no existe.',
+            'budgetKey.required' => 'El campo clave presupuestal es obligatorio',
+            'budgetKey.exists' => 'La opción seleccionada en clave presupuestal no es válida',
         ]);
 
         if (env('IS_DEMO')) {

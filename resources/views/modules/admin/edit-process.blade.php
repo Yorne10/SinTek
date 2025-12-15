@@ -143,7 +143,8 @@ Changelog:
                                     @icon('info', 'fa-xs text-info me-3')
                                     <div>
                                         <h3 class="h6">Modificar pasos</h3>
-                                        <p class="text-gray-700 small mb-0">Para modificar los pasos del proceso,
+                                        <p class="text-gray-700 small mb-0">Para modificar los pasos del
+                                            proceso,
                                             dirígete a
                                             la sección "Definir pasos" en el menú de administración.</p>
                                     </div>
@@ -172,7 +173,8 @@ Changelog:
                             </option>
                         @endforeach
                     </select>
-                    <small class="form-text text-muted">Selecciona el proceso que deseas modificar o eliminar.</small>
+                    <small class="form-text text-muted">Selecciona el proceso que deseas modificar o
+                        eliminar.</small>
                 </div>
             </div>
         </div>
@@ -193,7 +195,8 @@ Changelog:
                 <div class="modal-body">
                     @if ($selectedProcess)
                         <p class="mb-3">
-                            ¿Estás seguro de que deseas eliminar el proceso <strong>"{{ $selectedProcess->name }}
+                            ¿Estás seguro de que deseas eliminar el proceso
+                            <strong>"{{ $selectedProcess->name }}
                                 @if ($selectedProcess->process_code)
                                     ({{ $selectedProcess->process_code }})
                                 @endif
@@ -202,11 +205,13 @@ Changelog:
                         </p>
                     @endif
                     <div class="alert alert-danger" role="alert">
-                        <strong>Esta acción no se puede deshacer.</strong> Se eliminará toda la configuración y los
+                        <strong>Esta acción no se puede deshacer.</strong> Se eliminará toda la
+                        configuración y los
                         pasos definidos para este proceso.
                     </div>
                     <p class="small text-gray-700 mb-0">
-                        Los trámites activos seguirán existiendo, pero no se podrán iniciar nuevos trámites con este
+                        Los trámites activos seguirán existiendo, pero no se podrán iniciar nuevos trámites
+                        con este
                         proceso.
                     </p>
                 </div>
@@ -248,7 +253,7 @@ Changelog:
 
                 Livewire.on('process-deleted', (event) => {
                     const modal = bootstrap.Modal.getInstance(document.getElementById(
-                    'deleteProcessModal'));
+                        'deleteProcessModal'));
                     if (modal) modal.hide();
 
                     Swal.fire({
@@ -267,7 +272,7 @@ Changelog:
                         icon: 'error',
                         title: event.title || 'Error',
                         text: event.message || 'Ocurrió un error al procesar la solicitud.',
-                        confirmButtonText: 'Aceptar'
+                        confirmButtonText: 'Entendido'
                     });
                 });
             }
