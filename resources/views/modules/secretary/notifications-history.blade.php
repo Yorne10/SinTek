@@ -151,14 +151,14 @@ Changelog:
         </div>
 
         <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
-            @if(->hasPages())
+            @if($notifications->hasPages())
                 <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                    {{ ->links() }}
+                    {{ $notifications->onEachSide(1)->links('components.pagination-users') }}
                 </nav>
             @endif
             <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
-                Mostrando <b>{{ ->firstItem() ?? 0 }}</b> a
-                <b>{{ ->lastItem() ?? 0 }}</b> de <b>{{ ->total() }}</b> notificaciones
+                Mostrando <b>{{ $notifications->firstItem() ?? 0 }}</b> a
+                <b>{{ $notifications->lastItem() ?? 0 }}</b> de <b>{{ $notifications->total() }}</b> notificaciones
             </div>
         </div>
     </div>

@@ -13,27 +13,26 @@ Description: Created step detail view for worker step actions
 --}}
 
 <div>
-    {{-- Breadcrumb --}}
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div class="d-block mb-4 mb-md-0">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('home', 'fa-xs')
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}">Mis
-                            tramites</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a
-                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $request->request_id]) }}">{{ $request->process->name }}</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $step->title }}</li>
-                </ol>
-            </nav>
+    {{-- Page Header --}}
+    <div class="py-4">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
+                        @icon('home', 'fa-xs')
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}">Mis trámites</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle del paso</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between w-100 flex-wrap mt-2">
+            <div class="mb-3 mb-lg-0">
+                <h1 class="h4 mb-1">Paso: {{ $step->title }}</h1>
+                <p class="mb-0 text-muted">Consulta el detalle y las acciones disponibles para este paso.</p>
+            </div>
         </div>
     </div>
 
@@ -133,7 +132,7 @@ Description: Created step detail view for worker step actions
                                         }
                                     }
                                 }
-                                
+
                                 // If no documents found by IDs, search by request_id and step_id
                                 if (count($uploadedFiles) === 0) {
                                     $documents = \App\Models\Document::where('request_id', $requestId)
@@ -175,7 +174,8 @@ Description: Created step detail view for worker step actions
                                                                 <div
                                                                     class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                                                     <a class="dropdown-item d-flex align-items-center"
-                                                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.request-document.show', $file['id']) }}" target="_blank">
+                                                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.request-document.show', $file['id']) }}"
+                                                                        target="_blank">
                                                                         @icon('file', 'dropdown-icon text-gray-400 me-2')
                                                                         Abrir documento
                                                                     </a>
@@ -258,8 +258,7 @@ Description: Created step detail view for worker step actions
                             @if($step->finalization_message)
                                 <p class="text-gray-600 mb-3">{{ $step->finalization_message }}</p>
                             @endif
-                            <button type="button"
-                                class="btn btn-primary complete-step-btn">
+                            <button type="button" class="btn btn-primary complete-step-btn">
                                 Finalizar trámite
                             </button>
 

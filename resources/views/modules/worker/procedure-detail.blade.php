@@ -13,25 +13,27 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
 --}}
 <div>
     {{-- Breadcrumb and Header --}}
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div class="d-block mb-4 mb-md-0">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                            @icon('home', 'fa-xs')
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}">Mis
-                            trámites</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalle del trámite</li>
-                </ol>
-            </nav>
-            <h2 class="h4">Detalles del trámite</h2>
+    <div class="pt-0 pb-2">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
+                        @icon('home', 'fa-xs')
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}">Mis
+                        trámites</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle del trámite</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between w-100 flex-wrap mt-2">
+            <div class="mb-3 mb-lg-0">
+                <h1 class="h4 mb-1">Detalles del trámite</h1>
+                <p class="mb-0 text-muted">Consulta el avance de tus pasos y revisa la información del trámite.</p>
+            </div>
         </div>
-
     </div>
 
     <div class="row">
@@ -42,7 +44,8 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                     class="card-header bg-white border-0 d-flex flex-wrap align-items-center justify-content-between gap-2">
                     <div>
                         <h2 class="h6 fw-bold mb-2">Seguimiento del trámite</h2>
-                        <p class="mb-1"><span class="text-muted">Trámite:</span> <span class="fw-semibold">{{ $request->process->name }}</span></p>
+                        <p class="mb-1"><span class="text-muted">Trámite:</span> <span
+                                class="fw-semibold">{{ $request->process->name }}</span></p>
                         <p class="text-muted small mb-0">Pasos completados y paso actual</p>
                     </div>
                 </div>
@@ -80,7 +83,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                         $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds);
                     @endphp
 
-                    @if($visibleSteps->isEmpty())
+                    @if ($visibleSteps->isEmpty())
                         <div class="text-center py-5">
                             <div class="mb-3">
                                 @icon('tasks', 'fa-3x text-gray-400')
@@ -102,9 +105,15 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                 <tbody>
                                     @foreach ($visibleSteps as $step)
                                         @php
-                                            $requestStep = $request->requestSteps->where('step_id', $step->step_id)->first();
+                                            $requestStep = $request->requestSteps
+                                                ->where('step_id', $step->step_id)
+                                                ->first();
                                             $status = $requestStep ? $requestStep->request_step_status : 'pending';
-                                            $isCurrent = $status === 'in_progress' || ($currentStep && $currentStep->step_id == $step->step_id && $status === 'pending');
+                                            $isCurrent =
+                                                $status === 'in_progress' ||
+                                                ($currentStep &&
+                                                    $currentStep->step_id == $step->step_id &&
+                                                    $status === 'pending');
                                         @endphp
                                         <tr>
                                             {{-- Step number --}}
@@ -138,27 +147,30 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                             {{-- Action menu --}}
                                             <td>
                                                 @if ($status === 'completed' || $isCurrent)
-                                                                                <div class="btn-group position-static">
-                                                                                    <button
-                                                                                        class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                                        @icon('menu', 'icon icon-xs')
-                                                                                    </button>
-                                                                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                                                                        <a class="dropdown-item d-flex align-items-center" href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.step-detail', [
-                                                        'requestId' => $request->request_id,
-                                                        'stepId' => $step->step_id,
-                                                        'readonly' => $status === 'completed' ? 'true' : 'false'
-                                                    ]) }}">
-                                                                                            @icon('checkList', 'dropdown-icon text-gray-400 me-2')
-                                                                                            @if ($status === 'completed')
-                                                                                                Ver paso
-                                                                                            @else
-                                                                                                Ir al paso
-                                                                                            @endif
-                                                                                        </a>
-                                                                                    </div>
-                                                                                </div>
+                                                    <div class="btn-group position-static">
+                                                        <button
+                                                            class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                            @icon('menu', 'icon icon-xs')
+                                                        </button>
+                                                        <div
+                                                            class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                                            <a class="dropdown-item d-flex align-items-center"
+                                                                href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.step-detail', [
+                                                                    'requestId' => $request->request_id,
+                                                                    'stepId' => $step->step_id,
+                                                                    'readonly' => $status === 'completed' ? 'true' : 'false',
+                                                                ]) }}">
+                                                                @icon('checkList', 'dropdown-icon text-gray-400 me-2')
+                                                                @if ($status === 'completed')
+                                                                    Ver paso
+                                                                @else
+                                                                    Ir al paso
+                                                                @endif
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>
@@ -253,7 +265,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-primary me-2',
@@ -274,7 +286,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
             }
 
             // Cancel procedure button
-            document.addEventListener('click', function (e) {
+            document.addEventListener('click', function(e) {
                 if (e.target.closest('.cancel-procedure-btn')) {
                     e.preventDefault();
 

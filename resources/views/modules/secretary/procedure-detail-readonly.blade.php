@@ -12,39 +12,40 @@ Changelog:
         Description: <Brief description of change>
             --}}
             <div>
-                {{-- Breadcrumb and Header --}}
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-                    <div class="d-block mb-4 mb-md-0">
-                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                                <li class="breadcrumb-item">
-                                    <a
-                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
-                                        @icon('home', 'fa-xs')
-                                    </a>
-                                </li>
-                                <li class="breadcrumb-item">Secretaría</li>
-                                <li class="breadcrumb-item">
-                                    <a
-                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}">Buscar
-                                        trabajadores</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a
-                                        href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}">Historial</a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">Detalle del trámite</li>
-                            </ol>
-                        </nav>
-                        <h2 class="h4">Detalle del trámite</h2>
-                        <p class="mb-0">Trabajador: <strong>{{ $worker->user->name }}</strong></p>
-                    </div>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}"
-                            class="btn btn-sm btn-gray-200 d-inline-flex align-items-center">
-                            @icon('back', 'me-2')
-                            Volver
-                        </a>
+                {{-- Page Header --}}
+                <div class="py-4">
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item">
+                                <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.dashboard.index') }}">
+                                    @icon('home', 'fa-xs')
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item">Secretaría</li>
+                            <li class="breadcrumb-item">
+                                <a
+                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}">Buscar
+                                    trabajadores</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a
+                                    href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}">Historial</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Detalle del trámite</li>
+                        </ol>
+                    </nav>
+                    <div class="d-flex justify-content-between w-100 flex-wrap">
+                        <div class="mb-3 mb-lg-0">
+                            <h1 class="h4">Detalle del trámite</h1>
+                            <p class="mb-0">Trabajador: <strong>{{ $worker->user->name }}</strong></p>
+                        </div>
+                        <div>
+                            <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.worker-procedures', $worker->workers_id) }}"
+                                class="btn btn-sm btn-gray-200 d-inline-flex align-items-center">
+                                @icon('back', 'me-2')
+                                Volver
+                            </a>
+                        </div>
                     </div>
                 </div>
 
