@@ -94,6 +94,13 @@ class ActivityLogger
             'api.profile' => 'Consultar perfil (API)',
             'api.convocations' => 'Consultar convocatorias (API)',
             'api.processes' => 'Consultar procesos (API)',
+
+            // Session actions - Web
+            'session.login' => 'Inicio de sesión',
+            'session.logout' => 'Cierre de sesión',
+
+            // User actions
+            'usuario.privacidad.aceptar' => 'Aceptar términos de privacidad',
         ];
 
         return $actions[$action] ?? $action;

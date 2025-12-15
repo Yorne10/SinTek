@@ -58,7 +58,7 @@ Changelog:
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="process_code">Código del proceso</label>
+                            <label for="process_code">Código del proceso <span class="text-danger">*</span></label>
                             <input wire:model.defer="process_code"
                                 class="form-control @error('process_code') is-invalid @enderror" id="process_code"
                                 type="text" placeholder="Ej: SOL-VAC-001">
@@ -70,7 +70,7 @@ Changelog:
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="process_description">Descripción</label>
+                            <label for="process_description">Descripción <span class="text-danger">*</span></label>
                             <textarea wire:model.defer="description" class="form-control @error('description') is-invalid @enderror"
                                 id="process_description" rows="4" placeholder="Describe el propósito y alcance del proceso..."></textarea>
                             @error('description')
@@ -80,7 +80,7 @@ Changelog:
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="process_category">Categoría</label>
+                            <label for="process_category">Categoría <span class="text-danger">*</span></label>
                             <select wire:model.defer="category"
                                 class="form-select @error('category') is-invalid @enderror" id="process_category">
                                 <option value="">Selecciona una categoría...</option>
@@ -93,7 +93,7 @@ Changelog:
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="process_department">Área responsable</label>
+                            <label for="process_department">Área responsable <span class="text-danger">*</span></label>
                             <select wire:model.defer="department"
                                 class="form-select @error('department') is-invalid @enderror" id="process_department">
                                 <option value="">Selecciona un área...</option>

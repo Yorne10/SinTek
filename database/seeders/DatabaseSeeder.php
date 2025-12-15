@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             PositionSeeder::class,
-            ProcessSeeder::class,
             ConvocationSeeder::class,
+            SystemSettingSeeder::class,
             FaqSeeder::class,
         ]);
 

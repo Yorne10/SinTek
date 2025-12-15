@@ -25,14 +25,14 @@ Changelog:
                 <li class="breadcrumb-item active" aria-current="page">Historial de trámites</li>
             </ol>
         </nav>
-        <div class="d-flex justify-content-between w-100 flex-wrap">
+        <div class="d-flex justify-content-between w-100 flex-wrap align-items-center">
             <div class="mb-3 mb-lg-0">
                 <h1 class="h4">Historial de Trámites</h1>
                 <p class="mb-0">
                     Visualizando trámites del trabajador: <strong>{{ $worker->user->name }}</strong>
                 </p>
             </div>
-            <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-toolbar mb-2 mb-md-0 align-items-center">
                 <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.search-workers') }}"
                     class="btn btn-sm btn-gray-200 d-inline-flex align-items-center">
                     @icon('back', 'me-2')

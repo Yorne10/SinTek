@@ -17,6 +17,7 @@ namespace App\Livewire\Worker;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Services\ActivityLogger;
 
 class AcceptPrivacyTerms extends Component
 {
@@ -44,6 +45,13 @@ class AcceptPrivacyTerms extends Component
         $worker->update([
             'privacy_accepted_at' => now(),
         ]);
+
+        // Log privacy acceptance
+        ActivityLogger::log(
+            'usuario.privacidad.aceptar',
+            "Usuario aceptó los términos de privacidad",
+            $user->users_id
+        );
 
         // Send redirect URL via dispatch for JavaScript to handle
         $prefix = config('proj.route_name_prefix', 'proj');

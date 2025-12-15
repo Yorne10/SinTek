@@ -16,6 +16,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use App\Services\ActivityLogger;
 use Livewire\Component;
 
 class Login extends Component
@@ -99,6 +100,11 @@ class Login extends Component
                 }
             }
             // Already authenticated by attempt(); redirect to dashboard
+            ActivityLogger::log(
+                'session.login',
+                "Inicio de sesión exitoso",
+                $user->users_id
+            );
             $route = config('proj.route_name_prefix', 'proj') . '.dashboard.index';
             return redirect()->route($route);
         } else {

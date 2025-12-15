@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Services\ActivityLogger;
 
 class StepDetail extends Component
 {
@@ -189,6 +190,16 @@ class StepDetail extends Component
                 'document_path' => json_encode($documentIds),
             ]);
 
+            // Log document upload activity
+            $user = Auth::user();
+            foreach ($attachments as $attach) {
+                ActivityLogger::log(
+                    'tramite.documento.subido',
+                    "Documento '{$attach['name']}' subido para el paso '{$this->step->title}' del trámite '{$this->request->process->name}'",
+                    $user->users_id
+                );
+            }
+
             // Send email notification with attachments to admin and CC worker
             if (!empty($attachments)) {
                 $user = Auth::user();
@@ -261,6 +272,14 @@ class StepDetail extends Component
             'step_date' => now(),
         ]);
 
+        // Log step completion
+        $user = Auth::user();
+        ActivityLogger::log(
+            'tramite.paso.completado',
+            "Paso completado: '{$this->step->title}' del trámite '{$this->request->process->name}'",
+            $user->users_id
+        );
+
         $this->advanceToNextStep();
     }
 
@@ -277,6 +296,15 @@ class StepDetail extends Component
             'step_date' => now(),
             'step_response' => $response,
         ]);
+
+        // Log conditional decision
+        $user = Auth::user();
+        $decisionLabel = $response === 'yes' ? 'Sí' : 'No';
+        ActivityLogger::log(
+            'tramite.decision',
+            "Decisión '{$decisionLabel}' en el paso '{$this->step->title}' del trámite '{$this->request->process->name}'",
+            $user->users_id
+        );
 
         // Handle conditional branching based on response
         $this->advanceToNextStep($response);
@@ -330,6 +358,14 @@ class StepDetail extends Component
             'status' => 'completed',
             'end_date' => now(),
         ]);
+
+        // Log request completion
+        $user = Auth::user();
+        ActivityLogger::log(
+            'tramite.completado',
+            "Trámite completado: '{$this->request->process->name}'",
+            $user->users_id
+        );
 
         $this->dispatch(
             'step-completed',

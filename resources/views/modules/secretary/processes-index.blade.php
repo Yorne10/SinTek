@@ -64,7 +64,7 @@ Changelog:
         </div>
     </div>
 
-    <div class="card card-body shadow border-0 table-wrapper table-responsive">
+    <div class="card card-body shadow border-0 table-wrapper table-responsive overflow-visible">
         <table class="table table-centered table-nowrap mb-0 rounded user-table align-items-center">
             <thead class="thead-light">
                 <tr>
@@ -93,9 +93,10 @@ Changelog:
                         </td>
                         <td><span class="fw-normal">{{ $process->created_at->format('d/m/Y') }}</span></td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group position-static">
                                 <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-haspopup="true"
+                                    aria-expanded="false">
                                     @icon('menu', 'icon icon-xs')
                                 </button>
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">

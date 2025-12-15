@@ -218,12 +218,22 @@ class AvailableProcedures extends Component
                 'start_date' => now(),
             ]);
 
-            // Create request steps
-            foreach ($process->steps as $step) {
+            // Create request steps - mark first step as in_progress
+            $steps = $process->steps->sortBy('order');
+            $firstStep = $steps->first();
+
+            foreach ($steps as $step) {
+                $status = 'pending';
+
+                // Mark first step (or initial step type) as in_progress
+                if ($step->step_id === $firstStep?->step_id || $step->step_type === 'initial') {
+                    $status = 'in_progress';
+                }
+
                 RequestStep::create([
                     'request_id' => $request->request_id,
                     'step_id' => $step->step_id,
-                    'request_step_status' => 'pending',
+                    'request_step_status' => $status,
                 ]);
             }
 

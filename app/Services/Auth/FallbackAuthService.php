@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use App\Services\ActivityLogger;
 
 class FallbackAuthService
 {
@@ -159,6 +160,16 @@ class FallbackAuthService
     public function logout(Request $request)
     {
         try {
+            // Log logout before invalidating session
+            $user = Auth::user();
+            if ($user) {
+                ActivityLogger::log(
+                    'session.logout',
+                    "Cierre de sesión",
+                    $user->users_id
+                );
+            }
+
             Auth::logout();
 
             $request->session()->invalidate();

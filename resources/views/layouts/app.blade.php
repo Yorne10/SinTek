@@ -14,9 +14,10 @@ Changelog:
 @extends('layouts.base')
 
 @section('content')
-    @php($routeName = request()->route()?->getName())
-    @php($prefix = config('proj.route_name_prefix', 'proj'))
-    @php(
+    @php
+    $routeName = request()->route()?->getName();
+    $prefix = config('proj.route_name_prefix', 'proj');
+    
     $isAppShell = in_array($routeName, [
         // Rutas app principales con navegacin completa
         $prefix . '.dashboard.index',
@@ -85,9 +86,8 @@ Changelog:
         $prefix . '.admin.configure-flow',
         // Shared routes
         $prefix . '.faq',
-    ]),
-)
-    @php(
+    ]);
+
     $isAuthShell = in_array($routeName, [
         // Authentication/landing routes
         $prefix . '.auth.register',
@@ -98,16 +98,15 @@ Changelog:
         $prefix . '.examples.forgot-password',
         $prefix . '.auth.reset-password',
         $prefix . '.examples.reset-password',
-    ]),
-)
-    @php(
+    ]);
+
     $isMinimalShell = in_array($routeName, [
         // Minimal pages
         $prefix . '.errors.404',
         $prefix . '.errors.500',
         $prefix . '.auth.lock',
-    ]),
-)
+    ]);
+    @endphp
 
     @if ($isAppShell)
         {{-- Nav --}}
