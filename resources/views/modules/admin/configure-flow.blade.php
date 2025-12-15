@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Company: CETAM
 Project: ST
 File: configure-flow.blade.php
@@ -13,7 +13,7 @@ Changelog:
             --}}
 
             <div>
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-0">
                     <div class="d-block mb-4 mb-md-0">
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
@@ -23,7 +23,17 @@ Changelog:
                                         @icon('home', 'fa-xs')
                                     </a>
                                 </li>
-                                <li class="breadcrumb-item">Administración</li>
+                                @if (auth()->user()?->role === 'secretary')
+                                    <li class="breadcrumb-item">Secretaria</li>
+                                    <li class="breadcrumb-item">
+                                        <a
+                                            href="{{ route(config('proj.route_name_prefix', 'proj') . '.secretary.processes') }}">
+                                            Gestionar procesos
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="breadcrumb-item">Administracion</li>
+                                @endif
                                 <li class="breadcrumb-item">
                                     <a
                                         href="{{ route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps', ['process_id' => $process_id]) }}">

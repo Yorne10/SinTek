@@ -40,9 +40,10 @@ class EditProcess extends Component
 
     protected $rules = [
         'name' => 'required|string|max:150',
-        'description' => 'nullable|string',
+        'description' => 'nullable|string|max:2000',
         'category' => 'nullable|string|max:100',
         'department' => 'nullable|string|max:100',
+        'process_code' => 'nullable|string|max:50',
         'active' => 'boolean',
     ];
 

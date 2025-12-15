@@ -46,12 +46,17 @@ class Handler extends ExceptionHandler
             return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
         });
 
-        // Manejo de errores de método no permitido
+        // Manejo de errores de método no permitido (ej: GET en ruta POST)
+        // Esto NO debe mostrar "sesión expirada" porque la sesión puede seguir activa
         $this->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Método no permitido'], 405);
             }
-            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.errors.session-expired');
+            // Redirigir al dashboard si está autenticado, o al login si no
+            if (auth()->check()) {
+                return redirect()->route(config('proj.route_name_prefix', 'proj') . '.dashboard.index');
+            }
+            return redirect()->route(config('proj.route_name_prefix', 'proj') . '.auth.login');
         });
 
         // Manejo de autenticación fallida (usuario no autenticado)

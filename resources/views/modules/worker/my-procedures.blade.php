@@ -158,7 +158,7 @@ Changelog:
                                 class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
                                 @if ($requests->hasPages())
                                     <nav aria-label="Page navigation" class="mb-3 mb-lg-0">
-                                        {{ $requests->links() }}
+                                        {{ $requests->links('components.pagination-users') }}
                                     </nav>
                                 @endif
                                 <div class="fw-normal small mt-4 mt-lg-0 ms-lg-auto">
@@ -171,32 +171,32 @@ Changelog:
                 </div>
             </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-primary me-2',
-                    cancelButton: 'btn btn-gray'
-                },
-                buttonsStyling: false
-            });
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-primary me-2',
+                            cancelButton: 'btn btn-gray'
+                        },
+                        buttonsStyling: false
+                    });
 
-            document.querySelectorAll('.view-details-btn').forEach(function(btn) {
-                btn.addEventListener('click', function(e) {
-                    const isActive = this.getAttribute('data-process-active') === '1';
-                    const processName = this.getAttribute('data-process-name');
-                    const href = this.getAttribute('href');
+                    document.querySelectorAll('.view-details-btn').forEach(function (btn) {
+                        btn.addEventListener('click', function (e) {
+                            const isActive = this.getAttribute('data-process-active') === '1';
+                            const processName = this.getAttribute('data-process-name');
+                            const href = this.getAttribute('href');
 
-                    if (!isActive) {
-                        e.preventDefault();
-                        swalWithBootstrapButtons.fire({
-                            title: 'Proceso inactivo',
-                            text: `El proceso "${processName}" se encuentra temporalmente inactivo. No podrás avanzar hasta que se reactive.`,
-                            icon: 'warning',
-                            confirmButtonText: 'Entendido'
+                            if (!isActive) {
+                                e.preventDefault();
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Proceso inactivo',
+                                    text: `El proceso "${processName}" se encuentra temporalmente inactivo. No podrás avanzar hasta que se reactive.`,
+                                    icon: 'warning',
+                                    confirmButtonText: 'Entendido'
+                                });
+                            }
                         });
-                    }
+                    });
                 });
-            });
-        });
-    </script>
+            </script>

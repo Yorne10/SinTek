@@ -196,8 +196,7 @@ Changelog:
                                 icon: 'success',
                                 title: detail.title || '¡Éxito!',
                                 text: detail.message || 'Trámite iniciado exitosamente.',
-                                showConfirmButton: false,
-                                timer: 1500
+                                confirmButtonText: 'Aceptar'
                             }).then(() => {
                                 if (detail.redirectUrl) {
                                     window.location.href = detail.redirectUrl;

@@ -1,4 +1,4 @@
-{{--
+﻿{{--
 Company: CETAM
 Project: ST
 File: procedure-detail.blade.php
@@ -29,7 +29,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                     <li class="breadcrumb-item active" aria-current="page">Detalle del trámite</li>
                 </ol>
             </nav>
-            <h2 class="h4">{{ $request->process->name }}</h2>
+            <h2 class="h4">Detalles del trámite</h2>
         </div>
 
     </div>
@@ -41,7 +41,8 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                 <div
                     class="card-header bg-white border-0 d-flex flex-wrap align-items-center justify-content-between gap-2">
                     <div>
-                        <h2 class="fs-5 fw-bold mb-0">Seguimiento del trámite</h2>
+                        <h2 class="h6 fw-bold mb-2">Seguimiento del trámite</h2>
+                        <p class="mb-1"><span class="text-muted">Trámite:</span> <span class="fw-semibold">{{ $request->process->name }}</span></p>
                         <p class="text-muted small mb-0">Pasos completados y paso actual</p>
                     </div>
                 </div>
@@ -50,19 +51,23 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                         // Get completed steps
                         $completedSteps = $request->requestSteps->where('request_step_status', 'completed');
 
-                        // Get current step (in_progress OR first pending if no in_progress)
-                        $currentStep = $request->requestSteps->where('request_step_status', 'in_progress')->first();
+                        // Only calculate a current step when the request is active
+                        $currentStep = null;
+                        if ($request->status !== 'completed' && $request->status !== 'cancelled') {
+                            // Get current step (in_progress OR first pending if no in_progress)
+                            $currentStep = $request->requestSteps->where('request_step_status', 'in_progress')->first();
 
-                        // If no step is in_progress, find the first pending step as current
-                        if (!$currentStep) {
-                            $firstPendingStep = $request->requestSteps
-                                ->where('request_step_status', 'pending')
-                                ->sortBy(function ($reqStep) use ($allSteps) {
-                                    $step = $allSteps->where('step_id', $reqStep->step_id)->first();
-                                    return $step ? $step->order : 999;
-                                })
-                                ->first();
-                            $currentStep = $firstPendingStep;
+                            // If no step is in_progress, find the first pending step as current
+                            if (!$currentStep) {
+                                $firstPendingStep = $request->requestSteps
+                                    ->where('request_step_status', 'pending')
+                                    ->sortBy(function ($reqStep) use ($allSteps) {
+                                        $step = $allSteps->where('step_id', $reqStep->step_id)->first();
+                                        return $step ? $step->order : 999;
+                                    })
+                                    ->first();
+                                $currentStep = $firstPendingStep;
+                            }
                         }
 
                         // Combine completed and current
@@ -115,13 +120,6 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                             <td>
                                                 <div>
                                                     <span class="fw-bold text-gray-900">{{ $step->title }}</span>
-                                                    @if ($status === 'completed' && $requestStep && $requestStep->step_date)
-                                                        <br>
-                                                        <small class="text-success">
-                                                            @icon('check', 'me-1')
-                                                            {{ \Carbon\Carbon::parse($requestStep->step_date)->format('d/m/Y H:i') }}
-                                                        </small>
-                                                    @endif
                                                 </div>
                                             </td>
 
@@ -190,11 +188,6 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                     <h2 class="fs-5 fw-bold mb-0">Información del trámite</h2>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <small class="text-gray-600 d-block mb-1">Proceso</small>
-                        <p class="mb-0 fw-semibold">{{ $request->process->name }}</p>
-                    </div>
-
                     @if ($request->process->category)
                         <div class="mb-3">
                             <small class="text-gray-600 d-block mb-1">Categoría</small>
@@ -202,6 +195,12 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                         </div>
                     @endif
 
+                    @if ($request->process->department)
+                        <div class="mb-3">
+                            <small class="text-gray-600 d-block mb-1">Área</small>
+                            <p class="mb-0">{{ $request->process->department }}</p>
+                        </div>
+                    @endif
                     @if ($request->process->priority)
                         <div class="mb-3">
                             <small class="text-gray-600 d-block mb-1">Prioridad</small>

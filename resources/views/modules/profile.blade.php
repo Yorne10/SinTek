@@ -366,6 +366,7 @@ Changelog:
                     icon: 'success',
                     title: 'Actualizado',
                     text: 'Tu perfil se actualizó correctamente.',
+                    confirmButtonText: 'Aceptar',
                     showConfirmButton: true,
                     timer: 2000
                 });

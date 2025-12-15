@@ -20,8 +20,11 @@ use Livewire\WithFileUploads;
 use App\Models\Request as WorkerRequest;
 use App\Models\Step;
 use App\Models\RequestStep;
+use App\Models\SystemSetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class StepDetail extends Component
 {
@@ -33,6 +36,7 @@ class StepDetail extends Component
     public $step;
     public $requestStep;
     public $file;
+    public $files = [];
     public $completedSteps = [];
 
     /**
@@ -94,25 +98,152 @@ class StepDetail extends Component
     }
 
     /**
-     * Upload file and complete step.
+     * Upload files and complete step.
      *
      * @return void
      */
     public function uploadFile()
     {
-        $this->validate([
-            'file' => 'required|file|max:10240', // 10MB max
-        ]);
+        // Validate files if there are required documents
+        if ($this->step->requiredDocuments && $this->step->requiredDocuments->count() > 0) {
+            $requiredCount = $this->step->requiredDocuments->count();
 
-        // Store file
-        $path = $this->file->store('request-documents/' . $this->requestId, 'public');
+            // Check if files array has all required documents
+            if (empty($this->files) || count(array_filter($this->files)) < $requiredCount) {
+                // Build validation rules for each required document
+                $rules = [];
+                foreach ($this->step->requiredDocuments as $index => $reqDoc) {
+                    $rules['files.' . $index] = 'required|file|mimes:pdf|max:10240';
+                }
+                $this->validate($rules, [
+                    'files.*.required' => 'Este documento es requerido.',
+                    'files.*.file' => 'Debe ser un archivo válido.',
+                    'files.*.mimes' => 'Solo se permiten archivos PDF.',
+                    'files.*.max' => 'El archivo no debe superar 10MB.',
+                ]);
+                return;
+            }
 
-        // Update request step
-        $this->requestStep->update([
-            'request_step_status' => 'completed',
-            'step_date' => now(),
-            'document_path' => $path,
-        ]);
+            // Validate each file is a valid uploaded file
+            foreach ($this->step->requiredDocuments as $index => $reqDoc) {
+                if (!isset($this->files[$index]) || !$this->files[$index]) {
+                    $this->addError('files.' . $index, 'Este documento es requerido.');
+                    return;
+                }
+
+                // Check if file is still uploading (is a TemporaryUploadedFile)
+                if (!($this->files[$index] instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile)) {
+                    $this->addError('files.' . $index, 'El archivo aún se está cargando. Por favor espere.');
+                    return;
+                }
+            }
+
+            // Store all files in documents table
+            $documentIds = [];
+            $attachments = [];
+            foreach ($this->files as $index => $file) {
+                if ($file && $file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                    // Resolve requested name from required document title, fallback to original name
+                    $reqDoc = $this->step->requiredDocuments[$index] ?? null;
+                    $baseName = $reqDoc ? $reqDoc->title : pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $file->getClientOriginalExtension() ?: 'pdf';
+                    $extension = ltrim($extension, '.'); // normalize
+
+                    $finalName = $baseName;
+                    if (!Str::endsWith(Str::lower($finalName), '.' . strtolower($extension))) {
+                        $finalName .= '.' . $extension;
+                    }
+
+                    // Get file content as binary
+                    $fileContent = file_get_contents($file->getRealPath());
+
+                    // Create document record in database
+                    $document = \App\Models\Document::create([
+                        'request_id' => $this->requestId,
+                        'step_id' => $this->stepId,
+                        'file_content' => $fileContent,
+                        'name' => $finalName,
+                        'mime_type' => $file->getMimeType(),
+                    ]);
+
+                    $documentIds[] = $document->document_id;
+                    $attachments[] = [
+                        'content' => $fileContent,
+                        'name' => $finalName,
+                        'mime' => $file->getMimeType() ?: 'application/pdf',
+                        'title' => $reqDoc ? $reqDoc->title : $finalName,
+                    ];
+                }
+            }
+
+            // Verify we stored all required files
+            if (count($documentIds) < $requiredCount) {
+                session()->flash('error', 'No se pudieron guardar todos los archivos. Por favor intente de nuevo.');
+                return;
+            }
+
+            // Update request step with document IDs reference
+            $this->requestStep->update([
+                'request_step_status' => 'completed',
+                'step_date' => now(),
+                'document_path' => json_encode($documentIds),
+            ]);
+
+            // Send email notification with attachments to admin and CC worker
+            if (!empty($attachments)) {
+                $user = Auth::user();
+                $adminEmail = SystemSetting::getValue('contact_email', config('mail.from.address'));
+
+                $recipients = [];
+                if ($adminEmail) {
+                    $recipients[] = $adminEmail;
+                }
+
+                $cc = [];
+                if ($user && $user->email) {
+                    $cc[] = $user->email;
+                }
+
+                if (!empty($recipients)) {
+                    $bodyLines = [
+                        'Se recibieron documentos en el sistema.',
+                        '',
+                        'Trámite: ' . ($this->request->process->name ?? 'Trámite'),
+                        'Paso: ' . ($this->step->title ?? 'Paso'),
+                        'Usuario: ' . (($user->name ?? 'Usuario') . (isset($user->email) ? ' <' . $user->email . '>' : '')),
+                        'Fecha: ' . now()->format('d/m/Y H:i'),
+                        '',
+                        'Documentos:',
+                    ];
+                    foreach ($attachments as $attach) {
+                        $bodyLines[] = '- ' . ($attach['title'] ?? $attach['name']) . ' (PDF)';
+                    }
+
+                    $subject = 'Documentos cargados en el sistema';
+                    $body = implode("\n", $bodyLines);
+
+                    Mail::send([], [], function ($message) use ($recipients, $cc, $attachments, $subject, $body) {
+                        $message->to($recipients)
+                            ->subject($subject)
+                            ->text($body);
+
+                        if (!empty($cc)) {
+                            $message->cc($cc);
+                        }
+
+                        foreach ($attachments as $attach) {
+                            $message->attachData($attach['content'], $attach['name'], ['mime' => $attach['mime']]);
+                        }
+                    });
+                }
+            }
+        } else {
+            // No required documents - just complete the step
+            $this->requestStep->update([
+                'request_step_status' => 'completed',
+                'step_date' => now(),
+            ]);
+        }
 
         // Move to next step or complete request
         $this->advanceToNextStep();

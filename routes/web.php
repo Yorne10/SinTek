@@ -145,6 +145,10 @@ Route::prefix("p/{$slug}")
             Route::get('/step-provided-document/{id}', [\App\Http\Controllers\StepProvidedDocumentController::class, 'show'])->name('step-provided-document.show');
             Route::get('/step-provided-document/{id}/download', [\App\Http\Controllers\StepProvidedDocumentController::class, 'download'])->name('step-provided-document.download');
 
+            // Routes for request documents (uploaded by workers)
+            Route::get('/request-document/{id}', [\App\Http\Controllers\Documents\RequestDocumentController::class, 'show'])->name('request-document.show');
+            Route::get('/request-document/{id}/download', [\App\Http\Controllers\Documents\RequestDocumentController::class, 'download'])->name('request-document.download');
+
             // Frequently asked questions (shared among all roles)
             Route::get('/faq', Faq::class)->name('faq');
 
@@ -192,6 +196,8 @@ Route::prefix("p/{$slug}")
                 Route::get('/budget-key/create', BudgetKeyForm::class)->name('secretary.budget-key.create');
                 Route::get('/budget-key/{id}/edit', BudgetKeyForm::class)->name('secretary.budget-key.edit');
                 Route::get('/worker/{id}/procedures', \App\Livewire\Secretary\WorkerProceduresHistory::class)->name('secretary.worker-procedures');
+                Route::get('/worker/procedure/{id}', \App\Livewire\Secretary\SecretaryProcedureDetail::class)->name('secretary.procedure-detail');
+                Route::get('/worker/step/{requestId}/{stepId}', \App\Livewire\Secretary\SecretaryStepDetail::class)->name('secretary.step-detail');
             });
 
             // Routes for administrators (user and system management)

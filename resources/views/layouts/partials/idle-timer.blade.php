@@ -62,10 +62,9 @@ Changelog:
                                 icon: 'success',
                                 title: 'Sesión extendida',
                                 text: 'Tu sesión ha sido extendida exitosamente',
-                                timer: 1500,
-                                showConfirmButton: false
+                                confirmButtonText: 'Aceptar'
                             });
-                            startIdleTimer();
+                            startIdleTimer();;
                         }
                     }).catch(() => logout());
                 } else {
@@ -82,7 +81,7 @@ Changelog:
                     icon: 'info',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
-                    showConfirmButton: false,
+                    confirmButtonText: 'Esperar',
                     didOpen: () => { Swal.showLoading(); }
                 });
             }

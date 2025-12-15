@@ -63,6 +63,8 @@ Changelog:
                     $prefix . '.faq.question.edit',
                     $prefix . '.secretary.processes',
                     $prefix . '.secretary.process.detail',
+                    $prefix . '.secretary.procedure-detail',
+                    $prefix . '.secretary.step-detail',
                     $prefix . '.secretary.budget-keys',
                     $prefix . '.secretary.budget-key.create',
                     $prefix . '.secretary.budget-key.edit',

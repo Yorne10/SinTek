@@ -197,8 +197,7 @@ Changelog:
                                 icon: 'success',
                                 title: '¡Términos aceptados!',
                                 text: 'Serás redirigido al sistema.',
-                                showConfirmButton: false,
-                                timer: 1500
+                                confirmButtonText: 'Aceptar'
                             }).then(() => {
                                 window.location.href = redirectUrl;
                             });

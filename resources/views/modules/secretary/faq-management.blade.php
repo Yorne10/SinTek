@@ -142,8 +142,7 @@ Changelog:
                 icon: detail.type,
                 title: detail.title,
                 text: detail.message,
-                showConfirmButton: false,
-                timer: 2000
+                confirmButtonText: 'Aceptar'
             });
         });
     });

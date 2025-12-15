@@ -323,14 +323,14 @@ class CreateStep extends Component
                 'process_id' => 'required|exists:processes,process_id',
                 'title' => 'required|string|max:200',
                 // Instrucciones solo obligatorias si no es paso final
-                'instruction' => $this->step_type === 'final' ? 'nullable|string' : 'required|string',
+                'instruction' => $this->step_type === 'final' ? 'nullable|string|max:5000' : 'required|string|max:5000',
                 'step_type' => 'required|string|in:initial,normal,conditional,final',
                 'condition_question' => 'nullable|string',
                 'requires_documents' => 'boolean',
                 'next_step_id' => 'nullable|exists:steps,step_id',
                 'next_yes' => 'nullable|exists:steps,step_id',
                 'next_no' => 'nullable|exists:steps,step_id',
-                'finalization_message' => 'nullable|string',
+                'finalization_message' => 'nullable|string|max:1000',
                 'is_initial_step' => 'boolean',
                 'is_linked' => 'boolean',
                 'active' => 'boolean',
@@ -347,7 +347,7 @@ class CreateStep extends Component
             }
 
             if ($this->step_type === 'final') {
-                $rules['finalization_message'] = 'required|string';
+                $rules['finalization_message'] = 'required|string|max:1000';
             }
 
             // Validar documentos proporcionados nuevos (si existen)
@@ -360,25 +360,25 @@ class CreateStep extends Component
             \Log::info('Validando...');
             $this->validate($rules, [
                 'process_id.required' => 'El campo proceso es obligatorio',
-                'title.required' => 'El campo tÃ­tulo del paso es obligatorio',
+                'title.required' => 'El campo título del paso es obligatorio',
                 'instruction.required' => 'El campo instrucciones es obligatorio',
                 'step_type.required' => 'El campo tipo de paso es obligatorio',
                 'condition_question.required' => 'El campo pregunta condicional es obligatorio',
-                'finalization_message.required' => 'El campo mensaje de finalizaciÃ³n es obligatorio',
+                'finalization_message.required' => 'El campo mensaje de finalización es obligatorio',
                 'documents.required' => 'El campo documentos requeridos es obligatorio',
                 'documents.*.title.required' => 'El campo nombre del documento requerido es obligatorio',
-                'providedDocuments.*.titulo.required' => 'El campo tÃ­tulo del documento proporcionado es obligatorio',
+                'providedDocuments.*.titulo.required' => 'El campo título del documento proporcionado es obligatorio',
                 'providedDocuments.*.archivo.required' => 'El campo archivo del documento proporcionado es obligatorio',
             ]);
 
-            // Validaciones adicionales segÃºn el tipo
+            // Validaciones adicionales según el tipo
             if ($this->step_type === 'conditional' && !trim((string) $this->condition_question)) {
                 $this->addError('condition_question', 'El campo pregunta condicional es obligatorio');
                 return;
             }
 
             if ($this->step_type === 'final' && !trim((string) $this->finalization_message)) {
-                $this->addError('finalization_message', 'El campo mensaje de finalizaciÃ³n es obligatorio');
+                $this->addError('finalization_message', 'El campo mensaje de finalización es obligatorio');
                 return;
             }
 
@@ -397,7 +397,7 @@ class CreateStep extends Component
                 }
             }
 
-            \Log::info('ValidaciÃ³n exitosa');
+            \Log::info('Validación exitosa');
 
             $data = [
                 'process_id' => $this->process_id,
@@ -419,7 +419,7 @@ class CreateStep extends Component
             \Log::info('Usuario autenticado: ' . ($user ? $user->users_id : 'null'));
 
             if ($this->isEditing) {
-                \Log::info('Modo ediciÃ³n - Step ID: ' . $this->step_id);
+                \Log::info('Modo edición - Step ID: ' . $this->step_id);
                 $step = Step::find($this->step_id);
                 $step->update($data);
                 $actionKey = 'paso.actualizado';
@@ -427,7 +427,7 @@ class CreateStep extends Component
                 session()->flash('success', 'Paso actualizado exitosamente');
                 \Log::info('Paso actualizado en BD');
             } else {
-                \Log::info('Modo creaciÃ³n - Creando nuevo paso');
+                \Log::info('Modo creación - Creando nuevo paso');
                 $step = Step::create($data);
                 $this->step_id = $step->step_id;
                 $actionKey = 'paso.creado';
@@ -508,8 +508,8 @@ class CreateStep extends Component
             }
             \Log::info('=== SAVE COMPLETADO ===');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            \Log::error('Error de validaciÃ³n: ' . json_encode($e->errors()));
-            // Los errores de validaciÃ³n se manejan automÃ¡ticamente por Livewire
+            \Log::error('Error de validación: ' . json_encode($e->errors()));
+            // Los errores de validación se manejan automáticamente por Livewire
             throw $e;
         } catch (\Exception $e) {
             \Log::error('Error al guardar paso: ' . $e->getMessage());
@@ -517,7 +517,7 @@ class CreateStep extends Component
             $this->dispatch(
                 'step-error',
                 title: 'Error',
-                message: 'OcurriÃ³ un error al guardar el paso: ' . $e->getMessage()
+                message: 'Ocurrió un error al guardar el paso: ' . $e->getMessage()
             );
         }
     }
@@ -551,7 +551,7 @@ class CreateStep extends Component
             $this->dispatch(
                 'step-error',
                 title: 'No encontrado',
-                message: 'No se encontrÃ³ el paso a eliminar.'
+                message: 'No se encontró el paso a eliminar.'
             );
             return;
         }
@@ -561,7 +561,7 @@ class CreateStep extends Component
             $this->dispatch(
                 'step-error',
                 title: 'No se puede eliminar',
-                message: 'El paso estÃ¡ conectado al flujo. Primero debes desvincularlo desde "Configurar flujo".'
+                message: 'El paso está conectado al flujo. Primero debes desvincularlo desde "Configurar flujo".'
             );
             return;
         }
@@ -588,7 +588,7 @@ class CreateStep extends Component
             'step-saved',
             title: 'Paso eliminado',
             message: $wasInitial
-            ? 'El paso inicial fue eliminado. El proceso se desactivÃ³ hasta que configures un nuevo flujo.'
+            ? 'El paso inicial fue eliminado. El proceso se desactivó hasta que configures un nuevo flujo.'
             : 'El paso fue eliminado correctamente.',
             redirect: route(config('proj.route_name_prefix', 'proj') . '.admin.define-steps', ['process_id' => $this->process_id])
         );
