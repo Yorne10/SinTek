@@ -73,14 +73,10 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                             }
                         }
 
-                        // Combine completed and current
-                        $visibleStepIds = $completedSteps->pluck('step_id')->toArray();
-                        if ($currentStep) {
-                            $visibleStepIds[] = $currentStep->step_id;
-                        }
-
-                        // Filter allSteps to show only visible ones
-                        $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds);
+                        // Incluir pasos completados, en progreso o cancelados (misma lógica que vista secretaria)
+                        $visibleRequestSteps = $request->requestSteps->whereIn('request_step_status', ['completed', 'in_progress', 'cancelled']);
+                        $visibleStepIds = $visibleRequestSteps->pluck('step_id')->toArray();
+                        $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds)->sortBy('order');
                     @endphp
 
                     @if ($visibleSteps->isEmpty())
@@ -120,6 +116,8 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                             <td>
                                                 @if ($status === 'completed')
                                                     <span class="fw-bold text-success">{{ $loop->iteration }}</span>
+                                                @elseif ($status === 'cancelled')
+                                                    <span class="fw-bold text-danger">{{ $loop->iteration }}</span>
                                                 @else
                                                     <span class="fw-bold">{{ $loop->iteration }}</span>
                                                 @endif
@@ -136,6 +134,8 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                             <td>
                                                 @if ($status === 'completed')
                                                     <span class="text-success fw-bold">Completado</span>
+                                                @elseif ($status === 'cancelled')
+                                                    <span class="text-danger fw-bold">Cancelado</span>
                                                 @elseif ($isCurrent)
                                                     <span class="text-info fw-bold">Paso actual</span>
                                                 @else
@@ -146,7 +146,7 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
 
                                             {{-- Action menu --}}
                                             <td>
-                                                @if ($status === 'completed' || $isCurrent)
+                                                @if ($status === 'completed' || $isCurrent || $status === 'cancelled')
                                                     <div class="btn-group position-static">
                                                         <button
                                                             class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
@@ -160,10 +160,10 @@ Description: Redesigned view - removed folio, progress bar, help card. Added 'Go
                                                                 href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.step-detail', [
                                                                     'requestId' => $request->request_id,
                                                                     'stepId' => $step->step_id,
-                                                                    'readonly' => $status === 'completed' ? 'true' : 'false',
+                                                                    'readonly' => ($status === 'completed' || $status === 'cancelled') ? 'true' : 'false',
                                                                 ]) }}">
                                                                 @icon('checkList', 'dropdown-icon text-gray-400 me-2')
-                                                                @if ($status === 'completed')
+                                                                @if ($status === 'completed' || $status === 'cancelled')
                                                                     Ver paso
                                                                 @else
                                                                     Ir al paso

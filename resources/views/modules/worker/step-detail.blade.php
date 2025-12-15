@@ -25,6 +25,11 @@ Description: Created step detail view for worker step actions
                 <li class="breadcrumb-item">
                     <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.my-procedures') }}">Mis trámites</a>
                 </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route(config('proj.route_name_prefix', 'proj') . '.worker.procedure-detail', ['id' => $request->request_id]) }}">
+                        Detalle del trámite
+                    </a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">Detalle del paso</li>
             </ol>
         </nav>

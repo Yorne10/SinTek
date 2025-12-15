@@ -70,8 +70,8 @@ Changelog:
                                     // Get visible step IDs
                                     $visibleStepIds = $visibleRequestSteps->pluck('step_id')->toArray();
 
-                                    // Filter allSteps to show only visible ones
-                                    $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds);
+                                    // Filter allSteps to show only visible ones and keep order
+                                    $visibleSteps = $allSteps->whereIn('step_id', $visibleStepIds)->sortBy('order');
                                 @endphp
 
                                 @if($visibleSteps->isEmpty())
