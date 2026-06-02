@@ -17,6 +17,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+    if (app()->environment('production')) {
+        URL::forceScheme('https');
+    }
+
         // Register @icon Blade directive
         Blade::directive('icon', function ($expression) {
             return "<?php echo '<i class=\"' . icon({$expression}) . '\"></i>'; ?>";
