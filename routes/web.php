@@ -93,6 +93,10 @@ use App\Http\Controllers\Auth\FallbackAuthController;
 $slug = config('proj.slug');
 $namePrefix = config('proj.route_name_prefix', 'proj');
 
+Route::get('/test-asset', function () {
+    return asset('css/volt.css');
+});
+
 // Base redirect to login within prefix
 Route::redirect('/', "/p/{$slug}/login");
 
